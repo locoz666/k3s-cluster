@@ -6,4 +6,3 @@ metadata:
   namespace: flux-system
 data:
   METALLB_LB_RANGE: 192.168.66.30-192.168.66.40
-  INGRESS_NGINX_LB: 192.168.66.30
