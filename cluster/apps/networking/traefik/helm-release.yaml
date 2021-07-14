@@ -19,7 +19,7 @@ spec:
     deployment:
       kind: DaemonSet
     service:
-      type: LoadBalancer
+      enabled: false
     ports: 
       web: 
         expose: true
