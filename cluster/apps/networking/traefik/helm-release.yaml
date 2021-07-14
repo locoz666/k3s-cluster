@@ -20,3 +20,10 @@ spec:
       kind: DaemonSet
     service:
       type: LoadBalancer
+    ports: 
+      web: 
+        expose: true
+        hostPort: 80
+      websecure: 
+        expose: true
+        hostPort: 443
