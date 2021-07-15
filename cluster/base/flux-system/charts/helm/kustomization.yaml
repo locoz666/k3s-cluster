@@ -8,3 +8,4 @@ resources:
 - traefik-charts.yaml
 - rook-ceph-charts.yaml
 - rancher-charts.yaml
+- sentry-charts.yaml
