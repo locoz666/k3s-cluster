@@ -1,0 +1,53 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: sentry
+  namespace: coding
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://sentry-kubernetes.github.io/charts
+      chart: sentry
+      version: 11.4.1
+      sourceRef:
+        kind: HelmRepository
+        name: sentry-charts
+        namespace: flux-system
+  values:
+    clickhouse:
+      clickhouse:
+        persistentVolumeClaim:
+          dataPersistentVolume:
+            storageClass: "ceph-fs-l2"
+          logsPersistentVolume:
+            storageClass: "ceph-fs-l2"
+    filestore:
+      filesystem:
+        persistence:
+          storageClass: "ceph-fs-l2"
+    kafka:
+      persistence:
+        storageClass: "ceph-fs-l2"
+    zookeeper:
+      persistence:
+        storageClass: "ceph-fs-l2"
+    postgresql:
+      persistence:
+        storageClass: "ceph-fs-l2"
+    rabbitmq:
+      persistence:
+        storageClass: "ceph-fs-l2"
+    redis:
+      master:
+        persistence:
+          storageClass: "ceph-fs-l2"
+      slave:
+        persistence:
+          storageClass: "ceph-fs-l2"
+    ingress:
+      enabled: true
+    user:
+      email: "${SENTRY_ADMIN_EMAIL}"
+      password: "${SENTRY_ADMIN_PASSWORD}"
