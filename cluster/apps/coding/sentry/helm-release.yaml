@@ -16,36 +16,6 @@ spec:
         name: sentry-charts
         namespace: flux-system
   values:
-    clickhouse:
-      clickhouse:
-        persistentVolumeClaim:
-          dataPersistentVolume:
-            storageClass: "ceph-fs-l2"
-          logsPersistentVolume:
-            storageClass: "ceph-fs-l2"
-    filestore:
-      filesystem:
-        persistence:
-          storageClass: "ceph-fs-l2"
-    kafka:
-      persistence:
-        storageClass: "ceph-fs-l2"
-    zookeeper:
-      persistence:
-        storageClass: "ceph-fs-l2"
-    postgresql:
-      persistence:
-        storageClass: "ceph-fs-l2"
-    rabbitmq:
-      persistence:
-        storageClass: "ceph-fs-l2"
-    redis:
-      master:
-        persistence:
-          storageClass: "ceph-fs-l2"
-      slave:
-        persistence:
-          storageClass: "ceph-fs-l2"
     ingress:
       enabled: true
     user:
