@@ -21,4 +21,4 @@ spec:
       tls:
         source: letsEncrypt
     letsEncrypt:
-      email: "${SECRET_CLOUDFLARE_EMAIL}"
+      email: "${SECRET_LETS_ENCRYPT_EMAIL}"
