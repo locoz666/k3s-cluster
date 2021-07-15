@@ -5,3 +5,4 @@ resources:
 - filesystem-L2.yaml
 - filesystem-L3.yaml
 - block-L2.yaml
+- volume-snapshot-class.yaml
