@@ -4,3 +4,4 @@ resources:
 - filesystem-L1.yaml
 - filesystem-L2.yaml
 - filesystem-L3.yaml
+- block-L2.yaml
