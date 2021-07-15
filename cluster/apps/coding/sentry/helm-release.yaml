@@ -49,5 +49,5 @@ spec:
     ingress:
       enabled: true
     user:
-      email: "${SENTRY_ADMIN_EMAIL}"
-      password: "${SENTRY_ADMIN_PASSWORD}"
+      email: "${SECRET_SENTRY_ADMIN_EMAIL}"
+      password: "${SECRET_SENTRY_ADMIN_PASSWORD}"
