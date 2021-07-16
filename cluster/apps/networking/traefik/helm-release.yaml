@@ -27,3 +27,14 @@ spec:
       websecure: 
         expose: true
         hostPort: 443
+    tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/control-plane
+        operator: Exists
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/master
+        operator: Exists
+      - effect: NoSchedule
+        key: location
+        value: cloud
+        operator: Equal
