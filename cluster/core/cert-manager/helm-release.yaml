@@ -30,6 +30,6 @@ spec:
       - "1.1.1.1"
       - "8.8.8.8"
     ingressShim:
-      defaultIssuerName: "letsencrypt-production"
+      defaultIssuerName: "letsencrypt-http01"
       defaultIssuerKind: "ClusterIssuer"
       defaultIssuerGroup: "cert-manager.io"
