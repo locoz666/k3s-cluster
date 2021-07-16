@@ -26,3 +26,6 @@ spec:
         key: location
         value: cloud
         operator: Equal
+    logs:
+      access:
+        enabled: true
