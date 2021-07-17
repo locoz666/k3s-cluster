@@ -18,6 +18,8 @@ spec:
   values:
     ingress:
       enabled: true
+    nginx:
+      enabled: false
     user:
       email: "${SECRET_SENTRY_ADMIN_EMAIL}"
       password: "${SECRET_SENTRY_ADMIN_PASSWORD}"
