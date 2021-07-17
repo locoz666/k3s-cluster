@@ -24,3 +24,5 @@ spec:
     user:
       email: "${SECRET_SENTRY_ADMIN_EMAIL}"
       password: "${SECRET_SENTRY_ADMIN_PASSWORD}"
+    postgresql:
+      postgresqlPassword: "${SECRET_SENTRY_PGSQL_PASSWORD}"
