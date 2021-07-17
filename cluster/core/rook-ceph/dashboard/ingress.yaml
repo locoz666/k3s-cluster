@@ -22,3 +22,4 @@ spec:
   tls:
   - hosts:
     - "ceph.${SECRET_DOMAIN}"
+    secretName: ceph-dashboard-tls
