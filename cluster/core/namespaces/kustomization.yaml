@@ -8,3 +8,4 @@ resources:
 - cluster-manager.yaml
 - monitoring.yaml
 - sentry.yaml
+- gitlab.yaml
