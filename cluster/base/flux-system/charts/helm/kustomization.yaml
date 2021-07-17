@@ -9,3 +9,4 @@ resources:
 - rook-ceph-charts.yaml
 - rancher-charts.yaml
 - sentry-charts.yaml
+- gitlab-charts.yaml
