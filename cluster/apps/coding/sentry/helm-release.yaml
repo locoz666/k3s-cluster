@@ -18,6 +18,7 @@ spec:
   values:
     ingress:
       enabled: true
+      hostname: "sentry.${SECRET_DOMAIN}"
     nginx:
       enabled: false
     user:
