@@ -7,4 +7,4 @@ resources:
 - rook-ceph.yaml
 - cluster-manager.yaml
 - monitoring.yaml
-- coding.yaml
+- sentry.yaml
