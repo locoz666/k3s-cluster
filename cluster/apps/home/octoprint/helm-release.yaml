@@ -18,7 +18,7 @@ spec:
   values:
     image:
       repository: octoprint/octoprint
-      tag: 1.6.1
+      tag: 5512.0.0
     ingress:
       main:
         enabled: true
