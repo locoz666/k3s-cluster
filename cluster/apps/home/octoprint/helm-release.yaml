@@ -46,3 +46,12 @@ spec:
         enabled: true
         type: hostPath
         hostPath: /dev/ttyUSB0
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: In
+                  values:
+                    - "home-raspberry-pi4b"
