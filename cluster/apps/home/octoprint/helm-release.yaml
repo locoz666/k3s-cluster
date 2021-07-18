@@ -41,6 +41,9 @@ spec:
     persistence:
       data:
         enabled: true
+        type: pvc
+        size: 10Gi
+        accessMode: ReadWriteOnce
         mountPath: /octoprint
       printer:
         enabled: true
