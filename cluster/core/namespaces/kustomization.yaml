@@ -9,3 +9,4 @@ resources:
 - monitoring.yaml
 - sentry.yaml
 - gitlab.yaml
+- home.yaml
