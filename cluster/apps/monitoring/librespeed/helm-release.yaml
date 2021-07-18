@@ -27,3 +27,10 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
+        annotations:
+          kubernetes.io/ingress.class: traefik
+          kubernetes.io/tls-acme: "true"
+        tls:
+          - hosts:
+              - "speedtest.${SECRET_DOMAIN}"
+            secretName: speedtest-tls
