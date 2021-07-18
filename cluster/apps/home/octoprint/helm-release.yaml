@@ -29,6 +29,13 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
+        annotations:
+          kubernetes.io/ingress.class: traefik
+          kubernetes.io/tls-acme: "true"
+        tls:
+          - hosts:
+              - "octoprint.${SECRET_DOMAIN}"
+            secretName: octoprint-tls
     securityContext:
       privileged: true
     persistence:
