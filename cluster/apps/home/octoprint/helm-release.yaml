@@ -1,0 +1,39 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: octoprint
+  namespace: home
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: octoprint
+      version: 5.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+  values:
+    image:
+      repository: octoprint/octoprint
+      tag: 1.6.1
+    ingress:
+      main:
+        enabled: true
+        hosts:
+          - host: "octoprint.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+    securityContext:
+      privileged: true
+    persistence:
+      data:
+        enabled: true
+        mountPath: /octoprint
+      printer:
+        enabled: true
+        type: hostPath
+        hostPath: /dev/ttyUSB0
