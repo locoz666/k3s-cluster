@@ -18,6 +18,7 @@ spec:
   values:
     env:
       OCTOPRINT_PORT: 80
+      ENABLE_MJPG_STREAMER: "false"
     image:
       repository: octoprint/octoprint
       tag: 1.6.1
