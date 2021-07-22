@@ -16,6 +16,12 @@ spec:
       websecure:
         expose: true
         hostPort: 443
+      gitlab-ssh:
+        port: 10000
+        hostPort: 10000
+        expose: true
+        exposedPort: 10000
+        protocol: TCP
     tolerations:
       - operator: "Exists"
     logs:
