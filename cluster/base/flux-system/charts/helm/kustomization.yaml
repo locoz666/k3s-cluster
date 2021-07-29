@@ -10,3 +10,4 @@ resources:
 - rancher-charts.yaml
 - sentry-charts.yaml
 - gitlab-charts.yaml
+- kasten-charts.yaml
