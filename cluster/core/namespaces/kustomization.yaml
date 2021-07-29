@@ -10,3 +10,4 @@ resources:
 - sentry.yaml
 - gitlab.yaml
 - home.yaml
+- media.yaml
