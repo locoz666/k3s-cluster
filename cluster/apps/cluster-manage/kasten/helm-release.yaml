@@ -16,6 +16,10 @@ spec:
         name: kasten-charts
         namespace: flux-system
   values:
+    auth:
+      basicAuth:
+        enabled: true
+        htpasswd: "${SECRET_KASTEN_AUTH}"
     ingress:
       create: true
       tls:
