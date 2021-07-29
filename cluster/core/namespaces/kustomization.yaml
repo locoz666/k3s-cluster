@@ -11,3 +11,4 @@ resources:
 - gitlab.yaml
 - home.yaml
 - media.yaml
+- kasten.yaml
