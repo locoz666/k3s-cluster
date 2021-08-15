@@ -15,6 +15,7 @@ spec:
         kind: HelmRepository
         name: cilium-charts
         namespace: flux-system
-  values:
-    operator:
-      replicas: 1
+  valuesFrom:
+    - kind: ConfigMap
+      name: config
+      valuesKey: values.yaml

@@ -1,0 +1,21 @@
+nodeinit:
+  enabled: true
+
+kubeProxyReplacement: "strict"
+k8sServiceHost: "${SECRET_KUBE_APISERVER_HOST}"
+k8sServicePort: "{$SECRET_KUBE_APISERVER_PORT}"
+
+nodePort:
+  enabled: true
+externalIPs:
+  enabled: true
+hostPort:
+  enabled: true
+
+operator:
+  replicas: 1
+hubble:
+  relay:
+    enabled: true
+  ui:
+    enabled: true
