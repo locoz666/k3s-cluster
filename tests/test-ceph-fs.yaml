@@ -12,7 +12,7 @@ metadata:
   namespace: ceph-fs-test
 spec:
   accessModes:
-  - ReadWriteMany
+    - ReadWriteMany
   resources:
     requests:
       storage: 1Pi
@@ -22,20 +22,20 @@ spec:
 apiVersion: v1
 kind: Pod
 metadata:
- name: ubuntu
- namespace: ceph-fs-test
- labels:
   name: ubuntu
+  namespace: ceph-fs-test
+  labels:
+    name: ubuntu
 spec:
   volumes:
     - name: data-storage
       persistentVolumeClaim:
         claimName: test-fs-pvc
   containers:
-   - name: ubuntu
-     image: ubuntu:latest
-     command: [ "/bin/bash", "-c", "--" ]
-     args: [ "while true; do sleep 3600; done;" ]
-     volumeMounts:
+    - name: ubuntu
+      image: ubuntu:latest
+      command: [ "/bin/bash", "-c", "--" ]
+      args: [ "while true; do sleep 3600; done;" ]
+      volumeMounts:
         - mountPath: "/data"
           name: data-storage

@@ -23,16 +23,16 @@ echo "将清空${DISK}"
 read -r -p "请确认是否进行操作 [Y/n] " input
 
 case $input in
-    [yY][eE][sS]|[yY])
-    clear_disk
-		;;
+[yY][eE][sS] | [yY])
+  clear_disk
+  ;;
 
-    [nN][oO]|[nN])
-		exit 0
-    ;;
+[nN][oO] | [nN])
+  exit 0
+  ;;
 
-    *)
-		echo "输入错误"
-		exit 1
-		;;
+*)
+  echo "输入错误"
+  exit 1
+  ;;
 esac

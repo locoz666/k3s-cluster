@@ -20,8 +20,8 @@ spec:
       containers:
         - name: rook-ceph-tools
           image: rook/ceph:master
-          command: ["/tini"]
-          args: ["-g", "--", "/usr/local/bin/toolbox.sh"]
+          command: [ "/tini" ]
+          args: [ "-g", "--", "/usr/local/bin/toolbox.sh" ]
           imagePullPolicy: IfNotPresent
           env:
             - name: ROOK_CEPH_USERNAME
@@ -47,7 +47,7 @@ spec:
               - key: data
                 path: mon-endpoints
         - name: ceph-config
-          emptyDir: {}
+          emptyDir: { }
       tolerations:
         - key: "node.kubernetes.io/unreachable"
           operator: "Exists"

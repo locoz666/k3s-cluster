@@ -16,7 +16,7 @@ spec:
       # Further reference: https://docs.ceph.com/docs/nautilus/rados/configuration/bluestore-config-ref/#inline-compression
       compression_mode:
         none
-        # gives a hint (%) to Ceph in terms of expected consumption of the total cluster capacity of a given pool
+      # gives a hint (%) to Ceph in terms of expected consumption of the total cluster capacity of a given pool
       # for more info: https://docs.ceph.com/docs/master/rados/operations/placement-groups/#specifying-expected-pool-size
       #target_size_ratio: ".5"
   # The list of data pool specs. Can use replication or erasure coding.
@@ -32,7 +32,7 @@ spec:
         # Further reference: https://docs.ceph.com/docs/nautilus/rados/configuration/bluestore-config-ref/#inline-compression
         compression_mode:
           none
-          # gives a hint (%) to Ceph in terms of expected consumption of the total cluster capacity of a given pool
+        # gives a hint (%) to Ceph in terms of expected consumption of the total cluster capacity of a given pool
         # for more info: https://docs.ceph.com/docs/master/rados/operations/placement-groups/#specifying-expected-pool-size
         #target_size_ratio: ".5"
   # Whether to preserve filesystem after CephFilesystem CRD deletion
@@ -133,5 +133,5 @@ parameters:
 reclaimPolicy: Retain  # 回收策略，设为Retain以手动控制
 allowVolumeExpansion: true
 mountOptions:
-  # uncomment the following line for debugging
-  #- debug
+# uncomment the following line for debugging
+#- debug
