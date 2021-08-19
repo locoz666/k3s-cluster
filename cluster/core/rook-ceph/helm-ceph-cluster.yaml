@@ -65,6 +65,10 @@ spec:
                 config:
                   deviceClass: "hdd"
 
+              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD41FWR"
+                config:
+                  deviceClass: "hdd"
+
     ingress:
       dashboard:
         annotations:
