@@ -56,6 +56,9 @@ spec:
                 config:
                   osdsPerDevice: "4"
                   deviceClass: "nvme"
+              - name: "/dev/disk/by-id/ata-ST8000NM000A-2KE101_WRD0NC8L"
+                config:
+                  deviceClass: "hdd"
 
     ingress:
       dashboard:
