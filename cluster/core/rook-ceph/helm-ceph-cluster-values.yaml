@@ -1,11 +1,13 @@
 operatorNamespace: rook-ceph
 
+# 设置默认的存储池副本数和最小副本数，以免无副本存储池无法工作
+# 不让mon报存储池无副本的warning
 configOverride: |
   [global]
-  osd_pool_default_size = 1  # 设置默认的存储池副本数，以免无副本存储池无法工作
-  osd_pool_default_min_size = 1  # 设置默认的存储池最小副本数，以免无副本存储池无法工作
+  osd_pool_default_size = 1
+  osd_pool_default_min_size = 1
   [mon]
-  mon_warn_on_pool_no_redundancy = false  # 不让mon报存储池无副本的warning
+  mon_warn_on_pool_no_redundancy = false
 
 toolbox:
   enabled: true
