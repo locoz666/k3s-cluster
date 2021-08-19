@@ -1,0 +1,54 @@
+operatorNamespace: rook-ceph
+
+configOverride: |
+  [global]
+  osd_pool_default_size = 1  # 设置默认的存储池副本数，以免无副本存储池无法工作
+  osd_pool_default_min_size = 1  # 设置默认的存储池最小副本数，以免无副本存储池无法工作
+  [mon]
+  mon_warn_on_pool_no_redundancy = false  # 不让mon报存储池无副本的warning
+
+toolbox:
+  enabled: true
+
+cephClusterSpec:
+  mon:
+    # 允许在同一个节点上运行多个mon
+    allowMultiplePerNode: true
+
+  # 将所有ceph集群服务设置为必须在有ceph角色的节点上运行
+  placement:
+    all:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: node-role.kubernetes.io/ceph
+                  operator: Exists
+
+  storage:
+    # 关闭自动在所有节点和所有磁盘上寻找空白盘并添加为OSD的操作，改为手动配置方式添加
+    useAllNodes: false
+    useAllDevices: false
+    nodes:
+      - name: "home-server-nut"
+        devices:
+          - name: "/dev/disk/by-id/nvme-INTEL_SSDPED1D480GA_PHMB746300LC480DGN"
+            config:
+              osdsPerDevice: "4"
+              deviceClass: "nvme"
+
+ingress:
+  dashboard:
+    annotations:
+      kubernetes.io/ingress.class: "traefik"
+      kubernetes.io/tls-acme: "true"
+    host:
+      name: "ceph.${SECRET_DOMAIN}"
+    tls:
+      - hosts:
+          - "ceph.${SECRET_DOMAIN}"
+        secretName: ceph-dashboard-tls
+
+cephBlockPools: [ ]
+cephFileSystems: [ ]
+cephObjectStores: [ ]
