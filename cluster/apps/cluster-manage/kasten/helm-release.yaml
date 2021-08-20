@@ -24,4 +24,5 @@ spec:
       create: true
       tls:
         enabled: true
+        secretName: kasten-tls
       host: "kasten.${SECRET_DOMAIN}"
