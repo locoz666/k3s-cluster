@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - helm-ceph-operator.yaml
   - helm-ceph-cluster.yaml
+  - volume-snapshot-class.yaml
