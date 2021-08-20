@@ -22,6 +22,7 @@ spec:
     # 不让mon报存储池无副本的warning
     configOverride: |
       [global]
+      mon_allow_pool_delete = true
       osd_pool_default_size = 1
       osd_pool_default_min_size = 1
       [mon]
