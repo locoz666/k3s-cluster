@@ -41,6 +41,4 @@ spec:
     persistence:
       config:
         enabled: true
-        type: pvc
-        size: 5Gi
-        accessMode: ReadWriteOnce
+        existingClaim: home-assistant-config
