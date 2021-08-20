@@ -26,6 +26,8 @@ spec:
         htpasswd: "${SECRET_KASTEN_AUTH}"
     ingress:
       create: true
+      annotations:
+        kubernetes.io/tls-acme: "true"
       tls:
         enabled: true
         secretName: kasten-tls
