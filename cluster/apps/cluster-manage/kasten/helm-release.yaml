@@ -16,6 +16,10 @@ spec:
         name: kasten-charts
         namespace: flux-system
   values:
+    eula:
+      accept: true
+      company: "${SECRET_KASTEN_EULA_COMPANY}"
+      email: "${SECRET_KASTEN_EULA_EMAIL}"
     auth:
       basicAuth:
         enabled: true
