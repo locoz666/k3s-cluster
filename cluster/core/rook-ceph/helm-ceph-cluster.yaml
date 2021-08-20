@@ -53,7 +53,7 @@ spec:
         nodes:
           - name: "home-server-nut"
             config:
-              metadataDevice: "/dev/disk/by-id/nvme-INTEL_SSDPED1D480GA_PHMB746300LC480DGN"
+              metadataDevice: "nvme0n1"
               databaseSizeMB: "16384"
               journalSizeMB: "4096"
             devices:
