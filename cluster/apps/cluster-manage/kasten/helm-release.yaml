@@ -26,9 +26,13 @@ spec:
         htpasswd: "${SECRET_KASTEN_AUTH}"
     ingress:
       create: true
+      host: "kasten.${SECRET_DOMAIN}"
       annotations:
         kubernetes.io/tls-acme: "true"
+        cert-manager.io/cluster-issuer: "letsencrypt-production"
+      urlPath: "kasten"
+      hosts:
+        - "kasten.${SECRET_DOMAIN}"
       tls:
         enabled: true
         secretName: kasten-tls
-      host: "kasten.${SECRET_DOMAIN}"
