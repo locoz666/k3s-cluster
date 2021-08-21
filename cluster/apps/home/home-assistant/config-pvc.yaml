@@ -10,4 +10,4 @@ spec:
   resources:
     requests:
       storage: 5Gi
-  storageClassName: ceph-block-l1
+  storageClassName: ceph-block-l2
