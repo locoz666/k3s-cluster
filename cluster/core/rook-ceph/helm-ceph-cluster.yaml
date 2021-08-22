@@ -58,20 +58,9 @@ spec:
               journalSizeMB: "4096"
             devices:
               - name: "/dev/disk/by-id/ata-ST8000NM000A-2KE101_WRD0NC8L"
-                config:
-                  deviceClass: "hdd"
-
               - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD71JSA"
-                config:
-                  deviceClass: "hdd"
-
               - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD41FWR"
-                config:
-                  deviceClass: "hdd"
-
               - name: "/dev/disk/by-id/ata-ST8000NM000A-2KE101_WRD0JMTX"
-                config:
-                  deviceClass: "hdd"
 
     ingress:
       dashboard:
