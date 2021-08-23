@@ -70,3 +70,12 @@ spec:
         volumeMounts:
           - name: config
             mountPath: /config
+
+    postgresql:
+      enabled: true
+      postgresqlUsername: home-assistant
+      postgresqlPassword: home-assistant-pass
+      postgresqlDatabase: home-assistant
+      persistence:
+        enabled: true
+        existingClaim: home-assistant-postgresql-data
