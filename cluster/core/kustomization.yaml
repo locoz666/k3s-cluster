@@ -6,3 +6,4 @@ resources:
   - cert-manager
   - rook-ceph
   - kube-system
+  - kubevirt
