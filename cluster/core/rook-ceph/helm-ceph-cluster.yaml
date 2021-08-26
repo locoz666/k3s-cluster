@@ -132,6 +132,7 @@ spec:
       - name: ceph-filesystem-l1
         spec:
           metadataPool:
+            failureDomain: osd
             replicated:
               size: 3
           dataPools:
@@ -158,6 +159,7 @@ spec:
       - name: ceph-filesystem-l2
         spec:
           metadataPool:
+            failureDomain: osd
             replicated:
               size: 3
           dataPools:
