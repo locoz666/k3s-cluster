@@ -58,9 +58,9 @@ spec:
             devices:
               - name: "/dev/disk/by-id/nvme-INTEL_SSDPED1D480GA_PHMB746300LC480DGN"
                 config:
-                  metadataDevice: "" # 不使用metadataDevice
                   deviceClass: "nvme"
-                  osdsPerDevice: "4"  # 在单块盘上创建 4 个 OSD 以最大化利用 Intel 900P 的性能
+                  databaseSizeMB: "0"
+                  walSizeMB: "0"
 
               - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD71JSA"
                 config:
