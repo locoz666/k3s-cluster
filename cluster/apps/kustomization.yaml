@@ -5,5 +5,5 @@ resources:
   - networking
   - cluster-manage
   - monitoring
-  - coding
-  - home
+#  - coding
+#  - home
