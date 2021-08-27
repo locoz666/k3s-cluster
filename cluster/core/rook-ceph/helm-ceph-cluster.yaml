@@ -70,6 +70,63 @@ spec:
               - "ceph.${SECRET_DOMAIN}"
             secretName: ceph-dashboard-tls
 
-    cephBlockPools: [ ]
+    cephBlockPools:
+      - name: ceph-blockpool-nvme-no-compression
+        spec:
+          failureDomain: osd
+          replicated:
+            size: 1
+            requireSafeReplicaSize: false
+          deviceClass: nvme  # 设置后端osd类型
+
+        storageClass:
+          enabled: true
+          name: ceph-block-nvme-no-compression  # 存储类名称
+          isDefault: false  # 设为默认存储类
+          reclaimPolicy: Delete  # PVC被删除后自动删除池中的内容
+          allowVolumeExpansion: true  # 支持动态调整PVC大小
+
+          parameters:
+            # 默认设置不用动
+            imageFormat: "2"
+            imageFeatures: layering
+            csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
+            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
+            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
+            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
+            csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
+            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
+            csi.storage.k8s.io/fstype: ext4  # 可以设置为xfs，但官方不推荐
+
+      - name: ceph-blockpool-nvme-compression
+        spec:
+          failureDomain: osd
+          replicated:
+            size: 1
+            requireSafeReplicaSize: false
+          deviceClass: nvme  # 设置后端osd类型
+          parameters:
+            compression_mode: aggressive  # 对所有未标注不压缩的数据都进行压缩
+            compression_algorithm: zlib  # 使用zlib压缩算法对数据进行压缩，以确保尽可能高的压缩率和还行的速度
+
+        storageClass:
+          enabled: true
+          name: ceph-block-nvme-compression  # 存储类名称
+          isDefault: false  # 设为默认存储类
+          reclaimPolicy: Delete  # PVC被删除后自动删除池中的内容
+          allowVolumeExpansion: true  # 支持动态调整PVC大小
+
+          parameters:
+            # 默认设置不用动
+            imageFormat: "2"
+            imageFeatures: layering
+            csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
+            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
+            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
+            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
+            csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
+            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
+            csi.storage.k8s.io/fstype: ext4  # 可以设置为xfs，但官方不推荐
+
     cephFileSystems: [ ]
     cephObjectStores: [ ]
