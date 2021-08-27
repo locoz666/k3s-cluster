@@ -56,7 +56,7 @@ spec:
               - name: "/dev/disk/by-id/nvme-INTEL_SSDPED1D480GA_PHMB746300LC480DGN"
                 config:
                   deviceClass: "nvme"
-                  osdsPerDevice: 4  # 在单块盘上创建 4 个 OSD 以最大化利用 Intel 900P 的性能
+                  osdsPerDevice: "4"  # 在单块盘上创建 4 个 OSD 以最大化利用 Intel 900P 的性能
 
     ingress:
       dashboard:
