@@ -52,19 +52,11 @@ spec:
         useAllDevices: false
         nodes:
           - name: "home-server-nut"
-            config:
-              metadataDevice: "nvme0n1"
-              databaseSizeMB: "16384"
-              journalSizeMB: "4096"
             devices:
-              - name: "/dev/disk/by-id/ata-ST8000NM000A-2KE101_WRD0NC8L"
-              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD71JSA"
-              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD41FWR"
-              - name: "/dev/disk/by-id/ata-ST8000NM000A-2KE101_WRD0JMTX"
-          - name: "home-edge-gateway"
-            devices:
-              - name: "sda"
-              - name: "sdb"
+              - name: "/dev/disk/by-id/nvme-INTEL_SSDPED1D480GA_PHMB746300LC480DGN"
+                config:
+                  deviceClass: "nvme"
+                  osdsPerDevice: 4  # 在单块盘上创建 4 个 OSD 以最大化利用 Intel 900P 的性能
 
     ingress:
       dashboard:
@@ -78,108 +70,6 @@ spec:
               - "ceph.${SECRET_DOMAIN}"
             secretName: ceph-dashboard-tls
 
-    cephBlockPools:
-      - name: ceph-blockpool-l1
-        spec:
-          failureDomain: osd
-          replicated:
-            size: 1
-            requireSafeReplicaSize: false
-        storageClass:
-          enabled: true
-          name: ceph-block-l1  # 存储类名称
-          isDefault: false  # 设为默认存储类
-          reclaimPolicy: Delete  # PVC被删除后自动删除池中的内容
-          allowVolumeExpansion: true  # 支持动态调整PVC大小
-
-          parameters:
-            # 默认设置不用动
-            imageFormat: "2"
-            imageFeatures: layering
-            csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
-            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
-            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
-            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
-            csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
-            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
-            csi.storage.k8s.io/fstype: ext4  # 可以设置为xfs，但官方不推荐
-
-      - name: ceph-blockpool-l2
-        spec:
-          failureDomain: osd
-          replicated:
-            size: 2
-        storageClass:
-          enabled: true
-          name: ceph-block-l2  # 存储类名称
-          isDefault: true  # 设为默认存储类
-          reclaimPolicy: Delete  # PVC被删除后自动删除池中的内容
-          allowVolumeExpansion: true  # 支持动态调整PVC大小
-
-          parameters:
-            # 默认设置不用动
-            imageFormat: "2"
-            imageFeatures: layering
-            csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
-            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
-            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
-            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
-            csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
-            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
-            csi.storage.k8s.io/fstype: ext4  # 可以设置为xfs，但官方不推荐
-
-    cephFileSystems:
-      - name: ceph-filesystem-l1
-        spec:
-          metadataPool:
-            failureDomain: osd
-            replicated:
-              size: 3
-          dataPools:
-            - failureDomain: osd
-              replicated:
-                size: 1
-                requireSafeReplicaSize: false
-          metadataServer:
-            activeCount: 1
-            activeStandby: true
-        storageClass:
-          enabled: true
-          name: ceph-fs-l1
-          reclaimPolicy: Delete
-          parameters:
-            csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
-            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
-            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
-            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
-            csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
-            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
-            csi.storage.k8s.io/fstype: ext4
-
-      - name: ceph-filesystem-l2
-        spec:
-          metadataPool:
-            failureDomain: osd
-            replicated:
-              size: 3
-          dataPools:
-            - failureDomain: osd
-              replicated:
-                size: 2
-          metadataServer:
-            activeCount: 1
-            activeStandby: true
-        storageClass:
-          enabled: true
-          name: ceph-fs-l2
-          reclaimPolicy: Delete
-          parameters:
-            csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
-            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
-            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
-            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
-            csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
-            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
-            csi.storage.k8s.io/fstype: ext4
-
+    cephBlockPools: [ ]
+    cephFileSystems: [ ]
     cephObjectStores: [ ]
