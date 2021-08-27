@@ -52,6 +52,9 @@ spec:
         useAllDevices: false
         nodes:
           - name: "home-server-nut"
+            config:
+              # 在 SSD 上划分出 HDD 1% 大小的 BlueStore Database 空间，以提升速度
+              metadataDevice: "sdc"
             devices:
               - name: "/dev/disk/by-id/nvme-INTEL_SSDPED1D480GA_PHMB746300LC480DGN"
                 config:
@@ -61,8 +64,11 @@ spec:
               - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD71JSA"
                 config:
                   deviceClass: "hdd"
-                  # 在 SSD 上划分出 HDD 1% 大小的 BlueStore Database 空间，以提升速度
-                  metadataDevice: "/dev/disk/by-id/ata-Samsung_SSD_870_EVO_1TB_S6PVNF0R604091N"
+                  databaseSizeMB: "60000"  # 60GB
+
+              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD41FWR"
+                config:
+                  deviceClass: "hdd"
                   databaseSizeMB: "60000"  # 60GB
 
     ingress:
@@ -134,6 +140,64 @@ spec:
             csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
             csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
             csi.storage.k8s.io/fstype: ext4  # 可以设置为xfs，但官方不推荐
+
+      - name: ceph-blockpool-hdd-no-compression
+        spec:
+          failureDomain: osd
+          replicated:
+            size: 1
+            requireSafeReplicaSize: false
+          deviceClass: hdd  # 设置后端osd类型
+
+        storageClass:
+          enabled: true
+          name: ceph-block-hdd-no-compression  # 存储类名称
+          isDefault: false  # 设为默认存储类
+          reclaimPolicy: Delete  # PVC被删除后自动删除池中的内容
+          allowVolumeExpansion: true  # 支持动态调整PVC大小
+
+          parameters:
+            # 默认设置不用动
+            imageFormat: "2"
+            imageFeatures: layering
+            csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
+            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
+            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
+            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
+            csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
+            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
+            csi.storage.k8s.io/fstype: ext4  # 可以设置为xfs，但官方不推荐
+
+      - name: ceph-blockpool-hdd-compression
+        spec:
+          failureDomain: osd
+          replicated:
+            size: 1
+            requireSafeReplicaSize: false
+          deviceClass: hdd  # 设置后端osd类型
+          parameters:
+            compression_mode: aggressive  # 对所有未标注不压缩的数据都进行压缩
+            compression_algorithm: zlib  # 使用zlib压缩算法对数据进行压缩，以确保尽可能高的压缩率和还行的速度
+
+        storageClass:
+          enabled: true
+          name: ceph-block-hdd-compression  # 存储类名称
+          isDefault: false  # 设为默认存储类
+          reclaimPolicy: Delete  # PVC被删除后自动删除池中的内容
+          allowVolumeExpansion: true  # 支持动态调整PVC大小
+
+          parameters:
+            # 默认设置不用动
+            imageFormat: "2"
+            imageFeatures: layering
+            csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
+            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
+            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
+            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
+            csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
+            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
+            csi.storage.k8s.io/fstype: ext4  # 可以设置为xfs，但官方不推荐
+
 
     cephFileSystems: [ ]
     cephObjectStores: [ ]
