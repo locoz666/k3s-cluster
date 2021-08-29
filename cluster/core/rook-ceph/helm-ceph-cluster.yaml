@@ -192,25 +192,29 @@ spec:
             csi.storage.k8s.io/fstype: ext4  # 可以设置为xfs，但官方不推荐
 
     cephFileSystems:
-      - name: ceph-filesystem-l1
+      - name: fs-hdd-r1
         spec:
           metadataPool:
             failureDomain: osd
             replicated:
-              size: 3
+              size: 2  # 副本数，多副本确保元数据可靠性
+            deviceClass: ssd  # 设置后端osd类型，使用ssd加速metadata读写和响应速度
           dataPools:
             - failureDomain: osd
               replicated:
-                size: 1
-                requireSafeReplicaSize: false
+                size: 1  # 副本数
+                requireSafeReplicaSize: false  # 安全选项，副本数为1时需要设为false，否则会无法创建
+              deviceClass: hdd  # 设置后端osd类型
           metadataServer:
+            # 默认设置不用动
             activeCount: 1
             activeStandby: true
         storageClass:
           enabled: true
-          name: ceph-fs-l1
-          reclaimPolicy: Delete
+          name: ceph-fs-hdd-r1  # 存储类名称
+          reclaimPolicy: Delete  # PVC被删除后自动删除池中的内容
           parameters:
+            # 默认设置不用动
             csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
             csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
             csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
@@ -219,24 +223,29 @@ spec:
             csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
             csi.storage.k8s.io/fstype: ext4
 
-      - name: ceph-filesystem-l2
+      - name: fs-hdd-r2
         spec:
           metadataPool:
             failureDomain: osd
             replicated:
-              size: 3
+              size: 2  # 副本数，多副本确保元数据可靠性
+            deviceClass: ssd  # 设置后端osd类型，使用ssd加速metadata读写和响应速度
           dataPools:
             - failureDomain: osd
               replicated:
-                size: 2
+                size: 2  # 副本数
+                requireSafeReplicaSize: true  # 安全选项，副本数为1时需要设为false，否则会无法创建
+              deviceClass: hdd  # 设置后端osd类型
           metadataServer:
+            # 默认设置不用动
             activeCount: 1
             activeStandby: true
         storageClass:
           enabled: true
-          name: ceph-fs-l2
-          reclaimPolicy: Delete
+          name: ceph-fs-hdd-r2  # 存储类名称
+          reclaimPolicy: Delete  # PVC被删除后自动删除池中的内容
           parameters:
+            # 默认设置不用动
             csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
             csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
             csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
