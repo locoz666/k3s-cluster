@@ -57,10 +57,6 @@ spec:
               - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD71JSA"
               - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD41FWR"
               - name: "/dev/disk/by-id/ata-ST8000NM000A-2KE101_WRD0JMTX"
-          - name: "home-edge-gateway"
-            devices:
-              - name: "sda"
-              - name: "sdb"
 
     ingress:
       dashboard:
