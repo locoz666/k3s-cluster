@@ -165,6 +165,32 @@ spec:
             csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
             csi.storage.k8s.io/fstype: ext4  # 可以设置为xfs，但官方不推荐
 
+      - name: block-ssd-r2
+        spec:
+          failureDomain: osd
+          replicated:
+            size: 2  # 副本数
+            requireSafeReplicaSize: true  # 安全选项，副本数为1时需要设为false，否则会无法创建
+          deviceClass: ssd  # 设置后端osd类型
+        storageClass:
+          enabled: true
+          name: ceph-block-ssd-r2  # 存储类名称
+          isDefault: true  # 是否设为默认存储类
+          reclaimPolicy: Delete  # PVC被删除后自动删除池中的内容
+          allowVolumeExpansion: true  # 支持动态调整PVC大小
+
+          parameters:
+            # 默认设置不用动
+            imageFormat: "2"
+            imageFeatures: layering
+            csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
+            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
+            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
+            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
+            csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
+            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
+            csi.storage.k8s.io/fstype: ext4  # 可以设置为xfs，但官方不推荐
+
     cephFileSystems:
       - name: ceph-filesystem-l1
         spec:
