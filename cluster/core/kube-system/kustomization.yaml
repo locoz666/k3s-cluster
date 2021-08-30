@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - snapshot-controller
   - local-path-provisioner
+  - traefik
