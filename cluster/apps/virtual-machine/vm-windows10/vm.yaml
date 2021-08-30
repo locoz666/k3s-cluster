@@ -90,7 +90,7 @@ spec:
         # 系统安装ISO
         - name: cdromiso
           persistentVolumeClaim:
-            claimName: iso-windows10-21h1-local
+            claimName: iso-windows10-21h1
 
         # virtio驱动盘
         - name: virtiocontainerdisk
