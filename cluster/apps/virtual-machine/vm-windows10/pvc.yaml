@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: vmdisk-windows10
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 80Gi
+  storageClassName: local-path  # 使用底层存储指向了intel 900p裸盘的local-path-provisioner以最大化利用性能
