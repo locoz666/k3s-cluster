@@ -5,7 +5,7 @@ resources:
   - cattle-system.yaml
   - cert-manager.yaml
   - gitlab.yaml
-  - home.yaml
+  - home-automation.yaml
   - kasten.yaml
   - media.yaml
   - metallb-system.yaml
