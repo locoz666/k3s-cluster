@@ -1,0 +1,22 @@
+---
+apiVersion: config.kio.kasten.io/v1alpha1
+kind: Profile
+metadata:
+  name: tencentcloud
+  namespace: kasten
+spec:
+  type: Location
+  locationSpec:
+    type: ObjectStore
+    objectStore:
+      objectStoreType: S3
+      name: "${SECRET_KASTEN_S3_BUCKET_NAME}"  # 对象存储桶名称
+      endpoint: "${SECRET_KASTEN_S3_ENDPOINT}"  # 腾讯云上给出的带区域的访问点域名
+      region: auto  # 区域按照腾讯云文档的要求设置为auto
+    credential:
+      secretType: AwsAccessKey
+      secret:
+        apiVersion: v1
+        kind: Secret
+        name: tencentcloud-secret
+        namespace: kasten
