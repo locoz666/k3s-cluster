@@ -6,7 +6,7 @@ resources:
   - cert-manager.yaml
   - file-service.yaml
   - gitlab.yaml
-  - home.yaml
+  - home-automation.yaml
   - kasten.yaml
   - media.yaml
   - metallb-system.yaml
