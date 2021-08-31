@@ -4,9 +4,9 @@ kind: Kustomization
 resources:
   - 3d-print
   - cluster-manage
+  - file-service
   - home-automation
   - kube-system
   - monitoring
-  - nas
   - programming
   - virtual-machine
