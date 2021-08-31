@@ -13,12 +13,12 @@ metadata:
   labels:
     app: test
 spec:
-  storageClassName: ceph-block-l2
+  storageClassName: ceph-block-hdd-r1
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 100Gi
+      storage: 10Gi
 
 ---
 apiVersion: v1
