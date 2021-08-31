@@ -1,6 +1,8 @@
+---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - snapshot-controller
   - local-path-provisioner
+  - metrics-server
+  - snapshot-controller
   - traefik

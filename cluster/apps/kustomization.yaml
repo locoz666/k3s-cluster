@@ -6,7 +6,6 @@ resources:
   - cluster-manage
   - file-service
   - home-automation
-  - kube-system
   - monitoring
   - programming
   - virtual-machine
