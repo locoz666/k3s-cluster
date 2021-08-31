@@ -3,7 +3,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: octoprint
-  namespace: home
+  namespace: 3d-print
 spec:
   interval: 5m
   chart:
