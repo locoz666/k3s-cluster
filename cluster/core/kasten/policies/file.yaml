@@ -12,12 +12,18 @@ spec:
         values:
           - file-service
 
-  frequency: "@hourly"  # 每小时启动一次备份
+  frequency: "@weekly"  # 每星期启动一次备份
+  subFrequency:
+    minutes:
+      - 0
+    hours:
+      - 20  # UTC时间，加八个小时后是凌晨4点，会在这个时间点启动
+    weekdays:
+      - 0
+    months:
+      - 1
   retention: # 保留的备份数量
-    hourly: 12
-    daily: 7
-    weekly: 1
-    monthly: 1
+    weekly: 2
   actions:
     - action: backup  # 使用快照进行备份
       backupParameters:
@@ -27,11 +33,11 @@ spec:
           namespace: kasten
     - action: export
       exportParameters:
-        frequency: "@daily"  # 每天导出一次
+        frequency: "@weekly"  # 每星期导出一次
         profile:
           name: tencentcloud
           namespace: kasten
         exportData: # 导出完整备份
           enabled: true
       retention: # 保留的备份数量
-        daily: 7
+        weekly: 2
