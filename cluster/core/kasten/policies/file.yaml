@@ -1,0 +1,37 @@
+---
+kind: Policy
+apiVersion: config.kio.kasten.io/v1alpha1
+metadata:
+  name: file  # 备份计划名
+  namespace: kasten
+spec:
+  selector:
+    matchExpressions:
+      - key: k10.kasten.io/appNamespace  # 根据命名空间来匹配需要备份的东西
+        operator: In
+        values:
+          - file-service
+
+  frequency: "@hourly"  # 每小时启动一次备份
+  retention: # 保留的备份数量
+    hourly: 12
+    daily: 7
+    weekly: 1
+    monthly: 1
+  actions:
+    - action: backup  # 使用快照进行备份
+      backupParameters:
+        filters: { }  # 不设置类型过滤，备份匹配到的整个命名空间的所有东西
+        profile:
+          name: tencentcloud
+          namespace: kasten
+    - action: export
+      exportParameters:
+        frequency: "@daily"  # 每天导出一次
+        profile:
+          name: tencentcloud
+          namespace: kasten
+        exportData: # 导出完整备份
+          enabled: true
+      retention: # 保留的备份数量
+        daily: 7
