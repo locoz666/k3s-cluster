@@ -63,6 +63,11 @@ spec:
                   deviceClass: "ssd"
                   osdsPerDevice: "2"
 
+              - name: "/dev/disk/by-id/scsi-SATA_SanDisk_SDSSDA24_173130448503"
+                config:
+                  deviceClass: "ssd"
+                  osdsPerDevice: "2"
+
               - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD71JSA"
                 config:
                   deviceClass: "hdd"
