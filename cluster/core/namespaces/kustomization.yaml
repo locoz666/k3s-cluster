@@ -8,7 +8,6 @@ resources:
   - gitlab.yaml
   - home-automation.yaml
   - kasten.yaml
-  - media.yaml
   - metallb-system.yaml
   - monitoring.yaml
   - rook-ceph.yaml
