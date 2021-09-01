@@ -57,3 +57,8 @@ spec:
                   operator: In
                   values:
                     - "home-raspberry-pi4b"
+    tolerations:
+      - key: "kubernetes.io/arch"
+        operator: "Equal"
+        value: "arm64"
+        effect: "NoSchedule"
