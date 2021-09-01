@@ -2,12 +2,12 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: nas-test-l1-pvc
-  namespace: home
+  name: ceph-fs-test
+  namespace: file-service
 spec:
   accessModes:
     - ReadWriteMany
   resources:
     requests:
       storage: 1Pi
-  storageClassName: ceph-fs-l1
+  storageClassName: ceph-fs-hdd-r1

@@ -3,7 +3,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: samba
-  namespace: home
+  namespace: file-service
 spec:
   interval: 5m
   chart:
@@ -21,16 +21,10 @@ spec:
         type: LoadBalancer
         externalTrafficPolicy: Local
     env:
-      SHARE1: nas-test-l1;/share/nas-test-l1;yes;no;yes
-      SHARE2: nas-test-l2;/share/nas-test-l2;yes;no;yes
+      SHARE1: ceph-fs-test;/share/ceph-fs-test;yes;no;yes
     persistence:
-      nas-test-l1:
+      ceph-fs-test:
         enabled: true
         type: pvc
-        existingClaim: nas-test-l1-pvc
-        mountPath: /share/nas-test-l1
-      nas-test-l2:
-        enabled: true
-        type: pvc
-        existingClaim: nas-test-l2-pvc
-        mountPath: /share/nas-test-l2
+        existingClaim: ceph-fs-test
+        mountPath: /share/ceph-fs-test
