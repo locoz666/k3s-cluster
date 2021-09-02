@@ -46,6 +46,15 @@ spec:
                     - key: node-role.kubernetes.io/ceph
                       operator: Exists
 
+      # 资源限制
+      resources:
+        # osd为硬盘每1TB需要分配1GB内存，当前最大的硬盘为8TB
+        osd:
+          limits:
+            memory: "8192Mi"
+          requests:
+            memory: "8192Mi"
+
       storage:
         # 关闭自动在所有节点和所有磁盘上寻找空白盘并添加为OSD的操作，改为手动配置方式添加
         useAllNodes: false
