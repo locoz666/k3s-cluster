@@ -11,3 +11,4 @@ resources:
   - sentry-charts.yaml
   - gitlab-charts.yaml
   - kasten-charts.yaml
+  - nextcloud-charts.yaml
