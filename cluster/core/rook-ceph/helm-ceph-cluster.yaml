@@ -54,6 +54,12 @@ spec:
             memory: "8192Mi"
           requests:
             memory: "8192Mi"
+        # mds的元数据缓存默认有限制只会使用4GB内存，但实际在大量小文件写入时会出现占用到几十GB且不清理的情况，做个限制以防万一
+        mds:
+          limits:
+            memory: "4096Mi"
+          requests:
+            memory: "4096Mi"
 
       storage:
         # 关闭自动在所有节点和所有磁盘上寻找空白盘并添加为OSD的操作，改为手动配置方式添加
