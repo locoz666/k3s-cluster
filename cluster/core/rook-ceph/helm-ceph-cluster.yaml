@@ -68,6 +68,11 @@ spec:
 
       # 资源限制
       resources:
+        mgr:
+          limits:
+            memory: "16384Mi"
+          requests:
+            memory: "4096Mi"
         # osd为硬盘每1TB需要分配1GB内存，当前最大的硬盘为8TB
         osd:
           limits:
