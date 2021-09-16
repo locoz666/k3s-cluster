@@ -4,6 +4,7 @@ resources:
   - 3d-print.yaml
   - cattle-system.yaml
   - cert-manager.yaml
+  - entertainment.yaml
   - file-service.yaml
   - gitlab.yaml
   - home-automation.yaml
