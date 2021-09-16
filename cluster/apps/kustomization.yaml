@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - 3d-print
   - cluster-manage
+  - entertainment
   - file-service
   - home-automation
   - monitoring
