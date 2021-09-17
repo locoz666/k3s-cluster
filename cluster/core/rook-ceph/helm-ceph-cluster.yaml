@@ -28,6 +28,7 @@ spec:
       [mon]
       mon_warn_on_pool_no_redundancy = false
       [osd]
+      osd_max_scrubs = 5
       osd_scrub_during_recovery = true
       osd_max_backfills = 30
       osd_backfill_scan_min = 256
