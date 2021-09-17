@@ -17,10 +17,6 @@ spec:
         namespace: flux-system
   values:
     global:
-      minio:
-        persistence:
-          size: 100Gi
-
       hosts:
         domain: "${SECRET_DOMAIN}"
         hostSuffix: gitlab
