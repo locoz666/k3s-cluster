@@ -19,9 +19,9 @@ spec:
     global:
       hosts:
         domain: "${SECRET_DOMAIN}"
-        hostSuffix: gitlab
+        hostSuffix: gitlab  # 其他gitlab提供的服务在对外服务时的域名后缀，比如容器镜像服务的是registry-gitlab.example.com
         gitlab:
-          name: "git.${SECRET_DOMAIN}"
+          name: "git.${SECRET_DOMAIN}"  # 指定gitlab本身的web服务域名为gitlab.example.com
 
       ingress:
         enabled: true
@@ -30,19 +30,19 @@ spec:
           kubernetes.io/tls-acme: true
 
       shell:
-        port: 10000
+        port: 10000  # 指定gitlab的git ssh的端口
 
       appConfig:
         time_zone: Asia/Shanghai
 
-        dependencyProxy:
+        dependencyProxy: # 开启CI/CD用的依赖代理功能，可以操作过程中用到的镜像（未来版本貌似会支持各编程语言的包）缓存下来，提高速度
           enabled: true
 
     certmanager-issuer:
-      email: "${SECRET_LETS_ENCRYPT_EMAIL}"
+      email: "${SECRET_LETS_ENCRYPT_EMAIL}"  # 自动签发证书用的邮箱，gitlab要求必填
 
     certmanager:
-      install: false
+      install: false  # 已经有安装公共的certmanager，没必要反复安装
 
     nginx-ingress:
-      enabled: false
+      enabled: false  # 不让gitlab单独部署ingress，直接使用公共的ingress
