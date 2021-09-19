@@ -31,8 +31,8 @@ spec:
       osd_max_scrubs = 5
       osd_scrub_during_recovery = true
       osd_max_backfills = 30
-      osd_backfill_scan_min = 256
-      osd_backfill_scan_max = 1024
+      osd_backfill_scan_min = 300
+      osd_backfill_scan_max = 500
       osd_recovery_max_active_hdd = 5
       osd_recovery_max_single_start = 5
 
