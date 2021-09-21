@@ -163,32 +163,6 @@ spec:
             secretName: ceph-dashboard-tls
 
     cephBlockPools:
-      - name: block-hdd-r1
-        spec:
-          failureDomain: osd
-          replicated:
-            size: 1  # 副本数
-            requireSafeReplicaSize: false  # 安全选项，副本数为1时需要设为false，否则会无法创建
-          deviceClass: hdd  # 设置后端osd类型
-        storageClass:
-          enabled: true
-          name: ceph-block-hdd-r1  # 存储类名称
-          isDefault: false  # 是否设为默认存储类
-          reclaimPolicy: Delete  # PVC被删除后自动删除池中的内容
-          allowVolumeExpansion: true  # 支持动态调整PVC大小
-
-          parameters:
-            # 默认设置不用动
-            imageFormat: "2"
-            imageFeatures: layering
-            csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
-            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
-            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
-            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
-            csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
-            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
-            csi.storage.k8s.io/fstype: ext4  # 可以设置为xfs，但官方不推荐
-
       - name: block-hdd-r2
         spec:
           failureDomain: osd
@@ -268,37 +242,6 @@ spec:
             csi.storage.k8s.io/fstype: ext4  # 可以设置为xfs，但官方不推荐
 
     cephFileSystems:
-      - name: fs-hdd-r1
-        spec:
-          metadataPool:
-            failureDomain: osd
-            replicated:
-              size: 2  # 副本数，多副本确保元数据可靠性
-            deviceClass: ssd  # 设置后端osd类型，使用ssd加速metadata读写和响应速度
-          dataPools:
-            - failureDomain: osd
-              replicated:
-                size: 1  # 副本数
-                requireSafeReplicaSize: false  # 安全选项，副本数为1时需要设为false，否则会无法创建
-              deviceClass: hdd  # 设置后端osd类型
-          metadataServer:
-            # 默认设置不用动
-            activeCount: 1
-            activeStandby: true
-        storageClass:
-          enabled: true
-          name: ceph-fs-hdd-r1  # 存储类名称
-          reclaimPolicy: Delete  # PVC被删除后自动删除池中的内容
-          parameters:
-            # 默认设置不用动
-            csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
-            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
-            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
-            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
-            csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
-            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
-            csi.storage.k8s.io/fstype: ext4
-
       - name: fs-hdd-r2
         spec:
           metadataPool:
