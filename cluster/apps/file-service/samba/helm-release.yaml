@@ -21,15 +21,8 @@ spec:
         type: LoadBalancer
         externalTrafficPolicy: Local
     env:
-      SHARE1: ceph-fs-test;/share/ceph-fs-test;yes;no;yes
-      SHARE2: unraid-tmp;/share/unraid-tmp;yes;no;yes
+      SHARE1: unraid-tmp;/share/unraid-tmp;yes;no;yes
     persistence:
-      ceph-fs-test:
-        enabled: true
-        type: pvc
-        existingClaim: ceph-fs-test
-        mountPath: /share/ceph-fs-test
-
       unraid-tmp:
         enabled: true
         type: pvc
