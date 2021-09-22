@@ -84,10 +84,11 @@ spec:
             memory: "16384Mi"
           requests:
             memory: "4096Mi"
-        # osd为硬盘每1TB需要分配1GB内存，当前最大的硬盘为8TB
-        osd:
-          limits:
-            memory: "8192Mi"
+        # osd在进行recovery操作时可以吃到8G左右的内存，limit设置需要尽量高于这个值，否则可能会出现osd被系统杀死的情况
+        # todo 给网关节点加内存后开启
+        #        osd:
+        #          limits:
+        #            memory: "8192Mi"
         # mds的元数据缓存默认有限制只会使用4GB内存，但实际在大量小文件写入时会出现占用到几十GB且不清理的情况，做个限制以防万一
         mds:
           limits:
