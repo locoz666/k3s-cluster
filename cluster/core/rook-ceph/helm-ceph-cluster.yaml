@@ -151,6 +151,12 @@ spec:
                 config:
                   deviceClass: "hdd"
 
+      healthCheck:
+        livenessProbe:
+          osd:
+            probe:
+              initialDelaySeconds: 240
+
     ingress:
       dashboard:
         annotations:
