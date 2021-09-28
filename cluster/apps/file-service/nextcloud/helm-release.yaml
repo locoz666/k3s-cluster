@@ -34,8 +34,6 @@ spec:
           secretName: nextcloud-tls
     nextcloud:
       host: "nextcloud.${SECRET_DOMAIN}"
-      username: "${SECRET_NEXTCLOUD_USERNAME}"
-      password: "${SECRET_NEXTCLOUD_PASSWORD}"
     persistence:
       enabled: true
       accessMode: ReadWriteOnce
