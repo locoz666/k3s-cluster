@@ -22,3 +22,6 @@ spec:
           operator: Exists
         - key: kubernetes.io/arch
           operator: Exists
+      provisionerTolerations:
+        - key: kubernetes.io/arch
+          operator: Exists
