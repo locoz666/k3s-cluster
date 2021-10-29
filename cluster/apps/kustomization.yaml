@@ -8,5 +8,6 @@ resources:
   - file-service
   - home-automation
   - monitoring
+  - others
   - programming
 #  - virtual-machine
