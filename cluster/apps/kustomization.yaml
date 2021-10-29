@@ -9,4 +9,4 @@ resources:
   - home-automation
   - monitoring
   - programming
-  - virtual-machine
+#  - virtual-machine
