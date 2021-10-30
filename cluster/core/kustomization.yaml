@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - cert-manager
   - kasten
+  - kasten-test
   - kube-system
   - kubevirt
   - metallb-system
