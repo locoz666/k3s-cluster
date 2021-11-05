@@ -1,13 +1,26 @@
 ---
-apiVersion: helm.cattle.io/v1
-kind: HelmChartConfig
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
 metadata:
   name: traefik
   namespace: kube-system
 spec:
-  valuesContent: |-
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://helm.traefik.io/traefik
+      chart: traefik
+      version: 10.6.0
+      sourceRef:
+        kind: HelmRepository
+        name: traefik-charts
+        namespace: flux-system
+  values:
     deployment:
       kind: DaemonSet
+    logs:
+      access:
+        enabled: true
     ports:
       web:
         expose: true
@@ -22,8 +35,3 @@ spec:
         expose: true
         exposedPort: 10000
         protocol: TCP
-    tolerations:
-      - operator: "Exists"
-    logs:
-      access:
-        enabled: true
