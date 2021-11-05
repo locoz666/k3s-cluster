@@ -29,6 +29,8 @@ spec:
       websecure:
         expose: true
         hostPort: 443
+        tls:
+          enabled: true
       gitlab-ssh:
         port: 10000
         hostPort: 10000
