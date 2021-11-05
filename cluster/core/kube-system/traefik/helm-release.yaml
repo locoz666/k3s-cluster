@@ -22,6 +22,8 @@ spec:
       access:
         enabled: true
     ports:
+      traefik:
+        expose: true
       web:
         expose: true
         hostPort: 80
