@@ -136,16 +136,6 @@ spec:
                 config:
                   deviceClass: "hdd"
 
-          - name: "home-edge-gateway"
-            devices:
-              - name: "sda"
-                config:
-                  deviceClass: "hdd"
-
-              - name: "sdb"
-                config:
-                  deviceClass: "hdd"
-
       healthCheck:
         livenessProbe:
           osd:
