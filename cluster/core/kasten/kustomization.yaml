@@ -5,4 +5,4 @@ resources:
   - helm-release.yaml
   - profiles
   - dr-secret.sops.yaml
-  - policies
+#  - policies
