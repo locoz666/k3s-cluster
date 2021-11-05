@@ -2,6 +2,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - application.yaml
-#  - file.yaml
-#  - core.yaml
+  - basic-auth.yaml
+  - basic-auth-secret.sops.yaml
+  - rfc-1918.yaml
