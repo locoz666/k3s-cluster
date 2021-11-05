@@ -43,8 +43,8 @@ spec:
       enabled: true
 
     cephClusterSpec:
-      # 在pg状态非完全健康的情况下也允许升级OSD
-      continueUpgradeAfterChecksEvenIfNotHealthy: true
+      # 是否在pg状态非完全健康的情况下也允许升级OSD
+      continueUpgradeAfterChecksEvenIfNotHealthy: false
 
       mon:
         # 允许在同一个节点上运行多个mon
