@@ -3,7 +3,7 @@ apiVersion: config.kio.kasten.io/v1alpha1
 kind: Profile
 metadata:
   name: tencentcloud
-  namespace: kasten
+  namespace: kasten-io
 spec:
   type: Location
   locationSpec:
@@ -19,4 +19,4 @@ spec:
         apiVersion: v1
         kind: Secret
         name: tencentcloud-secret
-        namespace: kasten
+        namespace: kasten-io
