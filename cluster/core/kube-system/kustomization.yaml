@@ -5,4 +5,4 @@ resources:
   - local-path-provisioner
   - metrics-server
   - snapshot-controller
-#  - traefik
+  - traefik
