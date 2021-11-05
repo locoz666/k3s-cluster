@@ -2,8 +2,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: kasten
-  namespace: kasten
+  name: k10
+  namespace: kasten-io
 spec:
   interval: 5m
   chart:

@@ -3,7 +3,7 @@ kind: Policy
 apiVersion: config.kio.kasten.io/v1alpha1
 metadata:
   name: application  # 备份计划名
-  namespace: kasten
+  namespace: kasten-io
 spec:
   selector:
     matchExpressions:
@@ -31,13 +31,13 @@ spec:
         filters: { }  # 不设置类型过滤，备份整个命名空间的所有东西
         profile:
           name: tencentcloud
-          namespace: kasten
+          namespace: kasten-io
     - action: export
       exportParameters:
         frequency: "@daily"  # 每天导出一次
         profile:
           name: tencentcloud
-          namespace: kasten
+          namespace: kasten-io
         exportData: # 导出完整备份
           enabled: true
       retention: # 保留的备份数量
