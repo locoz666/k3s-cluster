@@ -72,6 +72,7 @@ spec:
           tls:
             - hosts:
                 - "hass-vscode.${SECRET_DOMAIN}"
+              secretName: hass-vscode-tls
         volumeMounts:
           - name: config
             mountPath: /config
