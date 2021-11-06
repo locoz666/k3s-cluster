@@ -31,6 +31,8 @@ spec:
       ingress:
         tls:
           secretName: RELEASE-minio-tls
+      persistence:
+        size: 100Gi
 
     global:
       hosts:
