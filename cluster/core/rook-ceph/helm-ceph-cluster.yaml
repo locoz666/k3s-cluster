@@ -271,7 +271,7 @@ spec:
         storageClass:
           enabled: true
           name: ceph-block-ssd-r2  # 存储类名称
-          isDefault: true  # 是否设为默认存储类
+          isDefault: false  # 是否设为默认存储类
           reclaimPolicy: Delete  # PVC被删除后自动删除池中的内容
           allowVolumeExpansion: true  # 支持动态调整PVC大小
 
