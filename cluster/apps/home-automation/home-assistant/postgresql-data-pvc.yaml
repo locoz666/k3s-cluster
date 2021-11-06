@@ -10,4 +10,4 @@ spec:
   resources:
     requests:
       storage: 50Gi
-  storageClassName: ceph-block-ssd-r3
+  storageClassName: ceph-block-application
