@@ -5,7 +5,7 @@ resources:
   - cert-manager
   - kasten
   - kube-system
-  #  - kubevirt
+  - kubevirt
   - metallb-system
   - namespaces
   - rook-ceph
