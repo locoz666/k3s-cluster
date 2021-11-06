@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - middlewares
   - helm-release.yaml
+  - dashboard-ingress.yaml
