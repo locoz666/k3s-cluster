@@ -6,7 +6,7 @@ resources:
   - cluster-manage
 #  - entertainment
 #  - file-service
-#  - home-automation
+  - home-automation
 #  - monitoring
 #  - others
 #  - programming
