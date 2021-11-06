@@ -9,5 +9,5 @@ resources:
   - home-automation
   - monitoring
 #  - others
-#  - programming
+  - programming
 #  - virtual-machine
