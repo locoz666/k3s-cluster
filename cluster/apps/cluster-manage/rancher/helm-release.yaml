@@ -19,7 +19,10 @@ spec:
     replicas: 1
     hostname: "rancher.${SECRET_DOMAIN}"
     ingress:
+      extraAnnotations:
+        kubernetes.io/ingress.class: "traefik"
+        kubernetes.io/tls-acme: "true"
+        cert-manager.io/cluster-issuer: "letsencrypt-dns"
+        traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
       tls:
-        source: letsEncrypt
-    letsEncrypt:
-      email: "${SECRET_LETS_ENCRYPT_EMAIL}"
+        source: secret
