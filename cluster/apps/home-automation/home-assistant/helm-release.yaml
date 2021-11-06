@@ -31,7 +31,9 @@ spec:
               - path: /
                 pathType: Prefix
         annotations:
+          kubernetes.io/ingress.class: "traefik"
           kubernetes.io/tls-acme: "true"
+          cert-manager.io/cluster-issuer: "letsencrypt-dns"
         tls:
           - hosts:
               - "hass.${SECRET_DOMAIN}"
@@ -58,7 +60,10 @@ spec:
         ingress:
           enabled: true
           annotations:
+            kubernetes.io/ingress.class: "traefik"
             kubernetes.io/tls-acme: "true"
+            cert-manager.io/cluster-issuer: "letsencrypt-dns"
+            traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
           hosts:
             - host: "hass-vscode.${SECRET_DOMAIN}"
               paths:
