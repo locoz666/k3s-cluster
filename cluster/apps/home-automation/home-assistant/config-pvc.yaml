@@ -10,4 +10,4 @@ spec:
   resources:
     requests:
       storage: 5Gi
-  storageClassName: ceph-block-ssd-r2
+  storageClassName: ceph-block-ssd-r3
