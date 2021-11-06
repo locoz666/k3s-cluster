@@ -16,6 +16,22 @@ spec:
         name: gitlab-charts
         namespace: flux-system
   values:
+    gitlab:
+      webservice:
+        ingress:
+          tls:
+            secretName: RELEASE-gitlab-tls
+
+    registry:
+      ingress:
+        tls:
+          secretName: RELEASE-registry-tls
+
+    minio:
+      ingress:
+        tls:
+          secretName: RELEASE-minio-tls
+
     global:
       hosts:
         domain: "${SECRET_DOMAIN}"
@@ -26,8 +42,11 @@ spec:
       ingress:
         enabled: true
         class: traefik
+        configureCertmanager: false
         annotations:
-          kubernetes.io/tls-acme: true
+          kubernetes.io/ingress.class: "traefik"
+          kubernetes.io/tls-acme: "true"
+          cert-manager.io/cluster-issuer: "letsencrypt-dns"
 
       shell:
         port: 10000  # 指定gitlab的git ssh的端口
