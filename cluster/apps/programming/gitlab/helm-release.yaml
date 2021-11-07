@@ -20,17 +20,17 @@ spec:
       webservice:
         ingress:
           tls:
-            secretName: RELEASE-gitlab-tls
+            secretName: gitlab-webservice-tls
 
     registry:
       ingress:
         tls:
-          secretName: RELEASE-registry-tls
+          secretName: gitlab-registry-tls
 
     minio:
       ingress:
         tls:
-          secretName: RELEASE-minio-tls
+          secretName: gitlab-minio-tls
       persistence:
         size: 100Gi
 
