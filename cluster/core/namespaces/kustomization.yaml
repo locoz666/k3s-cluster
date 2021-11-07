@@ -9,7 +9,6 @@ resources:
   - file-service.yaml
   - gitlab.yaml
   - home-automation.yaml
-  - kasten.yaml
   - kasten-io.yaml
   - metallb-system.yaml
   - monitoring.yaml
