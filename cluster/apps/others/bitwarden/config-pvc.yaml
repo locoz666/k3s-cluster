@@ -9,5 +9,5 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 10Gi
-  storageClassName: ceph-block-ssd-r2
+      storage: 50Gi
+  storageClassName: ceph-block-application
