@@ -41,7 +41,9 @@ spec:
                 service:
                   port: 3012
         annotations:
+          kubernetes.io/ingress.class: "traefik"
           kubernetes.io/tls-acme: "true"
+          cert-manager.io/cluster-issuer: "letsencrypt-dns"
         tls:
           - hosts:
               - "bitwarden.${SECRET_DOMAIN}"
