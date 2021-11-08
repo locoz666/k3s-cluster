@@ -32,7 +32,7 @@ spec:
         tls:
           secretName: gitlab-minio-tls
       persistence:
-        size: 100Gi
+        size: 200Gi
 
     global:
       hosts:
