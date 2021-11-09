@@ -5,4 +5,5 @@ resources:
   - camera-files.yaml
   - music-files.yaml
   - recording-files.yaml
+  - screenshot-files.yaml
   - unraid-tmp.yaml
