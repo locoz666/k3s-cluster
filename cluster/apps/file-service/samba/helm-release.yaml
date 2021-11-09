@@ -21,10 +21,28 @@ spec:
         type: LoadBalancer
         externalTrafficPolicy: Local
     env:
-      SHARE1: unraid-tmp;/share/unraid-tmp;yes;no;yes
+      SHARE1: camera;/share/camera;yes;no;yes
+      SHARE2: music;/share/music;yes;no;yes
+      SHARE3: recording;/share/recording;yes;no;yes
+      SHARE4: screenshot;/share/screenshot;yes;no;yes
     persistence:
-      unraid-tmp:
+      camera-files:
         enabled: true
         type: pvc
-        existingClaim: unraid-tmp
-        mountPath: /share/unraid-tmp
+        existingClaim: camera-files
+        mountPath: /share/camera
+      music-files:
+        enabled: true
+        type: pvc
+        existingClaim: music-files
+        mountPath: /share/music
+      recording-files:
+        enabled: true
+        type: pvc
+        existingClaim: recording-files
+        mountPath: /share/recording
+      screenshot-files:
+        enabled: true
+        type: pvc
+        existingClaim: screenshot-files
+        mountPath: /share/screenshot
