@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - pvcs
   - samba
-  - nextcloud
+#  - nextcloud
