@@ -1,0 +1,67 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: resilio-sync
+  namespace: file-service
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: resilio-sync
+      version: 5.0.1
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+  values:
+    image:
+      repository: ghcr.io/linuxserver/resilio-sync
+      tag: version-2.7.2.1375
+    env:
+      TZ: Asia/Shanghai
+    ingress:
+      main:
+        enabled: true
+        hosts:
+          - host: "resilio-sync.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        annotations:
+          kubernetes.io/ingress.class: "traefik"
+          kubernetes.io/tls-acme: "true"
+          cert-manager.io/cluster-issuer: "letsencrypt-dns"
+          traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
+        tls:
+          - hosts:
+              - "resilio-sync.${SECRET_DOMAIN}"
+            secretName: resilio-sync-tls
+    persistence:
+      config:
+        enabled: true
+        type: pvc
+        existingClaim: resilio-sync-config
+        mountPath: /config
+
+      camera-files:
+        enabled: true
+        type: pvc
+        existingClaim: camera-files
+        mountPath: /sync/camera
+      music-files:
+        enabled: true
+        type: pvc
+        existingClaim: music-files
+        mountPath: /sync/music
+      recording-files:
+        enabled: true
+        type: pvc
+        existingClaim: recording-files
+        mountPath: /sync/recording
+      screenshot-files:
+        enabled: true
+        type: pvc
+        existingClaim: screenshot-files
+        mountPath: /sync/screenshot
