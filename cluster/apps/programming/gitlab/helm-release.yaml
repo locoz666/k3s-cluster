@@ -21,6 +21,8 @@ spec:
         ingress:
           tls:
             secretName: gitlab-webservice-tls
+      sidekiq:
+        minReplicas: 1
 
     registry:
       ingress:
