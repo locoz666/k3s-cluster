@@ -65,3 +65,9 @@ spec:
         type: pvc
         existingClaim: screenshot-files
         mountPath: /sync/screenshot
+
+      outside-temp-files:
+        enabled: true
+        type: hostPath
+        hostPath: /mnt/temps
+        mountPath: /sync/temps
