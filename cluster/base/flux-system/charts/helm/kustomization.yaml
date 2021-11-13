@@ -13,5 +13,6 @@ resources:
   - rancher-charts.yaml
   - sentry-charts.yaml
   - gitlab-charts.yaml
+  - grafana-charts.yaml
   - kasten-charts.yaml
   - nextcloud-charts.yaml
