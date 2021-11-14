@@ -18,6 +18,9 @@ spec:
   values:
     deployment:
       kind: DaemonSet
+    ingressClass:
+      enabled: true
+      isDefaultClass: true
     logs:
       general:
         level: ERROR
