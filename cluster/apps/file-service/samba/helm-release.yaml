@@ -25,6 +25,7 @@ spec:
       SHARE2: music;/share/music;yes;no;yes
       SHARE3: recording;/share/recording;yes;no;yes
       SHARE4: screenshot;/share/screenshot;yes;no;yes
+      SHARE5: outside-temp;/share/temps;yes;no;yes
     persistence:
       camera-files:
         enabled: true
@@ -46,3 +47,9 @@ spec:
         type: pvc
         existingClaim: screenshot-files
         mountPath: /share/screenshot
+
+      outside-temp-files:
+        enabled: true
+        type: hostPath
+        hostPath: /mnt/temps
+        mountPath: /share/temps
