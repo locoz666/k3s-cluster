@@ -8,3 +8,10 @@ spec:
   logging:
     enabled: true
     containerruntime: containerd
+
+  kubeedge:
+    enabled: true
+    cloudCore:
+      cloudHub:
+        advertiseAddress:
+          - "kubeedge-cloudhub.${SECRET_DOMAIN}"
