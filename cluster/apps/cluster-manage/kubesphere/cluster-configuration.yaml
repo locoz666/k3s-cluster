@@ -1,0 +1,10 @@
+---
+apiVersion: installer.kubesphere.io/v1alpha1
+kind: ClusterConfiguration
+metadata:
+  name: ks-installer
+  namespace: kubesphere-system
+spec:
+  logging:
+    enabled: true
+    containerruntime: containerd
