@@ -12,6 +12,9 @@ spec:
   events:
     enabled: true
 
+  alerting:
+    enabled: true
+
   servicemesh:
     enabled: true
 
