@@ -15,6 +15,9 @@ spec:
   alerting:
     enabled: true
 
+  auditing:
+    enabled: true
+
   servicemesh:
     enabled: true
 
