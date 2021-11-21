@@ -9,6 +9,9 @@ spec:
     enabled: true
     containerruntime: containerd
 
+  metrics_server:
+    enabled: true
+
   events:
     enabled: true
 
