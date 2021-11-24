@@ -19,6 +19,7 @@ spec:
     image:
       repository: nextcloud
       tag: 22.2.3-apache
+
     ingress:
       enabled: true
       hosts:
@@ -27,20 +28,47 @@ spec:
             - path: /
               pathType: Prefix
       annotations:
+        kubernetes.io/ingress.class: "traefik"
         kubernetes.io/tls-acme: "true"
+        cert-manager.io/cluster-issuer: "letsencrypt-dns"
       tls:
         - hosts:
             - "nextcloud.${SECRET_DOMAIN}"
           secretName: nextcloud-tls
+
     nextcloud:
       host: "nextcloud.${SECRET_DOMAIN}"
+      username: "${SECRET_NEXTCLOUD_USERNAME}"
+      password: "${SECRET_NEXTCLOUD_PASSWORD}"
       configs:
         custom.config.php: |-
           <?php
           $CONFIG = array (
             'overwriteprotocol' => 'https',
           );
+
+    postgresql:
+      enabled: true
+      postgresqlUsername: "${SECRET_NEXTCLOUD_PGSQL_USERNAME}"
+      postgresqlPassword: "${SECRET_NEXTCLOUD_PGSQL_PASSWORD}"
+      postgresqlDatabase: nextcloud
+      persistence:
+        enabled: true
+        accessMode: ReadWriteOnce
+        size: 80Gi
+
+    redis:
+      enabled: true
+      usePassword: true
+      password: "${SECRET_NEXTCLOUD_REDIS_PASSWORD}"
+
+    cronjob:
+      enabled: true
+
     persistence:
       enabled: true
       accessMode: ReadWriteOnce
-      size: 100Gi
+      size: 10Gi
+
+    rbac:
+      enabled: true
