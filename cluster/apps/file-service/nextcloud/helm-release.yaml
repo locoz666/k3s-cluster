@@ -50,11 +50,17 @@ spec:
     internalDatabase:
       enabled: false
 
+    externalDatabase:
+      enabled: true
+      type: postgresql
+      host: nextcloud-postgresql
+      user: "${SECRET_NEXTCLOUD_PGSQL_USERNAME}"
+      password: "${SECRET_NEXTCLOUD_PGSQL_PASSWORD}"
+
     postgresql:
       enabled: true
       postgresqlUsername: "${SECRET_NEXTCLOUD_PGSQL_USERNAME}"
       postgresqlPassword: "${SECRET_NEXTCLOUD_PGSQL_PASSWORD}"
-      postgresqlDatabase: nextcloud
       persistence:
         enabled: true
         accessMode: ReadWriteOnce
