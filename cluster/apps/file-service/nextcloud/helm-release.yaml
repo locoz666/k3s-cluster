@@ -47,6 +47,9 @@ spec:
             'overwriteprotocol' => 'https',
           );
 
+    internalDatabase:
+      enabled: false
+
     postgresql:
       enabled: true
       postgresqlUsername: "${SECRET_NEXTCLOUD_PGSQL_USERNAME}"
