@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - https://github.com/kubesphere/ks-installer/releases/download/v3.2.0/kubesphere-installer.yaml
   - https://github.com/kubesphere/ks-installer/releases/download/v3.2.0/cluster-configuration.yaml
+  - console-ingress.yaml
