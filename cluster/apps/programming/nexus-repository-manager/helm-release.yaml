@@ -20,6 +20,10 @@ spec:
     nexus:
       docker:
         enabled: true
+        registries:
+          - host: "docker-io.nexus.${SECRET_DOMAIN}"
+            port: 5000
+            secretName: docker-io-nexus-tls
 
     ingress:
       enabled: true
