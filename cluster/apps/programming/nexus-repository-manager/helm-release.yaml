@@ -30,6 +30,9 @@ spec:
           - host: "gcr-io.nexus.${SECRET_DOMAIN}"
             port: 5002
             secretName: gcr-io-nexus-tls
+          - host: "k8s-gcr-io.nexus.${SECRET_DOMAIN}"
+            port: 5003
+            secretName: k8s-gcr-io-nexus-tls
 
     ingress:
       enabled: true
