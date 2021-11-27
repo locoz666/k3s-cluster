@@ -27,6 +27,9 @@ spec:
           - host: "quay-io.nexus.${SECRET_DOMAIN}"
             port: 5001
             secretName: quay-io-nexus-tls
+          - host: "gcr-io.nexus.${SECRET_DOMAIN}"
+            port: 5002
+            secretName: gcr-io-nexus-tls
 
     ingress:
       enabled: true
