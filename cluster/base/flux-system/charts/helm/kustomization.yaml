@@ -12,6 +12,7 @@ resources:
   - prometheus-community-charts.yaml
   - rancher-charts.yaml
   - sentry-charts.yaml
+  - sonatype-charts.yaml
   - gitlab-charts.yaml
   - grafana-charts.yaml
   - kasten-charts.yaml
