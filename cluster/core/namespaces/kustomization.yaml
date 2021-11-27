@@ -12,5 +12,6 @@ resources:
   - kasten-io.yaml
   - metallb-system.yaml
   - monitoring.yaml
+  - nexus.yaml
   - rook-ceph.yaml
   - sentry.yaml
