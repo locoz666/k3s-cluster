@@ -23,7 +23,6 @@ spec:
         kubernetes.io/ingress.class: "traefik"
         kubernetes.io/tls-acme: "true"
         cert-manager.io/cluster-issuer: "letsencrypt-dns"
-        traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
       hostPath: /
       hostRepo: "nexus.${SECRET_DOMAIN}"
       tls:
