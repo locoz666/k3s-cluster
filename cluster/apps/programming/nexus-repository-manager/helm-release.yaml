@@ -17,6 +17,10 @@ spec:
         name: sonatype-charts
         namespace: flux-system
   values:
+    nexus:
+      docker:
+        enabled: true
+
     ingress:
       enabled: true
       annotations:
