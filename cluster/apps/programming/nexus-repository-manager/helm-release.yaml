@@ -33,6 +33,9 @@ spec:
           - host: "k8s-gcr-io.nexus.${SECRET_DOMAIN}"
             port: 5003
             secretName: k8s-gcr-io-nexus-tls
+          - host: "container-image.nexus.${SECRET_DOMAIN}"
+            port: 5004
+            secretName: container-image-nexus-tls
 
     ingress:
       enabled: true
