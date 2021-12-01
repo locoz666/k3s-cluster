@@ -39,3 +39,11 @@ spec:
       tls:
         enabled: true
         secretName: kasten-tls
+    kanister:
+      backupTimeout: 450
+      restoreTimeout: 6000
+      deleteTimeout: 450
+      hookTimeout: 200
+      checkRepoTimeout: 200
+      statsTimeout: 200
+      efsPostRestoreTimeout: 450
