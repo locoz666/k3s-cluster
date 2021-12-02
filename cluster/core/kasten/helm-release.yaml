@@ -47,4 +47,4 @@ spec:
       checkRepoTimeout: 200
       statsTimeout: 200
       efsPostRestoreTimeout: 450
-      podReadyWaitTimeout: 300
+      podReadyWaitTimeout: 1440
