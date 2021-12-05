@@ -71,8 +71,8 @@ spec:
       usePassword: true
       password: "${SECRET_NEXTCLOUD_REDIS_PASSWORD}"
 
-    cronjob:
-      enabled: true
+    #    cronjob:
+    #      enabled: true
 
     persistence:
       enabled: true
