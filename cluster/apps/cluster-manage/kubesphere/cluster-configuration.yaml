@@ -4,3 +4,16 @@ kind: ClusterConfiguration
 metadata:
   name: ks-installer
   namespace: kubesphere-system
+spec:
+  common:
+    es:
+      elasticsearchMasterReplicas: 1
+      elasticsearchDataReplicas: 1
+      elasticsearchMasterVolumeSize: 4Gi
+      elasticsearchDataVolumeSize: 20Gi
+      logMaxAge: 7
+      elkPrefix: logstash
+
+  logging:
+    enabled: true
+    containerruntime: containerd
