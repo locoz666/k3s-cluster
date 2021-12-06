@@ -8,7 +8,6 @@ metadata:
     kubernetes.io/ingress.class: "traefik"
     kubernetes.io/tls-acme: "true"
     cert-manager.io/cluster-issuer: "letsencrypt-dns"
-    traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
 spec:
   rules:
     - host: "kubesphere.${SECRET_DOMAIN}"
