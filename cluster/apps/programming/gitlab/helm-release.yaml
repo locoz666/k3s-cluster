@@ -22,10 +22,18 @@ spec:
         ingress:
           tls:
             secretName: gitlab-webservice-tls
+        minReplicas: 1
+        maxReplicas: 1
       sidekiq:
         minReplicas: 1
-
+        maxReplicas: 1
+      gitlab-shell:
+        minReplicas: 1
+        maxReplicas: 1
     registry:
+      hpa:
+        minReplicas: 1
+        maxReplicas: 1
       ingress:
         tls:
           secretName: gitlab-registry-tls
