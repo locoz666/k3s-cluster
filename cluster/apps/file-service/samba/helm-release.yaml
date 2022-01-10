@@ -26,6 +26,8 @@ spec:
       SHARE3: recording;/share/recording;yes;no;yes
       SHARE4: screenshot;/share/screenshot;yes;no;yes
       SHARE5: outside-temp;/share/temps;yes;no;yes
+      SHARE6: dump-cephfs;/share/dump_ceph_fs;yes;no;yes
+      SHARE7: old-disk;/share/old_disk;yes;no;yes
     persistence:
       camera-files:
         enabled: true
@@ -53,3 +55,13 @@ spec:
         type: hostPath
         hostPath: /mnt/temps
         mountPath: /share/temps
+      dump-cephfs-files:
+        enabled: true
+        type: hostPath
+        hostPath: /mnt/dump_ceph_fs
+        mountPath: /share/dump_ceph_fs
+      old-disk-files:
+        enabled: true
+        type: hostPath
+        hostPath: /mnt/old_disk
+        mountPath: /share/old_disk
