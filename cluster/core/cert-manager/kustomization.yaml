@@ -6,3 +6,4 @@ resources:
   - letsencrypt-dns.yaml
   - letsencrypt-http.yaml
   - secret.sops.yaml
+  - wildcard-certificate.yaml
