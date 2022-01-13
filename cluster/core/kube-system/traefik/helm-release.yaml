@@ -44,3 +44,14 @@ spec:
         expose: true
         exposedPort: 10000
         protocol: TCP
+    additionalArguments:
+      - '--providers.file.filename=/config/dyn.yaml'
+    volumes:
+      - name: tls-secret
+        mountPath: '/certs'
+        type: secret
+        secret:
+          secretName: "${SECRET_DOMAIN/./-}-tls"
+      - name: traefik-config
+        mountPath: '/config'
+        type: configMap
