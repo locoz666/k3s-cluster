@@ -47,11 +47,9 @@ spec:
     additionalArguments:
       - '--providers.file.filename=/config/dyn.yaml'
     volumes:
-      - name: tls-secret
+      - name: "${SECRET_DOMAIN/./-}-tls"
         mountPath: '/certs'
         type: secret
-        secret:
-          secretName: "${SECRET_DOMAIN/./-}-tls"
       - name: traefik-config
         mountPath: '/config'
         type: configMap
