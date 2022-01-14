@@ -16,6 +16,15 @@ spec:
         name: traefik-charts
         namespace: flux-system
   values:
+    additionalArguments:
+      - "--providers.file.filename=/config/default-cert.yaml"
+    volumes:
+      - name: "${SECRET_DOMAIN/./-}-tls"
+        mountPath: "/certs"
+        type: secret
+      - name: additional-config
+        mountPath: "/config"
+        type: configMap
     deployment:
       kind: DaemonSet
     tolerations:
