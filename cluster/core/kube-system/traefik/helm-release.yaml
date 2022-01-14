@@ -27,6 +27,9 @@ spec:
         type: configMap
     deployment:
       kind: DaemonSet
+    tolerations:
+      - operator: Exists
+        effect: NoSchedule
     ingressClass:
       enabled: true
       isDefaultClass: true
