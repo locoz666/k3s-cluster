@@ -2,8 +2,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - https://github.com/kubesphere/ks-installer/releases/download/v3.2.0/kubesphere-installer.yaml
-  - https://github.com/kubesphere/ks-installer/releases/download/v3.2.0/cluster-configuration.yaml
+  - https://github.com/kubesphere/ks-installer/releases/download/v3.2.1/kubesphere-installer.yaml
+  - https://github.com/kubesphere/ks-installer/releases/download/v3.2.1/cluster-configuration.yaml
   - console-ingress.yaml
 patchesStrategicMerge:
   - cluster-configuration.yaml
