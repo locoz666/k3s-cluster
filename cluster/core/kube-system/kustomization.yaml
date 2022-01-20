@@ -4,5 +4,5 @@ kind: Kustomization
 resources:
   - local-path-provisioner
   - metrics-server
-  - snapshot-controller
+#  - snapshot-controller
   - traefik
