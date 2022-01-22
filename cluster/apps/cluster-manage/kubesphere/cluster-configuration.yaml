@@ -29,3 +29,7 @@ spec:
 
   servicemesh:
     enabled: true
+
+  network:
+    topology:
+      type: weave-scope
