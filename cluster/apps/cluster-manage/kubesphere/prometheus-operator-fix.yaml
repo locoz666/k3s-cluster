@@ -28,7 +28,7 @@ spec:
             - --logtostderr=true
             - --prometheus-config-reloader=kubesphere/prometheus-config-reloader:v0.43.2
             - --config-reloader-cpu=0
-          image: kubesphere/prometheus-operator:v0.43.2
+          image: kubesphere/prometheus-operator:v0.53.1
           name: prometheus-operator
           ports:
             - containerPort: 8080
