@@ -17,3 +17,6 @@ spec:
   logging:
     enabled: true
     containerruntime: containerd
+
+  events:
+    enabled: true
