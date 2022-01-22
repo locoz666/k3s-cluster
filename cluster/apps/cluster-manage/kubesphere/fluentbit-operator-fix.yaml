@@ -51,7 +51,7 @@ spec:
               mountPath: /usr/bin/crictl
       containers:
         - name: fluentbit-operator
-          image: kubesphere/fluentbit-operator:v0.11.0
+          image: kubesphere/fluentbit-operator:v0.12.0
           resources:
             limits:
               cpu: 100m
