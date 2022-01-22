@@ -26,3 +26,6 @@ spec:
 
   auditing:
     enabled: true
+
+  servicemesh:
+    enabled: true
