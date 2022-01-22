@@ -20,3 +20,6 @@ spec:
 
   events:
     enabled: true
+
+  alerting:
+    enabled: true
