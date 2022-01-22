@@ -32,7 +32,7 @@ spec:
             type: ''
       initContainers:
         - name: setenv
-          image: docker:19.03
+          image: docker:20.10
           command:
             - /bin/sh
             - '-c'
