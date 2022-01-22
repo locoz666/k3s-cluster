@@ -33,3 +33,10 @@ spec:
   network:
     topology:
       type: weave-scope
+
+  kubeedge:
+    enabled: true
+    cloudCore:
+      cloudHub:
+        advertiseAddress:
+          - "${SECRET_KUBEEDGE_CLOUDHUB_ADDRESS}"
