@@ -16,6 +16,9 @@ spec:
         name: rook-ceph-charts
         namespace: flux-system
   values:
+    resources:
+      limits:
+        memory: 1Gi
     csi:
       pluginTolerations:
         - key: cloud
