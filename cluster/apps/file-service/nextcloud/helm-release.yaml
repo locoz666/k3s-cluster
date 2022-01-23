@@ -75,8 +75,8 @@ spec:
       replica:
         replicaCount: 0
 
-    #    cronjob:
-    #      enabled: true
+    cronjob:
+      enabled: true
 
     persistence:
       enabled: true
