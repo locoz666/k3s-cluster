@@ -53,14 +53,12 @@ spec:
     externalDatabase:
       enabled: true
       type: mysql
-      host: "nextcloud-mariadb"
       user: "${SECRET_NEXTCLOUD_PGSQL_USERNAME}"
       password: "${SECRET_NEXTCLOUD_PGSQL_PASSWORD}"
 
     mariadb:
       enabled: true
       auth:
-        database: nextcloud
         username: "${SECRET_NEXTCLOUD_PGSQL_USERNAME}"
         password: "${SECRET_NEXTCLOUD_PGSQL_PASSWORD}"
       primary:
