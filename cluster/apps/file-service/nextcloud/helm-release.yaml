@@ -18,7 +18,7 @@ spec:
   values:
     image:
       repository: nextcloud
-      tag: 23.0.0-apache
+      tag: 23.0.0-fpm
 
     ingress:
       enabled: true
@@ -84,4 +84,7 @@ spec:
       size: 10Gi
 
     rbac:
+      enabled: true
+
+    nginx:
       enabled: true
