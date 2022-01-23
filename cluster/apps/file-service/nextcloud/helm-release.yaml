@@ -52,19 +52,22 @@ spec:
 
     externalDatabase:
       enabled: true
-      type: postgresql
-      host: nextcloud-postgresql
-      user: "${SECRET_NEXTCLOUD_PGSQL_USERNAME}"
-      password: "${SECRET_NEXTCLOUD_PGSQL_PASSWORD}"
+      type: mysql
+      host: "nextcloud-mariadb"
+      user: "${SECRET_NEXTCLOUD_MARIADB_USERNAME}"
+      password: "${SECRET_NEXTCLOUD_MARIADB_USERNAME}"
 
-    postgresql:
+    mariadb:
       enabled: true
-      postgresqlUsername: "${SECRET_NEXTCLOUD_PGSQL_USERNAME}"
-      postgresqlPassword: "${SECRET_NEXTCLOUD_PGSQL_PASSWORD}"
-      persistence:
-        enabled: true
-        accessMode: ReadWriteOnce
-        size: 80Gi
+      auth:
+        database: nextcloud
+        username: "${SECRET_NEXTCLOUD_MARIADB_USERNAME}"
+        password: "${SECRET_NEXTCLOUD_MARIADB_USERNAME}"
+      primary:
+        persistence:
+          enabled: true
+          accessMode: ReadWriteOnce
+          size: 80Gi
 
     redis:
       enabled: true
