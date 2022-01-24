@@ -64,8 +64,7 @@ spec:
       primary:
         persistence:
           enabled: true
-          accessMode: ReadWriteOnce
-          size: 80Gi
+          existingClaim: nextcloud-mariadb-data
 
     redis:
       enabled: true
@@ -74,14 +73,16 @@ spec:
       architecture: standalone
       replica:
         replicaCount: 0
+      master:
+        persistence:
+          existingClaim: nextcloud-redis-data
 
     cronjob:
       enabled: true
 
     persistence:
       enabled: true
-      accessMode: ReadWriteOnce
-      size: 10Gi
+      existingClaim: nextcloud-data
 
     rbac:
       enabled: true
