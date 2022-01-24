@@ -46,6 +46,28 @@ spec:
           $CONFIG = array (
             'overwriteprotocol' => 'https',
           );
+      extraVolumes:
+        - name: camera-files
+          persistentVolumeClaim:
+            claimName: camera-files
+        - name: music-files
+          persistentVolumeClaim:
+            claimName: music-files
+        - name: recording-files
+          persistentVolumeClaim:
+            claimName: recording-files
+        - name: screenshot-files
+          persistentVolumeClaim:
+            claimName: screenshot-files
+      extraVolumeMounts:
+        - name: camera-files
+          mountPath: /share/camera
+        - name: music-files
+          mountPath: /share/music
+        - name: recording-files
+          mountPath: /share/recording
+        - name: screenshot-files
+          mountPath: /share/screenshot
 
     internalDatabase:
       enabled: false
