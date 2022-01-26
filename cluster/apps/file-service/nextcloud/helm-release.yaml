@@ -46,6 +46,13 @@ spec:
           $CONFIG = array (
             'overwriteprotocol' => 'https',
           );
+      phpConfigs:
+        overwrite-config.conf: |-
+          pm = dynamic
+          pm.max_children = 240
+          pm.start_servers = 24
+          pm.min_spare_servers = 6
+          pm.max_spare_servers = 18
       extraVolumes:
         - name: camera-files
           persistentVolumeClaim:
