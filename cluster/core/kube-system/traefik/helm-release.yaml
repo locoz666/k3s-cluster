@@ -29,7 +29,6 @@ spec:
       kind: DaemonSet
     tolerations:
       - operator: Exists
-        effect: NoSchedule
     ingressClass:
       enabled: true
       isDefaultClass: true
