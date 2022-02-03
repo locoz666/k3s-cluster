@@ -114,6 +114,11 @@ spec:
                   deviceClass: "ssd"
                   osdsPerDevice: "2"  # 在单块盘上创建多个OSD以最大化利用SSD的性能，可以让OSD获得更多CPU资源进行并发读写，能提升IOPS，但会略微降低读写延迟（ns级）
 
+              - name: "/dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S6PVNX0RC01477A"
+                config:
+                  deviceClass: "ssd"
+                  osdsPerDevice: "2"  # 在单块盘上创建多个OSD以最大化利用SSD的性能，可以让OSD获得更多CPU资源进行并发读写，能提升IOPS，但会略微降低读写延迟（ns级）
+
               - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD71JSA"
                 config:
                   deviceClass: "hdd"
