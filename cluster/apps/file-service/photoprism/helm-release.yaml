@@ -18,7 +18,7 @@ spec:
   values:
     image:
       repository: photoprism/photoprism
-      tag: "20211018"
+      tag: "20220121"
     env:
       TZ: Asia/Shanghai
       PHOTOPRISM_ADMIN_PASSWORD: "${SECRET_PHOTOPRISM_PASSWORD}"
