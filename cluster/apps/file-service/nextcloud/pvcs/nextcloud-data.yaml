@@ -10,4 +10,4 @@ spec:
   resources:
     requests:
       storage: 10Gi
-  storageClassName: ceph-fs-application-fast
+  storageClassName: ceph-fs-application
