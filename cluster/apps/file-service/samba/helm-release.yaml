@@ -16,18 +16,15 @@ spec:
         name: k8s-at-home-charts
         namespace: flux-system
   values:
+    image:
+      repository: ghcr.io/crazy-max/samba
+      tag: 4.15.5
+
     service:
       main:
         type: LoadBalancer
         externalTrafficPolicy: Local
-    env:
-      SHARE1: camera;/share/camera;yes;no;yes
-      SHARE2: music;/share/music;yes;no;yes
-      SHARE3: recording;/share/recording;yes;no;yes
-      SHARE4: screenshot;/share/screenshot;yes;no;yes
-      SHARE5: outside-temp;/share/temps;yes;no;yes
-      SHARE6: dump-cephfs;/share/dump_ceph_fs;yes;no;yes
-      SHARE7: old-disk;/share/old_disk;yes;no;yes
+
     persistence:
       camera-files:
         enabled: true
@@ -65,3 +62,58 @@ spec:
         type: hostPath
         hostPath: /mnt/old_disk
         mountPath: /share/old_disk
+
+    configmap:
+      config:
+        enabled: true
+        data:
+          config.yml: |
+            share:
+              - name: camera
+                path: /share/camera
+                browsable: yes
+                readonly: no
+                guestok: yes
+                veto: no
+
+              - name: music
+                path: /share/music
+                browsable: yes
+                readonly: no
+                guestok: yes
+                veto: no
+
+              - name: recording
+                path: /share/recording
+                browsable: yes
+                readonly: no
+                guestok: yes
+                veto: no
+
+              - name: screenshot
+                path: /share/screenshot
+                browsable: yes
+                readonly: no
+                guestok: yes
+                veto: no
+
+              - name: outside-temp
+                path: /share/temps
+                browsable: yes
+                readonly: no
+                guestok: yes
+                veto: no
+
+              - name: dump-cephfs
+                path: /share/dump_ceph_fs
+                browsable: yes
+                readonly: no
+                guestok: yes
+                veto: no
+
+              - name: old-disk
+                path: /share/old_disk
+                browsable: yes
+                readonly: no
+                guestok: yes
+                veto: no
