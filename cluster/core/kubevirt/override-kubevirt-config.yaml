@@ -13,3 +13,7 @@ spec:
         - HostDisk
         - HypervStrictCheck
         - CPUManager
+  infra:
+    nodePlacement:
+      nodeSelector:
+        node-role.kubernetes.io/control-plane: ""
