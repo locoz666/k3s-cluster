@@ -113,6 +113,8 @@ spec:
 
     cronjob:
       enabled: true
+      nodeSelector:
+        location: "home"
 
     persistence:
       enabled: true
