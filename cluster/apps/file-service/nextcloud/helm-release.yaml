@@ -119,6 +119,9 @@ spec:
       nodeSelector:
         location: "home"
 
+    nodeSelector:
+      location: "home"
+
     persistence:
       enabled: true
       existingClaim: nextcloud-data
