@@ -113,6 +113,9 @@ spec:
 
     cronjob:
       enabled: true
+      image:
+        repository: nextcloud
+        tag: 23.0.2-fpm
       nodeSelector:
         location: "home"
 
