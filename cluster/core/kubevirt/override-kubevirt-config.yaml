@@ -17,3 +17,7 @@ spec:
     nodePlacement:
       nodeSelector:
         node-role.kubernetes.io/control-plane: ""
+  workloads:
+    nodePlacement:
+      nodeSelector:
+        location: "home"
