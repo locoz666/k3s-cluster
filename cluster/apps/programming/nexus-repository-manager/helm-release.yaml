@@ -18,6 +18,9 @@ spec:
         namespace: flux-system
   values:
     nexus:
+      nodeSelector:
+        location: "home"
+
       docker:
         enabled: true
         registries:
