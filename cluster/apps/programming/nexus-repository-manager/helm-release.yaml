@@ -52,3 +52,7 @@ spec:
         - secretName: nexus-tls
           hosts:
             - "nexus.${SECRET_DOMAIN}"
+
+    persistence:
+      enabled: true
+      storageSize: 100Gi
