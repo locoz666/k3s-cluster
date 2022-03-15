@@ -46,6 +46,8 @@ spec:
         size: 200Gi
 
     global:
+      nodeSelector:
+        location: "home"
       hosts:
         domain: "${SECRET_DOMAIN}"
         hostSuffix: gitlab  # 其他gitlab提供的服务在对外服务时的域名后缀，比如容器镜像服务的是registry-gitlab.example.com
