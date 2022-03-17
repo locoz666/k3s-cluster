@@ -19,6 +19,8 @@ spec:
     resources:
       limits:
         memory: 1Gi
+    nodeSelector:
+      location: "home"
     csi:
       pluginTolerations:
         - key: cloud
