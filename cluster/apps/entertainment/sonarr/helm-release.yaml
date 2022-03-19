@@ -27,6 +27,11 @@ spec:
     env:
       TZ: "Asia/Shanghai"
 
+    persistence:
+      config:
+        enabled: true
+        existingClaim: sonarr-config
+
     ingress:
       main:
         enabled: true
