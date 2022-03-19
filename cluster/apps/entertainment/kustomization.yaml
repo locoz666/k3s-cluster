@@ -5,6 +5,7 @@ resources:
   - bazarr
   - jackett
   - lidarr
+  - plex
   - qbittorrent
   - radarr
   - sonarr
