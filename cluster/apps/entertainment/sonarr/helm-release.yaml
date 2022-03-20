@@ -35,6 +35,10 @@ spec:
         enabled: true
         mountPath: /media
         existingClaim: media-files
+      downloads:
+        enabled: true
+        mountPath: /downloads
+        existingClaim: download-files
 
     ingress:
       main:
