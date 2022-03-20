@@ -31,6 +31,10 @@ spec:
       config:
         enabled: true
         existingClaim: radarr-config
+      media:
+        enabled: true
+        mountPath: /media
+        existingClaim: media-files
 
     ingress:
       main:
