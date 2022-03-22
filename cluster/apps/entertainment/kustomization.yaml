@@ -5,7 +5,7 @@ resources:
   - bazarr
   - flaresolverr
   - lidarr
-  - plex
+#  - plex
   - prowlarr
   - pvcs
   - qbittorrent
