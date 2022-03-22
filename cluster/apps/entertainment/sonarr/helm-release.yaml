@@ -31,10 +31,14 @@ spec:
       config:
         enabled: true
         existingClaim: sonarr-config
-      media:
+      tv:
         enabled: true
-        mountPath: /media
-        existingClaim: media-files
+        mountPath: /tv
+        existingClaim: tv-files
+      anime:
+        enabled: true
+        mountPath: /anime
+        existingClaim: anime-files
       downloads:
         enabled: true
         mountPath: /downloads
