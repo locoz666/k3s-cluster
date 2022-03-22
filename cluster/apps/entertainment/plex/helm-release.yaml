@@ -21,8 +21,8 @@ spec:
       location: "home"
 
     image:
-      repository: ghcr.io/k8s-at-home/plex
-      tag: v1.24.1.4931-1a38e63c6
+      repository: linuxserver/plex
+      tag: 1.25.7
 
     env:
       TZ: "Asia/Shanghai"
@@ -31,6 +31,22 @@ spec:
       config:
         enabled: true
         existingClaim: plex-config
+      anime:
+        enabled: true
+        mountPath: /anime
+        existingClaim: anime-files
+      movie:
+        enabled: true
+        mountPath: /movie
+        existingClaim: movie-files
+      music:
+        enabled: true
+        mountPath: /music
+        existingClaim: music-files
+      tv:
+        enabled: true
+        mountPath: /tv
+        existingClaim: tv-files
 
     ingress:
       main:
