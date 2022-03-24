@@ -22,7 +22,7 @@ spec:
 
     image:
       repository: linuxserver/plex
-      tag: 1.25.7
+      tag: 1.25.8
 
     env:
       TZ: "Asia/Shanghai"
