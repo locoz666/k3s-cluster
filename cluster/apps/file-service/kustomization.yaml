@@ -6,4 +6,4 @@ resources:
   - pvcs
   - resilio-sync
   - samba
-  - nextcloud
+#  - nextcloud
