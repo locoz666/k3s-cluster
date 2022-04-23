@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - bazarr
   - flaresolverr
+  - jellyfin
   - lidarr
   - plex
   - prowlarr
