@@ -5,6 +5,7 @@ resources:
   - bazarr
   - flaresolverr
   - jellyfin
+  - overseerr
   - lidarr
   - plex
   - prowlarr
