@@ -33,19 +33,19 @@ spec:
         existingClaim: plex-config
       anime:
         enabled: true
-        mountPath: /anime
+        mountPath: /data/anime
         existingClaim: anime-files
       movie:
         enabled: true
-        mountPath: /movie
+        mountPath: /data/movie
         existingClaim: movie-files
       music:
         enabled: true
-        mountPath: /music
+        mountPath: /data/music
         existingClaim: music-files
       tv:
         enabled: true
-        mountPath: /tv
+        mountPath: /data/tv
         existingClaim: tv-files
 
     ingress:
