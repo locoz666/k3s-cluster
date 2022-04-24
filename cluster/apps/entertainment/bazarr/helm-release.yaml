@@ -31,10 +31,18 @@ spec:
       config:
         enabled: true
         existingClaim: bazarr-config
-      media:
+      movie:
         enabled: true
-        mountPath: /media
-        existingClaim: media-files
+        mountPath: /movie
+        existingClaim: movie-files
+      tv:
+        enabled: true
+        mountPath: /tv
+        existingClaim: tv-files
+      anime:
+        enabled: true
+        mountPath: /anime
+        existingClaim: anime-files
 
     ingress:
       main:
