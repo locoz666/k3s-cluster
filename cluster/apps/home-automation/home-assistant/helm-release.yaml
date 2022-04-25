@@ -85,7 +85,7 @@ spec:
       enabled: true
       image:
         repository: bitnami/postgresql
-        tag: 11.13.0-debian-10-r89
+        tag: 13.4.0-debian-10-r89
       postgresqlUsername: home-assistant
       postgresqlPassword: home-assistant-pass
       postgresqlDatabase: home-assistant
