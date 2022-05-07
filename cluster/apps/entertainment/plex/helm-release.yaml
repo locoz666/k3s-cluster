@@ -27,6 +27,7 @@ spec:
     env:
       TZ: "Asia/Shanghai"
       PLEX_CLAIM: "${SECRET_PLEX_CLAIM}"
+      ADVERTISE_IP: "{SECRET_ADVERTISE_IP}"
 
     persistence:
       config:
