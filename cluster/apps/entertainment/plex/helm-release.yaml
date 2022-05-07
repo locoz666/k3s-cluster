@@ -49,6 +49,12 @@ spec:
         mountPath: /data/tv
         existingClaim: tv-files
 
+    service:
+      dnla-tcp:
+        enabled: true
+      dnla-udp:
+        enabled: true
+
     ingress:
       main:
         enabled: true
