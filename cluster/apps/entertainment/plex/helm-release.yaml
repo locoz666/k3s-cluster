@@ -62,8 +62,26 @@ spec:
             nodePort: 32400
       dnla-tcp:
         enabled: true
+        type: NodePort
+        ports:
+          dnla-tcp:
+            enabled: true
+            port: 32469
+            protocol: TCP
+            targetPort: 32469
+            nodePort: 32469
+        externalTrafficPolicy: Local
       dnla-udp:
         enabled: true
+        type: NodePort
+        ports:
+          dnla-udp:
+            enabled: true
+            port: 1900
+            protocol: TCP
+            targetPort: 1900
+            nodePort: 1900
+        externalTrafficPolicy: Local
 
     ingress:
       main:
