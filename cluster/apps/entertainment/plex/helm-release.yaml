@@ -59,6 +59,7 @@ spec:
             port: 32400
             protocol: TCP
             targetPort: 32400
+            nodePort: 32400
       dnla-tcp:
         enabled: true
       dnla-udp:
