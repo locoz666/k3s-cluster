@@ -50,6 +50,15 @@ spec:
         existingClaim: tv-files
 
     service:
+      main:
+        primary: true
+        type: NodePort
+        ports:
+          http:
+            enabled: true
+            port: 32400
+            protocol: TCP
+            targetPort: 32400
       dnla-tcp:
         enabled: true
       dnla-udp:
