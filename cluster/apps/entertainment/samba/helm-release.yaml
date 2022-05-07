@@ -1,0 +1,66 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: samba
+  namespace: entertainment
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: samba
+      version: 6.1.1
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+  values:
+    nodeSelector:
+      location: "home"
+
+    image:
+      repository: ghcr.io/crazy-max/samba
+      tag: 4.15.5
+
+    service:
+      main:
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+
+    persistence:
+      anime-files:
+        enabled: true
+        type: pvc
+        existingClaim: anime-files
+        mountPath: /share/anime
+      download-files:
+        enabled: true
+        type: pvc
+        existingClaim: download-files
+        mountPath: /share/download
+      media-files:
+        enabled: true
+        type: pvc
+        existingClaim: media-files
+        mountPath: /share/media
+
+    configmap:
+      config:
+        enabled: true
+        data:
+          config.yml: |
+            share:
+              - name: download
+                path: /share/download
+                browsable: yes
+                readonly: no
+                guestok: yes
+                veto: no
+
+              - name: media
+                path: /share/media
+                browsable: yes
+                readonly: no
+                guestok: yes
+                veto: no
