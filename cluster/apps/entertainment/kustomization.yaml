@@ -12,4 +12,5 @@ resources:
   - pvcs
   - qbittorrent
   - radarr
+  - samba
   - sonarr
