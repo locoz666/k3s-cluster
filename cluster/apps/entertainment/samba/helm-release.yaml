@@ -34,6 +34,11 @@ spec:
         type: pvc
         existingClaim: anime-files
         mountPath: /share/anime
+      movie-files:
+        enabled: true
+        type: pvc
+        existingClaim: movie-files
+        mountPath: /share/movie
       download-files:
         enabled: true
         type: pvc
@@ -51,6 +56,13 @@ spec:
         data:
           config.yml: |
             share:
+              - name: movie
+                path: /share/movie
+                browsable: yes
+                readonly: no
+                guestok: yes
+                veto: no
+
               - name: download
                 path: /share/download
                 browsable: yes
