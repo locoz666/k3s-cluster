@@ -62,6 +62,11 @@ spec:
         type: hostPath
         hostPath: /mnt/old_disk
         mountPath: /share/old_disk
+      tmp-storage-files:
+        enabled: true
+        type: hostPath
+        hostPath: /mnt/tmp_storage
+        mountPath: /share/tmp_storage
 
     configmap:
       config:
@@ -113,6 +118,13 @@ spec:
 
               - name: old-disk
                 path: /share/old_disk
+                browsable: yes
+                readonly: no
+                guestok: yes
+                veto: no
+
+              - name: tmp-storage
+                path: /share/tmp_storage
                 browsable: yes
                 readonly: no
                 guestok: yes
