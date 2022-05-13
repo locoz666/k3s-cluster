@@ -16,11 +16,16 @@ spec:
         name: k8s-at-home-charts
         namespace: flux-system
   values:
+    nodeSelector:
+      location: "home"
+
     image:
       repository: ghcr.io/linuxserver/resilio-sync
       tag: version-2.7.2.1375
+
     env:
       TZ: Asia/Shanghai
+
     ingress:
       main:
         enabled: true
@@ -38,6 +43,7 @@ spec:
           - hosts:
               - "resilio-sync.${SECRET_DOMAIN}"
             secretName: resilio-sync-tls
+
     persistence:
       config:
         enabled: true
