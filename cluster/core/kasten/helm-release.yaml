@@ -48,3 +48,6 @@ spec:
       statsTimeout: 200
       efsPostRestoreTimeout: 450
       podReadyWaitTimeout: 1440
+    persistence:
+      catalog:
+        size: 40Gi
