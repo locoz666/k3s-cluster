@@ -16,12 +16,17 @@ spec:
         name: k8s-at-home-charts
         namespace: flux-system
   values:
+    nodeSelector:
+      location: "home"
+
     image:
       repository: photoprism/photoprism
       tag: "20220121"
+
     env:
       TZ: Asia/Shanghai
       PHOTOPRISM_ADMIN_PASSWORD: "${SECRET_PHOTOPRISM_PASSWORD}"
+
     ingress:
       main:
         enabled: true
@@ -39,6 +44,7 @@ spec:
           - hosts:
               - "photoprism.${SECRET_DOMAIN}"
             secretName: photoprism-tls
+
     persistence:
       config:
         enabled: true
