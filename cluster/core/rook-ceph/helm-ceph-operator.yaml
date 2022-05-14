@@ -22,6 +22,7 @@ spec:
     nodeSelector:
       location: "home"
     csi:
+      provisionerReplicas: 1
       pluginTolerations:
         - key: cloud
           operator: Exists
