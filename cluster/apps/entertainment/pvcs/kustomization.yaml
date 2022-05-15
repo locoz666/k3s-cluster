@@ -4,7 +4,6 @@ kind: Kustomization
 resources:
   - anime-files.yaml
   - download-pvc.yaml
-  - media-pvc.yaml
   - movie-files.yaml
   - music-files.yaml
   - tv-files.yaml
