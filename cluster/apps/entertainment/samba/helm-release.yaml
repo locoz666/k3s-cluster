@@ -44,6 +44,11 @@ spec:
         type: pvc
         existingClaim: movie-files
         mountPath: /share/movie
+      music-files:
+        enabled: true
+        type: pvc
+        existingClaim: music-files
+        mountPath: /share/music
       download-files:
         enabled: true
         type: pvc
@@ -72,6 +77,13 @@ spec:
 
               - name: movie
                 path: /share/movie
+                browsable: yes
+                readonly: no
+                guestok: yes
+                veto: no
+
+              - name: music
+                path: /share/music
                 browsable: yes
                 readonly: no
                 guestok: yes
