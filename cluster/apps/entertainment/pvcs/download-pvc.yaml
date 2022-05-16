@@ -10,4 +10,4 @@ spec:
   resources:
     requests:
       storage: 1Ti
-  storageClassName: ceph-fs-temp
+  storageClassName: ceph-fs-media-unsafe
