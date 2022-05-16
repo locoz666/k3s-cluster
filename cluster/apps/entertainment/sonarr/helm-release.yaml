@@ -31,10 +31,6 @@ spec:
       config:
         enabled: true
         existingClaim: sonarr-config
-      media:
-        enabled: true
-        mountPath: /media
-        existingClaim: media-files
       tv:
         enabled: true
         mountPath: /tv
