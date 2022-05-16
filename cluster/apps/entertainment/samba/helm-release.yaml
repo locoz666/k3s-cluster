@@ -49,11 +49,6 @@ spec:
         type: pvc
         existingClaim: download-files
         mountPath: /share/download
-      media-files:
-        enabled: true
-        type: pvc
-        existingClaim: media-files
-        mountPath: /share/media
 
     configmap:
       config:
@@ -84,13 +79,6 @@ spec:
 
               - name: download
                 path: /share/download
-                browsable: yes
-                readonly: no
-                guestok: yes
-                veto: no
-
-              - name: media
-                path: /share/media
                 browsable: yes
                 readonly: no
                 guestok: yes
