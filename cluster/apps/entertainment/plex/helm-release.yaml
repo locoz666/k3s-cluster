@@ -33,6 +33,9 @@ spec:
       config:
         enabled: true
         existingClaim: plex-config
+      transcode:
+        enabled: true
+        existingClaim: plex-transcode
       anime:
         enabled: true
         mountPath: /data/anime
