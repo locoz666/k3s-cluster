@@ -18,7 +18,7 @@ spec:
   values:
     image:
       repository: nextcloud
-      tag: 24.0.0-fpm
+      tag: 24.0.1-fpm
 
     ingress:
       enabled: true
@@ -115,7 +115,7 @@ spec:
       enabled: true
       image:
         repository: nextcloud
-        tag: 24.0.0-fpm
+        tag: 24.0.1-fpm
       nodeSelector:
         location: "home"
 
