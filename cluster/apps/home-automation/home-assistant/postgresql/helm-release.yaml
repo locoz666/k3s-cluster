@@ -19,7 +19,7 @@ spec:
   values:
     image:
       repository: docker.io/bitnami/postgresql
-      tag: 13.6.0-debian-10-r89
+      tag: 14.2.0-debian-10-r89
 
     auth:
       username: "home-assistant"
