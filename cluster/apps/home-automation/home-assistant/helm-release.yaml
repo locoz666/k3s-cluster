@@ -80,17 +80,3 @@ spec:
             mountPath: /config
         nodeSelector:
           location: "home"
-
-    postgresql:
-      enabled: true
-      image:
-        repository: bitnami/postgresql
-        tag: 14.2.0-debian-10-r89
-      postgresqlUsername: home-assistant
-      postgresqlPassword: home-assistant-pass
-      postgresqlDatabase: home-assistant
-      persistence:
-        enabled: true
-        existingClaim: home-assistant-postgresql-data
-      nodeSelector:
-        location: "home"
