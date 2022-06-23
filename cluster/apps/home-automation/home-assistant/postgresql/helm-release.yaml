@@ -18,7 +18,7 @@ spec:
       interval: 5m
   values:
     image:
-      repository: docker.io/bitnami/postgresql
+      repository: bitnami/postgresql
       tag: 13.6.0-debian-10-r89
 
     auth:

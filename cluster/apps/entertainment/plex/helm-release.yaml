@@ -21,7 +21,7 @@ spec:
       location: "home"
 
     image:
-      repository: docker.io/plexinc/pms-docker
+      repository: plexinc/pms-docker
       tag: 1.26.2.5797-5bd057d2b
 
     env:
