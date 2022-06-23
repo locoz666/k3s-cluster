@@ -19,7 +19,7 @@ spec:
   values:
     image:
       repository: bitnami/postgresql
-      tag: 13.6.0-debian-10-r89
+      tag: 11.16.0-debian-11-r7
 
     auth:
       username: "home-assistant"
@@ -34,4 +34,4 @@ spec:
         location: "home"
 
     diagnosticMode:
-      enabled: true
+      enabled: false
