@@ -32,3 +32,6 @@ spec:
         existingClaim: home-assistant-postgresql-data
       nodeSelector:
         location: "home"
+
+    diagnosticMode:
+      enabled: true
