@@ -25,5 +25,21 @@ spec:
       enabled: true
       existingClaim: home-assistant-influxdb-data
 
+    setDefaultUser:
+      enabled: true
+      user:
+        username: "${SECRET_HASS_INFLUXDB_USERNAME}"
+        password: "${SECRET_HASS_INFLUXDB_PASSWORD}"
+
+    ingress:
+      enabled: true
+      tls: true
+      hostname: "hass-influxdb.${SECRET_DOMAIN}"
+      annotations:
+        kubernetes.io/ingress.class: "traefik"
+        kubernetes.io/tls-acme: "true"
+        cert-manager.io/cluster-issuer: "letsencrypt-dns"
+        traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
+
     nodeSelector:
       location: "home"
