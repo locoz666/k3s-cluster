@@ -47,6 +47,17 @@ spec:
         mountPath: /anime
         existingClaim: anime-files
 
+    service:
+      main:
+        type: NodePort
+        ports:
+          http:
+            enabled: true
+            port: 8096
+            protocol: TCP
+            targetPort: 8096
+            nodePort: 8096
+
     ingress:
       main:
         enabled: true
