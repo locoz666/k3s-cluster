@@ -34,6 +34,10 @@ spec:
       cache:
         enabled: true
         existingClaim: jellyfin-cache
+      movie:
+        enabled: true
+        mountPath: /data/movie
+        existingClaim: movie-files
       tv:
         enabled: true
         mountPath: /tv
