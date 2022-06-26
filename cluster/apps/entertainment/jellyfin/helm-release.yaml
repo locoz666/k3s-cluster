@@ -56,7 +56,7 @@ spec:
             port: 8096
             protocol: TCP
             targetPort: 8096
-            nodePort: 8096
+            nodePort: 32600
 
     ingress:
       main:
