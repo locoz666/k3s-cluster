@@ -53,3 +53,20 @@ spec:
           - hosts:
               - "qbittorrent.${SECRET_DOMAIN}"
             secretName: qbittorrent-tls
+
+    probes:
+      liveness:
+        spec:
+          initialDelaySeconds: 300
+          periodSeconds: 30
+          failureThreshold: 10
+      readiness:
+        spec:
+          initialDelaySeconds: 300
+          periodSeconds: 30
+          failureThreshold: 10
+      startup:
+        spec:
+          initialDelaySeconds: 300
+          periodSeconds: 30
+          failureThreshold: 10
