@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - 3d-print.yaml
   - bitwarden.yaml
+  - gpu-operator.yaml
 #  - cattle-system.yaml
   - cert-manager.yaml
   - entertainment.yaml
