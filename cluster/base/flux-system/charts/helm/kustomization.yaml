@@ -12,6 +12,7 @@ resources:
   - metallb-charts.yaml
   - metrics-server-charts.yaml
   - nextcloud-charts.yaml
+  - nvidia-charts.yaml
   - prometheus-community-charts.yaml
   - rancher-charts.yaml
   - rook-ceph-charts.yaml
