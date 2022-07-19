@@ -40,3 +40,8 @@ spec:
       cloudHub:
         advertiseAddress:
           - "${SECRET_KUBEEDGE_CLOUDHUB_ADDRESS}"
+
+  monitoring:
+    gpu:
+      nvidia_dcgm_exporter:
+        enabled: true
