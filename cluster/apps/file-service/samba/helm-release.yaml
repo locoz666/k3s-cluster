@@ -63,7 +63,7 @@ spec:
       old-disk-files:
         enabled: true
         type: hostPath
-        hostPath: /mnt/old_disk
+        hostPath: /mnt/old_disk1
         mountPath: /share/old_disk
       tmp-storage-files:
         enabled: true
