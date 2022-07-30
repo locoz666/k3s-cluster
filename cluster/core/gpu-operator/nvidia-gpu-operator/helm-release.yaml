@@ -15,3 +15,8 @@ spec:
         kind: HelmRepository
         name: nvidia-charts
         namespace: flux-system
+  values:
+    driver:
+      enabled: false
+    toolkit:
+      enabled: false
