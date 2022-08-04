@@ -87,6 +87,6 @@ spec:
               - "plex.${SECRET_DOMAIN}"
             secretName: plex-tls
 
-    resources:
-      limits:
-        nvidia.com/gpu: 1
+#    resources:
+#      limits:
+#        nvidia.com/gpu: 1

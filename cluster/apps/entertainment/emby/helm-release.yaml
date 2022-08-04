@@ -62,6 +62,6 @@ spec:
               - "emby.${SECRET_DOMAIN}"
             secretName: emby-tls
 
-    resources:
-      limits:
-        nvidia.com/gpu: 1
+#    resources:
+#      limits:
+#        nvidia.com/gpu: 1
