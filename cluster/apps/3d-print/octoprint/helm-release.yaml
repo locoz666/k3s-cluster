@@ -21,7 +21,7 @@ spec:
       ENABLE_MJPG_STREAMER: "false"
     image:
       repository: octoprint/octoprint
-      tag: 1.8.1
+      tag: 1.8.2
     ingress:
       main:
         enabled: true
