@@ -17,6 +17,10 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    image:
+      repository: emby/embyserver
+      tag: 4.7.6.0
+
     nodeSelector:
       location: "home"
 
