@@ -9,7 +9,7 @@ spec:
   issuerRef:
     name: letsencrypt-dns
     kind: ClusterIssuer
-  commonName: "direct-${SECRET_DOMAIN}"
+  commonName: "direct.${SECRET_DOMAIN}"
   dnsNames:
     - "direct.${SECRET_DOMAIN}"
     - "*.direct.${SECRET_DOMAIN}"
