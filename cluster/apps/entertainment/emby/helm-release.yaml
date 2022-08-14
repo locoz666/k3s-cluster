@@ -62,7 +62,6 @@ spec:
                 pathType: Prefix
         annotations:
           kubernetes.io/ingress.class: "traefik"
-          traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
         tls:
           - secretName: "${SECRET_DOMAIN/./-}-tls"
           - secretName: "direct-${SECRET_DOMAIN/./-}-tls"
