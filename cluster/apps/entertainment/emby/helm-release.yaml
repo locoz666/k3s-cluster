@@ -58,13 +58,9 @@ spec:
                 pathType: Prefix
         annotations:
           kubernetes.io/ingress.class: "traefik"
-          kubernetes.io/tls-acme: "true"
-          cert-manager.io/cluster-issuer: "letsencrypt-dns"
           traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
         tls:
-          - hosts:
-              - "emby.${SECRET_DOMAIN}"
-            secretName: emby-tls
+          - secretName: "${SECRET_DOMAIN/./-}-tls"
 
     resources:
       limits:
