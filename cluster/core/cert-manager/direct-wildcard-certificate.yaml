@@ -1,0 +1,18 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: "direct-${SECRET_DOMAIN/./-}"
+  namespace: cert-manager
+spec:
+  secretName: "direct-${SECRET_DOMAIN/./-}-tls"
+  issuerRef:
+    name: letsencrypt-dns
+    kind: ClusterIssuer
+  commonName: "direct-${SECRET_DOMAIN}"
+  dnsNames:
+    - "direct.${SECRET_DOMAIN}"
+    - "*.direct.${SECRET_DOMAIN}"
+  secretTemplate:
+    annotations:
+      kubed.appscode.com/sync: "sync-https-wildcard-certificate=true" # Sync certificate to matching namespaces
