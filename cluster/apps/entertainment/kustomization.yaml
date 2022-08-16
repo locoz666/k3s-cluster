@@ -5,7 +5,7 @@ resources:
   - bazarr
   - emby
   - flaresolverr
-  - jellyfin
+#  - jellyfin
   - overseerr
   - lidarr
   - plex
