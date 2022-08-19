@@ -35,7 +35,7 @@ spec:
       type: weave-scope
 
   kubeedge:
-    enabled: true
+    enabled: false
     cloudCore:
       cloudHub:
         advertiseAddress:
