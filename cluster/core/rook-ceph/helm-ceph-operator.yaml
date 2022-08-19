@@ -15,19 +15,3 @@ spec:
         kind: HelmRepository
         name: rook-ceph-charts
         namespace: flux-system
-  values:
-    resources:
-      limits:
-        memory: 1Gi
-    csi:
-      provisionerReplicas: 1
-      pluginTolerations:
-        - key: cloud
-          operator: Exists
-        - key: kubernetes.io/arch
-          operator: Exists
-        - key: node-role.kubernetes.io/edge
-          operator: Exists
-      provisionerTolerations:
-        - key: kubernetes.io/arch
-          operator: Exists
