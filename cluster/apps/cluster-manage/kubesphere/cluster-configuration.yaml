@@ -7,16 +7,18 @@ metadata:
 spec:
   common:
     es:
-      elasticsearchMasterReplicas: 1
-      elasticsearchDataReplicas: 1
-      elasticsearchMasterVolumeSize: 4Gi
-      elasticsearchDataVolumeSize: 20Gi
+      master:
+        volumeSize: 4Gi
+        replicas: 1
+        resources: { }
+      data:
+        volumeSize: 20Gi
+        replicas: 1
       logMaxAge: 7
       elkPrefix: logstash
 
   logging:
     enabled: true
-    containerruntime: containerd
 
   events:
     enabled: true
