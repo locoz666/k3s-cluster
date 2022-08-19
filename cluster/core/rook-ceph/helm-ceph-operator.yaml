@@ -22,7 +22,7 @@ spec:
     csi:
       provisionerReplicas: 1
       pluginTolerations:
-        - key: cloud
+        - key: location
           operator: Exists
           effect: NoSchedule
         - key: kubernetes.io/arch
