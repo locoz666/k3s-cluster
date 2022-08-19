@@ -31,6 +31,10 @@ spec:
       config:
         enabled: true
         existingClaim: emby-config
+      transcode:
+        enabled: true
+        mountPath: /tmp/transcoding-temp
+        existingClaim: emby-transcode
       anime:
         enabled: true
         mountPath: /data/anime
