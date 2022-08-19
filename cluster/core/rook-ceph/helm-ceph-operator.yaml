@@ -19,14 +19,14 @@ spec:
     resources:
       limits:
         memory: 1Gi
-    nodeSelector:
-      location: "home"
     csi:
       provisionerReplicas: 1
       pluginTolerations:
         - key: cloud
           operator: Exists
         - key: kubernetes.io/arch
+          operator: Exists
+        - key: node-role.kubernetes.io/edge
           operator: Exists
       provisionerTolerations:
         - key: kubernetes.io/arch
