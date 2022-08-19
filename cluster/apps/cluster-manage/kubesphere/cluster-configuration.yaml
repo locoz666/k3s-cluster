@@ -31,3 +31,12 @@ spec:
 
   servicemesh:
     enabled: true
+
+  edgeruntime:
+    enabled: true
+    kubeedge:
+      enabled: true
+      cloudCore:
+        cloudHub:
+          advertiseAddress:
+            - "${SECRET_KUBEEDGE_CLOUDHUB_ADDRESS}"
