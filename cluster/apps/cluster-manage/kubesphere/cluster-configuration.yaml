@@ -30,10 +30,6 @@ spec:
   servicemesh:
     enabled: true
 
-  network:
-    topology:
-      type: weave-scope
-
   kubeedge:
     enabled: false
     cloudCore:
