@@ -26,32 +26,28 @@ spec:
         registries:
           - host: "docker-io.nexus.${SECRET_DOMAIN}"
             port: 5000
-            secretName: docker-io-nexus-tls
+            secretName: "${SECRET_DOMAIN/./-}-tls"
           - host: "quay-io.nexus.${SECRET_DOMAIN}"
             port: 5001
-            secretName: quay-io-nexus-tls
+            secretName: "${SECRET_DOMAIN/./-}-tls"
           - host: "gcr-io.nexus.${SECRET_DOMAIN}"
             port: 5002
-            secretName: gcr-io-nexus-tls
+            secretName: "${SECRET_DOMAIN/./-}-tls"
           - host: "k8s-gcr-io.nexus.${SECRET_DOMAIN}"
             port: 5003
-            secretName: k8s-gcr-io-nexus-tls
+            secretName: "${SECRET_DOMAIN/./-}-tls"
           - host: "container-image.nexus.${SECRET_DOMAIN}"
             port: 5004
-            secretName: container-image-nexus-tls
+            secretName: "${SECRET_DOMAIN/./-}-tls"
 
     ingress:
       enabled: true
       annotations:
         kubernetes.io/ingress.class: "traefik"
-        kubernetes.io/tls-acme: "true"
-        cert-manager.io/cluster-issuer: "letsencrypt-dns"
       hostPath: /
       hostRepo: "nexus.${SECRET_DOMAIN}"
       tls:
-        - secretName: nexus-tls
-          hosts:
-            - "nexus.${SECRET_DOMAIN}"
+        - secretName: "${SECRET_DOMAIN/./-}-tls"
 
     persistence:
       enabled: true
