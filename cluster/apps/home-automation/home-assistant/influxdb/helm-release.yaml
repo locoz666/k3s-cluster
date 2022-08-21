@@ -33,13 +33,12 @@ spec:
 
     ingress:
       enabled: true
-      tls: true
-      hostname: "hass-influxdb.${SECRET_DOMAIN}"
       annotations:
         kubernetes.io/ingress.class: "traefik"
-        kubernetes.io/tls-acme: "true"
-        cert-manager.io/cluster-issuer: "letsencrypt-dns"
         traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
+      hostname: "hass-influxdb.${SECRET_DOMAIN}"
+      tls: true
+      secretName: "${SECRET_DOMAIN/./-}-tls"
 
     nodeSelector:
       location: "home"
