@@ -23,3 +23,6 @@ spec:
       nodeSelector:
         location: "home"
         kubernetes.io/arch: "amd64"
+    kubeProxyReplacement: "strict"
+    k8sServiceHost: "${SECRET_K8S_API_SERVER_HOST}"
+    k8sServicePort: "${SECRET_K8S_API_SERVER_PORT}"
