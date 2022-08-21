@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - appscode-charts.yaml
   - bitnami-charts.yaml
+  - cilium-charts.yaml
   - gitlab-charts.yaml
   - grafana-charts.yaml
   - influxdata-charts.yaml
