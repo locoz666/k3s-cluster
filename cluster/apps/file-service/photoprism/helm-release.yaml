@@ -30,20 +30,21 @@ spec:
     ingress:
       main:
         enabled: true
+        annotations:
+          kubernetes.io/ingress.class: "traefik"
+          traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
         hosts:
           - host: "photoprism.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
-        annotations:
-          kubernetes.io/ingress.class: "traefik"
-          kubernetes.io/tls-acme: "true"
-          cert-manager.io/cluster-issuer: "letsencrypt-dns"
-          traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
+          - host: "photoprism.direct.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
         tls:
-          - hosts:
-              - "photoprism.${SECRET_DOMAIN}"
-            secretName: photoprism-tls
+          - secretName: "${SECRET_DOMAIN/./-}-tls"
+          - secretName: "direct-${SECRET_DOMAIN/./-}-tls"
 
     persistence:
       config:
