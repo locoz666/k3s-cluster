@@ -16,6 +16,8 @@ spec:
         name: cilium-charts
         namespace: flux-system
   values:
+    debug:
+      enabled: true
     operator:
       replicas: 1
       nodeSelector:
