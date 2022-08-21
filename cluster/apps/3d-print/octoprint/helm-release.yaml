@@ -25,18 +25,20 @@ spec:
     ingress:
       main:
         enabled: true
+        annotations:
+          kubernetes.io/ingress.class: traefik
         hosts:
           - host: "octoprint.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
-        annotations:
-          kubernetes.io/ingress.class: traefik
-          kubernetes.io/tls-acme: "true"
+          - host: "octoprint.direct.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
         tls:
-          - hosts:
-              - "octoprint.${SECRET_DOMAIN}"
-            secretName: octoprint-tls
+          - secretName: "${SECRET_DOMAIN/./-}-tls"
+          - secretName: "direct-${SECRET_DOMAIN/./-}-tls"
     securityContext:
       privileged: true
     persistence:
