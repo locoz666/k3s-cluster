@@ -72,17 +72,16 @@ spec:
     ingress:
       main:
         enabled: true
+        ingressClassName: "traefik"
         hosts:
           - host: "plex.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
-        annotations:
-          kubernetes.io/ingress.class: "traefik"
-          kubernetes.io/tls-acme: "true"
-          cert-manager.io/cluster-issuer: "letsencrypt-dns"
-          traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
+          - host: "plex.direct.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
         tls:
-          - hosts:
-              - "plex.${SECRET_DOMAIN}"
-            secretName: plex-tls
+          - secretName: "${SECRET_DOMAIN/./-}-tls"
+          - secretName: "direct-${SECRET_DOMAIN/./-}-tls"
