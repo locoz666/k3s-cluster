@@ -43,17 +43,13 @@ spec:
     ingress:
       main:
         enabled: true
+        ingressClassName: "traefik"
+        annotations:
+          traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
         hosts:
           - host: "lidarr.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
-        annotations:
-          kubernetes.io/ingress.class: "traefik"
-          kubernetes.io/tls-acme: "true"
-          cert-manager.io/cluster-issuer: "letsencrypt-dns"
-          traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
         tls:
-          - hosts:
-              - "lidarr.${SECRET_DOMAIN}"
-            secretName: lidarr-tls
+          - secretName: "${SECRET_DOMAIN/./-}-tls"
