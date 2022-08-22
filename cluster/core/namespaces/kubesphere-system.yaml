@@ -1,0 +1,7 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kubesphere-system
+  labels:
+    sync-https-wildcard-certificate: "true"

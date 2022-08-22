@@ -11,6 +11,7 @@ resources:
   - gitlab.yaml
   - home-automation.yaml
   - kasten-io.yaml
+  - kubesphere-system.yaml
   - metallb-system.yaml
   - monitoring.yaml
   - nexus.yaml
