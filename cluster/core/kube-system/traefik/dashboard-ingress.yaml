@@ -5,15 +5,9 @@ metadata:
   name: traefik-dashboard
   namespace: kube-system
   annotations:
-    kubernetes.io/ingress.class: "traefik"
-    kubernetes.io/tls-acme: "true"
-    cert-manager.io/cluster-issuer: "letsencrypt-dns"
     traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
 spec:
-  tls:
-    - hosts:
-        - "traefik.${SECRET_DOMAIN}"
-      secretName: traefik-dashboard-tls
+  ingressClassName: "traefik"
   rules:
     - host: "traefik.${SECRET_DOMAIN}"
       http:
@@ -25,3 +19,5 @@ spec:
                 name: traefik
                 port:
                   name: traefik
+  tls:
+    - secretName: "${SECRET_DOMAIN/./-}-tls"
