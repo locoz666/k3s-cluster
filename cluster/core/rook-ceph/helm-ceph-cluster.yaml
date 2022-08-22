@@ -147,17 +147,13 @@ spec:
 
     ingress:
       dashboard:
+        ingressClassName: "traefik"
         annotations:
-          kubernetes.io/ingress.class: "traefik"
-          kubernetes.io/tls-acme: "true"
-          cert-manager.io/cluster-issuer: "letsencrypt-dns"
           traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
         host:
           name: "ceph.${SECRET_DOMAIN}"
         tls:
-          - hosts:
-              - "ceph.${SECRET_DOMAIN}"
-            secretName: ceph-dashboard-tls
+          - secretName: "${SECRET_DOMAIN/./-}-tls"
 
     cephBlockPools:
       - name: block-application
