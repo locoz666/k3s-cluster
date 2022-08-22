@@ -73,9 +73,9 @@ spec:
                 - path: /
                   pathType: Prefix
             - host: "hass-vscode.direct.${SECRET_DOMAIN}"
-                paths:
-                  - path: /
-                    pathType: Prefix
+              paths:
+                - path: /
+                  pathType: Prefix
           tls:
             - secretName: "${SECRET_DOMAIN/./-}-tls"
             - secretName: "direct-${SECRET_DOMAIN/./-}-tls"
