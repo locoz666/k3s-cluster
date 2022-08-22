@@ -4,11 +4,8 @@ kind: Ingress
 metadata:
   name: ks-console
   namespace: kubesphere-system
-  annotations:
-    kubernetes.io/ingress.class: "traefik"
-    kubernetes.io/tls-acme: "true"
-    cert-manager.io/cluster-issuer: "letsencrypt-dns"
 spec:
+  ingressClassName: "traefik"
   rules:
     - host: "kubesphere.${SECRET_DOMAIN}"
       http:
@@ -20,7 +17,16 @@ spec:
                 name: ks-console
                 port:
                   name: nginx
+    - host: "kubesphere.direct.${SECRET_DOMAIN}"
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: ks-console
+                port:
+                  name: nginx
   tls:
-    - hosts:
-        - "kubesphere.${SECRET_DOMAIN}"
-      secretName: kubesphere-tls
+    - secretName: "${SECRET_DOMAIN/./-}-tls"
+    - secretName: "direct-${SECRET_DOMAIN/./-}-tls"
