@@ -49,6 +49,11 @@ spec:
         type: pvc
         existingClaim: screenshot-files
         mountPath: /share/screenshot
+      other-media-files:
+        enabled: true
+        type: pvc
+        existingClaim: other-media-files
+        mountPath: /share/other-media
 
       outside-temp-files:
         enabled: true
@@ -100,6 +105,13 @@ spec:
 
               - name: screenshot
                 path: /share/screenshot
+                browsable: yes
+                readonly: no
+                guestok: yes
+                veto: no
+
+              - name: other-media
+                path: /share/other-media
                 browsable: yes
                 readonly: no
                 guestok: yes

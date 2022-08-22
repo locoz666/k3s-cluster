@@ -4,5 +4,6 @@ kind: Kustomization
 resources:
   - camera-files.yaml
   - music-files.yaml
+  - other-media-files.yaml
   - recording-files.yaml
   - screenshot-files.yaml
