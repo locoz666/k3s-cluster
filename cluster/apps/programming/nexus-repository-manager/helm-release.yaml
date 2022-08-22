@@ -42,8 +42,7 @@ spec:
 
     ingress:
       enabled: true
-      annotations:
-        kubernetes.io/ingress.class: "traefik"
+      ingressClassName: "traefik"
       hostPath: /
       hostRepo: "nexus.${SECRET_DOMAIN}"
       tls:
