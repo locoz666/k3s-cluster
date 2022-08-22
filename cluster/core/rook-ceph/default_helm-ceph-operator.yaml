@@ -4,7 +4,7 @@
 
 image:
   repository: rook/ceph
-  tag: v1.9.2
+  tag: v1.9.9
   pullPolicy: IfNotPresent
 
 crds:
@@ -12,13 +12,13 @@ crds:
   # managed independently with deploy/examples/crds.yaml.
   # **WARNING** Only set during first deployment. If later disabled the cluster may be DESTROYED.
   # If the CRDs are deleted in this case, see the disaster recovery guide to restore them.
-  # https://rook.github.io/docs/rook/latest/ceph-disaster-recovery.html#restoring-crds-after-deletion
+  # https://rook.io/docs/rook/latest/Troubleshooting/disaster-recovery/#restoring-crds-after-deletion
   enabled: true
 
 resources:
   limits:
     cpu: 500m
-    memory: 256Mi
+    memory: 512Mi
   requests:
     cpu: 100m
     memory: 128Mi
@@ -63,7 +63,7 @@ csi:
   # Set to true to enable host networking for CSI CephFS and RBD nodeplugins. This may be necessary
   # in some network configurations where the SDN does not provide access to an external cluster or
   # there is significant drop in read/write performance.
-  # enableCSIHostNetwork: true
+  enableCSIHostNetwork: true
   # set to false to disable deployment of snapshotter container in CephFS provisioner pod.
   enableCephfsSnapshotter: true
   # set to false to disable deployment of snapshotter container in RBD provisioner pod.
@@ -101,9 +101,12 @@ csi:
   # Set replicas for csi provisioner deployment.
   provisionerReplicas: 2
 
-  # Set logging level for csi containers.
+  # Set logging level for cephCSI containers maintained by the cephCSI.
   # Supported values from 0 to 5. 0 for general useful logs, 5 for trace level verbosity.
   #logLevel: 0
+  # Set logging level for Kubernetes-csi sidecar containers.
+  # Supported values from 0 to 5. 0 for general useful logs (the default), 5 for trace level verbosity.
+  #sidecarLogLevel: 0
   # CSI RBD plugin daemonset update strategy, supported values are OnDelete and RollingUpdate.
   # Default value is RollingUpdate.
   #rbdPluginUpdateStrategy: OnDelete
@@ -322,7 +325,7 @@ csi:
           memory: 1Gi
           cpu: 500m
 
-  # Set provisonerTolerations and provisionerNodeAffinity for provisioner pod.
+  # Set provisionerTolerations and provisionerNodeAffinity for provisioner pod.
   # The CSI provisioner would be best to start on the same nodes as other ceph daemons.
   # provisionerTolerations:
   #    - key: key
@@ -336,6 +339,8 @@ csi:
   #      operator: Exists
   #      effect: NoSchedule
   # pluginNodeAffinity: key1=value1,value2; key2=value3
+  # Set to true to enable Ceph CSI liveness container.
+  enableLiveness: false
   #cephfsGrpcMetricsPort: 9091
   #cephfsLivenessMetricsPort: 9081
   #rbdGrpcMetricsPort: 9090
@@ -344,20 +349,20 @@ csi:
   # you may want to disable this setting. However, this will cause an issue during upgrades
   # with the FUSE client. See the upgrade guide: https://rook.io/docs/rook/v1.2/ceph-upgrade.html
   forceCephFSKernelClient: true
-  #rbdLivenessMetricsPort: 9080
-  #kubeletDirPath: /var/lib/kubelet
-  #cephcsi:
-    #image: quay.io/cephcsi/cephcsi:v3.6.1
-  #registrar:
-    #image: k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.5.0
+    #rbdLivenessMetricsPort: 9080
+    #kubeletDirPath: /var/lib/kubelet
+    #cephcsi:
+    #image: quay.io/cephcsi/cephcsi:v3.6.2
+    #registrar:
+    #image: registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.5.1
     #provisioner:
-    #image: k8s.gcr.io/sig-storage/csi-provisioner:v3.1.0
+    #image: registry.k8s.io/sig-storage/csi-provisioner:v3.1.0
     #snapshotter:
-    #image: k8s.gcr.io/sig-storage/csi-snapshotter:v5.0.1
+    #image: registry.k8s.io/sig-storage/csi-snapshotter:v6.0.1
     #attacher:
-    #image: k8s.gcr.io/sig-storage/csi-attacher:v3.4.0
+    #image: registry.k8s.io/sig-storage/csi-attacher:v3.4.0
     #resizer:
-  #image: k8s.gcr.io/sig-storage/csi-resizer:v1.4.0
+  #image: registry.k8s.io/sig-storage/csi-resizer:v1.4.0
   # Labels to add to the CSI CephFS Deployments and DaemonSets Pods.
   #cephfsPodLabels: "key1=value1,key2=value2"
   # Labels to add to the CSI NFS Deployments and DaemonSets Pods.
@@ -373,11 +378,11 @@ csi:
   # Enable the CSIAddons sidecar.
   csiAddons:
     enabled: false
-    #image: "quay.io/csiaddons/k8s-sidecar:v0.2.1"
+    #image: "quay.io/csiaddons/k8s-sidecar:v0.4.0"
   # Enable the nfs csi driver.
   nfs:
     enabled: false
-    #image: "k8s.gcr.io/sig-storage/nfsplugin:v3.1.0"
+    #image: "registry.k8s.io/sig-storage/nfsplugin:v4.0.0"
 enableDiscoveryDaemon: false
 cephCommandsTimeoutSeconds: "15"
 
