@@ -24,19 +24,19 @@ spec:
       docker:
         enabled: true
         registries:
-          - host: "docker-io.nexus.${SECRET_DOMAIN}"
+          - host: "docker-io-nexus.${SECRET_DOMAIN}"
             port: 5000
             secretName: "${SECRET_DOMAIN/./-}-tls"
-          - host: "quay-io.nexus.${SECRET_DOMAIN}"
+          - host: "quay-io-nexus.${SECRET_DOMAIN}"
             port: 5001
             secretName: "${SECRET_DOMAIN/./-}-tls"
-          - host: "gcr-io.nexus.${SECRET_DOMAIN}"
+          - host: "gcr-io-nexus.${SECRET_DOMAIN}"
             port: 5002
             secretName: "${SECRET_DOMAIN/./-}-tls"
-          - host: "k8s-gcr-io.nexus.${SECRET_DOMAIN}"
+          - host: "k8s-gcr-io-nexus.${SECRET_DOMAIN}"
             port: 5003
             secretName: "${SECRET_DOMAIN/./-}-tls"
-          - host: "container-image.nexus.${SECRET_DOMAIN}"
+          - host: "container-image-nexus.${SECRET_DOMAIN}"
             port: 5004
             secretName: "${SECRET_DOMAIN/./-}-tls"
 
