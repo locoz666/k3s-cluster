@@ -30,8 +30,8 @@ spec:
     ingress:
       main:
         enabled: true
+        ingressClassName: "traefik"
         annotations:
-          kubernetes.io/ingress.class: "traefik"
           traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
         hosts:
           - host: "photoprism.${SECRET_DOMAIN}"
