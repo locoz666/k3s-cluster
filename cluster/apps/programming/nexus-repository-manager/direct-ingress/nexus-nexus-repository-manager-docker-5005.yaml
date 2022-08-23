@@ -4,7 +4,17 @@ kind: Ingress
 metadata:
   name: nexus-nexus-repository-manager-docker-5005
   namespace: nexus
+  labels:
+    app.kubernetes.io/instance: nexus
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: nexus-repository-manager
+    helm.toolkit.fluxcd.io/name: nexus
+    helm.toolkit.fluxcd.io/namespace: nexus
+  annotations:
+    meta.helm.sh/release-name: nexus
+    meta.helm.sh/release-namespace: nexus
 spec:
+  ingressClassName: traefik
   rules:
     - host: "ghcr-io-nexus.${SECRET_DOMAIN}"
       http:
