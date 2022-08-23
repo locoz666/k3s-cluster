@@ -58,7 +58,7 @@ spec:
                 - key: kubernetes.io/hostname
                   operator: In
                   values:
-                    - "home-raspberry-pi4b"
+                    - "raspberry-pi4b"
     tolerations:
       - key: "kubernetes.io/arch"
         operator: "Equal"
