@@ -39,6 +39,9 @@ spec:
           - host: "container-image-nexus.${SECRET_DOMAIN}"
             port: 5004
             secretName: "${SECRET_DOMAIN/./-}-tls"
+          - host: "ghcr-io-nexus.${SECRET_DOMAIN}"
+            port: 5005
+            secretName: "${SECRET_DOMAIN/./-}-tls"
 
     ingress:
       enabled: true
