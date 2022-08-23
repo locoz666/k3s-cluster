@@ -8,3 +8,4 @@ resources:
   - nexus-nexus-repository-manager-docker-5003.yaml
   - nexus-nexus-repository-manager-docker-5004.yaml
   - nexus-nexus-repository-manager-docker-5005.yaml
+  - nexus-nexus-repository-manager-docker-5006.yaml
