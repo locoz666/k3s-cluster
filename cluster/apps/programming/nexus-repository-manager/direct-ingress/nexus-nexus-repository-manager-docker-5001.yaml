@@ -1,0 +1,31 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nexus-nexus-repository-manager-docker-5001
+  namespace: nexus
+spec:
+  rules:
+    - host: "quay-io-nexus.${SECRET_DOMAIN}"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nexus-nexus-repository-manager-docker-5001
+                port:
+                  number: 5001
+    - host: "quay-io-nexus.direct.${SECRET_DOMAIN}"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nexus-nexus-repository-manager-docker-5001
+                port:
+                  number: 5001
+  tls:
+    - secretName: "${SECRET_DOMAIN/./-}-tls"
+    - secretName: "direct-${SECRET_DOMAIN/./-}-tls"

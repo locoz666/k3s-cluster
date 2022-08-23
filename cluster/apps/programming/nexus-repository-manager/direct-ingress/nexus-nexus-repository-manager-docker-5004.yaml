@@ -1,0 +1,31 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nexus-nexus-repository-manager-docker-5004
+  namespace: nexus
+spec:
+  rules:
+    - host: "container-image-nexus.${SECRET_DOMAIN}"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nexus-nexus-repository-manager-docker-5004
+                port:
+                  number: 5004
+    - host: "container-image-nexus.direct.${SECRET_DOMAIN}"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nexus-nexus-repository-manager-docker-5004
+                port:
+                  number: 5004
+  tls:
+    - secretName: "${SECRET_DOMAIN/./-}-tls"
+    - secretName: "direct-${SECRET_DOMAIN/./-}-tls"
