@@ -71,15 +71,8 @@ spec:
         type: hostPath
         hostPath: /dev/vchiq
 
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: kubernetes.io/hostname
-                  operator: In
-                  values:
-                    - "raspberry-pi4b"
+    nodeSelector:
+      kubernetes.io/hostname: "raspberry-pi4b"
 
     tolerations:
       - key: "node-role.kubernetes.io/edge"
