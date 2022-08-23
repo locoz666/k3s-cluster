@@ -2,7 +2,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  #  - 3d-print
+  - 3d-print
   - cluster-manage
   - entertainment
   - file-service
