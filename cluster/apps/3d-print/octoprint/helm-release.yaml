@@ -59,7 +59,6 @@ spec:
                   values:
                     - "raspberry-pi4b"
     tolerations:
-      - key: "kubernetes.io/arch"
-        operator: "Equal"
-        value: "arm64"
+      - key: "node-role.kubernetes.io/edge"
+        operator: "Exists"
         effect: "NoSchedule"
