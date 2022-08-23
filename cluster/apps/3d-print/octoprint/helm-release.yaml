@@ -19,9 +19,11 @@ spec:
     env:
       OCTOPRINT_PORT: 80
       ENABLE_MJPG_STREAMER: "false"
+
     image:
       repository: octoprint/octoprint
       tag: 1.8.2
+
     ingress:
       main:
         enabled: true
@@ -38,8 +40,10 @@ spec:
         tls:
           - secretName: "${SECRET_DOMAIN/./-}-tls"
           - secretName: "direct-${SECRET_DOMAIN/./-}-tls"
+
     securityContext:
       privileged: true
+
     persistence:
       data:
         enabled: true
@@ -49,6 +53,7 @@ spec:
         enabled: true
         type: hostPath
         hostPath: /dev/ttyUSB0
+
       vcgencmd:
         enabled: true
         type: hostPath
@@ -65,6 +70,7 @@ spec:
         enabled: true
         type: hostPath
         hostPath: /dev/vchiq
+
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
@@ -74,6 +80,7 @@ spec:
                   operator: In
                   values:
                     - "raspberry-pi4b"
+
     tolerations:
       - key: "node-role.kubernetes.io/edge"
         operator: "Exists"
