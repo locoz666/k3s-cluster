@@ -53,6 +53,10 @@ spec:
         enabled: true
         type: hostPath
         hostPath: /usr/bin/vcgencmd
+      vcgencmd-libvchiq:
+        enabled: true
+        type: hostPath
+        hostPath: /usr/lib/aarch64-linux-gnu/libvchiq_arm.so
       vcgencmd-vchiq:
         enabled: true
         type: hostPath
