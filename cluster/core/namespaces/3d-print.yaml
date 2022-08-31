@@ -5,3 +5,4 @@ metadata:
   name: 3d-print
   labels:
     sync-https-wildcard-certificate: "true"
+    auto-backup: "true"
