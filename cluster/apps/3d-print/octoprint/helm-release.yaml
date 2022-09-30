@@ -47,7 +47,8 @@ spec:
     persistence:
       data:
         enabled: true
-        existingClaim: octoprint-data
+        type: hostPath
+        hostPath: /data/octoprint
         mountPath: /octoprint
       printer:
         enabled: true
