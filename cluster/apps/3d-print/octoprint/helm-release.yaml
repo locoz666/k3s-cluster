@@ -83,3 +83,10 @@ spec:
       - key: "node-role.kubernetes.io/edge"
         operator: "Exists"
         effect: "NoSchedule"
+
+    probes:
+      liveness:
+        enabled: false
+
+      readiness:
+        enabled: false
