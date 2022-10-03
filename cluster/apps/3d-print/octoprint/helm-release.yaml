@@ -47,8 +47,9 @@ spec:
     persistence:
       data:
         enabled: true
-        type: hostPath
-        hostPath: /data/octoprint
+        existingClaim: octoprint-data
+        #        type: hostPath
+        #        hostPath: /data/octoprint
         mountPath: /octoprint
       printer:
         enabled: true
@@ -77,7 +78,8 @@ spec:
         hostPath: /dev/vchiq
 
     nodeSelector:
-      kubernetes.io/hostname: "raspberry-pi4b"
+      kubernetes.io/hostname: "home-server-nut"
+    #      kubernetes.io/hostname: "raspberry-pi4b"
 
     tolerations:
       - key: "node-role.kubernetes.io/edge"
