@@ -144,6 +144,18 @@ spec:
                 config:
                   deviceClass: "hdd"
 
+              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0NC8L"
+                config:
+                  deviceClass: "hdd"
+
+              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0NB7Y"
+                config:
+                  deviceClass: "hdd"
+
+              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0JMTX"
+                config:
+                  deviceClass: "hdd"
+
       healthCheck:
         livenessProbe:
           osd:
