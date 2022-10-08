@@ -28,6 +28,7 @@ spec:
       [mon]
       mon_warn_on_pool_no_redundancy = false
       [osd]
+      bluefs_buffered_io = false
       osd_max_scrubs = 5
       osd_scrub_during_recovery = true
       osd_max_backfills = 1000
@@ -90,6 +91,10 @@ spec:
 
       # 资源限制
       resources:
+        prepareosd:
+          limits:
+            cpu: "500m"
+            memory: "200Mi"
         mgr:
           limits:
             memory: "16384Mi"
