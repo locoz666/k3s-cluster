@@ -5,6 +5,6 @@ metadata:
   name: sonatype-charts
   namespace: flux-system
 spec:
-  interval: 30m
+  interval: 168h
   url: https://sonatype.github.io/helm3-charts/
   timeout: 2m

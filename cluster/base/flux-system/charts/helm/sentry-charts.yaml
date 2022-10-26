@@ -5,6 +5,6 @@ metadata:
   name: sentry-charts
   namespace: flux-system
 spec:
-  interval: 30m
+  interval: 168h
   url: https://sentry-kubernetes.github.io/charts
   timeout: 2m
