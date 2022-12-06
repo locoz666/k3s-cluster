@@ -1,4 +1,4 @@
-# https://github.com/kubesphere/ks-installer/blob/release-3.2/roles/common/templates/custom-fluentbit-operator-deployment.yaml.j2
+# https://github.com/kubesphere/ks-installer/blob/release-3.3/roles/common/templates/custom-fluentbit-operator-deployment.yaml.j2
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -9,6 +9,7 @@ metadata:
     app.kubernetes.io/component: operator
     app.kubernetes.io/name: fluentbit-operator
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/component: operator
@@ -22,14 +23,6 @@ spec:
       volumes:
         - name: env
           emptyDir: { }
-        - name: containerdsock
-          hostPath:
-            path: /var/run/containerd/containerd.sock
-            type: ''
-        - name: crictl
-          hostPath:
-            path: /usr/bin/crictl
-            type: ''
       initContainers:
         - name: setenv
           image: docker:19.03
@@ -37,21 +30,15 @@ spec:
             - /bin/sh
             - '-c'
             - >-
-              set -ex; echo CONTAINER_ROOT_DIR=$(crictl info --output
-              go-template --template {{.config.containerdRootDir}}) >
+              set -ex; echo CONTAINER_ROOT_DIR=/var/log >
               /fluentbit-operator/fluent-bit.env
+          resources: { }
           volumeMounts:
             - name: env
               mountPath: /fluentbit-operator
-            - name: containerdsock
-              readOnly: true
-              mountPath: /var/run/containerd/containerd.sock
-            - name: crictl
-              readOnly: true
-              mountPath: /usr/bin/crictl
       containers:
         - name: fluentbit-operator
-          image: kubesphere/fluentbit-operator:v0.11.0
+          image: kubesphere/fluentbit-operator:v0.13.0
           resources:
             limits:
               cpu: 100m
