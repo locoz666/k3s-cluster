@@ -2,5 +2,5 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - prometheus-operator-fix.yaml
+#  - prometheus-operator-fix.yaml
   - fluentbit-operator-fix.yaml
