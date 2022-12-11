@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
 #  - prometheus-operator-fix.yaml
   - fluentbit-operator-fix.yaml
+  - fluentbit-conf-fix.yaml
