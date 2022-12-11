@@ -7,13 +7,20 @@ metadata:
 spec:
   common:
     es:
+      nodeSelector:
+        kubernetes.io/hostname: "home-server-nut"
       master:
         volumeSize: 4Gi
         replicas: 1
-        resources: { }
+        resources:
+          limits:
+            memory: 8Gi
       data:
         volumeSize: 20Gi
         replicas: 1
+        resources:
+          limits:
+            memory: 8Gi
       logMaxAge: 7
       elkPrefix: logstash
 
