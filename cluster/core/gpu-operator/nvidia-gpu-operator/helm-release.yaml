@@ -15,3 +15,7 @@ spec:
         kind: HelmRepository
         name: nvidia-charts
         namespace: flux-system
+  values:
+    devicePlugin:
+      config:
+        name: "time-slicing-config"
