@@ -48,10 +48,15 @@ operator:
   defaultRuntime: docker
   runtimeClass: nvidia
   use_ocp_driver_toolkit: false
+  # cleanup CRD on chart un-install
+  cleanupCRD: false
+  # upgrade CRD on chart upgrade, requires --disable-openapi-validation flag
+  # to be passed during helm upgrade.
+  upgradeCRD: false
   initContainer:
     image: cuda
     repository: nvcr.io/nvidia
-    version: 11.6.0-base-ubi8
+    version: 11.7.1-base-ubi8
     imagePullPolicy: IfNotPresent
   tolerations:
     - key: "node-role.kubernetes.io/master"
@@ -86,7 +91,7 @@ driver:
   enabled: true
   repository: nvcr.io/nvidia
   image: driver
-  version: "515.48.07"
+  version: "515.65.01"
   imagePullPolicy: IfNotPresent
   imagePullSecrets: [ ]
   rdma:
@@ -95,7 +100,7 @@ driver:
   manager:
     image: k8s-driver-manager
     repository: nvcr.io/nvidia/cloud-native
-    version: v0.4.0
+    version: v0.4.2
     imagePullPolicy: IfNotPresent
     env:
       - name: ENABLE_AUTO_DRAIN
@@ -126,21 +131,28 @@ driver:
   # kernel module configuration for NVIDIA driver
   kernelModuleConfig:
     name: ""
+  # configuration for controlling rolling update of NVIDIA driver DaemonSet pods
+  rollingUpdate:
+    # maximum number of nodes to simultaneously apply pod updates on.
+    # can be specified either as number or percentage of nodes. Default 1.
+    maxUnavailable: "1"
 
 toolkit:
   enabled: true
   repository: nvcr.io/nvidia/k8s
   image: container-toolkit
-  version: v1.10.0-ubuntu20.04
+  version: v1.11.0-ubuntu20.04
   imagePullPolicy: IfNotPresent
   imagePullSecrets: [ ]
   env: [ ]
   resources: { }
+  installDir: "/usr/local/nvidia"
 
 devicePlugin:
+  enabled: true
   repository: nvcr.io/nvidia
   image: k8s-device-plugin
-  version: v0.12.2-ubi8
+  version: v0.12.3-ubi8
   imagePullPolicy: IfNotPresent
   imagePullSecrets: [ ]
   args: [ ]
@@ -171,7 +183,7 @@ dcgm:
   enabled: false
   repository: nvcr.io/nvidia/cloud-native
   image: dcgm
-  version: 2.4.5-1-ubuntu20.04
+  version: 3.0.4-1-ubuntu20.04
   imagePullPolicy: IfNotPresent
   hostPort: 5555
   args: [ ]
@@ -179,9 +191,10 @@ dcgm:
   resources: { }
 
 dcgmExporter:
+  enabled: true
   repository: nvcr.io/nvidia/k8s
   image: dcgm-exporter
-  version: 2.4.5-2.6.7-ubuntu20.04
+  version: 3.0.4-3.0.0-ubuntu20.04
   imagePullPolicy: IfNotPresent
   env:
     - name: DCGM_EXPORTER_LISTEN
@@ -191,11 +204,17 @@ dcgmExporter:
     - name: DCGM_EXPORTER_COLLECTORS
       value: "/etc/dcgm-exporter/dcp-metrics-included.csv"
   resources: { }
+  serviceMonitor:
+    enabled: false
+    interval: 15s
+    honorLabels: false
+    additionalLabels: { }
 
 gfd:
+  enabled: true
   repository: nvcr.io/nvidia
   image: gpu-feature-discovery
-  version: v0.6.1-ubi8
+  version: v0.6.2-ubi8
   imagePullPolicy: IfNotPresent
   imagePullSecrets: [ ]
   env:
@@ -209,7 +228,7 @@ migManager:
   enabled: true
   repository: nvcr.io/nvidia/cloud-native
   image: k8s-mig-manager
-  version: v0.4.2-ubuntu20.04
+  version: v0.5.0-ubuntu20.04
   imagePullPolicy: IfNotPresent
   imagePullSecrets: [ ]
   env:
@@ -243,10 +262,10 @@ gds:
   args: [ ]
 
 vgpuManager:
-  enabled: true
-  repository: nvcr.io/nvidia
+  enabled: false
+  repository: ""
   image: vgpu-manager
-  version: "510.73.06"
+  version: ""
   imagePullPolicy: IfNotPresent
   imagePullSecrets: [ ]
   env: [ ]
@@ -254,7 +273,7 @@ vgpuManager:
   driverManager:
     image: k8s-driver-manager
     repository: nvcr.io/nvidia/cloud-native
-    version: v0.4.0
+    version: v0.4.2
     imagePullPolicy: IfNotPresent
     env:
       - name: ENABLE_AUTO_DRAIN
@@ -264,24 +283,19 @@ vgpuDeviceManager:
   enabled: true
   repository: nvcr.io/nvidia/cloud-native
   image: vgpu-device-manager
-  version: "v0.1.0"
+  version: "v0.2.0"
   imagePullPolicy: IfNotPresent
   imagePullSecrets: [ ]
   env: [ ]
-  # NOTE: When sandboxedEnvironments is enabled, creating
-  # a custom ConfigMap with vGPU device configuration is required
-  # for a successful vGPU Device Manager deployent. Replace
-  # the below with the correct ConfigMap and default config
-  # in ConfigMap.
   config:
-    name: "vgpu-devices-config"
+    name: ""
     default: "default"
 
 vfioManager:
   enabled: true
   repository: nvcr.io/nvidia
   image: cuda
-  version: 11.6.0-base-ubi8
+  version: 11.7.1-base-ubi8
   imagePullPolicy: IfNotPresent
   imagePullSecrets: [ ]
   env: [ ]
@@ -289,7 +303,7 @@ vfioManager:
   driverManager:
     image: k8s-driver-manager
     repository: nvcr.io/nvidia/cloud-native
-    version: v0.4.0
+    version: v0.4.2
     imagePullPolicy: IfNotPresent
     env:
       - name: ENABLE_AUTO_DRAIN
@@ -299,7 +313,7 @@ sandboxDevicePlugin:
   enabled: true
   repository: nvcr.io/nvidia
   image: kubevirt-gpu-device-plugin
-  version: v1.1.2
+  version: v1.2.1
   imagePullPolicy: IfNotPresent
   imagePullSecrets: [ ]
   args: [ ]
