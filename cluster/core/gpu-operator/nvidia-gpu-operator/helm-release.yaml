@@ -16,6 +16,8 @@ spec:
         name: nvidia-charts
         namespace: flux-system
   values:
+    operator:
+      upgradeCRD: true
     devicePlugin:
       config:
         name: "time-slicing-config"
