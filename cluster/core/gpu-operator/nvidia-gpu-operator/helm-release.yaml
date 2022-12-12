@@ -19,3 +19,4 @@ spec:
     devicePlugin:
       config:
         name: "time-slicing-config"
+        default: "gpu-share"
