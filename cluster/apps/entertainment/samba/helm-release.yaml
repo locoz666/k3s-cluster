@@ -6,6 +6,10 @@ metadata:
   namespace: entertainment
 spec:
   interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
   chart:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
