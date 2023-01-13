@@ -1,0 +1,23 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: direct-gitlab-minio
+  namespace: gitlab
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.middlewares: "gitlab-direct-rewritebody@kubernetescrd,gitlab-direct-rewriteheaders@kubernetescrd"
+spec:
+  tls:
+    - secretName: "direct-${SECRET_DOMAIN/./-}-tls"
+  rules:
+    - host: "minio-gitlab.direct.${SECRET_DOMAIN}"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: gitlab-minio-svc
+                port:
+                  number: 9000

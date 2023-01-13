@@ -1,0 +1,47 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: direct-rewritebody
+  namespace: gitlab
+spec:
+  plugin:
+    plugin-rewritebody:
+      rewrites:
+        - regex: "git.${SECRET_DOMAIN}"
+          replacement: "git.direct.${SECRET_DOMAIN}:10443"
+        - regex: "registry-gitlab.${SECRET_DOMAIN}"
+          replacement: "registry-gitlab.direct.${SECRET_DOMAIN}:10443"
+        - regex: "minio-gitlab.${SECRET_DOMAIN}"
+          replacement: "minio-gitlab.direct.${SECRET_DOMAIN}:10443"
+        - regex: "kas-gitlab.${SECRET_DOMAIN}"
+          replacement: "kas-gitlab.direct.${SECRET_DOMAIN}:10443"
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: direct-rewriteheaders
+  namespace: gitlab
+spec:
+  plugin:
+    traefik-plugin-rewrite-headers:
+      rewrites:
+        response:
+          # gitlab的镜像库在操作镜像时需要通过JWT验证，过程中服务端会返回使用原始域名的地址，需要进行重写
+          # 请求流程图参考：https://gitlab.com/gitlab-org/gitlab/-/blob/master/doc/development/packages/dependency_proxy.md
+          - header: WWW-authenticate
+            regex: "git.${SECRET_DOMAIN}"
+            replacement: "git.direct.${SECRET_DOMAIN}:10443"
+          - header: Location
+            regex: "git.${SECRET_DOMAIN}"
+            replacement: "git.direct.${SECRET_DOMAIN}:10443"
+          - header: Location
+            regex: "registry-gitlab.${SECRET_DOMAIN}"
+            replacement: "registry-gitlab.direct.${SECRET_DOMAIN}:10443"
+          - header: Location
+            regex: "minio-gitlab.${SECRET_DOMAIN}"
+            replacement: "minio-gitlab.direct.${SECRET_DOMAIN}:10443"
+          - header: Location
+            regex: "kas-gitlab.${SECRET_DOMAIN}"
+            replacement: "kas-gitlab.direct.${SECRET_DOMAIN}:10443"
