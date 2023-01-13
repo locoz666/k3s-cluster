@@ -16,6 +16,14 @@ spec:
         name: traefik-charts
         namespace: flux-system
   values:
+    experimental:
+      plugins:
+        enabled: true
+    additionalArguments:
+      - "--experimental.plugins.plugin-rewritebody.modulename=github.com/traefik/plugin-rewritebody"
+      - "--experimental.plugins.plugin-rewritebody.version=v0.3.1"
+      - "--experimental.plugins.traefik-plugin-rewrite-headers.modulename=github.com/bitrvmpd/traefik-plugin-rewrite-headers"
+      - "--experimental.plugins.traefik-plugin-rewrite-headers.version=v0.0.1"
     deployment:
       kind: DaemonSet
     tolerations:
