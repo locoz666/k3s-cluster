@@ -7,6 +7,6 @@ resources:
 #  - kasten
   - kube-system
 #  - kubevirt
-#  - metallb-system
+  - metallb-system
   - namespaces
   - rook-ceph
