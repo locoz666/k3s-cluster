@@ -70,9 +70,6 @@ spec:
         - name: screenshot-files
           persistentVolumeClaim:
             claimName: screenshot-files
-        - name: onedrive
-          hostPath:
-            path: /mnt/onedrive
       extraVolumeMounts:
         - name: camera-files
           mountPath: /share/camera
@@ -82,8 +79,6 @@ spec:
           mountPath: /share/recording
         - name: screenshot-files
           mountPath: /share/screenshot
-        - name: onedrive
-          mountPath: /share/onedrive
 
     internalDatabase:
       enabled: false
