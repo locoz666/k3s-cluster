@@ -14,7 +14,7 @@ spec:
     spec:
       # renovate: registryUrl=https://sonatype.github.io/helm3-charts/
       chart: nexus-repository-manager
-      version: 47.0.0
+      version: 47.1.0
       sourceRef:
         kind: HelmRepository
         name: sonatype-charts
