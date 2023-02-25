@@ -85,6 +85,7 @@ spec:
         enabled: true
         data:
           config.yml: |
+            # test ${SECRET_DOMAIN}
             share:
               - name: camera
                 path: /share/camera
