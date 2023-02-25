@@ -85,67 +85,95 @@ spec:
         enabled: true
         data:
           config.yml: |
-            # test ${SECRET_DOMAIN}
+            auth:
+              - user: ${SECRET_SAMBA_USERNAME}
+                group: ${SECRET_SAMBA_USERNAME}
+                uid: 1000
+                gid: 1000
+                password: ${SECRET_SAMBA_PASSWORD}
+
+            global:
+              - "force user = ${SECRET_SAMBA_USERNAME}"
+              - "force group = ${SECRET_SAMBA_USERNAME}"
+
             share:
               - name: camera
                 path: /share/camera
                 browsable: yes
                 readonly: no
-                guestok: yes
+                guestok: no
+                validusers: loco
+                writelist: loco
                 veto: no
 
               - name: music
                 path: /share/music
                 browsable: yes
                 readonly: no
-                guestok: yes
+                guestok: no
+                validusers: loco
+                writelist: loco
                 veto: no
 
               - name: recording
                 path: /share/recording
                 browsable: yes
                 readonly: no
-                guestok: yes
+                guestok: no
+                validusers: loco
+                writelist: loco
                 veto: no
 
               - name: screenshot
                 path: /share/screenshot
                 browsable: yes
                 readonly: no
-                guestok: yes
+                guestok: no
+                validusers: loco
+                writelist: loco
                 veto: no
 
               - name: other-media
                 path: /share/other-media
                 browsable: yes
                 readonly: no
-                guestok: yes
+                guestok: no
+                validusers: loco
+                writelist: loco
                 veto: no
 
               - name: outside-temp
                 path: /share/temps
                 browsable: yes
                 readonly: no
-                guestok: yes
+                guestok: no
+                validusers: loco
+                writelist: loco
                 veto: no
 
               - name: dump-cephfs
                 path: /share/dump_ceph_fs
                 browsable: yes
                 readonly: no
-                guestok: yes
+                guestok: no
+                validusers: loco
+                writelist: loco
                 veto: no
 
               - name: old-disk
                 path: /share/old_disk
                 browsable: yes
                 readonly: no
-                guestok: yes
+                guestok: no
+                validusers: loco
+                writelist: loco
                 veto: no
 
               - name: tmp-storage
                 path: /share/tmp_storage
                 browsable: yes
                 readonly: no
-                guestok: yes
+                guestok: no
+                validusers: loco
+                writelist: loco
                 veto: no
