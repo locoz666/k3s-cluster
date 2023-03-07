@@ -51,11 +51,6 @@ spec:
 
     ingress:
       enabled: false
-      ingressClassName: "traefik"
-      hostPath: /
-      hostRepo: "nexus.${SECRET_DOMAIN}"
-      tls:
-        - secretName: "${SECRET_DOMAIN/./-}-tls"
 
     persistence:
       enabled: true
