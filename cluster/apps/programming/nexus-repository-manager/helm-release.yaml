@@ -50,7 +50,7 @@ spec:
             secretName: "${SECRET_DOMAIN/./-}-tls"
 
     ingress:
-      enabled: true
+      enabled: false
       ingressClassName: "traefik"
       hostPath: /
       hostRepo: "nexus.${SECRET_DOMAIN}"

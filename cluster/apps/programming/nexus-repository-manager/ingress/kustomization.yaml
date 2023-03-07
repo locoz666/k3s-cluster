@@ -2,6 +2,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+  - nexus-nexus-repository-manager.yaml
   - nexus-nexus-repository-manager-docker-5000.yaml
   - nexus-nexus-repository-manager-docker-5001.yaml
   - nexus-nexus-repository-manager-docker-5002.yaml
