@@ -48,6 +48,9 @@ spec:
           - host: "registry-k8s-io-nexus.${SECRET_DOMAIN}"
             port: 5006
             secretName: "${SECRET_DOMAIN/./-}-tls"
+          - host: "lscr-io-nexus.${SECRET_DOMAIN}"
+            port: 5007
+            secretName: "${SECRET_DOMAIN/./-}-tls"
 
     ingress:
       enabled: false
