@@ -5,6 +5,7 @@ resources:
   - appscode-charts.yaml
   - bitnami-charts.yaml
   - cilium-charts.yaml
+  - elastic-charts.yaml
   - gitlab-charts.yaml
   - grafana-charts.yaml
   - influxdata-charts.yaml
