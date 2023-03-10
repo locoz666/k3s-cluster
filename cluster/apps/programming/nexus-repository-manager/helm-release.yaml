@@ -51,6 +51,9 @@ spec:
           - host: "lscr-io-nexus.${SECRET_DOMAIN}"
             port: 5007
             secretName: "${SECRET_DOMAIN/./-}-tls"
+          - host: "docker-elastic-co-nexus.${SECRET_DOMAIN}"
+            port: 5008
+            secretName: "${SECRET_DOMAIN/./-}-tls"
 
     ingress:
       enabled: false
