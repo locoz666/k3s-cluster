@@ -40,13 +40,13 @@ spec:
       osd_scrub_chunk_max = 128
       osd_max_scrubs = 5
       osd_scrub_during_recovery = true
-      osd_max_backfills = 4000
-      osd_backfill_scan_min = 300
-      osd_backfill_scan_max = 500
+      osd_max_backfills = 50
+      osd_backfill_scan_min = 32
+      osd_backfill_scan_max = 128
       osd_backfill_retry_interval = 0
-      osd_recovery_sleep_hdd = 0
-      osd_recovery_max_active_hdd = 1000
-      osd_recovery_max_single_start = 1000
+      osd_recovery_sleep = 0
+      osd_recovery_max_active = 5
+      osd_recovery_max_single_start = 5
       osd_recovery_max_chunk = 268435456
 
     toolbox:
