@@ -33,6 +33,11 @@ spec:
       mon_warn_on_pool_no_redundancy = false
       [osd]
       bluefs_buffered_io = false
+      osd_scrub_begin_hour = 0
+      osd_scrub_end_hour = 24
+      osd_scrub_load_threshold = 10
+      osd_scrub_chunk_min = 32
+      osd_scrub_chunk_max = 128
       osd_max_scrubs = 5
       osd_scrub_during_recovery = true
       osd_max_backfills = 4000
