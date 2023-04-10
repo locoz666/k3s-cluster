@@ -23,7 +23,7 @@ spec:
   values:
     image:
       repository: vaultwarden/server
-      tag: 1.28.0
+      tag: 1.28.1
     env:
       TZ: "Asia/Shanghai"
       DATABASE_URL: "postgresql://${SECRET_BITWARDEN_PGSQL_USERNAME}:${SECRET_BITWARDEN_PGSQL_PASSWORD}@bitwarden-postgresql:5432/bitwarden"
