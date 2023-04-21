@@ -82,3 +82,9 @@ spec:
         type: hostPath
         hostPath: /mnt/temps
         mountPath: /sync/temps
+
+      other-files:
+        enabled: true
+        type: pvc
+        existingClaim: other-files
+        mountPath: /sync/other-files
