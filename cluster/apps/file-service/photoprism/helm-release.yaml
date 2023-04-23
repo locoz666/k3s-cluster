@@ -30,6 +30,9 @@ spec:
     env:
       TZ: Asia/Shanghai
       PHOTOPRISM_ADMIN_PASSWORD: "${SECRET_PHOTOPRISM_PASSWORD}"
+      UID: "1000"
+      GID: "1000"
+      UMASK: 002
 
     ingress:
       main:
