@@ -7,7 +7,7 @@
 
 image:
   # -- image repository
-  repository: ghcr.io/k8s-at-home/emby
+  repository: ghcr.io/onedr0p/emby
   # -- image pull policy
   pullPolicy: IfNotPresent
   # -- image tag
