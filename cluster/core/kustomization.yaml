@@ -6,7 +6,7 @@ resources:
   - gpu-operator
 #  - kasten
   - kube-system
-#  - kubevirt
+  - kubevirt
   - metallb-system
   - namespaces
   - rook-ceph
