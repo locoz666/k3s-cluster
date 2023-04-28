@@ -26,7 +26,7 @@ spec:
 
     image:
       repository: ghcr.io/onedr0p/qbittorrent
-      tag: v4.4.2
+      tag: 4.5.2
 
     env:
       TZ: "Asia/Shanghai"
