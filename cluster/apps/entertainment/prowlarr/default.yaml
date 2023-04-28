@@ -7,7 +7,7 @@
 
 image:
   # -- image repository
-  repository: ghcr.io/k8s-at-home/prowlarr
+  repository: ghcr.io/onedr0p/prowlarr
   # -- image tag
   tag: v0.1.0.421
   # -- image pull policy
