@@ -13,6 +13,7 @@ spec:
         - HostDisk
         - HypervStrictCheck
         - CPUManager
+        - Macvtap
   infra:
     nodePlacement:
       nodeSelector:
