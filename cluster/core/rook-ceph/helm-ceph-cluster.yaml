@@ -114,6 +114,7 @@ spec:
           limits:
             memory: "8192Mi"
           requests:
+            cpu: "100m"
             memory: "4Gi"
         # mds的元数据缓存默认有限制只会使用4GB内存，但实际在大量小文件写入时会出现占用到几十GB且不清理的情况，做个限制以防万一
         mds:
