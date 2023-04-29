@@ -6,6 +6,7 @@ resources:
   - kubevirt-cr.yaml
   - cdi-operator.yaml
   - cdi-cr.yaml
+  - cdi-uploadproxy-loadbalancer.yaml
 #  - https://github.com/kubevirt/kubevirt/releases/download/v0.59.0/kubevirt-operator.yaml
 #  - https://github.com/kubevirt/kubevirt/releases/download/v0.59.0/kubevirt-cr.yaml
 #  - https://github.com/kubevirt/containerized-data-importer/releases/download/v1.54.3/cdi-operator.yaml
