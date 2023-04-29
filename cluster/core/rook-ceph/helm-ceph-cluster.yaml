@@ -29,6 +29,8 @@ spec:
       mon_allow_pool_delete = true
       osd_pool_default_size = 1
       osd_pool_default_min_size = 1
+      bdev_enable_discard = true
+      bdev_async_discard = true
       [mon]
       mon_warn_on_pool_no_redundancy = false
       [osd]
