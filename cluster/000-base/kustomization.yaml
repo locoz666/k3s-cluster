@@ -7,6 +7,7 @@ resources:
   - cluster-settings.yaml
   - namespaces_infrastructure
   - namespaces_management-tools
+  - namespaces_software-development
   - namespaces_other
   - 001-infrastructure.yaml
   - 002-infrastructure-extra.yaml
