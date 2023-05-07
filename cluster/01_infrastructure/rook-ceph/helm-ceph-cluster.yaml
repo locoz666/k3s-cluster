@@ -129,46 +129,46 @@ spec:
         # 关闭自动在所有节点和所有磁盘上寻找空白盘并添加为OSD的操作，改为手动配置方式添加
         useAllNodes: false
         useAllDevices: false
-        nodes:
-          - name: "home-server-nut"
-            devices:
-              - name: "/dev/disk/by-id/ata-Samsung_SSD_870_EVO_1TB_S6PVNF0R604091N"
-                config:
-                  deviceClass: "ssd"
-                  osdsPerDevice: "2"  # 在单块盘上创建多个OSD以最大化利用SSD的性能，可以让OSD获得更多CPU资源进行并发读写，能提升IOPS，但会略微降低读写延迟（ns级）
-
-              - name: "/dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S6PVNX0RC01477A"
-                config:
-                  deviceClass: "ssd"
-                  osdsPerDevice: "2"  # 在单块盘上创建多个OSD以最大化利用SSD的性能，可以让OSD获得更多CPU资源进行并发读写，能提升IOPS，但会略微降低读写延迟（ns级）
-
-              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD71JSA"
-                config:
-                  deviceClass: "hdd"
-
-              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD41FWR"
-                config:
-                  deviceClass: "hdd"
-
-              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD6XBFD"
-                config:
-                  deviceClass: "hdd"
-
-              - name: "/dev/disk/by-id/ata-ST6000NM0115-1YZ110_ZAD463ZF"
-                config:
-                  deviceClass: "hdd"
-
-              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0NC8L"
-                config:
-                  deviceClass: "hdd"
-
-              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0NB7Y"
-                config:
-                  deviceClass: "hdd"
-
-              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0JMTX"
-                config:
-                  deviceClass: "hdd"
+      #        nodes:
+      #          - name: "home-server-nut"
+      #            devices:
+      #              - name: "/dev/disk/by-id/ata-Samsung_SSD_870_EVO_1TB_S6PVNF0R604091N"
+      #                config:
+      #                  deviceClass: "ssd"
+      #                  osdsPerDevice: "2"  # 在单块盘上创建多个OSD以最大化利用SSD的性能，可以让OSD获得更多CPU资源进行并发读写，能提升IOPS，但会略微降低读写延迟（ns级）
+      #
+      #              - name: "/dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S6PVNX0RC01477A"
+      #                config:
+      #                  deviceClass: "ssd"
+      #                  osdsPerDevice: "2"  # 在单块盘上创建多个OSD以最大化利用SSD的性能，可以让OSD获得更多CPU资源进行并发读写，能提升IOPS，但会略微降低读写延迟（ns级）
+      #
+      #              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD71JSA"
+      #                config:
+      #                  deviceClass: "hdd"
+      #
+      #              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD41FWR"
+      #                config:
+      #                  deviceClass: "hdd"
+      #
+      #              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD6XBFD"
+      #                config:
+      #                  deviceClass: "hdd"
+      #
+      #              - name: "/dev/disk/by-id/ata-ST6000NM0115-1YZ110_ZAD463ZF"
+      #                config:
+      #                  deviceClass: "hdd"
+      #
+      #              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0NC8L"
+      #                config:
+      #                  deviceClass: "hdd"
+      #
+      #              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0NB7Y"
+      #                config:
+      #                  deviceClass: "hdd"
+      #
+      #              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0JMTX"
+      #                config:
+      #                  deviceClass: "hdd"
 
       healthCheck:
         livenessProbe:
@@ -242,167 +242,168 @@ spec:
             csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
             csi.storage.k8s.io/fstype: ext4  # 可以设置为xfs，但官方不推荐
 
-    cephFileSystems:
-      - name: fs-application
-        spec:
-          metadataPool:
-            failureDomain: osd
-            replicated:
-              size: 3  # 副本数，多副本确保元数据可靠性
-              requireSafeReplicaSize: true  # 安全选项，副本数为1时需要设为false，否则会无法创建
-            deviceClass: ssd  # 设置后端osd类型，使用ssd加速metadata读写和响应速度
-          dataPools:
-            - failureDomain: osd
-              replicated:
-                size: 3  # 副本数
-                requireSafeReplicaSize: true  # 安全选项，副本数为1时需要设为false，否则会无法创建
-              deviceClass: ssd  # 设置后端osd类型
-          metadataServer:
-            # 默认设置不用动
-            activeCount: 1
-            activeStandby: true
-        storageClass:
-          enabled: true
-          name: ceph-fs-application  # 存储类名称
-          reclaimPolicy: Delete  # PVC被删除后自动删除池中的内容
-          parameters:
-            # 默认设置不用动
-            csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
-            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
-            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
-            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
-            csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
-            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
-            csi.storage.k8s.io/fstype: ext4
-
-      - name: fs-media
-        spec:
-          metadataPool:
-            failureDomain: osd
-            replicated:
-              size: 3  # 副本数，多副本确保元数据可靠性
-              requireSafeReplicaSize: true  # 安全选项，副本数为1时需要设为false，否则会无法创建
-            deviceClass: ssd  # 设置后端osd类型，使用ssd加速metadata读写和响应速度
-          dataPools:
-            - failureDomain: osd
-              replicated:
-                size: 3  # 副本数
-                requireSafeReplicaSize: true  # 安全选项，副本数为1时需要设为false，否则会无法创建
-              deviceClass: hdd  # 设置后端osd类型
-          metadataServer:
-            # 默认设置不用动
-            activeCount: 1
-            activeStandby: true
-        storageClass:
-          enabled: true
-          name: ceph-fs-media  # 存储类名称
-          reclaimPolicy: Delete  # PVC被删除后自动删除池中的内容
-          parameters:
-            # 默认设置不用动
-            csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
-            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
-            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
-            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
-            csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
-            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
-            csi.storage.k8s.io/fstype: ext4
-
-      - name: fs-media-unsafe
-        spec:
-          metadataPool:
-            failureDomain: osd
-            replicated:
-              size: 3  # 副本数，多副本确保元数据可靠性
-              requireSafeReplicaSize: true  # 安全选项，副本数为1时需要设为false，否则会无法创建
-            deviceClass: ssd  # 设置后端osd类型，使用ssd加速metadata读写和响应速度
-          dataPools:
-            - failureDomain: osd
-              replicated:
-                size: 1  # 副本数
-                requireSafeReplicaSize: false  # 安全选项，副本数为1时需要设为false，否则会无法创建
-              deviceClass: hdd  # 设置后端osd类型
-          metadataServer:
-            # 默认设置不用动
-            activeCount: 1
-            activeStandby: true
-        storageClass:
-          enabled: true
-          name: ceph-fs-media-unsafe  # 存储类名称
-          reclaimPolicy: Delete  # PVC被删除后自动删除池中的内容
-          parameters:
-            # 默认设置不用动
-            csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
-            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
-            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
-            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
-            csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
-            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
-            csi.storage.k8s.io/fstype: ext4
-
-      - name: fs-temp
-        spec:
-          metadataPool:
-            failureDomain: osd
-            replicated:
-              size: 1  # 副本数，多副本确保元数据可靠性
-              requireSafeReplicaSize: false  # 安全选项，副本数为1时需要设为false，否则会无法创建
-            deviceClass: ssd  # 设置后端osd类型，使用ssd加速metadata读写和响应速度
-          dataPools:
-            - failureDomain: osd
-              replicated:
-                size: 1  # 副本数
-                requireSafeReplicaSize: false  # 安全选项，副本数为1时需要设为false，否则会无法创建
-              deviceClass: hdd  # 设置后端osd类型
-          metadataServer:
-            # 默认设置不用动
-            activeCount: 1
-            activeStandby: true
-        storageClass:
-          enabled: true
-          name: ceph-fs-temp  # 存储类名称
-          reclaimPolicy: Delete  # PVC被删除后自动删除池中的内容
-          parameters:
-            # 默认设置不用动
-            csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
-            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
-            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
-            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
-            csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
-            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
-            csi.storage.k8s.io/fstype: ext4
-
-      - name: fs-compressed-files
-        spec:
-          metadataPool:
-            failureDomain: osd
-            replicated:
-              size: 3  # 副本数，多副本确保元数据可靠性
-              requireSafeReplicaSize: true  # 安全选项，副本数为1时需要设为false，否则会无法创建
-            deviceClass: ssd  # 设置后端osd类型，使用ssd加速metadata读写和响应速度
-          dataPools:
-            - failureDomain: osd
-              replicated:
-                size: 3  # 副本数
-                requireSafeReplicaSize: true  # 安全选项，副本数为1时需要设为false，否则会无法创建
-              deviceClass: hdd  # 设置后端osd类型
-              parameters:
-                compression_mode: aggressive # 设置除了指定不可压缩的数据以外都进行压缩
-          metadataServer:
-            # 默认设置不用动
-            activeCount: 1
-            activeStandby: true
-        storageClass:
-          enabled: true
-          name: ceph-fs-compressed-files  # 存储类名称
-          reclaimPolicy: Delete  # PVC被删除后自动删除池中的内容
-          parameters:
-            # 默认设置不用动
-            csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
-            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
-            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
-            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
-            csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
-            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
-            csi.storage.k8s.io/fstype: ext4
+    cephFileSystems: [ ]
+    #    cephFileSystems:
+    #      - name: fs-application
+    #        spec:
+    #          metadataPool:
+    #            failureDomain: osd
+    #            replicated:
+    #              size: 3  # 副本数，多副本确保元数据可靠性
+    #              requireSafeReplicaSize: true  # 安全选项，副本数为1时需要设为false，否则会无法创建
+    #            deviceClass: ssd  # 设置后端osd类型，使用ssd加速metadata读写和响应速度
+    #          dataPools:
+    #            - failureDomain: osd
+    #              replicated:
+    #                size: 3  # 副本数
+    #                requireSafeReplicaSize: true  # 安全选项，副本数为1时需要设为false，否则会无法创建
+    #              deviceClass: ssd  # 设置后端osd类型
+    #          metadataServer:
+    #            # 默认设置不用动
+    #            activeCount: 1
+    #            activeStandby: true
+    #        storageClass:
+    #          enabled: true
+    #          name: ceph-fs-application  # 存储类名称
+    #          reclaimPolicy: Delete  # PVC被删除后自动删除池中的内容
+    #          parameters:
+    #            # 默认设置不用动
+    #            csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
+    #            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
+    #            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
+    #            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
+    #            csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
+    #            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
+    #            csi.storage.k8s.io/fstype: ext4
+    #
+    #      - name: fs-media
+    #        spec:
+    #          metadataPool:
+    #            failureDomain: osd
+    #            replicated:
+    #              size: 3  # 副本数，多副本确保元数据可靠性
+    #              requireSafeReplicaSize: true  # 安全选项，副本数为1时需要设为false，否则会无法创建
+    #            deviceClass: ssd  # 设置后端osd类型，使用ssd加速metadata读写和响应速度
+    #          dataPools:
+    #            - failureDomain: osd
+    #              replicated:
+    #                size: 3  # 副本数
+    #                requireSafeReplicaSize: true  # 安全选项，副本数为1时需要设为false，否则会无法创建
+    #              deviceClass: hdd  # 设置后端osd类型
+    #          metadataServer:
+    #            # 默认设置不用动
+    #            activeCount: 1
+    #            activeStandby: true
+    #        storageClass:
+    #          enabled: true
+    #          name: ceph-fs-media  # 存储类名称
+    #          reclaimPolicy: Delete  # PVC被删除后自动删除池中的内容
+    #          parameters:
+    #            # 默认设置不用动
+    #            csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
+    #            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
+    #            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
+    #            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
+    #            csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
+    #            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
+    #            csi.storage.k8s.io/fstype: ext4
+    #
+    #      - name: fs-media-unsafe
+    #        spec:
+    #          metadataPool:
+    #            failureDomain: osd
+    #            replicated:
+    #              size: 3  # 副本数，多副本确保元数据可靠性
+    #              requireSafeReplicaSize: true  # 安全选项，副本数为1时需要设为false，否则会无法创建
+    #            deviceClass: ssd  # 设置后端osd类型，使用ssd加速metadata读写和响应速度
+    #          dataPools:
+    #            - failureDomain: osd
+    #              replicated:
+    #                size: 1  # 副本数
+    #                requireSafeReplicaSize: false  # 安全选项，副本数为1时需要设为false，否则会无法创建
+    #              deviceClass: hdd  # 设置后端osd类型
+    #          metadataServer:
+    #            # 默认设置不用动
+    #            activeCount: 1
+    #            activeStandby: true
+    #        storageClass:
+    #          enabled: true
+    #          name: ceph-fs-media-unsafe  # 存储类名称
+    #          reclaimPolicy: Delete  # PVC被删除后自动删除池中的内容
+    #          parameters:
+    #            # 默认设置不用动
+    #            csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
+    #            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
+    #            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
+    #            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
+    #            csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
+    #            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
+    #            csi.storage.k8s.io/fstype: ext4
+    #
+    #      - name: fs-temp
+    #        spec:
+    #          metadataPool:
+    #            failureDomain: osd
+    #            replicated:
+    #              size: 1  # 副本数，多副本确保元数据可靠性
+    #              requireSafeReplicaSize: false  # 安全选项，副本数为1时需要设为false，否则会无法创建
+    #            deviceClass: ssd  # 设置后端osd类型，使用ssd加速metadata读写和响应速度
+    #          dataPools:
+    #            - failureDomain: osd
+    #              replicated:
+    #                size: 1  # 副本数
+    #                requireSafeReplicaSize: false  # 安全选项，副本数为1时需要设为false，否则会无法创建
+    #              deviceClass: hdd  # 设置后端osd类型
+    #          metadataServer:
+    #            # 默认设置不用动
+    #            activeCount: 1
+    #            activeStandby: true
+    #        storageClass:
+    #          enabled: true
+    #          name: ceph-fs-temp  # 存储类名称
+    #          reclaimPolicy: Delete  # PVC被删除后自动删除池中的内容
+    #          parameters:
+    #            # 默认设置不用动
+    #            csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
+    #            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
+    #            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
+    #            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
+    #            csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
+    #            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
+    #            csi.storage.k8s.io/fstype: ext4
+    #
+    #      - name: fs-compressed-files
+    #        spec:
+    #          metadataPool:
+    #            failureDomain: osd
+    #            replicated:
+    #              size: 3  # 副本数，多副本确保元数据可靠性
+    #              requireSafeReplicaSize: true  # 安全选项，副本数为1时需要设为false，否则会无法创建
+    #            deviceClass: ssd  # 设置后端osd类型，使用ssd加速metadata读写和响应速度
+    #          dataPools:
+    #            - failureDomain: osd
+    #              replicated:
+    #                size: 3  # 副本数
+    #                requireSafeReplicaSize: true  # 安全选项，副本数为1时需要设为false，否则会无法创建
+    #              deviceClass: hdd  # 设置后端osd类型
+    #              parameters:
+    #                compression_mode: aggressive # 设置除了指定不可压缩的数据以外都进行压缩
+    #          metadataServer:
+    #            # 默认设置不用动
+    #            activeCount: 1
+    #            activeStandby: true
+    #        storageClass:
+    #          enabled: true
+    #          name: ceph-fs-compressed-files  # 存储类名称
+    #          reclaimPolicy: Delete  # PVC被删除后自动删除池中的内容
+    #          parameters:
+    #            # 默认设置不用动
+    #            csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
+    #            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
+    #            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
+    #            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
+    #            csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
+    #            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
+    #            csi.storage.k8s.io/fstype: ext4
 
     cephObjectStores: [ ]
