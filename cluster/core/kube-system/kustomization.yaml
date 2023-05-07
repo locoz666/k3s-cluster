@@ -6,6 +6,6 @@ resources:
   - kilo
   - kubed
   - local-path-provisioner
-  - metrics-server
+#  - metrics-server
 #  - snapshot-controller
   - traefik
