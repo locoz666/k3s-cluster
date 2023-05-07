@@ -8,8 +8,9 @@ resources:
   - namespaces_infrastructure
   - namespaces_management-tools
   - namespaces_other
-  - 01_infrastructure.yaml
-  - 02_infrastructure-extra.yaml
-  - 03_management-tools.yaml
-  - 04_management-tools-extra.yaml
-  - 05_virtual-machine-base.yaml
+  - 001-infrastructure.yaml
+  - 002-infrastructure-extra.yaml
+  - 010-management-tools.yaml
+  - 011-management-tools-extra.yaml
+  - 100-virtual-machine-base.yaml
+  - 101-virtual-machine.yaml
