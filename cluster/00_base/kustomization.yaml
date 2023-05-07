@@ -12,3 +12,4 @@ resources:
   - 02_infrastructure-extra.yaml
   - 03_management-tools.yaml
   - 04_management-tools-extra.yaml
+  - 05_virtual-machine-base.yaml
