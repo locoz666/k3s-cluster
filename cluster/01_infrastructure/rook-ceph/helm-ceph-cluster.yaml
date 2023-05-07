@@ -79,26 +79,6 @@ spec:
                 - matchExpressions:
                     - key: node-role.kubernetes.io/ceph
                       operator: Exists
-          # 容忍gateway污点
-          tolerations:
-            - key: gateway
-              operator: Exists
-        mon:
-          # 将mon设置为必须在有ceph-mon角色的节点上运行
-          nodeAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              nodeSelectorTerms:
-                - matchExpressions:
-                    - key: node-role.kubernetes.io/ceph-mon
-                      operator: Exists
-        mgr:
-          # 将mgr设置为必须在有ceph-mgr角色的节点上运行
-          nodeAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              nodeSelectorTerms:
-                - matchExpressions:
-                    - key: node-role.kubernetes.io/ceph-mgr
-                      operator: Exists
 
       # 资源限制
       resources:
