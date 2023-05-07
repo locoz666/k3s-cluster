@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - cdi-operator.yaml
   - cdi-uploadproxy-loadbalancer.yaml
-#  - https://github.com/kubevirt/containerized-data-importer/releases/download/v1.54.3/cdi-operator.yaml
+#  - https://github.com/kubevirt/containerized-data-importer/releases/download/v1.56.0/cdi-operator.yaml
