@@ -109,6 +109,14 @@ spec:
         useAllNodes: false
         useAllDevices: false
         nodes:
+          - name: "home-server-titan"
+            devices:
+              - name: "/dev/disk/by-id/scsi-SATA_WDC_WD10EZEX-08W_WD-WCC6Y1FTDC3T"  # 临时使用
+                config:
+                  deviceClass: "hdd"
+              - name: "/dev/disk/by-id/scsi-SATA_WDC_WD30EZRZ-00Z_WD-WCC4N2TY90KY"  # 临时使用
+                config:
+                  deviceClass: "hdd"
           - name: "home-server-sonic"
             devices:
               - name: "/dev/disk/by-id/nvme-INTEL_SSDPE2KX040T8_BTLJ848209YE4P0DGN"  # Intel P4510 4T U.2
