@@ -1,0 +1,127 @@
+---
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: vm-windows11
+spec:
+  running: false
+  template:
+    metadata:
+      labels:
+        kubevirt.io/name: vm-windows11
+
+    spec:
+      domain:
+        # 根据高性能虚拟机模板设置
+        clock:
+          utc: { }
+          timer:
+            hpet:
+              present: false
+            pit:
+              tickPolicy: delay
+            rtc:
+              tickPolicy: catchup
+            hyperv: { }
+
+        # 使用uefi而不是bios引导启动，并开启安全启动
+        firmware:
+          bootloader:
+            efi:
+              secureBoot: true
+
+        # CPU设置
+        cpu:
+          sockets: 1  # 虚拟机中的CPU插槽数量
+          threads: 1  # 虚拟机中每个CPU的线程数，设成2就类似于Intel的超线程
+          cores: 8  # 分配CPU核心数
+          dedicatedCpuPlacement: true  # 分配专用CPU资源，给虚拟机固定CPU核心
+          isolateEmulatorThread: true  # 分配一个独立的CPU核心用于QEMU的模拟器线程，避免影响虚拟机本身
+          model: host-passthrough  # 开启CPU直通以榨干性能
+
+        # 内存设置（这里用的是k8s原生写法）
+        resources:
+          requests:
+            memory: 16G
+
+        # 根据高性能虚拟机模板设置
+        features:
+          acpi: { }
+          apic: { }
+          smm: { }
+          hyperv:
+            relaxed: { }
+            vapic: { }
+            vpindex: { }
+            spinlocks:
+              spinlocks: 8191
+            synic: { }
+            synictimer:
+              direct: { }
+            tlbflush: { }
+            frequencies: { }
+            reenlightenment: { }
+            ipi: { }
+            runtime: { }
+            reset: { }
+
+        devices:
+          blockMultiQueue: true  # 开启virtio的硬盘多队列操作
+          networkInterfaceMultiqueue: true  # 开启virtio的网卡多队列操作
+
+          # 硬盘设置
+          disks:
+            # 系统安装ISO
+            - name: cdromiso
+              cdrom:
+                bus: sata  # 手动设置为sata以避免安装需要virtio驱动才能读取文件
+              bootOrder: 1
+
+            # virtio驱动盘
+            - name: virtiocontainerdisk
+              cdrom:
+                bus: sata  # 手动设置为sata以避免安装需要virtio驱动才能读取文件
+
+            # 系统盘
+            - name: system-disk
+              disk:
+                bus: virtio  # 使用virtio以榨干性能
+              bootOrder: 2
+          #              cache: "none"  # 关闭缓存以减少IO操作层数
+          #              io: "native"  # 使用原生IO以榨干性能
+
+          # 网卡设置 https://kubevirt.io/user-guide/virtual_machines/interfaces_and_networks/#frontend
+          interfaces:
+            - masquerade: { }
+              model: virtio
+              name: default
+
+          # 根据高性能虚拟机模板设置，该设置是给VNC操作时鼠标指针位置同步用的
+          inputs:
+            - type: tablet
+              bus: usb
+              name: tablet
+          tpm: { }  # 开启TPM
+
+      terminationGracePeriodSeconds: 3600  # 虚拟机被发送关机信号后后等待关闭的时间
+
+      volumes:
+        # 系统安装ISO
+        - name: cdromiso
+          persistentVolumeClaim:
+            claimName: iso-windows11-22621
+
+        # virtio驱动盘
+        - name: virtiocontainerdisk
+          containerDisk:
+            image: quay.io/kubevirt/virtio-container-disk
+
+        # 系统盘
+        - name: system-disk
+          persistentVolumeClaim:
+            claimName: vmdisk-windows11
+
+      # 后端网络设置 https://kubevirt.io/user-guide/virtual_machines/interfaces_and_networks/#backend
+      networks:
+        - name: default
+          pod: { }
