@@ -2,13 +2,13 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
-  name: 03-management-tools
+  name: 101-virtual-machine
   namespace: flux-system
 spec:
   interval: 10m0s
   dependsOn:
-    - name: 02-infrastructure-extra
-  path: ./cluster/03_management-tools
+    - name: 100-virtual-machine-base
+  path: ./cluster/101-virtual-machine
   prune: true
   sourceRef:
     kind: GitRepository

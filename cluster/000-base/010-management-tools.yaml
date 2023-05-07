@@ -2,13 +2,13 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
-  name: 04-management-tools-extra
+  name: 010-management-tools
   namespace: flux-system
 spec:
   interval: 10m0s
   dependsOn:
-    - name: 03-management-tools
-  path: ./cluster/04_management-tools-extra
+    - name: 002-infrastructure-extra
+  path: ./cluster/010-management-tools
   prune: true
   sourceRef:
     kind: GitRepository
