@@ -4783,3 +4783,19 @@ metadata:
     operator.cdi.kubevirt.io: ""
   name: cdi-operator-leader-election-helper
   namespace: cdi
+---
+apiVersion: cdi.kubevirt.io/v1beta1
+kind: CDI
+metadata:
+  name: cdi
+spec:
+  imagePullPolicy: IfNotPresent
+  infra:
+    nodeSelector:
+      kubernetes.io/os: linux
+    tolerations:
+      - key: CriticalAddonsOnly
+        operator: Exists
+  workload:
+    nodeSelector:
+      kubernetes.io/os: linux
