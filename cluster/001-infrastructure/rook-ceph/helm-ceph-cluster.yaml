@@ -185,64 +185,64 @@ spec:
         tls:
           - secretName: "${SECRET_DOMAIN/./-}-tls"
 
-    cephBlockPools:
-      # 普通应用，开启压缩，使用nvme ssd作为主副本提高读取性能，使用hdd做热备副本
-      - name: block-application
-        spec:
-          failureDomain: osd
-          replicated:
-            size: 3  # 副本数
-            requireSafeReplicaSize: true  # 安全选项，副本数为1时需要设为false，否则会无法创建
-            hybridStorage: # 设置为混合存储池，主副本为SSD，其余副本为HDD
-              primaryDeviceClass: nvme
-              secondaryDeviceClass: hdd
-          parameters:
-            compression_mode: aggressive # 设置除了指定不可压缩的数据以外都进行压缩
-        storageClass:
-          enabled: true
-          name: ceph-block-application  # 存储类名称
-          isDefault: true  # 是否设为默认存储类
-          reclaimPolicy: Delete  # PVC被删除后自动删除池中的内容
-          allowVolumeExpansion: true  # 支持动态调整PVC大小
-
-          parameters:
-            # 默认设置不用动
-            imageFormat: "2"
-            imageFeatures: layering
-            csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
-            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
-            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
-            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
-            csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
-            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
-            csi.storage.k8s.io/fstype: ext4  # 可以设置为xfs，但官方不推荐
-
-      # 需要极致性能的应用，不压缩，使用nvme ssd
-      - name: block-application-performance
-        spec:
-          failureDomain: osd
-          replicated:
-            size: 3  # 副本数
-            requireSafeReplicaSize: true  # 安全选项，副本数为1时需要设为false，否则会无法创建
-          deviceClass: nvme  # 设置后端osd类型
-        storageClass:
-          enabled: true
-          name: ceph-block-application-performance  # 存储类名称
-          isDefault: false  # 是否设为默认存储类
-          reclaimPolicy: Delete  # PVC被删除后自动删除池中的内容
-          allowVolumeExpansion: true  # 支持动态调整PVC大小
-
-          parameters:
-            # 默认设置不用动
-            imageFormat: "2"
-            imageFeatures: layering
-            csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
-            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
-            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
-            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
-            csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
-            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
-            csi.storage.k8s.io/fstype: ext4  # 可以设置为xfs，但官方不推荐
+    cephBlockPools: [ ]
+    #      # 普通应用，开启压缩，使用nvme ssd作为主副本提高读取性能，使用hdd做热备副本
+    #      - name: block-application
+    #        spec:
+    #          failureDomain: osd
+    #          replicated:
+    #            size: 3  # 副本数
+    #            requireSafeReplicaSize: true  # 安全选项，副本数为1时需要设为false，否则会无法创建
+    #            hybridStorage: # 设置为混合存储池，主副本为SSD，其余副本为HDD
+    #              primaryDeviceClass: nvme
+    #              secondaryDeviceClass: hdd
+    #          parameters:
+    #            compression_mode: aggressive # 设置除了指定不可压缩的数据以外都进行压缩
+    #        storageClass:
+    #          enabled: true
+    #          name: ceph-block-application  # 存储类名称
+    #          isDefault: true  # 是否设为默认存储类
+    #          reclaimPolicy: Delete  # PVC被删除后自动删除池中的内容
+    #          allowVolumeExpansion: true  # 支持动态调整PVC大小
+    #
+    #          parameters:
+    #            # 默认设置不用动
+    #            imageFormat: "2"
+    #            imageFeatures: layering
+    #            csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
+    #            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
+    #            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
+    #            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
+    #            csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
+    #            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
+    #            csi.storage.k8s.io/fstype: ext4  # 可以设置为xfs，但官方不推荐
+    #
+    #      # 需要极致性能的应用，不压缩，使用nvme ssd
+    #      - name: block-application-performance
+    #        spec:
+    #          failureDomain: osd
+    #          replicated:
+    #            size: 3  # 副本数
+    #            requireSafeReplicaSize: true  # 安全选项，副本数为1时需要设为false，否则会无法创建
+    #          deviceClass: nvme  # 设置后端osd类型
+    #        storageClass:
+    #          enabled: true
+    #          name: ceph-block-application-performance  # 存储类名称
+    #          isDefault: false  # 是否设为默认存储类
+    #          reclaimPolicy: Delete  # PVC被删除后自动删除池中的内容
+    #          allowVolumeExpansion: true  # 支持动态调整PVC大小
+    #
+    #          parameters:
+    #            # 默认设置不用动
+    #            imageFormat: "2"
+    #            imageFeatures: layering
+    #            csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
+    #            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
+    #            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
+    #            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
+    #            csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
+    #            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
+    #            csi.storage.k8s.io/fstype: ext4  # 可以设置为xfs，但官方不推荐
 
     cephFileSystems:
       #      - name: fs-application
