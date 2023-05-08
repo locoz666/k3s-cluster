@@ -7,7 +7,7 @@ metadata:
 spec:
   interval: 10m0s
   dependsOn:
-    - name: 011-management-tools-extra
+    - name: 002-infrastructure-extra
   path: ./cluster/100-virtual-machine-base
   prune: true
   sourceRef:
