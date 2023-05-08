@@ -33,6 +33,11 @@ spec:
         externalTrafficPolicy: Local
 
     persistence:
+      dump-files:
+        enabled: true
+        type: pvc
+        existingClaim: dump-files
+        mountPath: /share/dump-files
       camera-files:
         enabled: true
         type: pvc
@@ -97,6 +102,15 @@ spec:
               - "force group = ${SECRET_SAMBA_USERNAME}"
 
             share:
+              - name: dump-files
+                path: /share/dump-files
+                browsable: yes
+                readonly: no
+                guestok: no
+                validusers: loco
+                writelist: loco
+                veto: no
+            
               - name: camera
                 path: /share/camera
                 browsable: yes
