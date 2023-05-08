@@ -9,7 +9,7 @@ spec:
   dependsOn:
     - name: 010-management-tools
   path: ./cluster/011-management-tools-extra
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system
