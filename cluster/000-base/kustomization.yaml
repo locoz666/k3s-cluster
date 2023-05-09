@@ -22,3 +22,4 @@ resources:
   - 220-software-development.yaml
   - 230-media-service.yaml
   - 240-smart-home.yaml
+  - 250-3d-print.yaml
