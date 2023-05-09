@@ -88,6 +88,6 @@ spec:
           - secretName: "${SECRET_DOMAIN/./-}-tls"
           - secretName: "direct-${SECRET_DOMAIN/./-}-tls"
 
-    resources:
-      limits:
-        nvidia.com/gpu: 1
+#    resources:
+#      limits:
+#        nvidia.com/gpu: 1
