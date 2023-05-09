@@ -81,8 +81,8 @@ spec:
         type: hostPath
         hostPath: /dev/vchiq
 
-    nodeSelector:
-      kubernetes.io/hostname: "home-server-nut"
+    #    nodeSelector:
+    #      kubernetes.io/hostname: "home-server-nut"
     #      kubernetes.io/hostname: "raspberry-pi4b"
 
     tolerations:
