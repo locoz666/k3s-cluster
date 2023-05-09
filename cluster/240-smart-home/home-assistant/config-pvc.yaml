@@ -2,12 +2,12 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: home-assistant-influxdb-data
-  namespace: home-automation
+  name: home-assistant-config
+  namespace: smart-home
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 50Gi
+      storage: 5Gi
   storageClassName: ceph-block-application
