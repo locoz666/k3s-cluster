@@ -19,3 +19,4 @@ resources:
   - 200-storage-service.yaml
   - 210-life-service.yaml
   - 220-software-development.yaml
+  - 230-media-service.yaml
