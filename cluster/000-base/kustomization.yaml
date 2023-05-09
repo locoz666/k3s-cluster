@@ -13,6 +13,7 @@ resources:
   - 002-infrastructure-extra.yaml
   #  - 010-management-tools.yaml
   #  - 011-management-tools-extra.yaml
+  - 020-network-booster.yaml
   - 100-virtual-machine-base.yaml
   - 101-virtual-machine-base-extra.yaml
   - 102-virtual-machine.yaml

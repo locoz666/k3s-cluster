@@ -60,4 +60,4 @@ spec:
 
     persistence:
       enabled: true
-      storageSize: 100Gi
+      existingClaim: nexus-data
