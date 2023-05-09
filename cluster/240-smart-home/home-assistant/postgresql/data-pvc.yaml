@@ -3,7 +3,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: home-assistant-postgresql-data
-  namespace: home-automation
+  namespace: smart-home
 spec:
   accessModes:
     - ReadWriteOnce
