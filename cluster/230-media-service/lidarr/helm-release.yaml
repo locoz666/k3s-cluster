@@ -26,7 +26,7 @@ spec:
 
     image:
       repository: ghcr.io/onedr0p/lidarr
-      tag: v1.0.2.2592
+      tag: 1.1.4.3027
 
     env:
       TZ: "Asia/Shanghai"
