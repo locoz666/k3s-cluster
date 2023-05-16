@@ -42,3 +42,5 @@ spec:
         - key: node-role.kubernetes.io/edge
           operator: Exists
           effect: NoSchedule
+    nfs:
+      enabled: true
