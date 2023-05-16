@@ -1,0 +1,51 @@
+---
+apiVersion: installer.kubesphere.io/v1alpha1
+kind: ClusterConfiguration
+metadata:
+  name: ks-installer
+  namespace: kubesphere-system
+spec:
+  common:
+    es:
+      nodeSelector:
+        location: "home"
+        kubernetes.io/arch: "amd64"
+        kubernetes.io/os: "linux"
+      master:
+        volumeSize: 4Gi
+        replicas: 1
+        resources:
+          limits:
+            memory: 8Gi
+      data:
+        volumeSize: 20Gi
+        replicas: 1
+        resources:
+          limits:
+            memory: 8Gi
+      logMaxAge: 7
+      elkPrefix: logstash
+
+  logging:
+    enabled: true
+
+  events:
+    enabled: true
+
+  alerting:
+    enabled: true
+
+  auditing:
+    enabled: true
+
+  servicemesh:
+    enabled: true
+
+  edgeruntime:
+    enabled: true
+    kubeedge:
+      enabled: true
+      cloudCore:
+        cloudHub:
+          advertiseAddress:
+            - "${SECRET_KUBEEDGE_CLOUDHUB_ADDRESS}"
