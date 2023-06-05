@@ -20,9 +20,9 @@ spec:
         name: sentry-charts
         namespace: flux-system
   values:
-    ingress:
-      enabled: true
-      regexPathStyle: traefik
+#    ingress:
+    #      enabled: true
+    #      regexPathStyle: traefik
     user:
       email: "${SECRET_SENTRY_ADMIN_EMAIL}"
       password: "${SECRET_SENTRY_ADMIN_PASSWORD}"
