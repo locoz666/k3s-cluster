@@ -14,19 +14,33 @@ spec:
     spec:
       # renovate: registryUrl=https://sentry-kubernetes.github.io/charts
       chart: sentry
-      version: 17.11.3
+      version: 19.2.0
       sourceRef:
         kind: HelmRepository
         name: sentry-charts
         namespace: flux-system
   values:
+    user:
+      create: true
+      email: "${SECRET_SENTRY_ADMIN_EMAIL}"
+      password: "${SECRET_SENTRY_ADMIN_PASSWORD}"
+    redis:
+      replica:
+        replicaCount: 1
+    system:
+      adminEmail: "${SECRET_SENTRY_ADMIN_EMAIL}"
+      url: "https://sentry.${SECRET_DOMAIN}"
+    nginx:
+      enabled: false
     ingress:
       enabled: true
       hostname: "sentry.${SECRET_DOMAIN}"
-    nginx:
-      enabled: false
-    user:
-      email: "${SECRET_SENTRY_ADMIN_EMAIL}"
-      password: "${SECRET_SENTRY_ADMIN_PASSWORD}"
-    postgresql:
-      postgresqlPassword: "${SECRET_SENTRY_PGSQL_PASSWORD}"
+      tls:
+        - secretName: "${SECRET_DOMAIN/./-}-tls"
+      regexPathStyle: traefik
+      annotations:
+        kubernetes.io/ingress.class: "traefik"
+    config:
+      # https://github.com/sentry-kubernetes/charts/issues/414
+      sentryConfPy: |
+        CSRF_TRUSTED_ORIGINS = ['sentry.${SECRET_DOMAIN}']
