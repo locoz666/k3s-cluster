@@ -14,7 +14,7 @@ spec:
     spec:
       # renovate: registryUrl=https://sentry-kubernetes.github.io/charts
       chart: sentry
-      version: 17.11.3
+      version: 19.2.0
       sourceRef:
         kind: HelmRepository
         name: sentry-charts
@@ -22,11 +22,18 @@ spec:
   values:
     ingress:
       enabled: true
-      hostname: "sentry.${SECRET_DOMAIN}"
-    nginx:
-      enabled: false
+      regexPathStyle: traefik
     user:
       email: "${SECRET_SENTRY_ADMIN_EMAIL}"
       password: "${SECRET_SENTRY_ADMIN_PASSWORD}"
-    postgresql:
-      postgresqlPassword: "${SECRET_SENTRY_PGSQL_PASSWORD}"
+    redis:
+      replica:
+        replicaCount: 1
+    system:
+      adminEmail: "${SECRET_SENTRY_ADMIN_EMAIL}"
+      url: "sentry.${SECRET_DOMAIN}"
+    nginx:
+      ingress:
+        enabled: true
+        hostname: "sentry.${SECRET_DOMAIN}"
+        ingressClassName: "traefik"
