@@ -32,8 +32,8 @@ spec:
     system:
       adminEmail: "${SECRET_SENTRY_ADMIN_EMAIL}"
       url: "sentry.${SECRET_DOMAIN}"
-    nginx:
-      ingress:
-        enabled: true
-        hostname: "sentry.${SECRET_DOMAIN}"
-        ingressClassName: "traefik"
+#    nginx:
+#      ingress:
+#        enabled: true
+#        hostname: "sentry.${SECRET_DOMAIN}"
+#        ingressClassName: "traefik"
