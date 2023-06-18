@@ -20,7 +20,13 @@ spec:
         name: gitlab-charts
         namespace: flux-system
   values:
+    postgresql:
+      install: true
+      image:
+        tag: 14.8.0
     gitlab:
+      migrations:
+        enabled: false
       webservice:
         ingress:
           tls:
