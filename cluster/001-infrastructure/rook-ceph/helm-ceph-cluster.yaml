@@ -118,6 +118,27 @@ spec:
               - name: "/dev/disk/by-id/scsi-SATA_WDC_WD30EZRZ-00Z_WD-WCC4N2TY90KY"  # 临时使用
                 config:
                   deviceClass: "hdd"
+              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD41FWR"
+                config:
+                  deviceClass: "hdd"
+              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD463ZF"
+                config:
+                  deviceClass: "hdd"
+              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD6XBFD"
+                config:
+                  deviceClass: "hdd"
+              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD71JSA"
+                config:
+                  deviceClass: "hdd"
+              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0JMTX"
+                config:
+                  deviceClass: "hdd"
+              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0NB7Y"
+                config:
+                  deviceClass: "hdd"
+              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0NC8L"
+                config:
+                  deviceClass: "hdd"
           - name: "home-server-sonic"
             devices:
               - name: "/dev/disk/by-id/nvme-INTEL_SSDPE2KX040T8_BTLJ848209YE4P0DGN"  # Intel P4510 4T U.2
@@ -140,34 +161,6 @@ spec:
       #                config:
       #                  deviceClass: "ssd"
       #                  osdsPerDevice: "2"  # 在单块盘上创建多个OSD以最大化利用SSD的性能，可以让OSD获得更多CPU资源进行并发读写，能提升IOPS，但会略微降低读写延迟（ns级）
-      #
-      #              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD71JSA"
-      #                config:
-      #                  deviceClass: "hdd"
-      #
-      #              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD41FWR"
-      #                config:
-      #                  deviceClass: "hdd"
-      #
-      #              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD6XBFD"
-      #                config:
-      #                  deviceClass: "hdd"
-      #
-      #              - name: "/dev/disk/by-id/ata-ST6000NM0115-1YZ110_ZAD463ZF"
-      #                config:
-      #                  deviceClass: "hdd"
-      #
-      #              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0NC8L"
-      #                config:
-      #                  deviceClass: "hdd"
-      #
-      #              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0NB7Y"
-      #                config:
-      #                  deviceClass: "hdd"
-      #
-      #              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0JMTX"
-      #                config:
-      #                  deviceClass: "hdd"
 
       healthCheck:
         livenessProbe:
