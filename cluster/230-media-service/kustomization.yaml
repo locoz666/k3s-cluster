@@ -15,3 +15,4 @@ resources:
   - radarr
   - samba
   - sonarr
+  - media-files.yaml
