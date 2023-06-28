@@ -10,4 +10,4 @@ spec:
   resources:
     requests:
       storage: 10Ti
-  storageClassName: ceph-fs-media-unsafe
+  storageClassName: juicefs-media-ec
