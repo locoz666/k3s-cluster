@@ -72,6 +72,9 @@ spec:
           # 硬盘健康状态预测
           - name: diskprediction_local
             enabled: true
+          # Rook Orchestrator扩展
+          - name: rook
+            enabled: true
 
       dashboard:
         # 手动指定rook ceph的dashboard为http模式，避免因为自签名证书导致无法正常通过ingress访问
