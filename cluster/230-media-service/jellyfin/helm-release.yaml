@@ -38,18 +38,10 @@ spec:
       cache:
         enabled: true
         existingClaim: jellyfin-cache
-      movie:
+      media:
         enabled: true
-        mountPath: /movie
-        existingClaim: movie-files
-      tv:
-        enabled: true
-        mountPath: /tv
-        existingClaim: tv-files
-      anime:
-        enabled: true
-        mountPath: /anime
-        existingClaim: anime-files
+        mountPath: /media
+        existingClaim: media-files
 
     service:
       main:

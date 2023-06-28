@@ -40,22 +40,10 @@ spec:
       transcode:
         enabled: true
         existingClaim: plex-transcode
-      anime:
+      media:
         enabled: true
-        mountPath: /data/anime
-        existingClaim: anime-files
-      movie:
-        enabled: true
-        mountPath: /data/movie
-        existingClaim: movie-files
-      music:
-        enabled: true
-        mountPath: /data/music
-        existingClaim: music-files
-      tv:
-        enabled: true
-        mountPath: /data/tv
-        existingClaim: tv-files
+        mountPath: /media
+        existingClaim: media-files
 
     service:
       main:
