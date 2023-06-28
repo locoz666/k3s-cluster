@@ -39,10 +39,10 @@ spec:
       config:
         enabled: true
         existingClaim: qbittorrent-config
-      downloads:
+      media:
         enabled: true
-        mountPath: /downloads
-        existingClaim: download-files
+        mountPath: /media
+        existingClaim: media-files
 
     ingress:
       main:

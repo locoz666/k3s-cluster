@@ -39,18 +39,10 @@ spec:
       config:
         enabled: true
         existingClaim: sonarr-config
-      tv:
+      media:
         enabled: true
-        mountPath: /tv
-        existingClaim: tv-files
-      anime:
-        enabled: true
-        mountPath: /anime
-        existingClaim: anime-files
-      downloads:
-        enabled: true
-        mountPath: /downloads
-        existingClaim: download-files
+        mountPath: /media
+        existingClaim: media-files
 
     ingress:
       main:

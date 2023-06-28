@@ -39,14 +39,10 @@ spec:
       config:
         enabled: true
         existingClaim: radarr-config
-      movie:
+      media:
         enabled: true
-        mountPath: /movie
-        existingClaim: movie-files
-      downloads:
-        enabled: true
-        mountPath: /downloads
-        existingClaim: download-files
+        mountPath: /media
+        existingClaim: media-files
 
     ingress:
       main:

@@ -39,14 +39,10 @@ spec:
       config:
         enabled: true
         existingClaim: lidarr-config
-      music:
+      media:
         enabled: true
-        mountPath: /music
-        existingClaim: music-files
-      downloads:
-        enabled: true
-        mountPath: /downloads
-        existingClaim: download-files
+        mountPath: /media
+        existingClaim: media-files
 
     ingress:
       main:

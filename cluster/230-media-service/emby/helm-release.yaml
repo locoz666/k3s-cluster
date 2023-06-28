@@ -39,22 +39,10 @@ spec:
         enabled: true
         mountPath: /tmp/transcoding-temp
         existingClaim: emby-transcode
-      anime:
+      media:
         enabled: true
-        mountPath: /data/anime
-        existingClaim: anime-files
-      movie:
-        enabled: true
-        mountPath: /data/movie
-        existingClaim: movie-files
-      music:
-        enabled: true
-        mountPath: /data/music
-        existingClaim: music-files
-      tv:
-        enabled: true
-        mountPath: /data/tv
-        existingClaim: tv-files
+        mountPath: /media
+        existingClaim: media-files
 
     hostNetwork: true
 

@@ -33,31 +33,11 @@ spec:
         externalTrafficPolicy: Local
 
     persistence:
-      anime-files:
+      media-files:
         enabled: true
         type: pvc
-        existingClaim: anime-files
-        mountPath: /share/anime
-      tv-files:
-        enabled: true
-        type: pvc
-        existingClaim: tv-files
-        mountPath: /share/tv
-      movie-files:
-        enabled: true
-        type: pvc
-        existingClaim: movie-files
-        mountPath: /share/movie
-      music-files:
-        enabled: true
-        type: pvc
-        existingClaim: music-files
-        mountPath: /share/music
-      download-files:
-        enabled: true
-        type: pvc
-        existingClaim: download-files
-        mountPath: /share/download
+        existingClaim: media-files
+        mountPath: /media
 
     configmap:
       config:
@@ -66,35 +46,35 @@ spec:
           config.yml: |
             share:
               - name: anime
-                path: /share/anime
+                path: /media/anime
                 browsable: yes
                 readonly: no
                 guestok: yes
                 veto: no
 
               - name: tv
-                path: /share/tv
+                path: /media/tv
                 browsable: yes
                 readonly: no
                 guestok: yes
                 veto: no
 
               - name: movie
-                path: /share/movie
+                path: /media/movie
                 browsable: yes
                 readonly: no
                 guestok: yes
                 veto: no
 
               - name: music
-                path: /share/music
+                path: /media/music
                 browsable: yes
                 readonly: no
                 guestok: yes
                 veto: no
 
               - name: download
-                path: /share/download
+                path: /media/download
                 browsable: yes
                 readonly: no
                 guestok: yes
