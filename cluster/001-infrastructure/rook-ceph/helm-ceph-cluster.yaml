@@ -65,6 +65,13 @@ spec:
       mgr:
         # 允许在同一个节点上运行多个mgr
         allowMultiplePerNode: true
+        modules:
+          # 默认配置包含
+          - name: pg_autoscaler
+            enabled: true
+          # 硬盘健康状态预测
+          - name: diskprediction_local
+            enabled: true
 
       dashboard:
         # 手动指定rook ceph的dashboard为http模式，避免因为自签名证书导致无法正常通过ingress访问
