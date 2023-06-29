@@ -49,11 +49,6 @@ spec:
       osd_backfill_retry_interval = 0
       osd_recovery_sleep = 0
       osd_recovery_max_active = 24
-      osd_recovery_max_active_hdd = 24
-      osd_recovery_max_active_ssd = 24
-      osd_recovery_sleep_hdd = 0
-      osd_recovery_sleep_ssd = 0
-      osd_recovery_sleep_hybrid = 0
       osd_recovery_max_single_start = 3
       osd_recovery_max_chunk = 16Mi
 
