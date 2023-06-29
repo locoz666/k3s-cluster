@@ -44,19 +44,19 @@ spec:
       osd_scrub_during_recovery = false
       osd_max_backfills = 64
       osd_client_op_priority = 30
-      osd_recovery_op_priority = 80
-      osd_backfill_scan_min = 64
-      osd_backfill_scan_max = 512
+      osd_recovery_op_priority = 120
+      osd_backfill_scan_min = 128
+      osd_backfill_scan_max = 768
       osd_backfill_retry_interval = 0
       osd_recovery_sleep = 0
-      osd_recovery_max_active = 16
-      osd_recovery_max_active_hdd = 16
-      osd_recovery_max_active_ssd = 16
+      osd_recovery_max_active = 24
+      osd_recovery_max_active_hdd = 24
+      osd_recovery_max_active_ssd = 24
       osd_recovery_sleep_hdd = 0
       osd_recovery_sleep_ssd = 0
       osd_recovery_sleep_hybrid = 0
-      osd_recovery_max_single_start = 1
-      osd_recovery_max_chunk = 8Mi
+      osd_recovery_max_single_start = 3
+      osd_recovery_max_chunk = 16Mi
 
     toolbox:
       enabled: true
