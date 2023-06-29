@@ -66,9 +66,6 @@ spec:
         # 允许在同一个节点上运行多个mgr
         allowMultiplePerNode: true
         modules:
-          # 默认配置包含
-          - name: pg_autoscaler
-            enabled: true
           # 硬盘健康状态预测
           - name: diskprediction_local
             enabled: true
