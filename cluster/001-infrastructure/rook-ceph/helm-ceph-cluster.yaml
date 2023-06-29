@@ -47,9 +47,9 @@ spec:
       osd_backfill_scan_max = 512
       osd_backfill_retry_interval = 0
       osd_recovery_sleep = 0
-      osd_recovery_max_active = 5
-      osd_recovery_max_single_start = 5
-      osd_recovery_max_chunk = 268435456
+      osd_recovery_max_active = 0
+      osd_recovery_max_single_start = 1
+      osd_recovery_max_chunk = 8Mi
 
     toolbox:
       enabled: true
