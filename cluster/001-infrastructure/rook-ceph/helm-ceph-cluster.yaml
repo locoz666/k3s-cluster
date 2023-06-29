@@ -46,8 +46,8 @@ spec:
       osd_recovery_op_priority = 120
       osd_backfill_retry_interval = 0
       osd_recovery_sleep = 0
-      osd_recovery_max_active = 24
-      osd_recovery_max_single_start = 3
+      osd_recovery_max_active = 512
+      osd_recovery_max_single_start = 512
 
     toolbox:
       enabled: true
