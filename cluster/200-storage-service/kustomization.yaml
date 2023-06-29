@@ -7,4 +7,3 @@ resources:
   - resilio-sync
   - samba
 #  - nextcloud
-  - media-files.yaml
