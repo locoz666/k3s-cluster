@@ -2,12 +2,12 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: other-files
+  name: compressed-files
   namespace: file-service
 spec:
   accessModes:
     - ReadWriteMany
   resources:
     requests:
-      storage: 10Ti
-  storageClassName: ceph-fs-compressed-files
+      storage: 40Ti
+  storageClassName: juicefs-compressed-files
