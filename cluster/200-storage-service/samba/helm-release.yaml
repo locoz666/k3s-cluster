@@ -24,8 +24,8 @@ spec:
       location: "home"
 
     image:
-      repository: ghcr.io/crazy-max/samba
-      tag: 4.18.2
+      repository: "registry-gitlab.${SECRET_DOMAIN}/loco/docker-samba"
+      tag: 4.18.3
 
     service:
       main:
