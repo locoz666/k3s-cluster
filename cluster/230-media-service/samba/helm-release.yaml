@@ -44,38 +44,59 @@ spec:
         enabled: true
         data:
           config.yml: |
+            auth:
+              - user: ${SECRET_SAMBA_USERNAME}
+                group: ${SECRET_SAMBA_USERNAME}
+                uid: 1000
+                gid: 1000
+                password: ${SECRET_SAMBA_PASSWORD}
+
+            global:
+              - "force user = ${SECRET_SAMBA_USERNAME}"
+              - "force group = ${SECRET_SAMBA_USERNAME}"
+            
             share:
               - name: anime
                 path: /media/anime
                 browsable: yes
                 readonly: no
-                guestok: yes
+                guestok: no
+                validusers: loco
+                writelist: loco
                 veto: no
 
               - name: tv
                 path: /media/tv
                 browsable: yes
                 readonly: no
-                guestok: yes
+                guestok: no
+                validusers: loco
+                writelist: loco
                 veto: no
 
               - name: movie
                 path: /media/movie
                 browsable: yes
                 readonly: no
-                guestok: yes
+                guestok: no
+                validusers: loco
+                writelist: loco
                 veto: no
 
               - name: music
                 path: /media/music
                 browsable: yes
                 readonly: no
-                guestok: yes
+                guestok: no
+                validusers: loco
+                writelist: loco
                 veto: no
 
               - name: download
                 path: /media/download
                 browsable: yes
                 readonly: no
-                guestok: yes
+                guestok: no
+                validusers: loco
+                writelist: loco
                 veto: no
