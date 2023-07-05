@@ -117,13 +117,7 @@ spec:
         nodes:
           - name: "home-server-titan"
             devices:
-              - name: "/dev/disk/by-id/scsi-SATA_WDC_WD10EZEX-08W_WD-WCC6Y1FTDC3T"  # 临时使用
-                config:
-                  deviceClass: "hdd"
-              - name: "/dev/disk/by-id/scsi-SATA_WDC_WD30EZRZ-00Z_WD-WCC4N2TY90KY"  # 临时使用
-                config:
-                  deviceClass: "hdd"
-              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD41FWR"
+              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD41FWR" # 1
                 config:
                   deviceClass: "hdd"
               - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD463ZF"
