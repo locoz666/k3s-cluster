@@ -120,22 +120,22 @@ spec:
               - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD41FWR" # 1
                 config:
                   deviceClass: "hdd"
-              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD463ZF"
+              #              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD463ZF"
+              #                config:
+              #                  deviceClass: "hdd"
+              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD6XBFD" # 1
                 config:
                   deviceClass: "hdd"
-              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD6XBFD"
+              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD71JSA" # 1
                 config:
                   deviceClass: "hdd"
-              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD71JSA"
+              #              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0JMTX"
+              #                config:
+              #                  deviceClass: "hdd"
+              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0NB7Y" # 1
                 config:
                   deviceClass: "hdd"
-              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0JMTX"
-                config:
-                  deviceClass: "hdd"
-              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0NB7Y"
-                config:
-                  deviceClass: "hdd"
-              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0NC8L"
+              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0NC8L" # 1
                 config:
                   deviceClass: "hdd"
           - name: "home-server-sonic"
