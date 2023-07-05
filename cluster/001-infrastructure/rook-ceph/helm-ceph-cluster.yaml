@@ -64,6 +64,9 @@ spec:
         # 允许在同一个节点上运行多个mgr
         allowMultiplePerNode: true
         modules:
+          # PG自动缩放器
+          - name: pg_autoscaler
+            enabled: false
           # 硬盘健康状态预测
           - name: diskprediction_local
             enabled: true
@@ -119,7 +122,7 @@ spec:
               - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD41FWR" # 1
                 config:
                   deviceClass: "hdd"
-              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD463ZF"
+              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD463ZF" # 1
                 config:
                   deviceClass: "hdd"
               - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD6XBFD" # 1
