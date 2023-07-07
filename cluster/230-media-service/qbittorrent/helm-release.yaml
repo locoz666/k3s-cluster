@@ -61,16 +61,16 @@ spec:
     probes:
       liveness:
         spec:
-          initialDelaySeconds: 300
-          periodSeconds: 30
-          failureThreshold: 10
+          initialDelaySeconds: 10
+          periodSeconds: 20
+          failureThreshold: 100
       readiness:
         spec:
-          initialDelaySeconds: 300
-          periodSeconds: 30
-          failureThreshold: 10
+          initialDelaySeconds: 10
+          periodSeconds: 20
+          failureThreshold: 100
       startup:
         spec:
-          initialDelaySeconds: 300
-          periodSeconds: 30
-          failureThreshold: 10
+          initialDelaySeconds: 10
+          periodSeconds: 20
+          failureThreshold: 100
