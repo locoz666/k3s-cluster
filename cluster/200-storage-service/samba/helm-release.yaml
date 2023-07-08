@@ -38,11 +38,13 @@ spec:
         type: pvc
         existingClaim: compressed-files
         mountPath: /mnt/compressed-files
+        mountPropagation: HostToContainer
       media-files:
         enabled: true
         type: pvc
         existingClaim: media-files
         mountPath: /mnt/media-files
+        mountPropagation: HostToContainer
 
     configmap:
       config:
