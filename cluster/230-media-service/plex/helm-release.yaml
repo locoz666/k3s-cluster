@@ -40,10 +40,12 @@ spec:
       transcode:
         enabled: true
         existingClaim: plex-transcode
+        mountPropagation: HostToContainer
       media:
         enabled: true
         mountPath: /media
         existingClaim: media-files
+        mountPropagation: HostToContainer
 
     service:
       main:
