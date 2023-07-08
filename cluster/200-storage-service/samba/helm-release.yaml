@@ -33,57 +33,16 @@ spec:
         externalTrafficPolicy: Local
 
     persistence:
-      dump-files:
+      compressed-files:
         enabled: true
         type: pvc
-        existingClaim: dump-files
-        mountPath: /share/dump-files
-      camera-files:
+        existingClaim: compressed-files
+        mountPath: /mnt/compressed-files
+      media-files:
         enabled: true
         type: pvc
-        existingClaim: camera-files
-        mountPath: /share/camera
-      music-files:
-        enabled: true
-        type: pvc
-        existingClaim: music-files
-        mountPath: /share/music
-      recording-files:
-        enabled: true
-        type: pvc
-        existingClaim: recording-files
-        mountPath: /share/recording
-      screenshot-files:
-        enabled: true
-        type: pvc
-        existingClaim: screenshot-files
-        mountPath: /share/screenshot
-      other-media-files:
-        enabled: true
-        type: pvc
-        existingClaim: other-media-files
-        mountPath: /share/other-media
-
-      outside-temp-files:
-        enabled: true
-        type: hostPath
-        hostPath: /mnt/temps
-        mountPath: /share/temps
-      dump-cephfs-files:
-        enabled: true
-        type: hostPath
-        hostPath: /mnt/dump_ceph_fs
-        mountPath: /share/dump_ceph_fs
-      old-disk-files:
-        enabled: true
-        type: hostPath
-        hostPath: /mnt/1
-        mountPath: /share/old_disk
-      tmp-storage-files:
-        enabled: true
-        type: hostPath
-        hostPath: /mnt/tmp_storage
-        mountPath: /share/tmp_storage
+        existingClaim: media-files
+        mountPath: /mnt/media-files
 
     configmap:
       config:
@@ -102,8 +61,17 @@ spec:
               - "force group = ${SECRET_SAMBA_USERNAME}"
 
             share:
-              - name: dump-files
-                path: /share/dump-files
+              - name: compressed-files
+                path: /mnt/compressed-files
+                browsable: yes
+                readonly: no
+                guestok: no
+                validusers: loco
+                writelist: loco
+                veto: no
+            
+              - name: media-files
+                path: /mnt/media-files
                 browsable: yes
                 readonly: no
                 guestok: no
@@ -112,82 +80,46 @@ spec:
                 veto: no
             
               - name: camera
-                path: /share/camera
+                path: /mnt/media-files/camera
                 browsable: yes
                 readonly: no
                 guestok: no
                 validusers: loco
                 writelist: loco
                 veto: no
-
+            
               - name: music
-                path: /share/music
+                path: /mnt/media-files/music
                 browsable: yes
                 readonly: no
                 guestok: no
                 validusers: loco
                 writelist: loco
                 veto: no
-
+            
               - name: recording
-                path: /share/recording
+                path: /mnt/media-files/recording
                 browsable: yes
                 readonly: no
                 guestok: no
                 validusers: loco
                 writelist: loco
                 veto: no
-
+            
               - name: screenshot
-                path: /share/screenshot
+                path: /mnt/media-files/screenshot
                 browsable: yes
                 readonly: no
                 guestok: no
                 validusers: loco
                 writelist: loco
                 veto: no
-
+            
               - name: other-media
-                path: /share/other-media
+                path: /mnt/media-files/other-media
                 browsable: yes
                 readonly: no
                 guestok: no
                 validusers: loco
                 writelist: loco
-                veto: no
-
-              - name: outside-temp
-                path: /share/temps
-                browsable: yes
-                readonly: no
-                guestok: no
-                validusers: loco
-                writelist: loco
-                veto: no
-
-              - name: dump-cephfs
-                path: /share/dump_ceph_fs
-                browsable: yes
-                readonly: no
-                guestok: no
-                validusers: loco
-                writelist: loco
-                veto: no
-
-              - name: old-disk
-                path: /share/old_disk
-                browsable: yes
-                readonly: no
-                guestok: no
-                validusers: loco
-                writelist: loco
-                veto: no
-
-              - name: tmp-storage
-                path: /share/tmp_storage
-                browsable: yes
-                readonly: no
-                guestok: no
-                validusers: loco
-                writelist: loco
-                veto: no
+                veto: no            
