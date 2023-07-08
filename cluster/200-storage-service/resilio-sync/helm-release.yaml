@@ -58,36 +58,13 @@ spec:
         type: pvc
         existingClaim: resilio-sync-config
         mountPath: /config
-
-      camera-files:
+      compressed-files:
         enabled: true
         type: pvc
-        existingClaim: camera-files
-        mountPath: /sync/camera
-      music-files:
+        existingClaim: compressed-files
+        mountPath: /mnt/compressed-files
+      media-files:
         enabled: true
         type: pvc
-        existingClaim: music-files
-        mountPath: /sync/music
-      recording-files:
-        enabled: true
-        type: pvc
-        existingClaim: recording-files
-        mountPath: /sync/recording
-      screenshot-files:
-        enabled: true
-        type: pvc
-        existingClaim: screenshot-files
-        mountPath: /sync/screenshot
-
-      outside-temp-files:
-        enabled: true
-        type: hostPath
-        hostPath: /mnt/temps
-        mountPath: /sync/temps
-
-      other-files:
-        enabled: true
-        type: pvc
-        existingClaim: other-files
-        mountPath: /sync/other-files
+        existingClaim: media-files
+        mountPath: /mnt/media-files
