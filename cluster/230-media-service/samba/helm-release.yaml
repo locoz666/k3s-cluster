@@ -38,6 +38,7 @@ spec:
         type: pvc
         existingClaim: media-files
         mountPath: /media
+        mountPropagation: HostToContainer
 
     configmap:
       config:

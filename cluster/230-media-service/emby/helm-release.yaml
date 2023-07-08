@@ -39,10 +39,12 @@ spec:
         enabled: true
         mountPath: /tmp/transcoding-temp
         existingClaim: emby-transcode
+        mountPropagation: HostToContainer
       media:
         enabled: true
         mountPath: /media
         existingClaim: media-files
+        mountPropagation: HostToContainer
 
     hostNetwork: true
 

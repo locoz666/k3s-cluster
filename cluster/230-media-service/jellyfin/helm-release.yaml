@@ -38,10 +38,12 @@ spec:
       cache:
         enabled: true
         existingClaim: jellyfin-cache
+        mountPropagation: HostToContainer
       media:
         enabled: true
         mountPath: /media
         existingClaim: media-files
+        mountPropagation: HostToContainer
 
     service:
       main:

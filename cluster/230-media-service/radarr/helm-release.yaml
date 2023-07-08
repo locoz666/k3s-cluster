@@ -43,6 +43,7 @@ spec:
         enabled: true
         mountPath: /media
         existingClaim: media-files
+        mountPropagation: HostToContainer
 
     ingress:
       main:
