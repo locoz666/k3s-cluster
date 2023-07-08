@@ -58,13 +58,13 @@ spec:
         type: pvc
         existingClaim: resilio-sync-config
         mountPath: /config
-      compressed-files:
+      other-files:
         enabled: true
         type: pvc
         existingClaim: compressed-files
-        mountPath: /mnt/compressed-files
+        mountPath: /sync/other-files
       media-files:
         enabled: true
         type: pvc
         existingClaim: media-files
-        mountPath: /mnt/media-files
+        mountPath: /sync/media-files
