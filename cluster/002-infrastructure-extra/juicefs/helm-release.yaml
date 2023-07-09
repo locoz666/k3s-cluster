@@ -1,0 +1,107 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: juicefs
+  namespace: kube-system
+spec:
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://juicedata.github.io/charts/
+      chart: juicefs-csi-driver
+      version: 0.15.0
+      sourceRef:
+        kind: HelmRepository
+        name: juicefs-charts
+        namespace: flux-system
+  values:
+    image:
+      repository: "registry-gitlab.${SECRET_DOMAIN}/loco/juicefs-csi-driver"
+      tag: "36b2424f"
+
+    defaultMountImage:
+      ce: "registry-gitlab.${SECRET_DOMAIN}/loco/juicefs-csi-driver:36b2424f"
+
+    sidecars:
+      livenessProbeImage:
+        repository: quay.io/k8scsi/livenessprobe
+        tag: "v1.1.0"
+      nodeDriverRegistrarImage:
+        repository: quay.io/k8scsi/csi-node-driver-registrar
+        tag: "v2.1.0"
+      csiProvisionerImage:
+        repository: quay.io/k8scsi/csi-provisioner
+        tag: "v1.6.0"
+
+    controller:
+      provisioner: true
+
+    storageClasses:
+      - name: "juicefs-ceph-application-performance"
+        enabled: true
+        reclaimPolicy: Delete
+        backend:
+          name: "juicefs-ceph-application-performance"
+          metaurl: "redis://:${SECRET_JUICEFS_REDIS_PASSWORD}@juicefs-redis-headless.kube-system.svc.cluster.local:6379/0"
+          storage: "ceph"
+          bucket: "ceph://juicefs-application-performance"
+          accessKey: "ceph"
+          secretKey: "client.admin"
+          envs: "{TZ: Asia/Shanghai}"
+          configs: '{"ceph-conf": "/etc/ceph"}'
+        pathPattern: "${.PVC.namespace}-${.PVC.name}"
+        mountOptions:
+          - "enable-xattr"
+
+      - name: "juicefs-compressed-files"
+        enabled: true
+        reclaimPolicy: Delete
+        backend:
+          name: "juicefs-compressed-files"
+          metaurl: "redis://:${SECRET_JUICEFS_REDIS_PASSWORD}@juicefs-redis-headless.kube-system.svc.cluster.local:6379/1"
+          storage: "ceph"
+          bucket: "ceph://juicefs-compressed-files"
+          accessKey: "ceph"
+          secretKey: "client.admin"
+          envs: "{TZ: Asia/Shanghai}"
+          configs: '{"ceph-conf": "/etc/ceph"}'
+        pathPattern: "${.PVC.namespace}-${.PVC.name}"
+        mountOptions:
+          - "enable-xattr"
+
+      - name: "juicefs-media-replicated"
+        enabled: true
+        reclaimPolicy: Delete
+        backend:
+          name: "juicefs-media-replicated"
+          metaurl: "redis://:${SECRET_JUICEFS_REDIS_PASSWORD}@juicefs-redis-headless.kube-system.svc.cluster.local:6379/2"
+          storage: "ceph"
+          bucket: "ceph://juicefs-media-replicated"
+          accessKey: "ceph"
+          secretKey: "client.admin"
+          envs: "{TZ: Asia/Shanghai}"
+          configs: '{"ceph-conf": "/etc/ceph"}'
+        pathPattern: "${.PVC.namespace}-${.PVC.name}"
+        mountOptions:
+          - "enable-xattr"
+
+      - name: "juicefs-media-ec"
+        enabled: true
+        reclaimPolicy: Delete
+        backend:
+          name: "juicefs-media-ec"
+          metaurl: "redis://:${SECRET_JUICEFS_REDIS_PASSWORD}@juicefs-redis-headless.kube-system.svc.cluster.local:6379/4"
+          storage: "ceph"
+          bucket: "ceph://juicefs-media-ec"
+          accessKey: "ceph"
+          secretKey: "client.admin"
+          envs: "{TZ: Asia/Shanghai}"
+          configs: '{"ceph-conf": "/etc/ceph"}'
+        pathPattern: "${.PVC.namespace}-${.PVC.name}"
+        mountOptions:
+          - "enable-xattr"
