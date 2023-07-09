@@ -6,6 +6,7 @@ resources:
   - emby
   - flaresolverr
 #  - jellyfin
+  - jproxy
   - overseerr
   - lidarr
 #  - plex
