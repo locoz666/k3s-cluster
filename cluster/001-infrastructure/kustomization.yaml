@@ -5,6 +5,7 @@ resources:
   - cert-manager
   - cilium
   - gpu-operator
+  - juicefs
   - kilo
   - kubed
   - metallb

@@ -1,0 +1,16 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: juicefs-compressed-files
+  namespace: rook-ceph
+spec:
+  failureDomain: osd
+  replicated:
+    size: 3
+    requireSafeReplicaSize: true
+  deviceClass: hdd  # 设置后端osd类型
+  parameters:
+    compression_mode: aggressive # 设置除了指定不可压缩的数据以外都进行压缩
+    pg_num: '32' # create the pool with a pre-configured placement group number
+    pgp_num: '32' # this should at least match `pg_num` so that all PGs are used
