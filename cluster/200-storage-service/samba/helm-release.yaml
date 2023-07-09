@@ -124,4 +124,13 @@ spec:
                 guestok: no
                 validusers: loco
                 writelist: loco
-                veto: no            
+                veto: no
+            
+              - name: macbook-timemachine
+                path: /mnt/compressed-files/macbook-timemachine
+                browsable: yes
+                readonly: no
+                guestok: no
+                validusers: loco
+                writelist: loco
+                veto: no
