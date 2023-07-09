@@ -5,12 +5,13 @@ resources:
   - bazarr
   - emby
   - flaresolverr
+  - jackett
 #  - jellyfin
   - jproxy
   - overseerr
   - lidarr
 #  - plex
-  - prowlarr
+  #  - prowlarr
   - qbittorrent
   - radarr
   - samba
