@@ -59,13 +59,9 @@ spec:
         type: pvc
         existingClaim: photoprism-config
         mountPath: /photoprism/storage
-      camera-files:
+      media-files:
         enabled: true
         type: pvc
-        existingClaim: camera-files
-        mountPath: /photoprism/originals/camera
-      screenshot-files:
-        enabled: true
-        type: pvc
-        existingClaim: screenshot-files
-        mountPath: /photoprism/originals/screenshot
+        existingClaim: media-files
+        mountPath: /photoprism/originals
+        mountPropagation: HostToContainer
