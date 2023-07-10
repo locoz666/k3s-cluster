@@ -33,6 +33,7 @@ spec:
       bdev_async_discard = true
       [mon]
       mon_warn_on_pool_no_redundancy = false
+      mon_data_avail_warn = 10
       [osd]
       bluefs_buffered_io = false
       osd_scrub_begin_hour = 22
