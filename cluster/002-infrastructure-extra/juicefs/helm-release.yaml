@@ -54,7 +54,7 @@ spec:
           secretKey: "client.admin"
           envs: "{TZ: Asia/Shanghai}"
           configs: '{"ceph-conf": "/etc/ceph"}'
-        pathPattern: "${.PVC.namespace}-${.PVC.name}"
+        pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
         mountOptions:
           - "enable-xattr"
 
@@ -70,7 +70,7 @@ spec:
           secretKey: "client.admin"
           envs: "{TZ: Asia/Shanghai}"
           configs: '{"ceph-conf": "/etc/ceph"}'
-        pathPattern: "${.PVC.namespace}-${.PVC.name}"
+        pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
         mountOptions:
           - "enable-xattr"
 
@@ -86,7 +86,7 @@ spec:
           secretKey: "client.admin"
           envs: "{TZ: Asia/Shanghai}"
           configs: '{"ceph-conf": "/etc/ceph"}'
-        pathPattern: "${.PVC.namespace}-${.PVC.name}"
+        pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
         mountOptions:
           - "enable-xattr"
 
@@ -102,6 +102,6 @@ spec:
           secretKey: "client.admin"
           envs: "{TZ: Asia/Shanghai}"
           configs: '{"ceph-conf": "/etc/ceph"}'
-        pathPattern: "${.PVC.namespace}-${.PVC.name}"
+        pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
         mountOptions:
           - "enable-xattr"
