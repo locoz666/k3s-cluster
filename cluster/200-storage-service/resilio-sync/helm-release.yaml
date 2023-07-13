@@ -33,6 +33,29 @@ spec:
       PGID: "1000"
       UMASK: 002
 
+    service:
+      main:
+        ports:
+          http:
+            port: 8888
+      bt-listen:
+        enabled: true
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        annotations:
+          metallb.universe.tf/loadBalancerIPs: 192.168.254.100
+        ports:
+          bt-tcp:
+            enabled: true
+            port: 55555
+            protocol: TCP
+            targetPort: 55555
+          bt-udp:
+            enabled: true
+            port: 55555
+            protocol: UDP
+            targetPort: 55555
+
     ingress:
       main:
         enabled: true
