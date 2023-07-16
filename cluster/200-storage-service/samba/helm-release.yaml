@@ -45,6 +45,11 @@ spec:
         existingClaim: media-files
         mountPath: /mnt/media-files
         mountPropagation: HostToContainer
+      apple-timemachine-files:
+        enabled: true
+        type: pvc
+        existingClaim: apple-timemachine-files
+        mountPath: /mnt/apple-timemachine-files
 
     configmap:
       config:
@@ -126,8 +131,8 @@ spec:
                 writelist: loco
                 veto: no
             
-              - name: macbook-timemachine
-                path: /mnt/compressed-files/macbook-timemachine
+              - name: apple-timemachine
+                path: /mnt/apple-timemachine-files
                 browsable: yes
                 readonly: no
                 guestok: no
