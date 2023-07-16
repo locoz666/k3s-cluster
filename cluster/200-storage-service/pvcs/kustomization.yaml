@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - compressed-files.yaml
   - media-files.yaml
+  - apple-timemachine-files.yaml
