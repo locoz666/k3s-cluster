@@ -22,6 +22,7 @@ spec:
   values:
     nodeSelector:
       location: "home"
+      disk-type: "hdd"
 
     image:
       repository: photoprism/photoprism

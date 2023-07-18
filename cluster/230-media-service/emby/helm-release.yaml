@@ -27,6 +27,7 @@ spec:
 
     nodeSelector:
       location: "home"
+      disk-type: "hdd"
 
     env:
       TZ: "Asia/Shanghai"
