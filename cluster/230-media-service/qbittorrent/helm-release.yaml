@@ -23,6 +23,7 @@ spec:
   values:
     nodeSelector:
       location: "home"
+      disk-type: "hdd"
 
     image:
       repository: ghcr.io/onedr0p/qbittorrent
