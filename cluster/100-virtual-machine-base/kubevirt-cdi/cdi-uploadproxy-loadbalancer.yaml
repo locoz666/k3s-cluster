@@ -4,6 +4,8 @@ kind: Service
 metadata:
   name: cdi-uploadproxy-loadbalancer
   namespace: cdi
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 192.168.254.2
 spec:
   ports:
     - protocol: TCP
@@ -12,3 +14,4 @@ spec:
   selector:
     cdi.kubevirt.io: cdi-uploadproxy
   type: LoadBalancer
+  externalTrafficPolicy: Local
