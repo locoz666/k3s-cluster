@@ -34,6 +34,8 @@ spec:
       UID: "1000"
       GID: "1000"
       UMASK: 002
+      PHOTOPRISM_ORIGINALS_LIMIT: "-1"
+      PHOTOPRISM_RESOLUTION_LIMIT: "-1"
 
     ingress:
       main:
