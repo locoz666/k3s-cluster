@@ -26,7 +26,7 @@ spec:
 
     image:
       repository: octoprint/octoprint
-      tag: 1.9.0
+      tag: 1.8.4
 
     ingress:
       main:
