@@ -118,25 +118,25 @@ spec:
         nodes:
           - name: "home-server-titan"
             devices:
-              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD41FWR" # 1
+              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD41FWR"
                 config:
                   deviceClass: "hdd"
-              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD463ZF" # 1
+              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD463ZF"
                 config:
                   deviceClass: "hdd"
-              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD6XBFD" # 1
+              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD6XBFD"
                 config:
                   deviceClass: "hdd"
-              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD71JSA" # 1
+              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD71JSA"
                 config:
                   deviceClass: "hdd"
               - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0JMTX"
                 config:
                   deviceClass: "hdd"
-              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0NB7Y" # 1
+              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0NB7Y"
                 config:
                   deviceClass: "hdd"
-              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0NC8L" # 1
+              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0NC8L"
                 config:
                   deviceClass: "hdd"
               - name: "/dev/disk/by-id/scsi-SWDC_WUH722020BL5204_8LHPJ7WN"
