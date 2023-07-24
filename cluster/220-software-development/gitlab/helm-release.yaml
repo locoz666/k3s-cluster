@@ -83,9 +83,6 @@ spec:
           kubernetes.io/tls-acme: "true"
           cert-manager.io/cluster-issuer: "letsencrypt-dns"
 
-      shell:
-        port: 10000  # 指定gitlab的git ssh的端口
-
       appConfig:
         time_zone: Asia/Shanghai
 
