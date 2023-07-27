@@ -50,16 +50,15 @@ spec:
         existingClaim: media-files
         mountPropagation: HostToContainer
 
-    hostNetwork: true
-
     service:
       main:
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        annotations:
+          metallb.universe.tf/loadBalancerIPs: 192.168.254.5
         ports:
           http:
             port: 8096
-      dlna:
-        enabled: true
-        ports:
           dlna:
             enabled: true
             port: 1900
