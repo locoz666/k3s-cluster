@@ -143,6 +143,9 @@ spec:
               - name: "/dev/disk/by-id/scsi-SWDC_WUH722020BL5204_8LHPZ97R"
                 config:
                   deviceClass: "hdd"
+              - name: "/dev/disk/by-id/scsi-SWDC_WUH722020BL5204_8LHPZ1KR"
+                config:
+                  deviceClass: "hdd"
           - name: "home-server-sonic"
             devices:
               - name: "/dev/disk/by-id/nvme-INTEL_SSDPE2KX040T8_BTLJ848209YE4P0DGN"  # Intel P4510 4T U.2
