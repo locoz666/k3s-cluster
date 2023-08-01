@@ -29,6 +29,9 @@ spec:
       TZ: "Asia/Shanghai"
 
     hostNetwork: true
+    # 对于以 hostNetwork 方式运行的 Pod，应将其 DNS 策略显式设置为 "ClusterFirstWithHostNet"。
+    # https://kubernetes.io/zh-cn/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy
+    dnsPolicy: ClusterFirstWithHostNet
 
     ingress:
       main:
