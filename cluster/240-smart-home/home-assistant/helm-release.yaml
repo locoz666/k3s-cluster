@@ -24,8 +24,12 @@ spec:
     image:
       repository: ghcr.io/home-assistant/home-assistant
       tag: 2023.6.3
+
     env:
       TZ: "Asia/Shanghai"
+
+    hostNetwork: true
+
     ingress:
       main:
         enabled: true
@@ -47,6 +51,7 @@ spec:
       config:
         enabled: true
         existingClaim: home-assistant-config
+
     nodeSelector:
       location: "home"
 
