@@ -24,12 +24,14 @@ spec:
     nodeSelector:
       location: "home"
 
+    env:
+      TZ: "Asia/Shanghai"
+      PUID: "1000"
+      PGID: "1000"
+
     image:
       repository: linuxserver/jackett
       tag: development-version-v0.21.294
-
-    env:
-      TZ: "Asia/Shanghai"
 
     service:
       main:
