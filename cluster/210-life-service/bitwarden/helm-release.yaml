@@ -12,21 +12,36 @@ spec:
       retries: 3
   chart:
     spec:
-      # renovate: registryUrl=https://k8s-at-home.com/charts/
-      chart: vaultwarden
-      version: 5.3.2
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 1.5.0
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home-charts
+        name: bjw-s-charts
         namespace: flux-system
       interval: 5m
   values:
     image:
       repository: vaultwarden/server
       tag: 1.28.1
+
     env:
       TZ: "Asia/Shanghai"
       DATABASE_URL: "postgresql://${SECRET_BITWARDEN_PGSQL_USERNAME}:${SECRET_BITWARDEN_PGSQL_PASSWORD}@bitwarden-postgresql:5432/bitwarden"
+
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          http:
+            enabled: true
+            port: 80
+            protocol: HTTP
+          websocket:
+            enabled: true
+            port: 3012
+            protocol: TCP
+
     ingress:
       main:
         enabled: true
@@ -63,6 +78,7 @@ spec:
         tls:
           - secretName: "${SECRET_DOMAIN/./-}-tls"
           - secretName: "direct-${SECRET_DOMAIN/./-}-tls"
+
     persistence:
       config:
         enabled: true

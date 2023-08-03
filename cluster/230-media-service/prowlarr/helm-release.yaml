@@ -12,12 +12,12 @@ spec:
       retries: 3
   chart:
     spec:
-      # renovate: registryUrl=https://k8s-at-home.com/charts/
-      chart: prowlarr
-      version: 4.5.2
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 1.5.0
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home-charts
+        name: bjw-s-charts
         namespace: flux-system
       interval: 5m
   values:
@@ -35,10 +35,14 @@ spec:
       runAsUser: 1000
       runAsGroup: 1000
 
-    persistence:
-      config:
-        enabled: true
-        existingClaim: prowlarr-config
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          http:
+            enabled: true
+            port: 9696
+            protocol: HTTP
 
     ingress:
       main:
@@ -53,3 +57,8 @@ spec:
                 pathType: Prefix
         tls:
           - secretName: "${SECRET_DOMAIN/./-}-tls"
+
+    persistence:
+      config:
+        enabled: true
+        existingClaim: prowlarr-config

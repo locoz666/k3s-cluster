@@ -12,21 +12,43 @@ spec:
       retries: 3
   chart:
     spec:
-      # renovate: registryUrl=https://k8s-at-home.com/charts/
-      chart: octoprint
-      version: 6.4.2
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 1.5.0
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home-charts
+        name: bjw-s-charts
         namespace: flux-system
   values:
+    #    nodeSelector:
+    #      kubernetes.io/hostname: "home-server-nut"
+    #      kubernetes.io/hostname: "raspberry-pi4b"
+
+    tolerations:
+      - key: "node-role.kubernetes.io/edge"
+        operator: "Exists"
+        effect: "NoSchedule"
+
     env:
+      TZ: "Asia/Shanghai"
       OCTOPRINT_PORT: 80
       ENABLE_MJPG_STREAMER: "false"
+
+    securityContext:
+      privileged: true
 
     image:
       repository: octoprint/octoprint
       tag: 1.8.4
+
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          http:
+            enabled: true
+            port: 80
+            protocol: HTTP
 
     ingress:
       main:
@@ -45,21 +67,15 @@ spec:
           - secretName: "${SECRET_DOMAIN/./-}-tls"
           - secretName: "direct-${SECRET_DOMAIN/./-}-tls"
 
-    securityContext:
-      privileged: true
-
     persistence:
       data:
         enabled: true
         existingClaim: octoprint-data
-        #        type: hostPath
-        #        hostPath: /data/octoprint
         mountPath: /octoprint
       printer:
         enabled: true
         type: hostPath
         hostPath: /dev/ttyUSB0
-
       vcgencmd:
         enabled: true
         type: hostPath
@@ -81,18 +97,8 @@ spec:
         type: hostPath
         hostPath: /dev/vchiq
 
-    #    nodeSelector:
-    #      kubernetes.io/hostname: "home-server-nut"
-    #      kubernetes.io/hostname: "raspberry-pi4b"
-
-    tolerations:
-      - key: "node-role.kubernetes.io/edge"
-        operator: "Exists"
-        effect: "NoSchedule"
-
     probes:
       liveness:
         enabled: false
-
       readiness:
         enabled: false
