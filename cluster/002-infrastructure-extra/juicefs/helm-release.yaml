@@ -30,7 +30,7 @@ spec:
     sidecars:
       livenessProbeImage:
         repository: quay.io/k8scsi/livenessprobe
-        tag: "v1.1.0"
+        tag: "v2.2.0"
       nodeDriverRegistrarImage:
         repository: quay.io/k8scsi/csi-node-driver-registrar
         tag: "v2.1.0"
