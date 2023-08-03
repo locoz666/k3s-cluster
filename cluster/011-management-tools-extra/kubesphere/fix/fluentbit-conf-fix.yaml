@@ -14,7 +14,7 @@ spec:
               - key: node-role.kubernetes.io/edge
                 operator: DoesNotExist
   fluentBitConfigName: fluent-bit-config
-  image: kubesphere/fluent-bit:v1.8.11
+  image: kubesphere/fluent-bit:v1.9.9
   positionDB:
     emptyDir: { }
   resources:
