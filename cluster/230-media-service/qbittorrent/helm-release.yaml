@@ -12,12 +12,12 @@ spec:
       retries: 3
   chart:
     spec:
-      # renovate: registryUrl=https://k8s-at-home.com/charts/
-      chart: qbittorrent
-      version: 13.5.2
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 1.5.0
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home-charts
+        name: bjw-s-charts
         namespace: flux-system
       interval: 5m
   values:
@@ -36,38 +36,25 @@ spec:
       runAsUser: 1000
       runAsGroup: 1000
 
-    persistence:
-      config:
-        enabled: true
-        existingClaim: qbittorrent-config
-      media:
-        enabled: true
-        mountPath: /media
-        existingClaim: media-files
-        mountPropagation: HostToContainer
-
     service:
       main:
-        ports:
-          http:
-            port: 8080
-      bittorrent:
-        enabled: true
         type: LoadBalancer
         externalTrafficPolicy: Local
         annotations:
           metallb.universe.tf/loadBalancerIPs: 192.168.254.101
         ports:
+          http:
+            enabled: true
+            port: 8080
+            protocol: HTTP
           bt-tcp:
             enabled: true
             port: 6881
             protocol: TCP
-            targetPort: 6881
           bt-udp:
             enabled: true
             port: 6881
             protocol: UDP
-            targetPort: 6881
 
     ingress:
       main:
@@ -82,6 +69,16 @@ spec:
                 pathType: Prefix
         tls:
           - secretName: "${SECRET_DOMAIN/./-}-tls"
+
+    persistence:
+      config:
+        enabled: true
+        existingClaim: qbittorrent-config
+      media:
+        enabled: true
+        mountPath: /media
+        existingClaim: media-files
+        mountPropagation: HostToContainer
 
     probes:
       liveness:

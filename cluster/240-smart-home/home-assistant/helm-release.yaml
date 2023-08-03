@@ -12,15 +12,18 @@ spec:
       retries: 3
   chart:
     spec:
-      # renovate: registryUrl=https://k8s-at-home.com/charts/
-      chart: home-assistant
-      version: 13.4.2
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 1.5.0
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home-charts
+        name: bjw-s-charts
         namespace: flux-system
       interval: 5m
   values:
+    nodeSelector:
+      location: "home"
+
     image:
       repository: ghcr.io/home-assistant/home-assistant
       tag: 2023.6.3
@@ -32,6 +35,15 @@ spec:
     # 对于以 hostNetwork 方式运行的 Pod，应将其 DNS 策略显式设置为 "ClusterFirstWithHostNet"。
     # https://kubernetes.io/zh-cn/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy
     dnsPolicy: ClusterFirstWithHostNet
+
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          http:
+            enabled: true
+            port: 8123
+            protocol: HTTP
 
     ingress:
       main:
@@ -54,9 +66,6 @@ spec:
       config:
         enabled: true
         existingClaim: home-assistant-config
-
-    nodeSelector:
-      location: "home"
 
     addons:
       codeserver:

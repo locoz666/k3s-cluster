@@ -12,12 +12,12 @@ spec:
       retries: 3
   chart:
     spec:
-      # renovate: registryUrl=https://k8s-at-home.com/charts/
-      chart: jellyfin
-      version: 9.5.3
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 1.5.0
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home-charts
+        name: bjw-s-charts
         namespace: flux-system
       interval: 5m
   values:
@@ -31,30 +31,14 @@ spec:
     env:
       TZ: "Asia/Shanghai"
 
-    persistence:
-      config:
-        enabled: true
-        existingClaim: jellyfin-config
-      cache:
-        enabled: true
-        existingClaim: jellyfin-cache
-        mountPropagation: HostToContainer
-      media:
-        enabled: true
-        mountPath: /media
-        existingClaim: media-files
-        mountPropagation: HostToContainer
-
     service:
       main:
-        type: NodePort
+        type: ClusterIP
         ports:
           http:
             enabled: true
             port: 8096
-            protocol: TCP
-            targetPort: 8096
-            nodePort: 32600
+            protocol: HTTP
 
     ingress:
       main:
@@ -72,3 +56,17 @@ spec:
         tls:
           - secretName: "${SECRET_DOMAIN/./-}-tls"
           - secretName: "direct-${SECRET_DOMAIN/./-}-tls"
+
+    persistence:
+      config:
+        enabled: true
+        existingClaim: jellyfin-config
+      cache:
+        enabled: true
+        existingClaim: jellyfin-cache
+        mountPropagation: HostToContainer
+      media:
+        enabled: true
+        mountPath: /media
+        existingClaim: media-files
+        mountPropagation: HostToContainer
