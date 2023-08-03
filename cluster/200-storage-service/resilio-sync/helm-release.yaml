@@ -12,12 +12,12 @@ spec:
       retries: 3
   chart:
     spec:
-      # renovate: registryUrl=https://k8s-at-home.com/charts/
-      chart: resilio-sync
-      version: 5.4.2
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 1.5.0
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home-charts
+        name: bjw-s-charts
         namespace: flux-system
   values:
     nodeSelector:
@@ -29,33 +29,30 @@ spec:
       tag: version-2.7.2.1375
 
     env:
-      TZ: Asia/Shanghai
+      TZ: "Asia/Shanghai"
       PUID: "1000"
       PGID: "1000"
       UMASK: 002
 
     service:
       main:
-        ports:
-          http:
-            port: 8888
-      bt-listen:
-        enabled: true
         type: LoadBalancer
         externalTrafficPolicy: Local
         annotations:
           metallb.universe.tf/loadBalancerIPs: 192.168.254.100
         ports:
+          http:
+            enabled: true
+            port: 8888
+            protocol: HTTP
           bt-tcp:
             enabled: true
             port: 55555
             protocol: TCP
-            targetPort: 55555
           bt-udp:
             enabled: true
             port: 55555
             protocol: UDP
-            targetPort: 55555
 
     ingress:
       main:

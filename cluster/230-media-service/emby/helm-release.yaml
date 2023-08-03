@@ -12,12 +12,12 @@ spec:
       retries: 3
   chart:
     spec:
-      # renovate: registryUrl=https://k8s-at-home.com/charts/
-      chart: emby
-      version: 3.4.2
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 1.5.0
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home-charts
+        name: bjw-s-charts
         namespace: flux-system
       interval: 5m
   values:
@@ -35,21 +35,6 @@ spec:
       GID: "1000"
       GIDLIST: "1000"
 
-    persistence:
-      config:
-        enabled: true
-        existingClaim: emby-config
-      transcode:
-        enabled: true
-        mountPath: /tmp/transcoding-temp
-        existingClaim: emby-transcode
-        mountPropagation: HostToContainer
-      media:
-        enabled: true
-        mountPath: /media
-        existingClaim: media-files
-        mountPropagation: HostToContainer
-
     service:
       main:
         type: LoadBalancer
@@ -58,7 +43,9 @@ spec:
           metallb.universe.tf/loadBalancerIPs: 192.168.254.5
         ports:
           http:
+            enabled: true
             port: 8096
+            protocol: HTTP
           dlna:
             enabled: true
             port: 1900
@@ -80,6 +67,21 @@ spec:
         tls:
           - secretName: "${SECRET_DOMAIN/./-}-tls"
           - secretName: "direct-${SECRET_DOMAIN/./-}-tls"
+
+    persistence:
+      config:
+        enabled: true
+        existingClaim: emby-config
+      transcode:
+        enabled: true
+        mountPath: /tmp/transcoding-temp
+        existingClaim: emby-transcode
+        mountPropagation: HostToContainer
+      media:
+        enabled: true
+        mountPath: /media
+        existingClaim: media-files
+        mountPropagation: HostToContainer
 
 #    resources:
 #      limits:

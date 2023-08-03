@@ -12,12 +12,12 @@ spec:
       retries: 3
   chart:
     spec:
-      # renovate: registryUrl=https://k8s-at-home.com/charts/
-      chart: photoprism
-      version: 7.1.2
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 1.5.0
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home-charts
+        name: bjw-s-charts
         namespace: flux-system
   values:
     nodeSelector:
@@ -30,12 +30,21 @@ spec:
 
     env:
       TZ: Asia/Shanghai
-      PHOTOPRISM_ADMIN_PASSWORD: "${SECRET_PHOTOPRISM_PASSWORD}"
       UID: "1000"
       GID: "1000"
       UMASK: 002
+      PHOTOPRISM_ADMIN_PASSWORD: "${SECRET_PHOTOPRISM_PASSWORD}"
       PHOTOPRISM_ORIGINALS_LIMIT: "-1"
       PHOTOPRISM_RESOLUTION_LIMIT: "-1"
+
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          http:
+            enabled: true
+            port: 2342
+            protocol: HTTP
 
     ingress:
       main:
