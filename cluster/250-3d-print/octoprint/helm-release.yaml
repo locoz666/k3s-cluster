@@ -39,7 +39,7 @@ spec:
 
     image:
       repository: octoprint/octoprint
-      tag: 1.8.4
+      tag: 1.9.2
 
     service:
       main:
