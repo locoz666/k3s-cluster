@@ -26,7 +26,7 @@ spec:
 
     image:
       repository: photoprism/photoprism
-      tag: "230625"
+      tag: "20220121"
 
     env:
       TZ: Asia/Shanghai
