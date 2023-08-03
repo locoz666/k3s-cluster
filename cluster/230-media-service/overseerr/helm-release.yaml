@@ -24,16 +24,14 @@ spec:
     nodeSelector:
       location: "home"
 
-    image:
-      repository: ghcr.io/sct/overseerr
-      tag: 1.33.0
-
     env:
       TZ: "Asia/Shanghai"
+      PUID: "1000"
+      PGID: "1000"
 
-    securityContext:
-      runAsUser: 1000
-      runAsGroup: 1000
+    image:
+      repository: linuxserver/overseerr
+      tag: 1.33.2
 
     service:
       main:
