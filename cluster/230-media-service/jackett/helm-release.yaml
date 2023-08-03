@@ -37,7 +37,7 @@ spec:
         ports:
           http:
             enabled: true
-            port: 6767
+            port: 9117
             protocol: HTTP
 
     ingress:
