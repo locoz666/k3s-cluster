@@ -40,8 +40,20 @@ spec:
           smb:
             enabled: true
             port: 445
+            protocol: TCP
+    #          netbios:
+    #            enabled: true
+    #            port: 139
+    #            protocol: TCP
 
     persistence:
+      config:
+        enabled: true
+        type: configMap
+        name: samba-config
+        subPath: config.yml
+        mountPath: /data/config.yml
+        readOnly: true
       media-files:
         enabled: true
         type: pvc
@@ -49,7 +61,7 @@ spec:
         mountPath: /media
         mountPropagation: HostToContainer
 
-    configmap:
+    configMaps:
       config:
         enabled: true
         data:
