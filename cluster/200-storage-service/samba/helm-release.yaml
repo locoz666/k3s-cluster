@@ -41,10 +41,10 @@ spec:
             enabled: true
             port: 445
             protocol: TCP
-          netbios:
-            enabled: true
-            port: 139
-            protocol: TCP
+    #          netbios:
+    #            enabled: true
+    #            port: 139
+    #            protocol: TCP
 
     persistence:
       compressed-files:
