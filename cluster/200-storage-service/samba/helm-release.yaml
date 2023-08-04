@@ -51,6 +51,7 @@ spec:
         enabled: true
         type: configMap
         name: samba-config
+        subPath: config.yml
         mountPath: /data/config.yml
         readOnly: true
       compressed-files:
