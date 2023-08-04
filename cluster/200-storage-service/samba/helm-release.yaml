@@ -40,8 +40,20 @@ spec:
           smb:
             enabled: true
             port: 445
+            protocol: TCP
+    #          netbios:
+    #            enabled: true
+    #            port: 139
+    #            protocol: TCP
 
     persistence:
+      config:
+        enabled: true
+        type: configMap
+        name: samba-config
+        subPath: config.yml
+        mountPath: /data/config.yml
+        readOnly: true
       compressed-files:
         enabled: true
         type: pvc
@@ -60,7 +72,7 @@ spec:
         existingClaim: apple-timemachine-files
         mountPath: /mnt/apple-timemachine-files
 
-    configmap:
+    configMaps:
       config:
         enabled: true
         data:
