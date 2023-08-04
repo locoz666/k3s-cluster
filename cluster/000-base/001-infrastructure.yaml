@@ -7,7 +7,7 @@ metadata:
 spec:
   interval: 10m0s
   dependsOn:
-    - name: 000-base
+    - name: flux-system
   path: ./cluster/001-infrastructure
   prune: false
   sourceRef:
