@@ -47,6 +47,12 @@ spec:
     #            protocol: TCP
 
     persistence:
+      config:
+        enabled: true
+        type: configMap
+        name: samba-config
+        mountPath: /data/config.yml
+        readOnly: true
       compressed-files:
         enabled: true
         type: pvc
