@@ -53,7 +53,7 @@ spec:
         existingClaim: media-files
         mountPath: /media
         mountPropagation: HostToContainer
-      samba-config:
+      config:
         enabled: true
         type: configMap
         mountPath: /data/config.yml
