@@ -36,7 +36,7 @@ spec:
         reclaimPolicy: Delete
         backend:
           name: "juicefs-ceph-application-performance"
-          metaurl: "redis://:${SECRET_JUICEFS_REDIS_PASSWORD}@juicefs-redis-headless.kube-system.svc.cluster.local:6379/0"
+          metaurl: "redis://:${SECRET_JUICEFS_REDIS_PASSWORD}@juicefs-redis-master.kube-system.svc.cluster.local:6379/0"
           storage: "ceph"
           bucket: "ceph://juicefs-application-performance"
           accessKey: "ceph"
@@ -52,7 +52,7 @@ spec:
         reclaimPolicy: Delete
         backend:
           name: "juicefs-compressed-files"
-          metaurl: "redis://:${SECRET_JUICEFS_REDIS_PASSWORD}@juicefs-redis-headless.kube-system.svc.cluster.local:6379/1"
+          metaurl: "redis://:${SECRET_JUICEFS_REDIS_PASSWORD}@juicefs-redis-master.kube-system.svc.cluster.local:6379/1"
           storage: "ceph"
           bucket: "ceph://juicefs-compressed-files"
           accessKey: "ceph"
@@ -68,7 +68,7 @@ spec:
         reclaimPolicy: Delete
         backend:
           name: "juicefs-media-replicated"
-          metaurl: "redis://:${SECRET_JUICEFS_REDIS_PASSWORD}@juicefs-redis-headless.kube-system.svc.cluster.local:6379/2"
+          metaurl: "redis://:${SECRET_JUICEFS_REDIS_PASSWORD}@juicefs-redis-master.kube-system.svc.cluster.local:6379/2"
           storage: "ceph"
           bucket: "ceph://juicefs-media-replicated"
           accessKey: "ceph"
@@ -84,7 +84,7 @@ spec:
         reclaimPolicy: Delete
         backend:
           name: "juicefs-media-ec"
-          metaurl: "redis://:${SECRET_JUICEFS_REDIS_PASSWORD}@juicefs-redis-headless.kube-system.svc.cluster.local:6379/4"
+          metaurl: "redis://:${SECRET_JUICEFS_REDIS_PASSWORD}@juicefs-redis-master.kube-system.svc.cluster.local:6379/4"
           storage: "ceph"
           bucket: "ceph://juicefs-media-ec"
           accessKey: "ceph"
