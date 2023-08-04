@@ -14,7 +14,7 @@ spec:
     spec:
       # renovate: registryUrl=https://juicedata.github.io/charts/
       chart: juicefs-csi-driver
-      version: 0.15.1
+      version: 0.15.0
       sourceRef:
         kind: HelmRepository
         name: juicefs-charts
@@ -26,17 +26,6 @@ spec:
 
     defaultMountImage:
       ce: "registry-gitlab.${SECRET_DOMAIN}/loco/juicefs-csi-driver:36b2424f"
-
-    sidecars:
-      livenessProbeImage:
-        repository: quay.io/k8scsi/livenessprobe
-        tag: "v1.1.0"
-      nodeDriverRegistrarImage:
-        repository: quay.io/k8scsi/csi-node-driver-registrar
-        tag: "v2.1.0"
-      csiProvisionerImage:
-        repository: quay.io/k8scsi/csi-provisioner
-        tag: "v1.6.0"
 
     controller:
       provisioner: true
