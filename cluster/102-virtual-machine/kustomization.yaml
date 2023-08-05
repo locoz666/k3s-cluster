@@ -5,3 +5,4 @@ resources:
   - isos
   - vm-windows10
   - vm-windows11
+  - namespace.yaml

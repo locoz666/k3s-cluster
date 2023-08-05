@@ -3,6 +3,7 @@ apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
   name: vm-windows10
+  namespace: virtual-machine
 spec:
   running: false
   template:
