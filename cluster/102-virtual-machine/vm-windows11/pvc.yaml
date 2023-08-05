@@ -3,6 +3,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: vmdisk-windows11
+  namespace: virtual-machine
 spec:
   accessModes:
     - ReadWriteOnce
