@@ -3,7 +3,6 @@ apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
   name: vm-windows11
-  namespace: virtual-machine
 spec:
   running: false
   template:
@@ -30,12 +29,13 @@ spec:
           bootloader:
             efi:
               secureBoot: true
+          uuid: 5d307ca9-b3ef-428c-8861-06e72d69f223
 
         # CPU设置
         cpu:
           sockets: 1  # 虚拟机中的CPU插槽数量
           threads: 1  # 虚拟机中每个CPU的线程数，设成2就类似于Intel的超线程
-          cores: 8  # 分配CPU核心数
+          cores: 16  # 分配CPU核心数
           dedicatedCpuPlacement: true  # 分配专用CPU资源，给虚拟机固定CPU核心
           isolateEmulatorThread: true  # 分配一个独立的CPU核心用于QEMU的模拟器线程，避免影响虚拟机本身
           model: host-passthrough  # 开启CPU直通以榨干性能
@@ -43,7 +43,7 @@ spec:
         # 内存设置（这里用的是k8s原生写法）
         resources:
           requests:
-            memory: 16G
+            memory: 32G
 
         # 根据高性能虚拟机模板设置
         features:
@@ -79,7 +79,7 @@ spec:
               bootOrder: 1
 
             # virtio驱动盘
-            - name: virtiocontainerdisk
+            - name: virtio-disk
               cdrom:
                 bus: sata  # 手动设置为sata以避免安装需要virtio驱动才能读取文件
 
@@ -94,7 +94,7 @@ spec:
           # 网卡设置 https://kubevirt.io/user-guide/virtual_machines/interfaces_and_networks/#frontend
           interfaces:
             - masquerade: { }
-              model: virtio
+              model: e1000
               name: default
 
           # 根据高性能虚拟机模板设置，该设置是给VNC操作时鼠标指针位置同步用的
@@ -104,7 +104,7 @@ spec:
               name: tablet
           tpm: { }  # 开启TPM
 
-      terminationGracePeriodSeconds: 3600  # 虚拟机被发送关机信号后后等待关闭的时间
+      terminationGracePeriodSeconds: 0  # 虚拟机被发送关机信号后后等待关闭的时间
 
       volumes:
         # 系统安装ISO
@@ -113,9 +113,9 @@ spec:
             claimName: iso-windows11-22621
 
         # virtio驱动盘
-        - name: virtiocontainerdisk
-          containerDisk:
-            image: quay.io/kubevirt/virtio-container-disk
+        - name: virtio-disk
+          persistentVolumeClaim:
+            claimName: virtio-win
 
         # 系统盘
         - name: system-disk
