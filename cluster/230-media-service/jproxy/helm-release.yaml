@@ -22,7 +22,7 @@ spec:
   values:
     image:
       repository: luckypuppy514/jproxy
-      tag: v3.3.8
+      tag: v3.4.0
 
     env:
       TZ: "Asia/Shanghai"
