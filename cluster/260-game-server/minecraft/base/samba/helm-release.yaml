@@ -1,0 +1,84 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: samba
+  namespace: game-server
+spec:
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 1.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  values:
+    image:
+      repository: "registry-gitlab.${SECRET_DOMAIN}/loco/docker-samba"
+      tag: 4.18.3
+
+    service:
+      main:
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        annotations:
+          metallb.universe.tf/loadBalancerIPs: 192.168.254.6
+        ports:
+          http:
+            enabled: false
+          smb:
+            enabled: true
+            port: 445
+            protocol: TCP
+    #          netbios:
+    #            enabled: true
+    #            port: 139
+    #            protocol: TCP
+
+    persistence:
+      config:
+        enabled: true
+        type: configMap
+        name: samba-config
+        subPath: config.yml
+        mountPath: /data/config.yml
+        readOnly: true
+      minecraft-files:
+        enabled: true
+        type: pvc
+        existingClaim: minecraft-data
+        mountPath: /share/minecraft
+        mountPropagation: HostToContainer
+
+    configMaps:
+      config:
+        enabled: true
+        data:
+          config.yml: |
+            auth:
+              - user: ${SECRET_SAMBA_USERNAME}
+                group: ${SECRET_SAMBA_USERNAME}
+                uid: 1000
+                gid: 1000
+                password: ${SECRET_SAMBA_PASSWORD}
+
+            global:
+              - "force user = ${SECRET_SAMBA_USERNAME}"
+              - "force group = ${SECRET_SAMBA_USERNAME}"
+
+            share:
+              - name: minecraft
+                path: /share/minecraft
+                browsable: yes
+                readonly: no
+                guestok: no
+                validusers: loco
+                writelist: loco
+                veto: no
