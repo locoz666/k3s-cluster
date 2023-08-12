@@ -5,6 +5,16 @@ metadata:
   name: minecraft-scripts
   namespace: game-server
 data:
+  init.sh: |
+    #!/bin/bash
+    
+    bash /scripts/set_eula.sh
+    bash /scripts/server_properties_update.sh
+  set_eula.sh: |
+    #!/bin/bash
+
+    file="/minecraft/eula.txt"
+    echo "eula=true" > "$file"
   close_online_mode.sh: |
     #!/bin/bash
     
@@ -15,19 +25,19 @@ data:
 
     file="/minecraft/server.properties"
     properties=(
-    "pvp=true"
-    "allow-flight=true"
-    "rcon.password=12qwaszx"
-    "rcon.port=25575"
-    "server-port=25565"
-    "view-distance=8"
-    "max-players=66666"
-    "online-mode=true"
-    "enable-rcon=true"
-    "difficulty=hard"
-    "white-list=false"
-    "level-name=world"
-    "max-tick-time=60000"
+      "pvp=true"
+      "allow-flight=true"
+      "rcon.password=12qwaszx"
+      "rcon.port=25575"
+      "server-port=25565"
+      "view-distance=8"
+      "max-players=66666"
+      "online-mode=true"
+      "enable-rcon=true"
+      "difficulty=hard"
+      "white-list=false"
+      "level-name=world"
+      "max-tick-time=60000"
     )
 
     for property in "$${properties[@]}"; do
