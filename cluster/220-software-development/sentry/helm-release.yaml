@@ -39,8 +39,6 @@ spec:
         dataLogDir:
           # sentry-clickhouse-data-sentry-clickhouse
           size: 30Gi
-        # data-sentry-zookeeper-clickhouse
-        size: 30Gi
     nginx:
       enabled: false
     ingress:
