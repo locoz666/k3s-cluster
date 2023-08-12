@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - base
   - dawn-craft
+  - rad2
   - all-the-mods-8
   - mine-space
   - mc-eternal
