@@ -39,6 +39,7 @@ data:
       "white-list=false"
       "level-name=world"
       "max-tick-time=60000"
+      "enable-command-block=true"
     )
 
     for property in "$${properties[@]}"; do
