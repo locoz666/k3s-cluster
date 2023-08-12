@@ -44,7 +44,7 @@ spec:
       fsGroup: 1000
 
     initContainers:
-      chown-files:
+      init:
         image: ubuntu:22.04
         command: [ "bash", "-c" ]
         args:
