@@ -27,6 +27,10 @@ spec:
       create: true
       email: "${SECRET_SENTRY_ADMIN_EMAIL}"
       password: "${SECRET_SENTRY_ADMIN_PASSWORD}"
+    sentry:
+      web:
+        replicas: 1
+        strategyType: Recreate
     redis:
       replica:
         replicaCount: 1
