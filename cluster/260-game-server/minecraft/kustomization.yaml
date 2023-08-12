@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - base
   - unity-craft
+  - tinkers-heartwork-and-deities
   - ftb-ocean-block
   - rlcraft
   - better-minecraft
