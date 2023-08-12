@@ -1,0 +1,130 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: minecraft-tinkers-heartwork-and-deities
+  namespace: game-server
+spec:
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 1.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  values:
+    image:
+      repository: itzg/minecraft-server
+      tag: java8
+
+    command: [ "/bin/bash", "-c" ]
+    args:
+      - |
+        cd /minecraft && \
+        java -Xmx8G -Xms8G -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -jar forge-1.12.2-14.23.5.2855.jar nogui
+
+    resources:
+      requests:
+        cpu: 10m
+        memory: 8Gi
+      limits:
+        memory: 9Gi
+
+    podSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
+
+    initContainers:
+      chown-files:
+        image: ubuntu:22.04
+        command: [ "bash", "-c" ]
+        args:
+          - |
+            cd /minecraft && \
+            bash /scripts/init.sh && \
+            bash /scripts/close_online_mode.sh
+        volumeMounts:
+          - name: minecraft-data
+            mountPath: /minecraft
+            subPath: tinkers-heartwork-and-deities
+            mountPropagation: HostToContainer
+          - name: minecraft-scripts
+            readOnly: true
+            mountPath: /scripts
+
+    env:
+      TZ: "Asia/Shanghai"
+
+    probes:
+      liveness:
+        enabled: true
+        custom: true
+        spec:
+          exec:
+            command:
+              - mc-health
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          failureThreshold: 20
+          successThreshold: 1
+          timeoutSeconds: 1
+      readiness:
+        enabled: true
+        custom: true
+        spec:
+          exec:
+            command:
+              - mc-health
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          failureThreshold: 20
+          successThreshold: 1
+          timeoutSeconds: 1
+      startup:
+        enabled: true
+        custom: true
+        spec:
+          exec:
+            command:
+              - mc-health
+          successThreshold: 1
+          # 每5秒检测一次，最长等待启动时间5*360/60=30分钟
+          failureThreshold: 360
+          periodSeconds: 5
+
+    persistence:
+      minecraft-scripts:
+        enabled: true
+        type: configMap
+        name: minecraft-scripts
+        mountPath: /scripts
+        readOnly: true
+      minecraft-data:
+        enabled: true
+        existingClaim: minecraft-data
+        subPath: tinkers-heartwork-and-deities
+        mountPath: /minecraft
+        mountPropagation: HostToContainer
+
+    service:
+      main:
+        type: ClusterIP
+        annotations:
+          mc-router.itzg.me/externalServerName: "tinkers-heartwork-and-deities.minecraft.${SECRET_DOMAIN}"
+        ports:
+          http:
+            enabled: false
+          mc-server:
+            enabled: true
+            port: 25565
+
+    strategy:
+      type: Recreate
