@@ -20,6 +20,9 @@ spec:
         name: sentry-charts
         namespace: flux-system
   values:
+    system:
+      adminEmail: "${SECRET_SENTRY_ADMIN_EMAIL}"
+      url: "https://sentry.${SECRET_DOMAIN}"
     user:
       create: true
       email: "${SECRET_SENTRY_ADMIN_EMAIL}"
@@ -30,7 +33,9 @@ spec:
     zookeeper:
       persistence:
         dataLogDir:
+          # sentry-clickhouse-data-sentry-clickhouse
           size: 30Gi
+        # data-sentry-zookeeper-clickhouse
         size: 30Gi
     nginx:
       enabled: false
