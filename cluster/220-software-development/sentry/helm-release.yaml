@@ -32,19 +32,16 @@ spec:
         dataLogDir:
           size: 30Gi
         size: 30Gi
-    system:
-      adminEmail: "${SECRET_SENTRY_ADMIN_EMAIL}"
-      url: "https://sentry.${SECRET_DOMAIN}"
     nginx:
       enabled: false
     ingress:
       enabled: true
-      hostname: "sentry.${SECRET_DOMAIN}"
-      tls:
-        - secretName: "${SECRET_DOMAIN/./-}-tls"
       regexPathStyle: traefik
       annotations:
         kubernetes.io/ingress.class: "traefik"
+      hostname: "sentry.${SECRET_DOMAIN}"
+      tls:
+        - secretName: "${SECRET_DOMAIN/./-}-tls"
     config:
       # https://github.com/sentry-kubernetes/charts/issues/414
       sentryConfPy: |
