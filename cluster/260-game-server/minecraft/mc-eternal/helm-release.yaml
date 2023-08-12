@@ -1,0 +1,108 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: minecraft-mc-eternal
+  namespace: game-server
+spec:
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 1.5.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  values:
+    image:
+      repository: itzg/minecraft-server
+      tag: java8
+
+    podSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+
+    env:
+      TZ: "Asia/Shanghai"
+
+    command: [ "/bin/bash", "-c" ]
+    args: [ "cd /minecraft && chown -R 1000:1000 /minecraft && echo eula=true > eula.txt && bash /scripts/server_properties_update.sh && bash /scripts/close_online_mode.sh && java -server -Xms6G -Xmx6G -XX:SurvivorRatio=4 -XX:InitialSurvivorRatio=1 -XX:NewRatio=4 -XX:MaxTenuringThreshold=12 -XX:+DisableExplicitGC -Dfml.doNotBackup=true -Dfml.readTimeout=65500 -Dfml.loginTimeout=65500 -jar forge-1.12.2-14.23.5.2860.jar nogui" ]
+    resources:
+      requests:
+        cpu: 10m
+        memory: 8Gi
+      limits:
+        memory: 9Gi
+
+    probes:
+      liveness:
+        enabled: true
+        custom: true
+        spec:
+          exec:
+            command:
+              - mc-health
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          failureThreshold: 20
+          successThreshold: 1
+          timeoutSeconds: 1
+      readiness:
+        enabled: true
+        custom: true
+        spec:
+          exec:
+            command:
+              - mc-health
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          failureThreshold: 20
+          successThreshold: 1
+          timeoutSeconds: 1
+      startup:
+        enabled: true
+        custom: true
+        spec:
+          exec:
+            command:
+              - mc-health
+          successThreshold: 1
+          # 每5秒检测一次，最长等待启动时间5*360/60=30分钟
+          failureThreshold: 360
+          periodSeconds: 5
+
+    persistence:
+      minecraft-scripts:
+        enabled: true
+        type: configMap
+        name: minecraft-scripts
+        mountPath: /scripts
+        readOnly: true
+      minecraft-data:
+        enabled: true
+        existingClaim: minecraft-data
+        subPath: mc-eternal
+        mountPath: /minecraft
+        mountPropagation: HostToContainer
+
+    service:
+      main:
+        type: ClusterIP
+        annotations:
+          mc-router.itzg.me/externalServerName: "mc-eternal.minecraft.${SECRET_DOMAIN}"
+        ports:
+          http:
+            enabled: false
+          mc-server:
+            enabled: true
+            port: 25565
+
+    strategy:
+      type: Recreate
+
