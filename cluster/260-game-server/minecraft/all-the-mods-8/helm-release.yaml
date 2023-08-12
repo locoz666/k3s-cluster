@@ -1,0 +1,74 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: minecraft-all-the-mods-8
+  namespace: game-server
+spec:
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 1.5.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  values:
+    image:
+      repository: itzg/minecraft-server
+      tag: java17
+
+    podSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
+      fsGroupChangePolicy: OnRootMismatch
+
+    env:
+      TZ: "Asia/Shanghai"
+
+    command: [ "/bin/bash", "-c" ]
+    args: [ "cd /minecraft && echo eula=true > eula.txt && bash /scripts/server_properties_update.sh && chmod +x ./startserver.sh && ./startserver.sh" ]
+    resources:
+      requests:
+        cpu: 10m
+        memory: 8Gi
+      limits:
+        memory: 9Gi
+
+    persistence:
+      minecraft-scripts:
+        enabled: true
+        type: configMap
+        name: minecraft-scripts
+        mountPath: /scripts
+        readOnly: true
+      minecraft-data:
+        enabled: true
+        existingClaim: minecraft-data
+        subPath: all-the-mods-8
+        mountPath: /minecraft
+        mountPropagation: HostToContainer
+
+    service:
+      main:
+        type: ClusterIP
+        annotations:
+          mc-router.itzg.me/externalServerName: "all-the-mods-8.minecraft.${SECRET_DOMAIN}"
+        ports:
+          http:
+            enabled: false
+          mc-server:
+            enabled: true
+            port: 25565
+            targetPort: 25565
+
+    strategy:
+      type: Recreate
+
