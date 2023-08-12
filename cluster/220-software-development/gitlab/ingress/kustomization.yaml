@@ -6,5 +6,4 @@ resources:
   - kas-direct-ingress.yaml
   - minio-direct-ingress.yaml
   - registry-direct-ingress.yaml
-  - shell-ingress.yaml
   - webservice-direct-ingress.yaml
