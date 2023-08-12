@@ -1,0 +1,73 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: minecraft-mine-space
+  namespace: game-server
+spec:
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 1.5.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  values:
+    image:
+      repository: itzg/minecraft-server
+      tag: java8
+
+    podSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
+      fsGroupChangePolicy: OnRootMismatch
+
+    env:
+      TZ: "Asia/Shanghai"
+
+    command: [ "/bin/bash", "-c" ]
+    args: [ "cd /minecraft && echo eula=true > eula.txt && bash /scripts/server_properties_update.sh && bash /scripts/close_online_mode.sh && java -jar -Xms8g -Xmx8g mohist-1.12.2-321-server.jar" ]
+    resources:
+      requests:
+        cpu: 10m
+        memory: 8Gi
+      limits:
+        memory: 9Gi
+
+    persistence:
+      minecraft-scripts:
+        enabled: true
+        type: configMap
+        name: minecraft-scripts
+        mountPath: /scripts
+        readOnly: true
+      minecraft-data:
+        enabled: true
+        existingClaim: minecraft-data
+        subPath: mine-space
+        mountPath: /minecraft
+        mountPropagation: HostToContainer
+
+    service:
+      main:
+        type: ClusterIP
+        annotations:
+          mc-router.itzg.me/externalServerName: "mine-space.minecraft.${SECRET_DOMAIN}"
+        ports:
+          http:
+            enabled: false
+          mc-server:
+            enabled: true
+            port: 25565
+
+    strategy:
+      type: Recreate
+
