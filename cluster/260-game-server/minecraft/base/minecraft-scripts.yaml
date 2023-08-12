@@ -34,6 +34,7 @@ data:
       "max-players=66666"
       "online-mode=true"
       "enable-rcon=true"
+      "gamemode=survival"
       "difficulty=hard"
       "white-list=false"
       "level-name=world"
