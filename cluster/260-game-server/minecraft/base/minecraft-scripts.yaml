@@ -1,0 +1,40 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: minecraft-scripts
+  namespace: game-server
+data:
+  close_online_mode.sh: |
+    #!/bin/bash
+    
+    file="/minecraft/server.properties"
+    sed -i '/^online-mode=/c\online-mode=false' "$file"
+  server_properties_update.sh: |
+    #!/bin/bash
+
+    file="/minecraft/server.properties"
+    properties=(
+    "pvp=true"
+    "allow-flight=true"
+    "rcon.password=12qwaszx"
+    "rcon.port=25575"
+    "server-port=25565"
+    "view-distance=8"
+    "max-players=66666"
+    "online-mode=true"
+    "enable-rcon=true"
+    "difficulty=hard"
+    "white-list=false"
+    "level-name=world"
+    "max-tick-time=60000"
+    )
+
+    for property in "$${properties[@]}"; do
+      key="$${property%%=*}"
+      if grep -q "^$${key}=" "$file"; then
+        sed -i "s/^$${key}=.*/$${property}/" "$file"
+      else
+        echo "$property" >> "$file"
+      fi
+    done
