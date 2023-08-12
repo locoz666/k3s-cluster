@@ -14,7 +14,7 @@ spec:
     spec:
       # renovate: registryUrl=https://bjw-s.github.io/helm-charts
       chart: app-template
-      version: 1.5.0
+      version: 1.5.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
@@ -24,21 +24,44 @@ spec:
       repository: itzg/minecraft-server
       tag: java8
 
-    podSecurityContext:
-      runAsUser: 1000
-      runAsGroup: 1000
-
-    env:
-      TZ: "Asia/Shanghai"
-
     command: [ "/bin/bash", "-c" ]
-    args: [ "cd /minecraft && chown -R 1000:1000 /minecraft && echo eula=true > eula.txt && bash /scripts/server_properties_update.sh && bash /scripts/close_online_mode.sh && java -server -Xms6G -Xmx6G -XX:SurvivorRatio=4 -XX:InitialSurvivorRatio=1 -XX:NewRatio=4 -XX:MaxTenuringThreshold=12 -XX:+DisableExplicitGC -Dfml.doNotBackup=true -Dfml.readTimeout=65500 -Dfml.loginTimeout=65500 -jar forge-1.12.2-14.23.5.2860.jar nogui" ]
+    args:
+      - |
+        cd /minecraft && \
+        java -server -Xms6G -Xmx6G -XX:SurvivorRatio=4 -XX:InitialSurvivorRatio=1 -XX:NewRatio=4 -XX:MaxTenuringThreshold=12 -XX:+DisableExplicitGC -Dfml.doNotBackup=true -Dfml.readTimeout=65500 -Dfml.loginTimeout=65500 -jar forge-1.12.2-14.23.5.2860.jar nogui
+
     resources:
       requests:
         cpu: 10m
         memory: 8Gi
       limits:
         memory: 9Gi
+
+    podSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
+
+    initContainers:
+      chown-files:
+        image: ubuntu:22.04
+        command: [ "bash", "-c" ]
+        args:
+          - |
+            cd /minecraft && \
+            bash /scripts/init.sh && \
+            bash /scripts/close_online_mode.sh
+        volumeMounts:
+          - name: minecraft-data
+            mountPath: /minecraft
+            subPath: mc-eternal
+            mountPropagation: HostToContainer
+          - name: minecraft-scripts
+            readOnly: true
+            mountPath: /scripts
+
+    env:
+      TZ: "Asia/Shanghai"
 
     probes:
       liveness:
@@ -105,4 +128,3 @@ spec:
 
     strategy:
       type: Recreate
-
