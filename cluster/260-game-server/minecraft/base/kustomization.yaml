@@ -4,5 +4,6 @@ kind: Kustomization
 resources:
   - mc-router
   - samba
+  - ubuntu
   - data-pvc.yaml
   - minecraft-scripts.yaml
