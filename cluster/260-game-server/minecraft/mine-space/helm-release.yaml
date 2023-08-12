@@ -42,6 +42,43 @@ spec:
       limits:
         memory: 9Gi
 
+    probes:
+      liveness:
+        enabled: true
+        custom: true
+        spec:
+          exec:
+            command:
+              - mc-health
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          failureThreshold: 20
+          successThreshold: 1
+          timeoutSeconds: 1
+      readiness:
+        enabled: true
+        custom: true
+        spec:
+          exec:
+            command:
+              - mc-health
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          failureThreshold: 20
+          successThreshold: 1
+          timeoutSeconds: 1
+      startup:
+        enabled: true
+        custom: true
+        spec:
+          exec:
+            command:
+              - mc-health
+          successThreshold: 1
+          # 每5秒检测一次，最长等待启动时间5*360/60=30分钟
+          failureThreshold: 360
+          periodSeconds: 5
+
     persistence:
       minecraft-scripts:
         enabled: true
