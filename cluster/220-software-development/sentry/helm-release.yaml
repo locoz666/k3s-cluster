@@ -27,6 +27,10 @@ spec:
     redis:
       replica:
         replicaCount: 1
+    zookeeper:
+      persistence:
+        dataLogDir:
+          size: 30Gi
     system:
       adminEmail: "${SECRET_SENTRY_ADMIN_EMAIL}"
       url: "https://sentry.${SECRET_DOMAIN}"
