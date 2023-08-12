@@ -91,14 +91,9 @@ clickhouse:
     http_port: "8123"
     image: yandex/clickhouse-server
     imagePullPolicy: IfNotPresent
-    imageVersion: 20.12.8.5
+    imageVersion: 21.8.13.6
     ingress:
       enabled: false
-    init:
-      image: busybox
-      imagePullPolicy: IfNotPresent
-      imageVersion: 1.31.0
-      resources: { }
     interserver_http_port: "9009"
     livenessProbe:
       enabled: true
@@ -248,6 +243,7 @@ hooks:
   activeDeadlineSeconds: 100
   dbCheck:
     affinity: { }
+    containerSecurityContext: { }
     env: [ ]
     image:
       imagePullSecrets: [ ]
@@ -297,6 +293,8 @@ images:
     imagePullSecrets: [ ]
   symbolicator:
     imagePullSecrets: [ ]
+  vroom:
+    imagePullSecrets: [ ]
 ingress:
   alb:
     httpRedirect: false
@@ -310,6 +308,7 @@ kafka:
   args: [ ]
   auth:
     clientProtocol: plaintext
+    controllerProtocol: plaintext
     externalClientProtocol: ""
     interBrokerProtocol: plaintext
     sasl:
@@ -348,6 +347,7 @@ kafka:
         verifyHostname: true
   authorizerClassName: ""
   autoCreateTopicsEnable: true
+  brokerRackAssignment: ""
   clusterDomain: cluster.local
   command:
     - /scripts/setup.sh
@@ -362,9 +362,11 @@ kafka:
   config: ""
   containerPorts:
     client: 9092
-    external: 9094
-    internal: 9093
+    controller: 9093
+    external: 9095
+    internal: 9094
   containerSecurityContext:
+    allowPrivilegeEscalation: false
     enabled: true
     runAsNonRoot: true
     runAsUser: 1001
@@ -386,11 +388,12 @@ kafka:
     autoDiscovery:
       enabled: false
       image:
+        digest: ""
         pullPolicy: IfNotPresent
         pullSecrets: [ ]
         registry: docker.io
         repository: bitnami/kubectl
-        tag: 1.24.0-debian-10-r2
+        tag: 1.25.10-debian-11-r0
       resources:
         limits: { }
         requests: { }
@@ -398,7 +401,9 @@ kafka:
     service:
       annotations: { }
       domain: ""
+      externalIPs: [ ]
       extraPorts: [ ]
+      labels: { }
       loadBalancerAnnotations: [ ]
       loadBalancerIPs: [ ]
       loadBalancerNames: [ ]
@@ -406,6 +411,7 @@ kafka:
       nodePorts: [ ]
       ports:
         external: 9094
+      publishNotReadyAddresses: false
       type: LoadBalancer
       useHostIPs: false
       usePodIPs: false
@@ -428,13 +434,20 @@ kafka:
   hostNetwork: false
   image:
     debug: false
+    digest: ""
     pullPolicy: IfNotPresent
     pullSecrets: [ ]
     registry: docker.io
     repository: bitnami/kafka
-    tag: 3.1.1-debian-10-r6
+    tag: 3.4.0-debian-11-r33
   initContainers: [ ]
   interBrokerListenerName: INTERNAL
+  kraft:
+    clusterId: kafka_cluster_id_test1
+    controllerListenerNames: CONTROLLER
+    controllerQuorumVoters: ""
+    enabled: false
+    processRoles: broker,controller
   kubeVersion: ""
   lifecycleHooks: { }
   listenerSecurityProtocolMap: ""
@@ -483,12 +496,14 @@ kafka:
         runAsUser: 1001
       enabled: false
       existingConfigmap: ""
+      extraRules: ""
       image:
+        digest: ""
         pullPolicy: IfNotPresent
         pullSecrets: [ ]
         registry: docker.io
         repository: bitnami/jmx-exporter
-        tag: 0.16.1-debian-10-r303
+        tag: 0.18.0-debian-11-r21
       resources:
         limits: { }
         requests: { }
@@ -524,11 +539,12 @@ kafka:
       extraVolumes: [ ]
       hostAliases: [ ]
       image:
+        digest: ""
         pullPolicy: IfNotPresent
         pullSecrets: [ ]
         registry: docker.io
         repository: bitnami/kafka-exporter
-        tag: 1.4.2-debian-10-r240
+        tag: 1.6.0-debian-11-r89
       initContainers: [ ]
       nodeAffinityPreset:
         key: ""
@@ -542,6 +558,7 @@ kafka:
       podSecurityContext:
         enabled: true
         fsGroup: 1001
+      priorityClassName: ""
       resources:
         limits: { }
         requests: { }
@@ -565,6 +582,12 @@ kafka:
       tlsCert: cert-file
       tlsKey: key-file
       tolerations: [ ]
+      topologySpreadConstraints: [ ]
+    prometheusRule:
+      enabled: false
+      groups: [ ]
+      labels: { }
+      namespace: ""
     serviceMonitor:
       enabled: false
       honorLabels: false
@@ -576,7 +599,7 @@ kafka:
       relabelings: [ ]
       scrapeTimeout: ""
       selector: { }
-  minBrokerId: 0
+  minId: 0
   nameOverride: ""
   networkPolicy:
     allowExternal: true
@@ -606,6 +629,7 @@ kafka:
     annotations: { }
     enabled: true
     existingClaim: ""
+    labels: { }
     mountPath: /bitnami/kafka
     selector: { }
     size: 8Gi
@@ -642,7 +666,7 @@ kafka:
       enabled: true
       runAsNonRoot: true
       runAsUser: 1001
-    enabled: false
+    enabled: true
     extraEnvVars: [ ]
     extraEnvVarsCM: ""
     extraEnvVarsSecret: ""
@@ -650,6 +674,7 @@ kafka:
     extraVolumeMounts: [ ]
     extraVolumes: [ ]
     initContainers: [ ]
+    nodeSelector: { }
     numPartitions: 1
     parallel: 1
     podAnnotations: { }
@@ -664,8 +689,21 @@ kafka:
       limits: { }
       requests: { }
     schedulerName: ""
+    serviceAccount:
+      automountServiceAccountToken: true
+      create: false
+      name: ""
     sidecars: [ ]
-    topics: [ ]
+    tolerations: [ ]
+    topics:
+      - name: ingest-attachments
+      - name: ingest-transactions
+      - name: ingest-events
+      - name: ingest-replay-recordings
+      - name: ingest-metrics
+      - name: ingest-performance-metrics
+      - name: ingest-monitors
+      - name: profiles
     waitForKafka: true
   rbac:
     create: false
@@ -686,6 +724,10 @@ kafka:
     clusterIP: ""
     externalTrafficPolicy: Cluster
     extraPorts: [ ]
+    headless:
+      annotations: { }
+      labels: { }
+      publishNotReadyAddresses: false
     loadBalancerIP: ""
     loadBalancerSourceRanges: [ ]
     nodePorts:
@@ -693,15 +735,19 @@ kafka:
       external: ""
     ports:
       client: 9092
-      external: 9094
-      internal: 9093
+      controller: 9093
+      external: 9095
+      internal: 9094
     sessionAffinity: None
+    sessionAffinityConfig: { }
     type: ClusterIP
   serviceAccount:
     annotations: { }
     automountServiceAccountToken: true
     create: true
     name: ""
+  serviceBindings:
+    enabled: false
   sidecars: [ ]
   socketReceiveBufferBytes: 102400
   socketRequestMaxBytes: "50000000"
@@ -716,7 +762,7 @@ kafka:
   superUsers: User:admin
   terminationGracePeriodSeconds: ""
   tolerations: [ ]
-  topologySpreadConstraints: { }
+  topologySpreadConstraints: [ ]
   transactionStateLogMinIsr: 3
   transactionStateLogReplicationFactor: 3
   updateStrategy:
@@ -727,11 +773,12 @@ kafka:
       runAsUser: 0
     enabled: false
     image:
+      digest: ""
       pullPolicy: IfNotPresent
       pullSecrets: [ ]
       registry: docker.io
       repository: bitnami/bitnami-shell
-      tag: 10-debian-10-r431
+      tag: 11-debian-11-r118
     resources:
       limits: { }
       requests: { }
@@ -739,12 +786,20 @@ kafka:
     affinity: { }
     args: [ ]
     auth:
-      clientPassword: ""
-      clientUser: ""
-      enabled: false
-      existingSecret: ""
-      serverPasswords: ""
-      serverUsers: ""
+      client:
+        clientPassword: ""
+        clientUser: ""
+        enabled: false
+        existingSecret: ""
+        serverPasswords: ""
+        serverUsers: ""
+      quorum:
+        enabled: false
+        existingSecret: ""
+        learnerPassword: ""
+        learnerUser: ""
+        serverPasswords: ""
+        serverUsers: ""
     autopurge:
       purgeInterval: 0
       snapRetainCount: 3
@@ -766,6 +821,7 @@ kafka:
       follower: 2888
       tls: 3181
     containerSecurityContext:
+      allowPrivilegeEscalation: false
       enabled: true
       runAsNonRoot: true
       runAsUser: 1001
@@ -797,11 +853,12 @@ kafka:
     hostAliases: [ ]
     image:
       debug: false
+      digest: ""
       pullPolicy: IfNotPresent
       pullSecrets: [ ]
       registry: docker.io
       repository: bitnami/zookeeper
-      tag: 3.8.0-debian-10-r63
+      tag: 3.8.1-debian-11-r31
     initContainers: [ ]
     initLimit: 10
     jvmFlags: ""
@@ -870,6 +927,7 @@ kafka:
         size: 8Gi
       enabled: true
       existingClaim: ""
+      labels: { }
       selector: { }
       size: 8Gi
       storageClass: ""
@@ -907,6 +965,7 @@ kafka:
       headless:
         annotations: { }
         publishNotReadyAddresses: true
+        servicenameOverride: ""
       loadBalancerIP: ""
       loadBalancerSourceRanges: [ ]
       nodePorts:
@@ -918,6 +977,7 @@ kafka:
         follower: 2888
         tls: 3181
       sessionAffinity: None
+      sessionAffinityConfig: { }
       type: ClusterIP
     serviceAccount:
       annotations: { }
@@ -968,20 +1028,22 @@ kafka:
         limits: { }
         requests: { }
     tolerations: [ ]
-    topologySpreadConstraints: { }
+    topologySpreadConstraints: [ ]
     updateStrategy:
       rollingUpdate: { }
       type: RollingUpdate
     volumePermissions:
       containerSecurityContext:
+        enabled: true
         runAsUser: 0
       enabled: false
       image:
+        digest: ""
         pullPolicy: IfNotPresent
         pullSecrets: [ ]
         registry: docker.io
         repository: bitnami/bitnami-shell
-        tag: 10-debian-10-r430
+        tag: 11-debian-11-r114
       resources:
         limits: { }
         requests: { }
@@ -1229,6 +1291,7 @@ memcached:
       requests: { }
 metrics:
   affinity: { }
+  containerSecurityContext: { }
   enabled: false
   image:
     pullPolicy: IfNotPresent
@@ -2949,6 +3012,7 @@ relay:
     maxReplicas: 5
     minReplicas: 2
     targetCPUUtilizationPercentage: 50
+  containerSecurityContext: { }
   env: [ ]
   init:
     resources: { }
@@ -2976,6 +3040,7 @@ sentry:
       maxReplicas: 3
       minReplicas: 1
       targetCPUUtilizationPercentage: 50
+    containerSecurityContext: { }
     env: [ ]
     nodeSelector: { }
     replicas: 1
@@ -3004,6 +3069,7 @@ sentry:
     sidecars: [ ]
     volumes: [ ]
   features:
+    enableProfiling: false
     orgSubdomains: false
     vstsLimitedScopes: true
   ingestConsumer:
@@ -3013,6 +3079,7 @@ sentry:
       maxReplicas: 3
       minReplicas: 1
       targetCPUUtilizationPercentage: 50
+    containerSecurityContext: { }
     env: [ ]
     nodeSelector: { }
     replicas: 1
@@ -3027,6 +3094,7 @@ sentry:
       maxReplicas: 3
       minReplicas: 1
       targetCPUUtilizationPercentage: 50
+    containerSecurityContext: { }
     env: [ ]
     nodeSelector: { }
     replicas: 1
@@ -3041,6 +3109,7 @@ sentry:
       maxReplicas: 3
       minReplicas: 1
       targetCPUUtilizationPercentage: 50
+    containerSecurityContext: { }
     env: [ ]
     nodeSelector: { }
     replicas: 1
@@ -3055,6 +3124,22 @@ sentry:
       maxReplicas: 3
       minReplicas: 1
       targetCPUUtilizationPercentage: 50
+    containerSecurityContext: { }
+    env: [ ]
+    nodeSelector: { }
+    replicas: 1
+    resources: { }
+    securityContext: { }
+    sidecars: [ ]
+    volumes: [ ]
+  ingestProfiles:
+    affinity: { }
+    autoscaling:
+      enabled: false
+      maxReplicas: 3
+      minReplicas: 1
+      targetCPUUtilizationPercentage: 50
+    containerSecurityContext: { }
     env: [ ]
     nodeSelector: { }
     replicas: 1
@@ -3069,6 +3154,7 @@ sentry:
       maxReplicas: 3
       minReplicas: 1
       targetCPUUtilizationPercentage: 50
+    containerSecurityContext: { }
     env: [ ]
     nodeSelector: { }
     replicas: 1
@@ -3078,6 +3164,7 @@ sentry:
     volumes: [ ]
   postProcessForwardErrors:
     affinity: { }
+    containerSecurityContext: { }
     env: [ ]
     nodeSelector: { }
     replicas: 1
@@ -3087,6 +3174,7 @@ sentry:
     volumes: [ ]
   postProcessForwardTransactions:
     affinity: { }
+    containerSecurityContext: { }
     env: [ ]
     nodeSelector: { }
     replicas: 1
@@ -3097,6 +3185,7 @@ sentry:
   singleOrganization: true
   subscriptionConsumerEvents:
     affinity: { }
+    containerSecurityContext: { }
     env: [ ]
     nodeSelector: { }
     replicas: 1
@@ -3106,6 +3195,7 @@ sentry:
     volumes: [ ]
   subscriptionConsumerSessions:
     affinity: { }
+    containerSecurityContext: { }
     env: [ ]
     nodeSelector: { }
     replicas: 1
@@ -3115,6 +3205,7 @@ sentry:
     volumes: [ ]
   subscriptionConsumerTransactions:
     affinity: { }
+    containerSecurityContext: { }
     env: [ ]
     nodeSelector: { }
     replicas: 1
@@ -3129,6 +3220,7 @@ sentry:
       maxReplicas: 5
       minReplicas: 2
       targetCPUUtilizationPercentage: 50
+    containerSecurityContext: { }
     env: [ ]
     nodeSelector: { }
     probeFailureThreshold: 5
@@ -3184,6 +3276,7 @@ snuba:
       minReplicas: 2
       targetCPUUtilizationPercentage: 50
     command: [ ]
+    containerSecurityContext: { }
     env: [ ]
     liveness:
       timeoutSeconds: 2
@@ -3201,6 +3294,7 @@ snuba:
   consumer:
     affinity: { }
     autoOffsetReset: earliest
+    containerSecurityContext: { }
     env: [ ]
     nodeSelector: { }
     replicas: 1
@@ -3213,8 +3307,27 @@ snuba:
   outcomesConsumer:
     affinity: { }
     autoOffsetReset: earliest
+    containerSecurityContext: { }
     env: [ ]
     maxBatchSize: "3"
+    nodeSelector: { }
+    replicas: 1
+    resources: { }
+    securityContext: { }
+  profilingFunctionsConsumer:
+    affinity: { }
+    autoOffsetReset: earliest
+    containerSecurityContext: { }
+    env: [ ]
+    nodeSelector: { }
+    replicas: 1
+    resources: { }
+    securityContext: { }
+  profilingProfilesConsumer:
+    affinity: { }
+    autoOffsetReset: earliest
+    containerSecurityContext: { }
+    env: [ ]
     nodeSelector: { }
     replicas: 1
     resources: { }
@@ -3222,6 +3335,7 @@ snuba:
   replacer:
     affinity: { }
     autoOffsetReset: earliest
+    containerSecurityContext: { }
     env: [ ]
     nodeSelector: { }
     replicas: 1
@@ -3230,6 +3344,7 @@ snuba:
   replaysConsumer:
     affinity: { }
     autoOffsetReset: earliest
+    containerSecurityContext: { }
     env: [ ]
     nodeSelector: { }
     replicas: 1
@@ -3238,6 +3353,7 @@ snuba:
   sessionsConsumer:
     affinity: { }
     autoOffsetReset: earliest
+    containerSecurityContext: { }
     env: [ ]
     nodeSelector: { }
     replicas: 1
@@ -3246,6 +3362,7 @@ snuba:
   subscriptionConsumerEvents:
     affinity: { }
     autoOffsetReset: earliest
+    containerSecurityContext: { }
     env: [ ]
     nodeSelector: { }
     replicas: 1
@@ -3254,6 +3371,7 @@ snuba:
   subscriptionConsumerSessions:
     affinity: { }
     autoOffsetReset: earliest
+    containerSecurityContext: { }
     env: [ ]
     nodeSelector: { }
     replicas: 1
@@ -3264,6 +3382,7 @@ snuba:
   subscriptionConsumerTransactions:
     affinity: { }
     autoOffsetReset: earliest
+    containerSecurityContext: { }
     env: [ ]
     nodeSelector: { }
     replicas: 1
@@ -3272,6 +3391,7 @@ snuba:
   transactionsConsumer:
     affinity: { }
     autoOffsetReset: earliest
+    containerSecurityContext: { }
     env: [ ]
     nodeSelector: { }
     replicas: 1
@@ -3309,6 +3429,7 @@ symbolicator:
       #     retry_malformed_after: 5m
       #   diagnostics:
       #     retention: 1w
+    containerSecurityContext: { }
     env: [ ]
     nodeSelector: { }
     probeInitialDelaySeconds: 10
@@ -3326,6 +3447,31 @@ user:
   create: true
   email: admin@sentry.local
   password: aaaa
+vroom:
+  affinity: { }
+  autoscaling:
+    enabled: false
+    maxReplicas: 5
+    minReplicas: 2
+    targetCPUUtilizationPercentage: 50
+  containerSecurityContext: { }
+  env: [ ]
+  init:
+    resources: { }
+  nodeSelector: { }
+  probeFailureThreshold: 5
+  probeInitialDelaySeconds: 10
+  probePeriodSeconds: 10
+  probeSuccessThreshold: 1
+  probeTimeoutSeconds: 2
+  replicas: 1
+  resources: { }
+  securityContext: { }
+  service:
+    annotations: { }
+  sidecars: [ ]
+  volumeMounts: [ ]
+  volumes: [ ]
 zookeeper:
   affinity: { }
   args: [ ]
