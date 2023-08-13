@@ -22,8 +22,9 @@ spec:
       interval: 5m
   values:
     nodeSelector:
-      location: "home"
-      disk-type: "hdd"
+#      location: "home"
+      #      disk-type: "hdd"
+      kubernetes.io/hostname: "home-server-titan"
 
     image:
       repository: ghcr.io/onedr0p/qbittorrent
@@ -82,17 +83,20 @@ spec:
 
     probes:
       liveness:
+        enabled: false
         spec:
           initialDelaySeconds: 10
           periodSeconds: 20
           failureThreshold: 100
       readiness:
+        enabled: false
         spec:
           initialDelaySeconds: 10
           periodSeconds: 20
           failureThreshold: 100
       startup:
         spec:
+          enabled: false
           initialDelaySeconds: 10
           periodSeconds: 20
           failureThreshold: 100
