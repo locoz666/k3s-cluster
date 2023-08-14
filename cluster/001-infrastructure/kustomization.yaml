@@ -8,7 +8,7 @@ resources:
   - juicefs
   - kilo
   - kubed
-  - metallb
+#  - metallb
   - rook-ceph
   - snapshot-controller
   - traefik
