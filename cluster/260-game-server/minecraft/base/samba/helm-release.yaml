@@ -29,7 +29,7 @@ spec:
         type: LoadBalancer
         externalTrafficPolicy: Local
         annotations:
-          metallb.universe.tf/loadBalancerIPs: 192.168.254.6
+          kube-vip.io/loadbalancerIPs: 192.168.254.6
         ports:
           http:
             enabled: false
