@@ -5,5 +5,5 @@ resources:
   - cert-manager.yaml
   - gpu-operator.yaml
   - kube-system.yaml
-  - metallb-system.yaml
+#  - metallb-system.yaml
   - rook-ceph.yaml
