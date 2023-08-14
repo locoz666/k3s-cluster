@@ -36,7 +36,7 @@ metadata:
   name: mc-router
   namespace: game-server
   annotations:
-    metallb.universe.tf/loadBalancerIPs: 192.168.254.7
+    kube-vip.io/loadbalancerIPs: 192.168.254.7
 spec:
   type: LoadBalancer
   externalTrafficPolicy: Local
