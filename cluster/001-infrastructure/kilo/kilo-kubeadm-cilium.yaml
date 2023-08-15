@@ -75,10 +75,12 @@ spec:
             - --compatibility=cilium
             - --local=false
             # additional and also optional flag
-            - --encapsulate=crosssubnet
+            - --encapsulate=never
+            - --mesh-granularity=full
+            #            - --encapsulate=crosssubnet
             - --clean-up-interface=true
             - --subnet=172.31.254.0/24
-            - --log-level=all
+            - --log-level=info
           env:
             - name: NODE_NAME
               valueFrom:
