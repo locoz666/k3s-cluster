@@ -77,7 +77,8 @@ spec:
             # additional and also optional flag
             - --log-level=all
             - --encapsulate=never
-            - --mesh-granularity=full
+            - --clean-up-interface=true
+          #            - --mesh-granularity=full
           env:
             - name: NODE_NAME
               valueFrom:
