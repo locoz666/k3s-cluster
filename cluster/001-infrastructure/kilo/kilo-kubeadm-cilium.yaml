@@ -77,10 +77,6 @@ spec:
             # additional and also optional flag
             - --encapsulate=never
             - --mesh-granularity=full
-            #            - --encapsulate=crosssubnet
-            - --clean-up-interface=true
-            - --subnet=172.31.254.0/24
-            - --log-level=info
           env:
             - name: NODE_NAME
               valueFrom:
