@@ -75,6 +75,7 @@ spec:
             - --compatibility=cilium
             - --local=false
             # additional and also optional flag
+            - --log-level=all
             - --encapsulate=never
             - --mesh-granularity=full
           env:
