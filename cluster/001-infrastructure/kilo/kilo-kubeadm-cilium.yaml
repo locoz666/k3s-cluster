@@ -78,7 +78,6 @@ spec:
             - --log-level=all
             - --encapsulate=never
             - --clean-up-interface=true
-            - --mesh-granularity=full
           env:
             - name: NODE_NAME
               valueFrom:
