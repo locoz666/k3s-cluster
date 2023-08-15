@@ -76,9 +76,10 @@ spec:
             - --local=false
             # additional and also optional flag
             - --log-level=all
-            - --encapsulate=never
+            #            - --encapsulate=never
+            - --encapsulate=crosssubnet
             - --clean-up-interface=true
-            - --mesh-granularity=full
+          #            - --mesh-granularity=full
           env:
             - name: NODE_NAME
               valueFrom:
