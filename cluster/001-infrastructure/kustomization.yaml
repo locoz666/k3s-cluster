@@ -6,7 +6,7 @@ resources:
   - cilium
   - gpu-operator
   - juicefs
-  - kilo
+#  - kilo
   - kubed
 #  - metallb
   - rook-ceph
