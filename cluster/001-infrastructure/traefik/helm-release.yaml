@@ -32,6 +32,10 @@ spec:
       kind: DaemonSet
     tolerations:
       - operator: Exists
+    nodeSelector:
+      location: "home"
+      kubernetes.io/arch: "amd64"
+      kubernetes.io/os: "linux"
     ingressClass:
       enabled: true
       isDefaultClass: true
