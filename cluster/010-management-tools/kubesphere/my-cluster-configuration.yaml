@@ -39,7 +39,7 @@ spec:
     enabled: true
 
   servicemesh:
-    enabled: true
+    enabled: false
 
   edgeruntime:
     enabled: true
