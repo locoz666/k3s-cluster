@@ -9,6 +9,7 @@ resources:
 #  - kilo
   - kubed
 #  - metallb
+  - metrics-server
   - rook-ceph
   - snapshot-controller
   - traefik
