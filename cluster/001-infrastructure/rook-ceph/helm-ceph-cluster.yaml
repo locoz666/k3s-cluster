@@ -156,6 +156,16 @@ spec:
                 config:
                   deviceClass: "nvme"
                   osdsPerDevice: "4"  # 在单块盘上创建多个OSD以最大化利用SSD的性能，可以让OSD获得更多CPU资源进行并发读写，能提升IOPS且降低读写延迟（https://tracker.ceph.com/projects/ceph/wiki/Tuning_for_All_Flash_Deployments）
+              - name: "/dev/disk/by-id/nvme-INTEL_SSDPF2KX076T1_BTAX253201AQ7P6DGN"  # Intel P5520 7.68T U.2
+                config:
+                  deviceClass: "nvme"
+                  osdsPerDevice: "4"  # 在单块盘上创建多个OSD以最大化利用SSD的性能，可以让OSD获得更多CPU资源进行并发读写，能提升IOPS且降低读写延迟（https://tracker.ceph.com/projects/ceph/wiki/Tuning_for_All_Flash_Deployments）
+              - name: "/dev/disk/by-id/nvme-INTEL_SSDPF2KX076T1_BTAX2532023H7P6DGN"  # Intel P5520 7.68T U.2
+                config:
+                  deviceClass: "nvme"
+                  osdsPerDevice: "4"  # 在单块盘上创建多个OSD以最大化利用SSD的性能，可以让OSD获得更多CPU资源进行并发读写，能提升IOPS且降低读写延迟（https://tracker.ceph.com/projects/ceph/wiki/Tuning_for_All_Flash_Deployments）
+
+
       #        nodes:
       #          - name: "home-server-nut"
       #            devices:
