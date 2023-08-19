@@ -38,7 +38,7 @@ data:
       "difficulty=hard"
       "white-list=false"
       "level-name=world"
-      "max-tick-time=60000"
+      "max-tick-time=-1"
       "enable-command-block=true"
     )
 
