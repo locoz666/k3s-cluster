@@ -42,9 +42,9 @@ spec:
     enabled: false
 
   edgeruntime:
-    enabled: true
+    enabled: false
     kubeedge:
-      enabled: true
+      enabled: false
       cloudCore:
         cloudHub:
           advertiseAddress:
