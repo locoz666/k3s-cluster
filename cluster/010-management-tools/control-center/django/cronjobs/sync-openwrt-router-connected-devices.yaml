@@ -19,11 +19,11 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: django
-              image: registry-gitlab.${SECRET_DOMAIN}/loco/control-center:7b1eec59
+              image: registry-gitlab.${SECRET_DOMAIN}/loco/control-center:29b461f1
               imagePullPolicy: IfNotPresent
               command: [
                 "python", "manage.py", "shell", "-c",
-                '"import server.apps.openwrt.tasks; server.apps.openwrt.tasks.sync_router_connected_devices()"'
+                '"import asyncio; import server.apps.openwrt.tasks; asyncio.run(server.apps.openwrt.tasks.sync_router_connected_devices())"'
               ]
               envFrom:
                 - configMapRef:
