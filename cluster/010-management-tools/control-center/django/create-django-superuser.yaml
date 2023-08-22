@@ -1,0 +1,25 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: create-django-superuser
+  namespace: control-center
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: django
+          image: registry-gitlab.${SECRET_DOMAIN}/loco/control-center:latest
+          imagePullPolicy: IfNotPresent
+          command: [ "python", "manage.py", "createsuperuser", "--username", "$(DJANGO_SUPERUSER_USERNAME)", "--email", "$(DJANGO_SUPERUSER_EMAIL)", "--no-input" ]
+          envFrom:
+            - configMapRef:
+                name: django-config
+            - secretRef:
+                name: database-secrets
+            - secretRef:
+                name: django-secrets
+            - secretRef:
+                name: router-secrets

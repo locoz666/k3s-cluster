@@ -1,0 +1,73 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django
+  namespace: control-center
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 0
+
+  selector:
+    matchLabels:
+      app: django
+  template:
+    metadata:
+      labels:
+        app: django
+    spec:
+      nodeSelector:
+        location: "home"
+      initContainers:
+        - name: collectstatic
+          image: registry-gitlab.${SECRET_DOMAIN}/loco/control-center:99435ffa
+          imagePullPolicy: IfNotPresent
+          command: [ "python", "manage.py", "collectstatic", "--noinput" ]
+          volumeMounts:
+            - name: static-files
+              mountPath: /tmp/statics_dump
+          envFrom:
+            - configMapRef:
+                name: django-config
+            - secretRef:
+                name: database-secrets
+            - secretRef:
+                name: django-secrets
+            - secretRef:
+                name: router-secrets
+        - name: migrate
+          image: registry-gitlab.${SECRET_DOMAIN}/loco/control-center:99435ffa
+          imagePullPolicy: IfNotPresent
+          command: [ "python", "manage.py", "migrate" ]
+          envFrom:
+            - configMapRef:
+                name: django-config
+            - secretRef:
+                name: database-secrets
+            - secretRef:
+                name: django-secrets
+            - secretRef:
+                name: router-secrets
+      containers:
+        - name: django
+          image: registry-gitlab.${SECRET_DOMAIN}/loco/control-center:99435ffa
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: django-config
+            - secretRef:
+                name: database-secrets
+            - secretRef:
+                name: django-secrets
+            - secretRef:
+                name: router-secrets
+      volumes:
+        - name: static-files
+          persistentVolumeClaim:
+            claimName: django-static-files
