@@ -1,0 +1,36 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: sync-openwrt-router-connected-devices
+  namespace: control-center
+spec:
+  schedule: "*/1 * * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    metadata:
+      name: sync-openwrt-router-connected-devices
+    spec:
+      template:
+        spec:
+          nodeSelector:
+            location: "home"
+          restartPolicy: OnFailure
+          containers:
+            - name: django
+              image: registry-gitlab.${SECRET_DOMAIN}/loco/control-center:fcccf091
+              imagePullPolicy: IfNotPresent
+              command: [
+                "python", "manage.py", "shell", "-c",
+                '"import server.apps.openwrt.tasks; server.apps.openwrt.tasks.sync_router_connected_devices()"'
+              ]
+              envFrom:
+                - configMapRef:
+                    name: django-config
+                - secretRef:
+                    name: database-secrets
+                - secretRef:
+                    name: django-secrets
+                - secretRef:
+                    name: router-secrets
