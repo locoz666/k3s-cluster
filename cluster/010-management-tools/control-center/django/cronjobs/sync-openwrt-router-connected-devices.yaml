@@ -19,7 +19,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: django
-              image: registry-gitlab.${SECRET_DOMAIN}/loco/control-center:6accfd9b
+              image: registry-gitlab.${SECRET_DOMAIN}/loco/control-center:86ff2e27
               imagePullPolicy: IfNotPresent
               command: [
                 "python", "manage.py", "shell", "-c",
