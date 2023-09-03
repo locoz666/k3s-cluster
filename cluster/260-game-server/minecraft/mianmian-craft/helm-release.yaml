@@ -64,6 +64,9 @@ spec:
     env:
       TZ: "Asia/Shanghai"
 
+    nodeSelector:
+      disk-type: "ssd"
+
     probes:
       liveness:
         enabled: true
