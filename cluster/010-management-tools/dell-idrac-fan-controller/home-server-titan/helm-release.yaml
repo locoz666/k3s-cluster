@@ -1,0 +1,38 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: dell-idrac-fan-controller-home-server-titan
+  namespace: default
+spec:
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 1.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  values:
+    image:
+      repository: tigerblue77/dell_idrac_fan_controller
+      tag: latest
+
+    env:
+      TZ: "Asia/Shanghai"
+      IDRAC_HOST: "home-server-titan-ipmi"
+      IDRAC_USERNAME: "root"
+      IDRAC_PASSWORD: "calvin"
+      FAN_SPEED: "40"
+      CPU_TEMPERATURE_THRESHOLD: "85"
+      CHECK_INTERVAL: "5"
+
+    service:
+      main:
+        enabled: false
