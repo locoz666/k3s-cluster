@@ -20,22 +20,27 @@ spec:
         name: rook-ceph-charts
         namespace: flux-system
   values:
-    operatorNamespace: rook-ceph
+    # 设置ceph.conf的覆盖内容，会被通过rook-config-override ConfigMap提供给所有Ceph容器
+    # 根据Rook的文档描述，应优先使用Ceph的命令行或仪表盘进行设置
+    # 因为通过配置文件设置的方式并不灵活（需要手动重启容器），且可能会出现配置文件和命令行/仪表盘设置不一样的情况，导致管理混乱
+    # https://rook.io/docs/rook/v1.12/Storage-Configuration/Advanced/ceph-configuration/?h=ceph.conf#custom-cephconf-settings
+    # 但这里依然进行设置的原因是方便统一管理，给其他集群复制配置部署时也可以作为默认值，避免忘记设置
 
-    # 设置默认的存储池副本数和最小副本数，以免无副本存储池无法工作
-    # 不让mon报存储池无副本的warning
+    # 由于Ceph的程序似乎未正确使用UTF-8解码，如果出现中文注释会导致OSD无法启动，报出UnicodeDecodeError，无法直接将中文注释写在configOverride中
+    # 所以单独建了一个带注释的ceph.conf文件，用于存放带中文注释的版本
     configOverride: |
       [global]
-      mon_allow_pool_delete = true
-      osd_pool_default_size = 1
-      osd_pool_default_min_size = 1
+      device_failure_prediction_mode = local
       bdev_enable_discard = true
       bdev_async_discard = true
+      mon_osd_full_ratio = 0.98
+      mon_osd_backfillfull_ratio = 0.96
+      mon_osd_nearfull_ratio = 0.94
+      
       [mon]
-      mon_warn_on_pool_no_redundancy = false
       mon_data_avail_warn = 10
+      
       [osd]
-      bluefs_buffered_io = false
       osd_scrub_max_interval = 2592000
       osd_deep_scrub_interval = 2592000
       osd_scrub_load_threshold = 10
@@ -48,38 +53,48 @@ spec:
       osd_recovery_max_active = 512
       osd_recovery_max_single_start = 512
 
+    # Rook的Ceph调试工具箱容器，可以在容器内执行Ceph命令，方便调试
     toolbox:
+      # 开启工具箱容器的部署，默认未开启
       enabled: true
 
     cephClusterSpec:
-      # 是否在pg状态非完全健康的情况下也允许升级OSD
+      # 是否在PG状态非完全健康的情况下也允许升级容器版本，避免刚好在升级时触发Scrub、Backfill、Recovery等操作导致PG状态不健康而无法升级
       continueUpgradeAfterChecksEvenIfNotHealthy: true
 
       mon:
-        # 允许在同一个节点上运行多个mon
-        allowMultiplePerNode: true
+        # 是否允许在同一个节点上运行多个MON
+        allowMultiplePerNode: false
 
       mgr:
-        # 允许在同一个节点上运行多个mgr
-        allowMultiplePerNode: true
+        # 是否允许在同一个节点上运行多个MGR
+        allowMultiplePerNode: false
+        # 手动管理的MGR模块
         modules:
-          # PG自动缩放器
+          # PG数量自动缩放器模块，默认开启，但关闭并手动设置合理的值
+          # 该模块会导致要么在小体量场景小使PG数量长期保持不太合理的极小值，要么在大体量场景下自动调节导致触发迁移，影响集群性能，并不好用
           - name: pg_autoscaler
             enabled: false
-          # 硬盘健康状态预测
+          # 硬盘健康状态预测模块，默认未开启，开启后可以在命令行和仪表盘中查看硬盘的健康状态预测，显示预测的剩余可用寿命时间
+          # 预测依赖硬盘的SMART信息，需要硬盘支持SMART并且能提供读写量、报错量等信息，否则会显示为未知
           - name: diskprediction_local
             enabled: true
-          # Rook Orchestrator扩展
+          # Rook集成模块，默认未开启，开启后可以在命令行和仪表盘中，通过Rook操作K8S管理Ceph的各组件运行状态
           - name: rook
             enabled: true
 
+      # Ceph的仪表盘，可以在Web上管理Ceph集群和监控集群状态
       dashboard:
-        # 手动指定rook ceph的dashboard为http模式，避免因为自签名证书导致无法正常通过ingress访问
+        # 显示开启Ceph Dashboard，默认就已开启
+        enabled: true
+        # 关闭Ceph Dashboard的SSL，锁定为HTTP模式，避免因为Ceph自己生成的自签名证书导致无法正常通过Ingress访问
         ssl: false
 
+      # Ceph组件的K8S部署策略，设置以添加额外的策略
       placement:
+        # 对所有Ceph组件生效
         all:
-          # 将所有ceph服务设置为必须在有ceph角色的节点上运行
+          # 设置必须在有ceph角色的K8S节点上运行Ceph核心组件
           nodeAffinity:
             requiredDuringSchedulingIgnoredDuringExecution:
               nodeSelectorTerms:
@@ -87,30 +102,24 @@ spec:
                     - key: node-role.kubernetes.io/ceph
                       operator: Exists
 
-      # 资源限制
+      # Ceph组件的K8S资源请求和限制量，设置以覆盖Rook的默认设置
       resources:
-        prepareosd:
-          limits:
-            cpu: "500m"
-            memory: "8192Mi"
         mgr:
           limits:
-            memory: "16384Mi"
-          requests:
-            memory: "4096Mi"
-        # osd在进行recovery操作时可以吃到8G左右的内存，limit设置需要尽量高于这个值，否则可能会出现osd被系统杀死的情况
+            # MGR有时会因为高负载而需要大量内存，Rook默认的内存限制过低，调高以确保稳定，避免反复杀进程导致异常
+            memory: "16Gi"
+
         osd:
           limits:
-            memory: "8192Mi"
+            # OSD在进行Recovery操作时可以吃掉多达8G左右的内存，Rook默认的内存限制过低，调高以确保稳定，避免反复杀进程导致异常
+            # 在进行Recovery操作时，可能出现OSD刚启动就吃掉大量内存的情况，如果内存限制过低甚至连OSD启动时的加载PG操作都还没完成（OSD状态为down，还未变为up）就被杀掉了
+            memory: "10Gi"
           requests:
+            # OSD在日常状态下需要的内存为1G左右，Rook默认的内存请求过高，调低以避免占用过多K8S中节点被标记的内存请求量
+            # 在节点内存冗余量小，且OSD较多的情况下，需要确保留有OSD内存膨胀的空间
             memory: "1Gi"
-        # mds的元数据缓存默认有限制只会使用4GB内存，但实际在大量小文件写入时会出现占用到几十GB且不清理的情况，做个限制以防万一
-        mds:
-          limits:
-            memory: "4096Mi"
-          requests:
-            memory: "4096Mi"
 
+      # 设置需要添加到Ceph集群中的硬盘，以及OSD的初始化设置
       storage:
         # 关闭自动在所有节点和所有磁盘上寻找空白盘并添加为OSD的操作，改为手动配置方式添加
         useAllNodes: false
@@ -167,26 +176,15 @@ spec:
                   deviceClass: "nvme"
                   osdsPerDevice: "4"  # 在单块盘上创建多个OSD以最大化利用SSD的性能，可以让OSD获得更多CPU资源进行并发读写，能提升IOPS且降低读写延迟（https://tracker.ceph.com/projects/ceph/wiki/Tuning_for_All_Flash_Deployments）
 
-
-      #        nodes:
-      #          - name: "home-server-nut"
-      #            devices:
-      #              - name: "/dev/disk/by-id/ata-Samsung_SSD_870_EVO_1TB_S6PVNF0R604091N"
-      #                config:
-      #                  deviceClass: "ssd"
-      #                  osdsPerDevice: "2"  # 在单块盘上创建多个OSD以最大化利用SSD的性能，可以让OSD获得更多CPU资源进行并发读写，能提升IOPS，但会略微降低读写延迟（ns级）
-      #
-      #              - name: "/dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S6PVNX0RC01477A"
-      #                config:
-      #                  deviceClass: "ssd"
-      #                  osdsPerDevice: "2"  # 在单块盘上创建多个OSD以最大化利用SSD的性能，可以让OSD获得更多CPU资源进行并发读写，能提升IOPS，但会略微降低读写延迟（ns级）
-
+      # Ceph组件的K8S健康监测设置，设置以覆盖Rook的默认设置
       healthCheck:
         livenessProbe:
           osd:
             probe:
+              # OSD在硬盘容量较大且已写入较多数据的情况下，启动时加载PG的时间可能会较长，需要设置足够长的初始等待时间，以避免部分OSD因启动时间过长而被反复杀进程导致异常
               initialDelaySeconds: 240
 
+    # Ceph仪表盘的K8S Ingress设置
     ingress:
       dashboard:
         ingressClassName: "traefik"
@@ -197,23 +195,23 @@ spec:
         tls:
           - secretName: "${SECRET_DOMAIN/./-}-tls"
 
+    # Ceph的块存储存储池和对应的K8S StorageClass设置
     cephBlockPools:
-      # 普通应用，开启压缩，使用nvme ssd
-      - name: block-application
+      # 普通应用，开启压缩，使用NVMe SSD
+      - name: block-application  # Ceph存储池名称
         spec:
-          failureDomain: osd
-          replicated:
+          failureDomain: osd  # 设置存储池的故障域
+          replicated: # 设置为副本池
             size: 3  # 副本数
-            requireSafeReplicaSize: true  # 安全选项，副本数为1时需要设为false，否则会无法创建
-          deviceClass: nvme  # 设置后端osd类型
+          deviceClass: nvme  # 设置后端使用的OSD类型，会被设置到Crush Map中
           parameters:
             compression_mode: aggressive # 设置除了指定不可压缩的数据以外都进行压缩
         storageClass:
-          enabled: true
-          name: ceph-block-application  # 存储类名称
-          isDefault: true  # 是否设为默认存储类
+          enabled: true  # 是否启用对应的K8S StorageClass，可以仅创建Ceph存储池但不创建StorageClass
+          name: ceph-block-application  # StorageClass名称
+          isDefault: true  # 是否设为默认的StorageClass
           reclaimPolicy: Delete  # PVC被删除后自动删除池中的内容
-          allowVolumeExpansion: true  # 支持动态调整PVC大小
+          allowVolumeExpansion: true  # 允许动态调整PVC大小
 
           parameters:
             # 默认设置不用动
@@ -227,20 +225,19 @@ spec:
             csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
             csi.storage.k8s.io/fstype: ext4  # 可以设置为xfs，但官方不推荐
 
-      # 需要极致性能的应用，不压缩，使用nvme ssd
-      - name: block-application-performance
+      # 需要极致性能的应用，不压缩，使用NVMe SSD
+      - name: block-application-performance  # Ceph存储池名称
         spec:
-          failureDomain: osd
-          replicated:
+          failureDomain: osd  # 设置存储池的故障域
+          replicated: # 设置为副本池
             size: 3  # 副本数
-            requireSafeReplicaSize: true  # 安全选项，副本数为1时需要设为false，否则会无法创建
-          deviceClass: nvme  # 设置后端osd类型
+          deviceClass: nvme  # 设置后端使用的OSD类型，会被设置到Crush Map中
         storageClass:
-          enabled: true
-          name: ceph-block-application-performance  # 存储类名称
-          isDefault: false  # 是否设为默认存储类
+          enabled: true  # 是否启用对应的K8S StorageClass，可以仅创建Ceph存储池但不创建StorageClass
+          name: ceph-block-application-performance  # StorageClass名称
+          isDefault: false  # 是否设为默认的StorageClass
           reclaimPolicy: Delete  # PVC被删除后自动删除池中的内容
-          allowVolumeExpansion: true  # 支持动态调整PVC大小
+          allowVolumeExpansion: true  # 允许动态调整PVC大小
 
           parameters:
             # 默认设置不用动
@@ -254,22 +251,22 @@ spec:
             csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
             csi.storage.k8s.io/fstype: ext4  # 可以设置为xfs，但官方不推荐
 
-      # 写入速度无所谓，但需要高速读取且确保存储可靠性的应用，使用nvme ssd作为主副本提高读取性能，使用hdd做热备副本
-      - name: block-application-hybrid
+      # 写入速度无所谓，但需要高速读取且确保存储可靠性的应用，使用NVMe SSD作为主副本提高读取性能，使用HDD做热备副本
+      - name: block-application-hybrid  # Ceph存储池名称
         spec:
-          failureDomain: osd
-          replicated:
+          failureDomain: osd  # 设置存储池的故障域
+          replicated: # 设置为副本池
             size: 3  # 副本数
-            requireSafeReplicaSize: true  # 安全选项，副本数为1时需要设为false，否则会无法创建
-            hybridStorage: # 设置为混合存储池，主副本为SSD，其余副本为HDD
-              primaryDeviceClass: nvme
-              secondaryDeviceClass: hdd
+            hybridStorage: # 设置为混合存储池
+              # 设置后端使用的OSD类型，会被设置到Crush Map中
+              primaryDeviceClass: nvme  # 设置主副本使用的OSD类型
+              secondaryDeviceClass: hdd  # 设置其余副本使用的OSD类型
         storageClass:
-          enabled: true
-          name: ceph-block-application-hybrid  # 存储类名称
-          isDefault: false  # 是否设为默认存储类
+          enabled: true  # 是否启用对应的K8S StorageClass，可以仅创建Ceph存储池但不创建StorageClass
+          name: ceph-block-application-hybrid  # StorageClass名称
+          isDefault: false  # 是否设为默认的StorageClass
           reclaimPolicy: Delete  # PVC被删除后自动删除池中的内容
-          allowVolumeExpansion: true  # 支持动态调整PVC大小
+          allowVolumeExpansion: true  # 允许动态调整PVC大小
 
           parameters:
             # 默认设置不用动
@@ -283,5 +280,10 @@ spec:
             csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
             csi.storage.k8s.io/fstype: ext4  # 可以设置为xfs，但官方不推荐
 
+    # CephFS存储池和对应的K8S StorageClass设置
+    # Rook会默认设置一个，在不需要使用CephFS的情况下，将该设置项显式设为空列表以避免该存储池创建
     cephFileSystems: [ ]
+
+    # Ceph RGW存储池和对应的K8S StorageClass设置
+    # Rook会默认设置一个，在不需要使用RGW的情况下，将该设置项显式设为空列表以避免该存储池创建
     cephObjectStores: [ ]
