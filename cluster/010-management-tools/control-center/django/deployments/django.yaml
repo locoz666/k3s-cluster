@@ -24,7 +24,7 @@ spec:
         location: "home"
       initContainers:
         - name: collectstatic
-          image: registry-gitlab.${SECRET_DOMAIN}/loco/control-center:5530b757
+          image: registry-gitlab.${SECRET_DOMAIN}/loco/control-center:9bcd6897
           imagePullPolicy: IfNotPresent
           command: [ "python", "manage.py", "collectstatic", "--noinput" ]
           volumeMounts:
@@ -40,7 +40,7 @@ spec:
             - secretRef:
                 name: router-secrets
         - name: migrate
-          image: registry-gitlab.${SECRET_DOMAIN}/loco/control-center:5530b757
+          image: registry-gitlab.${SECRET_DOMAIN}/loco/control-center:9bcd6897
           imagePullPolicy: IfNotPresent
           command: [ "python", "manage.py", "migrate" ]
           envFrom:
@@ -54,7 +54,7 @@ spec:
                 name: router-secrets
       containers:
         - name: django
-          image: registry-gitlab.${SECRET_DOMAIN}/loco/control-center:5530b757
+          image: registry-gitlab.${SECRET_DOMAIN}/loco/control-center:9bcd6897
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8000
