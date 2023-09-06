@@ -258,35 +258,6 @@ spec:
             csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
             csi.storage.k8s.io/fstype: ext4  # 可以设置为xfs，但官方不推荐
 
-      # 写入速度无所谓，但需要高速读取且确保存储可靠性的应用，使用NVMe SSD作为主副本提高读取性能，使用HDD做热备副本
-      - name: block-application-hybrid  # Ceph存储池名称
-        spec:
-          failureDomain: osd  # 设置存储池的故障域
-          replicated: # 设置为副本池
-            size: 3  # 副本数
-            hybridStorage: # 设置为混合存储池
-              # 设置后端使用的OSD类型，会被设置到Crush Map中
-              primaryDeviceClass: nvme  # 设置主副本使用的OSD类型
-              secondaryDeviceClass: hdd  # 设置其余副本使用的OSD类型
-        storageClass:
-          enabled: true  # 是否启用对应的K8S StorageClass，可以仅创建Ceph存储池但不创建StorageClass
-          name: ceph-block-application-hybrid  # StorageClass名称
-          isDefault: false  # 是否设为默认的StorageClass
-          reclaimPolicy: Delete  # PVC被删除后自动删除池中的内容
-          allowVolumeExpansion: true  # 允许动态调整PVC大小
-
-          parameters:
-            # 默认设置不用动
-            imageFormat: "2"
-            imageFeatures: layering
-            csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
-            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
-            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
-            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
-            csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
-            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
-            csi.storage.k8s.io/fstype: ext4  # 可以设置为xfs，但官方不推荐
-
     # CephFS存储池和对应的K8S StorageClass设置
     # Rook会默认设置一个，在不需要使用CephFS的情况下，将该设置项显式设为空列表以避免该存储池创建
     cephFileSystems: [ ]
