@@ -102,6 +102,8 @@ spec:
       - name: "juicefs-application-compressed"
         enabled: true
         reclaimPolicy: Delete
+        annotations:
+          storageclass.kubernetes.io/is-default-class: "true"
         backend:
           name: "juicefs-application-compressed"
           metaurl: "redis://:${SECRET_JUICEFS_REDIS_PASSWORD}@juicefs-redis-master.kube-system.svc.cluster.local:6379/5"
