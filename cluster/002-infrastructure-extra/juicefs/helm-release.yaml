@@ -98,3 +98,20 @@ spec:
         pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
         mountOptions:
           - "enable-xattr"
+
+      - name: "juicefs-application-compressed"
+        enabled: true
+        reclaimPolicy: Delete
+        backend:
+          name: "juicefs-application-compressed"
+          metaurl: "redis://:${SECRET_JUICEFS_REDIS_PASSWORD}@juicefs-redis-master.kube-system.svc.cluster.local:6379/5"
+          storage: "ceph"
+          bucket: "ceph://juicefs-application-compressed"
+          accessKey: "ceph"
+          secretKey: "client.admin"
+          envs: "{TZ: Asia/Shanghai}"
+          configs: '{"ceph-conf": "/etc/ceph"}'
+          format-options: trash-days=0
+        pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
+        mountOptions:
+          - "enable-xattr"
