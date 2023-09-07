@@ -43,7 +43,7 @@ spec:
           secretKey: "client.admin"
           envs: "{TZ: Asia/Shanghai}"
           configs: '{"ceph-conf": "/etc/ceph"}'
-          format-options: trash-days=0
+          format-options: "trash-days=0"
         pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
         mountOptions:
           - "enable-xattr"
@@ -60,7 +60,7 @@ spec:
           secretKey: "client.admin"
           envs: "{TZ: Asia/Shanghai}"
           configs: '{"ceph-conf": "/etc/ceph"}'
-          format-options: trash-days=0
+          format-options: "trash-days=0"
         pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
         mountOptions:
           - "enable-xattr"
@@ -77,7 +77,7 @@ spec:
           secretKey: "client.admin"
           envs: "{TZ: Asia/Shanghai}"
           configs: '{"ceph-conf": "/etc/ceph"}'
-          format-options: trash-days=0
+          format-options: "trash-days=0"
         pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
         mountOptions:
           - "enable-xattr"
@@ -94,7 +94,7 @@ spec:
           secretKey: "client.admin"
           envs: "{TZ: Asia/Shanghai}"
           configs: '{"ceph-conf": "/etc/ceph"}'
-          format-options: trash-days=0
+          format-options: "trash-days=0"
         pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
         mountOptions:
           - "enable-xattr"
