@@ -69,6 +69,7 @@ spec:
         mountPropagation: HostToContainer
       download:
         enabled: true
+        type: hostPath
         hostPath: /mnt/sata_ssd/qbittorrent-downloads
         mountPath: /downloads
         mountPropagation: HostToContainer
