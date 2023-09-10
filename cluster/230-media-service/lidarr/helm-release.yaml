@@ -67,4 +67,8 @@ spec:
         mountPath: /media
         existingClaim: media-files
         mountPropagation: HostToContainer
-
+      download:
+        enabled: true
+        hostPath: /mnt/sata_ssd/qbittorrent-downloads
+        mountPath: /downloads
+        mountPropagation: HostToContainer
