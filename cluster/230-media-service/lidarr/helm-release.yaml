@@ -22,7 +22,7 @@ spec:
       interval: 5m
   values:
     nodeSelector:
-      location: "home"
+      kubernetes.io/hostname: "home-server-sonic"
 
     image:
       repository: ghcr.io/onedr0p/lidarr

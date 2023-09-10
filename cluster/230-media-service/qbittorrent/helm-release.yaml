@@ -22,8 +22,7 @@ spec:
       interval: 5m
   values:
     nodeSelector:
-      location: "home"
-      disk-type: "hdd"
+      kubernetes.io/hostname: "home-server-sonic"
 
     image:
       repository: ghcr.io/onedr0p/qbittorrent
