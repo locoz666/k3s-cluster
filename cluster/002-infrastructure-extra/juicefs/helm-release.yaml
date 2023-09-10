@@ -82,23 +82,6 @@ spec:
         mountOptions:
           - "enable-xattr"
 
-      - name: "juicefs-media-ec"
-        enabled: true
-        reclaimPolicy: Delete
-        backend:
-          name: "juicefs-media-ec"
-          metaurl: "redis://:${SECRET_JUICEFS_REDIS_PASSWORD}@juicefs-redis-master.kube-system.svc.cluster.local:6379/4"
-          storage: "ceph"
-          bucket: "ceph://juicefs-media-ec"
-          accessKey: "ceph"
-          secretKey: "client.admin"
-          envs: "{TZ: Asia/Shanghai}"
-          configs: '{"ceph-conf": "/etc/ceph"}'
-          format-options: "trash-days=0"
-        pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
-        mountOptions:
-          - "enable-xattr"
-
       - name: "juicefs-application-compressed"
         enabled: true
         reclaimPolicy: Delete

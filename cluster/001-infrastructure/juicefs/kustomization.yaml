@@ -5,5 +5,4 @@ resources:
   - redis
   - ceph-application-performace-pool.yaml
   - ceph-compressed-files-pool.yaml
-  - ceph-media-ec-pool.yaml
   - ceph-media-replicated-pool.yaml
