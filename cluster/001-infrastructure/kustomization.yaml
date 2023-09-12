@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - cert-manager
   - cilium
+  - elastic-system
   - gpu-operator
   - juicefs
 #  - kilo
