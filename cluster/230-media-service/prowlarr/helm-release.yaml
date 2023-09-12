@@ -26,7 +26,7 @@ spec:
 
     image:
       repository: ghcr.io/onedr0p/prowlarr-develop
-      tag: 1.8.5.3896
+      tag: 1.8.6.3946
 
     env:
       TZ: "Asia/Shanghai"
