@@ -1,0 +1,22 @@
+---
+apiVersion: kibana.k8s.elastic.co/v1
+kind: Kibana
+metadata:
+  name: elastic-cluster
+  namespace: elastic-system
+spec:
+  version: 8.10.0
+  count: 1
+
+  http:
+    tls:
+      # 禁用容器级的HTTPS，使用K8S Ingress提供HTTPS服务
+      selfSignedCertificate:
+        disabled: true
+
+  elasticsearchRef:
+    name: elastic-cluster
+
+  config:
+    i18n.locale: "zh-CN"
+    server.publicBaseUrl: "https://kibana.${SECRET_DOMAIN}"
