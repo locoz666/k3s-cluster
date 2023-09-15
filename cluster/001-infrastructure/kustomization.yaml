@@ -9,7 +9,6 @@ resources:
   - juicefs
 #  - kilo
   - kubed
-#  - metallb
   - metrics-server
   - rook-ceph
   - snapshot-controller
