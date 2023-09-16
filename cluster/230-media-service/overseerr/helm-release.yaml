@@ -31,7 +31,7 @@ spec:
 
     image:
       repository: linuxserver/overseerr
-      tag: 1.33.2
+      tag: 2021.12.12
 
     service:
       main:
