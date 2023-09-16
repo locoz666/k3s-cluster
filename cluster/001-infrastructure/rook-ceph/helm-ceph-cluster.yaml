@@ -143,9 +143,6 @@ spec:
               - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD6XBFD"
                 config:
                   deviceClass: "hdd"
-              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD71JSA"
-                config:
-                  deviceClass: "hdd"
               - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0JMTX"
                 config:
                   deviceClass: "hdd"
@@ -168,6 +165,11 @@ spec:
                 config:
                   deviceClass: "hdd"
               - name: "/dev/disk/by-id/scsi-SWDC_WUH721818AL5204_5DKPUPBR"
+                config:
+                  deviceClass: "hdd"
+          - name: "home-server-nut"
+            devices:
+              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD71JSA"
                 config:
                   deviceClass: "hdd"
           - name: "home-server-sonic"
