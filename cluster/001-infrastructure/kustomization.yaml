@@ -9,7 +9,7 @@ resources:
   - juicefs
 #  - kilo
   - kubed
-  - metrics-server
+  - monitoring-system
   - rook-ceph
   - snapshot-controller
   - traefik
