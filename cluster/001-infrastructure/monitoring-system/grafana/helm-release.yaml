@@ -1,0 +1,54 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: grafana
+  namespace: monitoring-system
+spec:
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://grafana.github.io/helm-charts
+      chart: grafana
+      version: 6.59.4
+      sourceRef:
+        kind: HelmRepository
+        name: grafana-charts
+        namespace: flux-system
+  values:
+    image:
+      repository: docker.io/grafana/grafana
+      tag: 10.0.5
+
+    ingress:
+      enabled: true
+      ingressClassName: "traefik"
+      annotations:
+        traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
+      hosts:
+        - "grafana.${SECRET_DOMAIN}"
+      tls:
+        - secretName: "${SECRET_DOMAIN/./-}-tls"
+
+    persistence:
+      enabled: true
+      existingClaim: grafana-data
+
+    admin:
+      existingSecret: grafana-admin-user
+      userKey: username
+      passwordKey: password
+
+    datasources:
+      datasources.yaml:
+        apiVersion: 1
+        datasources:
+          - name: Prometheus
+            type: prometheus
+            url: http://prometheus-server.monitoring-system
+            access: proxy
+            isDefault: true
