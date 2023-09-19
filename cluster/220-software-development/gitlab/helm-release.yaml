@@ -97,3 +97,6 @@ spec:
 
     nginx-ingress:
       enabled: false  # 不让gitlab单独部署ingress，直接使用公共的ingress
+
+    prometheus:
+      install: false  # 已经有安装公共的prometheus，没必要反复安装
