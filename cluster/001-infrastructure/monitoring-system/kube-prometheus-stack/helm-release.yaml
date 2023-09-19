@@ -1,0 +1,100 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: kube-prometheus-stack
+  namespace: monitoring-system
+spec:
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://prometheus-community.github.io/helm-charts
+      chart: kube-prometheus-stack
+      version: 51.0.3
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community-charts
+        namespace: flux-system
+  values:
+    alertmanager:
+      enabled: true
+      alertmanagerSpec:
+        replicas: 3
+        storage:
+          volumeClaimTemplate:
+            spec:
+              accessModes:
+                - ReadWriteOnce
+              resources:
+                requests:
+                  storage: 10Gi
+              storageClassName: ceph-application-compressed
+
+    grafana:
+      enabled: true
+      defaultDashboardsTimezone: "Asia/Shanghai"
+      adminPassword: "${SECRET_GRAFANA_ADMIN_PASSWORD}"
+      ingress:
+        enabled: true
+        ingressClassName: "traefik"
+        annotations:
+          traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
+        hosts:
+          - "grafana.${SECRET_DOMAIN}"
+        tls:
+          - secretName: "${SECRET_DOMAIN/./-}-tls"
+      persistence:
+        enabled: true
+        accessModes:
+          - ReadWriteMany
+        size: 5Gi
+        storageClassName: juicefs-application-compressed
+
+    prometheus:
+      thanosService:
+        enabled: true
+      thanosServiceMonitor:
+        enabled: true
+      prometheusSpec:
+        replicas: 2
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              accessModes:
+                - ReadWriteOnce
+              resources:
+                requests:
+                  storage: 50Gi
+              storageClassName: ceph-application-compressed
+
+    thanosRuler:
+      enabled: true
+      extraSecret:
+        name: "thanos-ruler-alertmanager-config"
+        data:
+          alertmanager-configs.yaml: |
+            alertmanagers:
+            - static_configs: ["kube-prometheus-stack-alertmanager.monitoring-system:9093"]
+              scheme: http
+              timeout: 30s
+              api_version: v2
+      thanosRulerSpec:
+        replicas: 2
+        storage:
+          volumeClaimTemplate:
+            spec:
+              accessModes:
+                - ReadWriteOnce
+              resources:
+                requests:
+                  storage: 50Gi
+              storageClassName: ceph-application-compressed
+        alertmanagersConfig:
+          key: alertmanager-configs.yaml
+          name: thanos-ruler-alertmanager-config
+        queryEndpoints:
+          - "http://kube-prometheus-stack-prometheus.monitoring-system:9090"
