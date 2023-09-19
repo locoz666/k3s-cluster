@@ -24,7 +24,7 @@ spec:
       prometheus:
         image:
           repository: quay.io/prometheus-operator/prometheus-config-reloader
-          tag: v0.67.0
+          tag: v0.68.0
 
     server:
       image:
