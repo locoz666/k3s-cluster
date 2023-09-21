@@ -31,6 +31,8 @@ spec:
       web:
         replicas: 1
         strategyType: Recreate
+      worker:
+        replicas: 1
     redis:
       replica:
         replicaCount: 1
