@@ -215,6 +215,20 @@ spec:
 
     # Ceph的块存储存储池和对应的K8S StorageClass设置
     cephBlockPools:
+      # 覆盖自动创建的.mgr存储池配置
+      - name: builtin-mgr  # 点号开头的名称对于K8S来说不是规范名称，使用其他名称
+        spec:
+          name: .mgr  # 指定存储池名称，不填则按照CephBlockPool的名称自动生成，指定.mgr以覆盖默认的配置
+          failureDomain: osd  # 设置存储池的故障域
+          replicated: # 设置为副本池
+            size: 3  # 副本数
+          deviceClass: nvme  # 设置后端osd类型
+          parameters:
+            compression_mode: aggressive # 设置除了指定不可压缩的数据以外都进行压缩
+        # Ceph内部使用的存储池，不需要StorageClass
+        storageClass:
+          enabled: false  # 是否启用对应的K8S StorageClass，可以仅创建Ceph存储池但不创建StorageClass
+
       # 基于JuiceFS提供服务的常规应用数据存储池，开启压缩，适用于没有大量随机写的场景（如配置文件、日志、静态资源文件）
       # ⚠️不适用于有大量随机写（会使JuiceFS产生大量碎片）的应用，碎片会导致JuiceFS占用巨量空间，尤其是数据库持续高负载时极其容易将存储撑爆
       - name: juicefs-application-compressed
