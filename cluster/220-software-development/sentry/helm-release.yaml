@@ -27,35 +27,51 @@ spec:
       create: true
       email: "${SECRET_SENTRY_ADMIN_EMAIL}"
       password: "${SECRET_SENTRY_ADMIN_PASSWORD}"
+
     sentry:
+      # sentry-web
       web:
         replicas: 1
         strategyType: Recreate
+      # sentry-worker
       worker:
         replicas: 1
+
+    # sentry-web
     filestore:
       filesystem:
         persistence:
           existingClaim: "sentry-web-filestore"
+
+    # sentry-sentry-redis
     redis:
       architecture: standalone
+
+    # sentry-rabbitmq
     rabbitmq:
       replicaCount: 1
+
+    # sentry-kafka
     kafka:
-      replicaCount: 3
+      replicaCount: 3  # 不能低于3，否则会因为topic创建设置中是3副本，而节点不足3个而无法创建topic，进而导致消息无法正常处理
       zookeeper:
         enabled: false
       kraft:
         enabled: true
+
+    # sentry-zookeeper-clickhouse
     zookeeper:
       replicaCount: 1
       persistence:
         dataLogDir:
           # sentry-clickhouse-data-sentry-clickhouse
           size: 30Gi
+
+    # sentry-clickhouse
     clickhouse:
       clickhouse:
         replicas: 1
+
     nginx:
       enabled: false
     ingress:
