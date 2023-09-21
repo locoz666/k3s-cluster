@@ -43,7 +43,7 @@ spec:
     rabbitmq:
       replicaCount: 1
     kafka:
-      replicaCount: 1
+      replicaCount: 3
       zookeeper:
         enabled: false
       kraft:
