@@ -33,6 +33,10 @@ spec:
         strategyType: Recreate
       worker:
         replicas: 1
+    filestore:
+      filesystem:
+        persistence:
+          existingClaim: "sentry-web-filestore"
     redis:
       replica:
         replicaCount: 1
