@@ -34,12 +34,16 @@ spec:
     redis:
       replica:
         replicaCount: 1
+    rabbitmq:
+      replicaCount: 1
     kafka:
+      replicaCount: 1
       zookeeper:
         enabled: false
       kraft:
         enabled: true
     zookeeper:
+      replicaCount: 1
       persistence:
         dataLogDir:
           # sentry-clickhouse-data-sentry-clickhouse
