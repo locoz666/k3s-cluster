@@ -32,7 +32,6 @@ spec:
       # sentry-web
       web:
         replicas: 1
-        strategyType: Recreate
       # sentry-worker
       worker:
         replicas: 1
