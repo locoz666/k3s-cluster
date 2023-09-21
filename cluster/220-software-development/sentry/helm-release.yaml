@@ -38,8 +38,7 @@ spec:
         persistence:
           existingClaim: "sentry-web-filestore"
     redis:
-      replica:
-        replicaCount: 1
+      architecture: standalone
     rabbitmq:
       replicaCount: 1
     kafka:
