@@ -50,6 +50,9 @@ spec:
         dataLogDir:
           # sentry-clickhouse-data-sentry-clickhouse
           size: 30Gi
+    clickhouse:
+      clickhouse:
+        replicas: 1
     nginx:
       enabled: false
     ingress:
