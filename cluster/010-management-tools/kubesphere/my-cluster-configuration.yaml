@@ -19,7 +19,7 @@ spec:
   alerting:
     enabled: true
     prometheusEndpoint: http://kube-prometheus-stack-prometheus.monitoring-system.svc:9090
-    thanosRulerEndpoint: http://kube-prometheus-stack-thanos-ruler.monitoring.svc:10902
+    thanosRulerEndpoint: http://kube-prometheus-stack-thanos-ruler.monitoring-system.svc:10902
 
   auditing:
     enabled: false
