@@ -4,6 +4,6 @@ kind: Kustomization
 resources:
   - control-center
   - dell-idrac-fan-controller
-  - kubesphere
+#  - kubesphere
   - librespeed
   - uptime-kuma
