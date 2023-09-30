@@ -38,3 +38,5 @@ spec:
         enabled: true
     bpf:
       masquerade: true
+    cni:
+      exclusive: false
