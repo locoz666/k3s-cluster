@@ -6,6 +6,7 @@ metadata:
   namespace: kubevirt
 spec:
   configuration:
+    vmStateStorageClass: "juicefs-application-compressed"
     developerConfiguration:
       featureGates:
         - LiveMigration
@@ -14,6 +15,7 @@ spec:
         - HypervStrictCheck
         - CPUManager
         - Macvtap
+        - VMPersistentState
   infra:
     nodePlacement:
       nodeSelector:
