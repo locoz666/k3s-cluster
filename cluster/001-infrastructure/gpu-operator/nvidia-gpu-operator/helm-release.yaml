@@ -24,3 +24,5 @@ spec:
       config:
         name: "time-slicing-config"
         default: "gpu-share"
+    sandboxWorkloads:
+      enabled: true
