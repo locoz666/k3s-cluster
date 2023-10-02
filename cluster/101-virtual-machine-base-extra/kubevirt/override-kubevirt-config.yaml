@@ -16,6 +16,7 @@ spec:
         - CPUManager
         - Macvtap
         - VMPersistentState
+        - GPU
   infra:
     nodePlacement:
       nodeSelector:
