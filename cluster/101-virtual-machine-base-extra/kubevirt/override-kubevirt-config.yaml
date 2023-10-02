@@ -12,7 +12,7 @@ spec:
           resourceName: "nvidia.com/GA102_GEFORCE_RTX_3090"
           externalResourceProvider: true
         - pciVendorSelector: "144D:A808"
-          resourceName: "samsung.com/970_PRO_1TB"
+          resourceName: "devices.kubevirt.io/nvme"
     vmStateStorageClass: "juicefs-application-compressed"
     developerConfiguration:
       featureGates:
