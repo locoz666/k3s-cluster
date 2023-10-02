@@ -13,7 +13,6 @@ spec:
           externalResourceProvider: true
         - pciVendorSelector: "144D:A808"
           resourceName: "samsung.com/970_PRO_1TB"
-          externalResourceProvider: true
     vmStateStorageClass: "juicefs-application-compressed"
     developerConfiguration:
       featureGates:
