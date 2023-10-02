@@ -6,6 +6,11 @@ metadata:
   namespace: kubevirt
 spec:
   configuration:
+    permittedHostDevices:
+      pciHostDevices:
+        - pciVendorSelector: "10DE:2204"
+          resourceName: "nvidia.com/RTX_3090"
+          externalResourceProvider: true
     vmStateStorageClass: "juicefs-application-compressed"
     developerConfiguration:
       featureGates:
