@@ -29,6 +29,7 @@ spec:
         - VMPersistentState
         - GPU
         - DisableMDEVConfiguration
+        - HostDevices
   infra:
     nodePlacement:
       nodeSelector:
