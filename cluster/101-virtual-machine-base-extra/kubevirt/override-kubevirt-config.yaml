@@ -28,6 +28,7 @@ spec:
         - Macvtap
         - VMPersistentState
         - GPU
+        - DisableMDEVConfiguration
   infra:
     nodePlacement:
       nodeSelector:
