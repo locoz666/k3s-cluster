@@ -6,8 +6,17 @@ metadata:
   namespace: kubevirt
 spec:
   configuration:
+    permittedHostDevices:
+      pciHostDevices:
+        - pciVendorSelector: "10DE:2204"
+          resourceName: "nvidia.com/RTX_3090"
+          externalResourceProvider: true
+        - pciVendorSelector: "144D:A808"
+          resourceName: "devices.kubevirt.io/SAMSUNG_970_PRO_1TB"
     vmStateStorageClass: "juicefs-application-compressed"
     developerConfiguration:
+      logVerbosity:
+        virtHandler: 9
       featureGates:
         - LiveMigration
         - DataVolumes
