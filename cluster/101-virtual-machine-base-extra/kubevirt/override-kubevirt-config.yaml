@@ -6,8 +6,19 @@ metadata:
   namespace: kubevirt
 spec:
   configuration:
+    permittedHostDevices:
+      pciHostDevices:
+        - pciVendorSelector: "10DE:2204"
+          resourceName: "nvidia.com/GA102_GEFORCE_RTX_3090"
+          externalResourceProvider: true
+        - pciVendorSelector: "10DE:1AEF"
+          resourceName: "devices.kubevirt.io/NVIDIA_RTX_3090_AUDIO_CONTROLLER"
+        - pciVendorSelector: "144D:A808"
+          resourceName: "devices.kubevirt.io/SAMSUNG_970_PRO_1TB"
     vmStateStorageClass: "juicefs-application-compressed"
     developerConfiguration:
+      logVerbosity:
+        virtHandler: 9
       featureGates:
         - LiveMigration
         - DataVolumes
@@ -17,6 +28,8 @@ spec:
         - Macvtap
         - VMPersistentState
         - GPU
+        - DisableMDEVConfiguration
+        - HostDevices
   infra:
     nodePlacement:
       nodeSelector:
