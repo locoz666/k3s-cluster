@@ -320,7 +320,9 @@ spec:
           allowVolumeExpansion: true  # 支持动态调整PVC大小
           parameters:
             # 设置虚拟机专用的优化参数，解决Windows虚拟机出现IO Error的问题
+            # https://bugzilla.redhat.com/show_bug.cgi?id=2109455
             # https://docs.ceph.com/en/latest/man/8/rbd/#kernel-rbd-krbd-options
+            mounter: rbd
             mapOptions: "krbd:rxbounce"
             # 默认设置不用动
             imageFormat: "2"
