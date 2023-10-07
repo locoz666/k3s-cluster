@@ -20,6 +20,13 @@ spec:
         name: nextcloud-charts
         namespace: flux-system
   values:
+    livenessProbe:
+      enabled: false
+    readinessProbe:
+      enabled: false
+    startupProbe:
+      enabled: false
+
     resources:
       limits:
         cpu: 16
