@@ -63,17 +63,22 @@ spec:
           maxSurge: 1
           maxUnavailable: 0
       extraVolumes:
-        - name: compressed-files
-          persistentVolumeClaim:
-            claimName: compressed-files
         - name: media-files
           persistentVolumeClaim:
             claimName: media-files
       extraVolumeMounts:
-        - name: compressed-files
-          mountPath: "/var/www/html/data/loco/files/compressed-files"
         - name: media-files
-          mountPath: "/var/www/html/data/loco/files/media-files"
+          subPath: "camera"
+          mountPath: "/var/www/html/data/loco/files/camera"
+        - name: media-files
+          subPath: "music"
+          mountPath: "/var/www/html/data/loco/files/music"
+        - name: media-files
+          subPath: "recording"
+          mountPath: "/var/www/html/data/loco/files/recording"
+        - name: media-files
+          subPath: "screenshot"
+          mountPath: "/var/www/html/data/loco/files/screenshot"
       configs:
         custom.config.php: |-
           <?php
