@@ -7,5 +7,6 @@ resources:
   - postgresql
   - redis
   - config-pvc.yaml
+  - data-pvc.yaml
   - helm-release.yaml
   - traefik-middleware.yaml

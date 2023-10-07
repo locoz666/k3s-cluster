@@ -141,8 +141,7 @@ spec:
       existingClaim: nextcloud-config
       nextcloudData:
         enabled: true
-        existingClaim: work-files
-        subPath: nextcloud-data
+        existingClaim: nextcloud-data
         accessMode: ReadWriteMany
 
     rbac:
