@@ -2,12 +2,12 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: nextcloud-mariadb-data
+  name: nextcloud-redis-data
   namespace: file-service
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 80Gi
-  storageClassName: ceph-block-application
+      storage: 8Gi
+  storageClassName: ceph-application-compressed

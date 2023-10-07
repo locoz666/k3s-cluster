@@ -1,0 +1,45 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: nextcloud-collabora
+  namespace: file-service
+spec:
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://chrisingenhaag.github.io/helm/
+      chart: collabora-code
+      version: 2.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: chrisingenhaag-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      repository: collabora/code
+      tag: 23.05.2.2.1
+
+    ingress:
+      enabled: true
+      className: "traefik"
+      hosts:
+        - "collabora.${SECRET_DOMAIN}"
+      paths:
+        - "/"
+      tls:
+        - secretName: "${SECRET_DOMAIN/./-}-tls"
+
+    collabora:
+      aliasgroups:
+        - domain: "https://nextcloud.${SECRET_DOMAIN}:443"
+          aliases:
+            - "alias1\\.nextcloud"
+            - "alias2\\.nextcloud.file-service"
+      server_name: "collabora.${SECRET_DOMAIN}"
+      dictionaries: "zh_CN zh_TW de_DE en_GB en_US es_ES fr_FR it nl pt_BR pt_PT ru"

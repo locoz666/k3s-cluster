@@ -12,6 +12,7 @@ nameOverride: ""
 fullnameOverride: ""
 podAnnotations: { }
 deploymentAnnotations: { }
+deploymentLabels: { }
 
 # Number of replicas to be deployed
 replicaCount: 1
@@ -77,11 +78,11 @@ nextcloud:
   existingSecret:
     enabled: false
     # secretName: nameofsecret
-    # usernameKey: username
-    # passwordKey: password
-    # tokenKey: serverinfo_token
-    # smtpUsernameKey: smtp_username
-    # smtpPasswordKey: smtp_password
+    # usernameKey: nextcloud-username
+    # passwordKey: nextcloud-password
+    # tokenKey: nextcloud-token
+    # smtpUsernameKey: smtp-username
+    # smtpPasswordKey: smtp-password
   update: 0
   # If web server is not binding default port, you can define it
   # containerPort: 8080
@@ -256,8 +257,8 @@ externalDatabase:
   existingSecret:
     enabled: false
     # secretName: nameofsecret
-    # usernameKey: username
-    # passwordKey: password
+    # usernameKey: db-username
+    # passwordKey: db-password
 
 ##
 ## MariaDB chart configuration
@@ -279,6 +280,8 @@ mariadb:
   primary:
     persistence:
       enabled: false
+      # Use an existing Persistent Volume Claim (must be created ahead of time)
+      # existingClaim: ""
       # storageClass: ""
       accessMode: ReadWriteOnce
       size: 8Gi
@@ -298,6 +301,8 @@ postgresql:
   primary:
     persistence:
       enabled: false
+      # Use an existing Persistent Volume Claim (must be created ahead of time)
+      # existingClaim: ""
       # storageClass: ""
 
 ##
@@ -317,10 +322,15 @@ redis:
 cronjob:
   enabled: false
 
+  ## Cronjob sidecar resource requests and limits
+  ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+  ##
+  resources: { }
+
   # Allow configuration of lifecycle hooks
   # ref: https://kubernetes.io/docs/tasks/configure-pod-container/attach-handler-lifecycle-event/
   lifecycle: { }
-    # postStartCommand: []
+  # postStartCommand: []
   # preStopCommand: []
   # Set securityContext parameters. For example, you may need to define runAsNonRoot directive
   securityContext: { }

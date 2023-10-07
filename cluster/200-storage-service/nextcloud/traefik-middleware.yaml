@@ -1,0 +1,61 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: nextcloud-redirect-dav
+  namespace: file-service
+spec:
+  redirectRegex:
+    regex: "https://nextcloud.${SECRET_DOMAIN}/.well-known/(card|cal)dav"
+    replacement: "https://nextcloud.${SECRET_DOMAIN}/remote.php/dav/"
+    permanent: true
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: nextcloud-redirect-webfinger
+  namespace: file-service
+spec:
+  redirectRegex:
+    regex: "https://nextcloud.${SECRET_DOMAIN}/.well-known/webfinger"
+    replacement: "https://nextcloud.${SECRET_DOMAIN}/index.php/.well-known/webfinger"
+    permanent: true
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: nextcloud-redirect-nodeinfo
+  namespace: file-service
+spec:
+  redirectRegex:
+    regex: "https://nextcloud.${SECRET_DOMAIN}/.well-known/nodeinfo"
+    replacement: "https://nextcloud.${SECRET_DOMAIN}/index.php/.well-known/nodeinfo"
+    permanent: true
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: nextcloud-headers
+  namespace: file-service
+spec:
+  headers:
+    customFrameOptionsValue: "SAMEORIGIN"
+    customResponseHeaders:
+      Strict-Transport-Security: "15552000"
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: nextcloud
+  namespace: file-service
+spec:
+  chain:
+    middlewares:
+      - name: nextcloud-redirect-dav
+      - name: nextcloud-redirect-webfinger
+      - name: nextcloud-redirect-nodeinfo
+      - name: nextcloud-headers
