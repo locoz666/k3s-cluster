@@ -1,0 +1,10 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: HelmRepository
+metadata:
+  name: chrisingenhaag-charts
+  namespace: flux-system
+spec:
+  interval: 24h
+  url: "https://nexus.${SECRET_DOMAIN}/repository/helm-chrisingenhaag-proxy/"
+  timeout: 2m
