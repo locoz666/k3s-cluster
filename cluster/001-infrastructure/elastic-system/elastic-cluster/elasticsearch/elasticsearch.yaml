@@ -68,10 +68,10 @@ spec:
               resources:
                 requests:
                   cpu: 100m
-                  memory: 2Gi
+                  memory: 4Gi
                 limits:
                   cpu: 4
-                  memory: 2Gi
+                  memory: 4Gi
       volumeClaimTemplates:
         - metadata:
             name: elasticsearch-data  # 保持默认名称不变，该名称被默认的模板使用，修改后需要自己设置容器的挂载
