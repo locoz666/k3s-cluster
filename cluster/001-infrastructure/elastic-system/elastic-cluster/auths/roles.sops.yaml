@@ -4,15 +4,15 @@ metadata:
   name: elastic-cluster-es-roles
   namespace: elastic-system
 stringData:
-  roles.yml: ENC[AES256_GCM,data:kwmVLCxiIdgrYLxve0M14p3KWXDxSyW9hdOOCT5zBlNvuj5NeIGimanAjO7knXEmBfm97aRT/pBS4pvS6R2r7vqZeSmhLCYiEtcFI0ZZd+tizV+AUD1OUMsFQdJdU/7FNBWdmxvNFrQ6YJZ/DzJLY2WFNDSmQhq56XhTg3fhztmCdYXIkPqCeyKMXBuyY8cntWCfkSkhB4uU55Zthbo1z1h6Dq/5PAQW0w29gyQ4GMcDqjjkMet56fCpGGjZomJX/pyAzaTun4MGaXhMinoI9DD8j/lf3vyRsormvZtC+hMuMOFYWm/PaFxGI1ez8AVCSknJvBs/lkcOKn53XTzYGr19uma0ag6iHbKa8zSC9v1rkUOAz1mw9WixOus3TNBMakxSlC+/0rcogucumAPExgMG4s8wIUqjjvb6xBuvskr7GJk7cuJr8CA60hcCslJad/a+R/fZYGh2MzF3zdwFMSKEfuA3XTuao+SYVoG+SBR8dk7jjZrMmquUINP2/q1riG/L+aeJo9/jXyHv6y7QnH99GEhOXOx8BmjecOhBwK6Sd6ACTkVgv1zot8zz++j9lQEoE0CmM7Gp8ZMd22XKSm2cZ3M61baIpTuBaw==,iv:Sf6BJJOJE5lhoU0jeYzVWctVS4a1NsWuoxB/AYrUzYo=,tag:ZVw3BIaY6ynnA7bEN/GRpg==,type:str]
+  roles.yml: ENC[AES256_GCM,data:dCflVRNNS2fc2bYnZiywX7HIfswzHPZw3ZBeWGhJ9ZtSQVsSdo5eLZRcegXWjJ97dIOPXz8upILr0/HluIss3Dc3p8sGuuDLYQv7ZS2CGtg0Ba6lLrDybWzoAf3ZWaWJjnhgNlZYjyqTQ6HXPNIJF54/IhNht0o8vOuvwVGxZf1PCtd/LQ1Ryh8hBp7oPYDvVjreJSdxPWTQeJterJR9op2uLW4LBV7OrZz0bXGubO2wzrCBTq2ofLKRqCU+8NKNrK/gwQ80fjGKz9yqhfNTaYBYBjx3ikvMx/eFJKCfU/mHlqC5IMDjDSE3s1kfTpiQ1KeTa10zOzH21ZnhyIsHMPE7wcHec5/HYzcLLMz2KrCNHKhXNke6C+1rcU4DI6+pJHsJ4L7//NaD9QLkM2yQdD1X4eDnW3m26CW2MJI7wXpzeaCEmOm9iodwClagzWGiQUn6XJuwlcmktyTlbHJuuc/5qO+DNf7GljG3KVzyQDX8NnlL3BZhQkNcsbRE9lqmpJGwPZfEcd4+dY27b67lm0AFinSNtn/QqFZXDPjEqctdoNf0lA5uKmYscGZBt95sQr0lGq7ytioTCmdpx8btu2GE2wAVbbJILcMnZ0uy+UJDBa/6O19lajOuqLAlTi+UgNGUn7FvkQsqXQjc5gkW34dp8w0ghtvTsbSOkgrLouHbvpNhAjAa3HN7QWsmIR0uh0eBpytoHJwNkJeU017VcfXCAUW2PGamIxHos+iOg/v+g/jFGbPxN4YU39RKN6TP7Y514fEY0wUBxaZkNKkLKDppm0lfCj/3If8KBwd/c6u0/l51AM6YMlB0c6iddfF2R/mBPtXmdR6yvAftDzBAQ183iLW3KJs8A62VV8GaY3JqSFGlQ+KWA+wWK4/n26DjCr/1zyA2g9Bu2L3t,iv:8csns6B3rMabMZdsDIeqsysZUg7tOVUYbP9s5i3A8Q8=,tag:N/n/ZGcoK/o8DVArN3hM3A==,type:str]
 sops:
   kms: [ ]
   gcp_kms: [ ]
   azure_kv: [ ]
   hc_vault: [ ]
   age: [ ]
-  lastmodified: "2023-10-10T03:08:49Z"
-  mac: ENC[AES256_GCM,data:JzJp+AD3qm44g7fy2828t+sAbOUkU9LEMynrSJ2gaSre+9uxw/MyewsbH2u5K77GyRtQLYNmPdJAT1uNdQDOoZBeeVIHhq0ieqU7xsvwdavogSzYIxJaJlffuL2FPBz3EE3FNWJmwC5xOv+pmqaf3bFiDUeyasaMqVbsh4+8oRI=,iv:CvBDSAHDIKZOTjDzmMFOJwbpRrbWMt49HRvfQ6ZvcMM=,tag:0AL5SW8iP87cHGYQCeFZyw==,type:str]
+  lastmodified: "2023-10-10T03:36:11Z"
+  mac: ENC[AES256_GCM,data:cR/uwib6E6ba2IDjF1fnxhIrRjNPWFN2f8FsmL5RX0hEOOHy3UNLhoItXdOTbtL1A/TYJWDrlTG1fErMEfjFSGHiZWSABImU/qa6XOA+nVRpAwrMnWICcwr/FqpfZ3wUorCZFETd9d5XdkG342eOqa+I62klJ0GN4f9fDgyBxzc=,iv:8bOyyQsv7nLvE7PxpEq3Kjkr90SYOC5n6u78gI0eeMU=,tag:InhHGxSgUgIT/whQo2JZSw==,type:str]
   pgp:
     - created_at: "2023-09-15T02:40:34Z"
       enc: |
