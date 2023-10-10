@@ -8,7 +8,7 @@ metadata:
 type: kubernetes.io/basic-auth
 stringData:
   username: ENC[AES256_GCM,data:3G9cEsCG,iv:tB6KEj+ru6cNi7FJgHKyvMc773BKp+y1KKPy04mYjBw=,tag:LLNmHumLzcDTNWmX2UKcBg==,type:str]
-  password: ENC[AES256_GCM,data:T3bEYyes,iv:hsugdzxXr7WfbnidON6h8Q4gAgyxYYm5lIzjGSZB3iY=,tag:jnpom8ySTcOxU9CL6qUoLQ==,type:str]
+  password: ENC[AES256_GCM,data:Sw9hPJQ2fFOkqQgDvIDWp/VVZw/LuwXrDPAXYGS8ggs=,iv:TB0wHeA3fk0D9qZOWBzFfDhUyss4Ief/5W9oIcwOSfQ=,tag:qWUquAHKGffnz/w5tpa7pg==,type:str]
   roles: ENC[AES256_GCM,data:AjcRwgHd,iv:jM9sDPHcrZ11UmdhAQn0OOSGsMJW01iEjOgWGKtnwYw=,tag:cDEuiotqTFNqLhv/+3qElg==,type:str]
 sops:
   kms: [ ]
@@ -16,8 +16,8 @@ sops:
   azure_kv: [ ]
   hc_vault: [ ]
   age: [ ]
-  lastmodified: "2023-10-10T02:39:27Z"
-  mac: ENC[AES256_GCM,data:2mGfOFJPPe1dw52lcPHBJ9YDytqfdHfHnjr89SfUF+/cEPzeAbFCPf4sGCI1BEcxBh2cYdbYZbaOdfE/82be+2B8HJTwm3DMSRsE4DzTFfpihPmB/VFVb7qDxHzRmqusR6BXqacVZBAzPR3ghYnZVC6A8cy5afNv1WofC8Fhd5g=,iv:tHTCwa/hyrkQqcSQAx/2U7pa71fE26PWFHjzrf/arOY=,tag:D07NGpg94qarAg8oEuI1Vg==,type:str]
+  lastmodified: "2023-10-10T10:15:54Z"
+  mac: ENC[AES256_GCM,data:fYu/TW9HH2pnwnF1hy8jgzqkvOwDoecbg5/nfzGrHR5PfAEoLEVs+Uh9rsevFcgM1r9ot+vZ80l0xMPPN8ZO5Ch1Wb9lJimlvArU8a3QRn/Fql7DO43G/W2Iu86qly/fH6qrYMrudZyDPzN5PsxoY0B41RVMT54hquinlEz4wGA=,iv:u7tEBBFAyjD+v4MDJXn4y2Q5mMT3z1h9LrDb+3JYFJM=,tag:D73+3QTYxHDXyEZoZ5oJAg==,type:str]
   pgp:
     - created_at: "2023-10-10T02:39:26Z"
       enc: |
