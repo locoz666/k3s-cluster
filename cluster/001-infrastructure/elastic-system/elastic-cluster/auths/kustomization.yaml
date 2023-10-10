@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - diskover.sops.yaml
   - roles.sops.yaml
+  - vector.sops.yaml

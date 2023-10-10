@@ -4,15 +4,15 @@ metadata:
   name: elastic-cluster-es-roles
   namespace: elastic-system
 stringData:
-  roles.yml: ENC[AES256_GCM,data:rHJjMeMZuPk8DXcofFY5uCTY3VykmLXoaBfIkZnHsrhMFBFjUdm5xnZPcr3/FIrLuJhl22BiJIMzR7I2/YyiacR4tnthpl3Qz1awkQiRbkXODDF0PsEc9007zjV3IXlzeihgRkRqnZBHEr5iJV1D4u8eyl8F1zngtHv49PZCmR4OZwQgl1xLuAPD+181EgHw4YKsE0H2bzSVPLAvyeb9wc5lfD8/ARVnUbnA5nn6ErhVefpvgAHB0op5IdTSQVU=,iv:O+9/sqfG62Iefj9AfTkXZJDeUv2e7MAfo4+V6IE+Ors=,tag:iOa8Dpy5lQSCPQSHF2t8YA==,type:str]
+  roles.yml: ENC[AES256_GCM,data:eaPYGllrXkVECY7S2EtwQ/O3/Ri3uTrZAJR6EMoC5cY/OTEKrnRHE1CoTd/ruBiqKpTjOO+pNFUqXw6KPry4WQUhOa7gSEc9tJXTHzPnt7ybjGzlQhnkMxGgSlIKTJoq7BJH3qE6E5UgKM2rZ1J1cWIluT/7vSyWVG70SWWrMTObTF4QoK5lImSklx83QJFUhg+V2moVvGXwZ5ur1et+4QjYg7tyIuu+eM2wIS5iFmJpBNEOqFoLp7dTrC6Bv7rVXAD3LkjPtR0UcsxW2xXd1/hxDUS9/7kEitI7Z6tCBjaLuBpzenTFF4vAd2SS3UUXG837Ee5Rz+MnqpB4l9R/6wTBTPM8Z/Ep5GMPlJFcCB8K5UVrZzMTYGS6KDXsf+wPk0sW+4dmiGLTPfJSs34HX4RxzRZjflrGwyJUOi6mggn3JSMEe2q2VonxSj4otCdoOGEymNsEzzucgKjeSah9r8cNnpYuTrD9zihVPUoZr4uu/MFkHOP46+SXrCRJ2pW3fm7Z92of3597VoR7YAP8dj/zsgKBcjtUiGZn2+KkLUvzh4D+ibYQv64=,iv:NQdwOCaEgmzoih1RYKXoWYsR6AgDwzW2mNt95UoqIxA=,tag:diwBYQ9EFlbdk7apTvQD+A==,type:str]
 sops:
   kms: [ ]
   gcp_kms: [ ]
   azure_kv: [ ]
   hc_vault: [ ]
   age: [ ]
-  lastmodified: "2023-09-15T02:40:35Z"
-  mac: ENC[AES256_GCM,data:lspNkGSCiQaouBlrWmTizpSW2NgeoHjn2HFg8fcWcnc5hFRnZa7ixJFpaTTDDzMKgeMF6/GmcO8wWP1TgLCDAAtAGdLomG4BqCMuatOifOwlaZg+afx1cOlWOotzqPhbUDajGowPuGEYwqZyAUAU1pTk5a98hgdXl44nY7Nb/Rg=,iv:1zKGFXiigxvFvJG3p9fC8hGBoBg8SQrS9CBJMTDMmS4=,tag:nhePuNqdLCoP7t+JkZCdaw==,type:str]
+  lastmodified: "2023-10-10T02:42:26Z"
+  mac: ENC[AES256_GCM,data:g1v+cf8a3k/f52layEu0+09N+BeujSI0GWaUOfsxb/tvNAaGTeDABNVmA+s/h6KWaD9QQhnElpBof9ldVrJ0BdCzLbOsmy6wLEuITMTgxYOucqpf2sJ8QHNFCe5N/DGPt/yCEn2fK/E3PJMWetrPzzcKzTvj94pAmV95Im8wqYc=,iv:hScsQSuu85hoL453Hmcxwrf5LojsRr207MKuHJVa3ro=,tag:UGnqJOOCjCRfA9Y1CVG1PA==,type:str]
   pgp:
     - created_at: "2023-09-15T02:40:34Z"
       enc: |

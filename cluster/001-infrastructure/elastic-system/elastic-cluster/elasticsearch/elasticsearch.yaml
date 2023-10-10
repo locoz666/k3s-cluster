@@ -12,6 +12,7 @@ spec:
       - secretName: elastic-cluster-es-roles
     fileRealm:
       - secretName: elastic-cluster-es-users-diskover
+      - secretName: elastic-cluster-es-users-vector
 
   http:
     tls:
