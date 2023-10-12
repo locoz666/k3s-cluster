@@ -31,23 +31,6 @@ spec:
       provisioner: true
 
     storageClasses:
-      - name: "juicefs-ceph-application-performance"
-        enabled: true
-        reclaimPolicy: Delete
-        backend:
-          name: "juicefs-ceph-application-performance"
-          metaurl: "redis://:${SECRET_JUICEFS_REDIS_PASSWORD}@juicefs-redis-master.kube-system.svc.cluster.local:6379/0"
-          storage: "ceph"
-          bucket: "ceph://juicefs-application-performance"
-          accessKey: "ceph"
-          secretKey: "client.admin"
-          envs: "{TZ: Asia/Shanghai}"
-          configs: '{"ceph-conf": "/etc/ceph"}'
-          format-options: "trash-days=0"
-        pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
-        mountOptions:
-          - "enable-xattr"
-
       - name: "juicefs-compressed-files"
         enabled: true
         reclaimPolicy: Delete
