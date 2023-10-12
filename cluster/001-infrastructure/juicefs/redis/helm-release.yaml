@@ -36,8 +36,6 @@ spec:
     replica:
       enabled: true
       replicaCount: 1
-      nodeSelector:
-        disk-type: ssd
       persistence:
         enabled: true
         existingClaim: juicefs-redis-replica-data
