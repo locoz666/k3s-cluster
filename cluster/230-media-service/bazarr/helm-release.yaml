@@ -62,6 +62,7 @@ spec:
       config:
         enabled: true
         existingClaim: bazarr-config
+        mountPropagation: HostToContainer
       media:
         enabled: true
         mountPath: /media

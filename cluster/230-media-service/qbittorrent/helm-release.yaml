@@ -73,6 +73,7 @@ spec:
       config:
         enabled: true
         existingClaim: qbittorrent-config
+        mountPropagation: HostToContainer
       media:
         enabled: true
         mountPath: /media

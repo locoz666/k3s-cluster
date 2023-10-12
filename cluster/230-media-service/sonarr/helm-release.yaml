@@ -62,6 +62,7 @@ spec:
       config:
         enabled: true
         existingClaim: sonarr-config
+        mountPropagation: HostToContainer
       media:
         enabled: true
         mountPath: /media

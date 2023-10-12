@@ -60,3 +60,4 @@ spec:
       config:
         enabled: true
         existingClaim: jackett-config
+        mountPropagation: HostToContainer

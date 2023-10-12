@@ -42,6 +42,7 @@ spec:
         enabled: true
         existingClaim: jproxy-config
         mountPath: /app/database
+        mountPropagation: HostToContainer
 
     service:
       main:

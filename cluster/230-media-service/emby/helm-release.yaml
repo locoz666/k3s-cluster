@@ -72,6 +72,7 @@ spec:
       config:
         enabled: true
         existingClaim: emby-config
+        mountPropagation: HostToContainer
       transcode:
         enabled: true
         mountPath: /tmp/transcoding-temp

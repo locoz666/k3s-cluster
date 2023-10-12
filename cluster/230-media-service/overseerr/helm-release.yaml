@@ -63,3 +63,4 @@ spec:
       config:
         enabled: true
         existingClaim: overseerr-config
+        mountPropagation: HostToContainer

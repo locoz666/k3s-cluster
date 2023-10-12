@@ -50,6 +50,7 @@ spec:
         type: pvc
         existingClaim: chinese-sub-finder-config
         mountPath: /config
+        mountPropagation: HostToContainer
       media-files:
         enabled: true
         type: pvc
