@@ -39,7 +39,6 @@ spec:
 
     probes:
       startup:
-        custom: true
         spec:
           initialDelaySeconds: 30
           periodSeconds: 5
