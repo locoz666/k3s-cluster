@@ -6,8 +6,8 @@ metadata:
   namespace: smart-home
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: 5Gi
-  storageClassName: ceph-block-application
+  storageClassName: juicefs-application-compressed
