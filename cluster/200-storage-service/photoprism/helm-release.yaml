@@ -71,6 +71,7 @@ spec:
         type: pvc
         existingClaim: photoprism-config
         mountPath: /photoprism/storage
+        mountPropagation: HostToContainer
       media-files:
         enabled: true
         type: pvc

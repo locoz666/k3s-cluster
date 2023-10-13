@@ -79,6 +79,7 @@ spec:
         type: pvc
         existingClaim: resilio-sync-config
         mountPath: /config
+        mountPropagation: HostToContainer
       other-files:
         enabled: true
         type: pvc
