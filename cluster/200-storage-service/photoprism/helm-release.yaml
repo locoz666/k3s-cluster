@@ -37,6 +37,14 @@ spec:
       PHOTOPRISM_ORIGINALS_LIMIT: "-1"
       PHOTOPRISM_RESOLUTION_LIMIT: "-1"
 
+    probes:
+      startup:
+        custom: true
+        spec:
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          failureThreshold: 1000
+
     service:
       main:
         type: ClusterIP
