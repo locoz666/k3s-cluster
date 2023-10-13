@@ -6,8 +6,8 @@ metadata:
   namespace: file-service
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: 50Gi
-  storageClassName: ceph-block-application
+  storageClassName: juicefs-application-compressed
