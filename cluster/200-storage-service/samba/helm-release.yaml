@@ -71,6 +71,7 @@ spec:
         type: pvc
         existingClaim: apple-timemachine-files
         mountPath: /mnt/apple-timemachine-files
+        mountPropagation: HostToContainer
 
     configMaps:
       config:
