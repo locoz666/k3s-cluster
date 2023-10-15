@@ -28,8 +28,6 @@ spec:
       sentinel: true
       password: "${SECRET_JUICEFS_REDIS_PASSWORD}"
     master:
-      nodeSelector:
-        disk-type: ssd
       persistence:
         enabled: true
         existingClaim: juicefs-redis-master-data
