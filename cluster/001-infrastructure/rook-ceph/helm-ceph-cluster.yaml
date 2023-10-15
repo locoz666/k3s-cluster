@@ -354,6 +354,38 @@ spec:
         storageClass:
           enabled: false  # 是否启用对应的K8S StorageClass，可以仅创建Ceph存储池但不创建StorageClass
 
+      # 基于Ceph RBD提供服务的混合存储备份数据存储池，开启压缩，使用混合存储
+      # 适用于写入性能要求不高，但读取性能要求高，且需要大容量存储、高可靠性，同时又不占用过多SSD空间的场景（如Apple Mac的Time Machine备份）
+      - name: ceph-backup-hybrid-compressed
+        spec:
+          failureDomain: osd  # 设置存储池的故障域
+          replicated: # 设置为副本池
+            size: 3  # 副本数
+            hybridStorage: # 设置使用混合存储
+              primaryDeviceClass: nvme  # 主分片使用NVMe SSD
+              secondaryDeviceClass: hdd  # 副分片使用HDD
+          parameters:
+            compression_mode: aggressive # 设置除了指定不可压缩的数据以外都进行压缩
+            pg_num: "128" # 设置初始的PG数量
+            pgp_num: "128" # 设置初始的PGP数量，需要和pg_num一致
+        storageClass:
+          enabled: true
+          name: ceph-backup-hybrid-compressed  # 存储类名称
+          isDefault: false  # 是否设为默认存储类
+          reclaimPolicy: Delete  # PVC被删除后自动删除池中的内容
+          allowVolumeExpansion: true  # 支持动态调整PVC大小
+          parameters:
+            # 默认设置不用动
+            imageFormat: "2"
+            imageFeatures: layering
+            csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
+            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
+            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
+            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
+            csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
+            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
+            csi.storage.k8s.io/fstype: ext4  # 可以设置为xfs，但官方不推荐
+
       # 普通应用，开启压缩，使用NVMe SSD
       - name: block-application  # Ceph存储池名称
         spec:
