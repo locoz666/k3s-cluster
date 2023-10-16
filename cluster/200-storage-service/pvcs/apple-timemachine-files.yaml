@@ -6,8 +6,8 @@ metadata:
   namespace: file-service
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 3Ti
-  storageClassName: juicefs-backup-hybrid-compressed
+  storageClassName: ceph-backup-hybrid-compressed
