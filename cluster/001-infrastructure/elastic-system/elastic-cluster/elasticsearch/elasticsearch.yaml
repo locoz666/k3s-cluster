@@ -52,7 +52,7 @@ spec:
               - ReadWriteOnce
             resources:
               requests:
-                storage: 10Gi
+                storage: 30Gi
             storageClassName: ceph-application-high-performance
 
     # data + ingest + ml + transform复合角色节点，为主要的数据存储和搜索负载节点
@@ -82,5 +82,5 @@ spec:
               - ReadWriteOnce
             resources:
               requests:
-                storage: 200Gi
+                storage: 400Gi
             storageClassName: ceph-application-high-performance
