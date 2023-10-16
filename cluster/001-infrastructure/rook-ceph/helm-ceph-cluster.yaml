@@ -335,25 +335,6 @@ spec:
             csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
             csi.storage.k8s.io/fstype: ext4  # 可以设置为xfs，但官方不推荐
 
-      # 基于JuiceFS提供服务的混合存储备份数据存储池，开启压缩
-      # 混合存储适用于写入性能要求不高，但读取性能要求高，且需要大容量存储、高可靠性，同时又不占用过多SSD空间的场景（如Apple Mac的Time Machine备份）
-      # 同时由于文件元数据由JuiceFS提供，可以获得高性能的元数据读写性能，在元数据方面上避免了混合存储的写性能问题
-      - name: juicefs-backup-hybrid-compressed
-        spec:
-          failureDomain: osd  # 设置存储池的故障域
-          replicated: # 设置为副本池
-            size: 3  # 副本数
-            hybridStorage: # 设置使用混合存储
-              primaryDeviceClass: nvme  # 主分片使用NVMe SSD
-              secondaryDeviceClass: hdd  # 副分片使用HDD
-          parameters:
-            compression_mode: aggressive # 设置除了指定不可压缩的数据以外都进行压缩
-            pg_num: "128" # 设置初始的PG数量
-            pgp_num: "128" # 设置初始的PGP数量，需要和pg_num一致
-        # 由于是JuiceFS使用的存储池，所以不需要创建Ceph CSI提供的K8S StorageClass，而是使用JuiceFS CSI提供的K8S StorageClass
-        storageClass:
-          enabled: false  # 是否启用对应的K8S StorageClass，可以仅创建Ceph存储池但不创建StorageClass
-
       # 基于Ceph RBD提供服务的混合存储备份数据存储池，开启压缩，使用混合存储
       # 适用于写入性能要求不高，但读取性能要求高，且需要大容量存储、高可靠性，同时又不占用过多SSD空间的场景（如Apple Mac的Time Machine备份）
       - name: ceph-backup-hybrid-compressed
