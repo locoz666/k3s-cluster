@@ -1,0 +1,11 @@
+controller:
+  annotations:
+  podAnnotation: false
+  storageClasses:
+  image: ghcr.io/breuerfelix/juicefs-volume-hook
+  tag:
+  imagePullPolicy: Always
+
+webhook:
+  failurePolicy: Ignore
+
