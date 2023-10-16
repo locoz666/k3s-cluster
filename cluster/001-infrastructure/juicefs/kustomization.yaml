@@ -6,3 +6,4 @@ resources:
   - ceph-application-performace-pool.yaml
   - ceph-compressed-files-pool.yaml
   - ceph-media-replicated-pool.yaml
+  - namespace.yaml
