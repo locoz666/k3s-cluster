@@ -38,6 +38,7 @@ spec:
       mon_osd_nearfull_ratio = 0.94
       osd_scrub_max_interval = 2592000
       osd_deep_scrub_interval = 2592000
+      osd_pool_default_pg_autoscale_mode = off
       
       [mon]
       mon_data_avail_warn = 10
