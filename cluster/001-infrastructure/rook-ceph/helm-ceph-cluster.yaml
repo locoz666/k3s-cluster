@@ -36,13 +36,13 @@ spec:
       mon_osd_full_ratio = 0.98
       mon_osd_backfillfull_ratio = 0.96
       mon_osd_nearfull_ratio = 0.94
+      osd_scrub_max_interval = 2592000
+      osd_deep_scrub_interval = 2592000
       
       [mon]
       mon_data_avail_warn = 10
       
       [osd]
-      osd_scrub_max_interval = 2592000
-      osd_deep_scrub_interval = 2592000
       osd_scrub_load_threshold = 10
       osd_max_scrubs = 3
       osd_scrub_during_recovery = false
