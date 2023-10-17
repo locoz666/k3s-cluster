@@ -91,7 +91,7 @@ spec:
       config:
         # 节点的类型是通过角色定义决定的，一个节点可以有多种角色
         # 由于已经有了独立的master节点，这里其他的data节点不需要master角色，只需要包含除了master以外的所有需要的角色即可
-        node.roles: [ "data-hot", "data_content" ]
+        node.roles: [ "data_hot", "data_content" ]
       podTemplate:
         spec:
           containers:
