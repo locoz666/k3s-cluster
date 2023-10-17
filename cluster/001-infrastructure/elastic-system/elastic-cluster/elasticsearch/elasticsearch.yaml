@@ -84,3 +84,63 @@ spec:
               requests:
                 storage: 400Gi
             storageClassName: ceph-application-high-performance
+
+    # 热数据+内容数据（非时序，普通数据库场景）节点
+    - name: data-hot
+      count: 3
+      config:
+        # 节点的类型是通过角色定义决定的，一个节点可以有多种角色
+        # 由于已经有了独立的master节点，这里其他的data节点不需要master角色，只需要包含除了master以外的所有需要的角色即可
+        node.roles: [ "data-hot", "data_content" ]
+      podTemplate:
+        spec:
+          containers:
+            - name: elasticsearch  # 保持默认名称不变，该名称被默认的模板使用
+              # data节点需要足够的CPU和内存资源以确保性能
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 4Gi
+                limits:
+                  cpu: 4
+                  memory: 4Gi
+      volumeClaimTemplates:
+        - metadata:
+            name: elasticsearch-data  # 保持默认名称不变，该名称被默认的模板使用，修改后需要自己设置容器的挂载
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 400Gi
+            storageClassName: ceph-application-high-performance
+
+    # 冷数据节点
+    - name: data-cold
+      count: 3
+      config:
+        # 节点的类型是通过角色定义决定的，一个节点可以有多种角色
+        # 由于已经有了独立的master节点，这里其他的data节点不需要master角色，只需要包含除了master以外的所有需要的角色即可
+        node.roles: [ "data_cold" ]
+      podTemplate:
+        spec:
+          containers:
+            - name: elasticsearch  # 保持默认名称不变，该名称被默认的模板使用
+              # data节点需要足够的CPU和内存资源以确保性能
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 4Gi
+                limits:
+                  cpu: 4
+                  memory: 4Gi
+      volumeClaimTemplates:
+        - metadata:
+            name: elasticsearch-data  # 保持默认名称不变，该名称被默认的模板使用，修改后需要自己设置容器的挂载
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 400Gi
+            storageClassName: ceph-application-low-performance-compressed
