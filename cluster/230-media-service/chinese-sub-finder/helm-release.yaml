@@ -22,7 +22,7 @@ spec:
   values:
     image:
       repository: allanpk716/chinesesubfinder
-      tag: v0.54.4
+      tag: v0.55.0
 
     #    podSecurityContext:
     #      runAsUser: 1000
