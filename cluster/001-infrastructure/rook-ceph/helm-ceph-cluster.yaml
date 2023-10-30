@@ -151,18 +151,26 @@ spec:
                   deviceClass: "hdd"
           - name: "home-server-nut"
             devices:
-#              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD71JSA"
-              #                config:
-              #                  deviceClass: "hdd"
-              #              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD41FWR"
-              #                config:
-              #                  deviceClass: "hdd"
-              #              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD463ZF"
-              #                config:
-              #                  deviceClass: "hdd"
-              #              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD6XBFD"
-              #                config:
-              #                  deviceClass: "hdd"
+              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD71JSA"
+                config:
+                  deviceClass: "hdd"
+                  metadataDevice: "/dev/disk/by-id/nvme-INTEL_SSDPED1D480GA_PHMB746300LC480DGN"
+                  databaseSizeMB: "30720"  # 30GB
+              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD41FWR"
+                config:
+                  deviceClass: "hdd"
+                  metadataDevice: "/dev/disk/by-id/nvme-INTEL_SSDPED1D480GA_PHMB746300LC480DGN"
+                  databaseSizeMB: "30720"  # 30GB
+              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD463ZF"
+                config:
+                  deviceClass: "hdd"
+                  metadataDevice: "/dev/disk/by-id/nvme-INTEL_SSDPED1D480GA_PHMB746300LC480DGN"
+                  databaseSizeMB: "30720"  # 30GB
+              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD6XBFD"
+                config:
+                  deviceClass: "hdd"
+                  metadataDevice: "/dev/disk/by-id/nvme-INTEL_SSDPED1D480GA_PHMB746300LC480DGN"
+                  databaseSizeMB: "30720"  # 30GB
               - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0JMTX"
                 config:
                   deviceClass: "hdd"
