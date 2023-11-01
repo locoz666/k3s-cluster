@@ -171,15 +171,15 @@ spec:
                   deviceClass: "hdd"
                   metadataDevice: "/dev/disk/by-id/nvme-INTEL_SSDPED1D480GA_PHMB746300LC480DGN"
                   databaseSizeMB: "30720"  # 30GB
-              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0JMTX"
-                config:
-                  deviceClass: "hdd"
-              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0NB7Y"
-                config:
-                  deviceClass: "hdd"
-              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0NC8L"
-                config:
-                  deviceClass: "hdd"
+          #              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0JMTX"
+          #                config:
+          #                  deviceClass: "hdd"
+          #              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0NB7Y"
+          #                config:
+          #                  deviceClass: "hdd"
+          #              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0NC8L"
+          #                config:
+          #                  deviceClass: "hdd"
           - name: "home-server-sonic"
             devices:
               - name: "/dev/disk/by-id/nvme-INTEL_SSDPE2KX040T8_BTLJ848209YE4P0DGN"  # Intel P4510 4T U.2
