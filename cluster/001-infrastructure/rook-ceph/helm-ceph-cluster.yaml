@@ -149,37 +149,43 @@ spec:
               - name: "/dev/disk/by-id/scsi-SATA_WDC_WUH722020BL_8LJS5Z9K"
                 config:
                   deviceClass: "hdd"
-          #          - name: "home-server-nut"
-          #            devices:
-          #              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD71JSA"
-          #                config:
-          #                  deviceClass: "hdd"
-          #                  metadataDevice: "/dev/disk/by-id/nvme-INTEL_SSDPED1D480GA_PHMB746300LC480DGN"
-          #                  databaseSizeMB: "30720"  # 30GB
-          #              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD41FWR"
-          #                config:
-          #                  deviceClass: "hdd"
-          #                  metadataDevice: "/dev/disk/by-id/nvme-INTEL_SSDPED1D480GA_PHMB746300LC480DGN"
-          #                  databaseSizeMB: "30720"  # 30GB
-          #              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD463ZF"
-          #                config:
-          #                  deviceClass: "hdd"
-          #                  metadataDevice: "/dev/disk/by-id/nvme-INTEL_SSDPED1D480GA_PHMB746300LC480DGN"
-          #                  databaseSizeMB: "30720"  # 30GB
-          #              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD6XBFD"
-          #                config:
-          #                  deviceClass: "hdd"
-          #                  metadataDevice: "/dev/disk/by-id/nvme-INTEL_SSDPED1D480GA_PHMB746300LC480DGN"
-          #                  databaseSizeMB: "30720"  # 30GB
-          #              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0JMTX"
-          #                config:
-          #                  deviceClass: "hdd"
-          #              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0NB7Y"
-          #                config:
-          #                  deviceClass: "hdd"
-          #              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0NC8L"
-          #                config:
-          #                  deviceClass: "hdd"
+          - name: "home-server-nut"
+            devices:
+              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD71JSA"
+                config:
+                  deviceClass: "hdd"
+                  metadataDevice: "/dev/ceph-osd-db/osd-db-scsi-SATA_ST6000NM0115-1YZ_ZAD71JSA"
+                  databaseSizeMB: "30720"  # 30GB
+              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD41FWR"
+                config:
+                  deviceClass: "hdd"
+                  metadataDevice: "/dev/ceph-osd-db/osd-db-scsi-SATA_ST6000NM0115-1YZ_ZAD41FWR"
+                  databaseSizeMB: "30720"  # 30GB
+              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD463ZF"
+                config:
+                  deviceClass: "hdd"
+                  metadataDevice: "/dev/ceph-osd-db/osd-db-scsi-SATA_ST6000NM0115-1YZ_ZAD463ZF"
+                  databaseSizeMB: "30720"  # 30GB
+              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD6XBFD"
+                config:
+                  deviceClass: "hdd"
+                  metadataDevice: "/dev/ceph-osd-db/osd-db-scsi-SATA_ST6000NM0115-1YZ_ZAD6XBFD"
+                  databaseSizeMB: "30720"  # 30GB
+              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0JMTX"
+                config:
+                  deviceClass: "hdd"
+                  metadataDevice: "/dev/ceph-osd-db/osd-db-scsi-SATA_ST8000NM000A-2KE_WRD0JMTX"
+                  databaseSizeMB: "30720"  # 30GB
+              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0NB7Y"
+                config:
+                  deviceClass: "hdd"
+                  metadataDevice: "/dev/ceph-osd-db/osd-db-scsi-SATA_ST8000NM000A-2KE_WRD0NB7Y"
+                  databaseSizeMB: "30720"  # 30GB
+              - name: "/dev/disk/by-id/scsi-SATA_ST8000NM000A-2KE_WRD0NC8L"
+                config:
+                  deviceClass: "hdd"
+                  metadataDevice: "/dev/ceph-osd-db/osd-db-scsi-SATA_ST8000NM000A-2KE_WRD0NC8L"
+                  databaseSizeMB: "30720"  # 30GB
           - name: "home-server-sonic"
             devices:
               - name: "/dev/disk/by-id/nvme-INTEL_SSDPE2KX040T8_BTLJ848209YE4P0DGN"  # Intel P4510 4T U.2
