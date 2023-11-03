@@ -27,6 +27,20 @@ spec:
     defaultMountImage:
       ce: "registry-gitlab.${SECRET_DOMAIN}/loco/juicefs-csi-driver:36b2424f"
 
+    sidecars:
+      livenessProbeImage:
+        repository: registry.k8s.io/sig-storage/livenessprobe
+        tag: "v2.6.0"
+      csiProvisionerImage:
+        repository: registry.k8s.io/sig-storage/csi-provisioner
+        tag: "v2.2.2"
+      nodeDriverRegistrarImage:
+        repository: registry.k8s.io/sig-storage/csi-node-driver-registrar
+        tag: "v2.5.0"
+      csiResizerImage:
+        repository: registry.k8s.io/sig-storage/csi-resizer
+        tag: "v1.8.0"
+
     controller:
       provisioner: true
 
