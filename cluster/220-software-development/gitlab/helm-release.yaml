@@ -42,9 +42,7 @@ spec:
           secretName: gitlab-registry-tls
 
     gitlab-runner:
-      replicas: 3
-      nodeSelector:
-        node-role.kubernetes.io/gitlab-runner: ""
+      install: false
     minio:
       ingress:
         tls:
