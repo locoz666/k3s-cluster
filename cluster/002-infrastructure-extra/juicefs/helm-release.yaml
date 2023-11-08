@@ -36,7 +36,7 @@ spec:
         tag: "v2.2.2"
       nodeDriverRegistrarImage:
         repository: registry.k8s.io/sig-storage/csi-node-driver-registrar
-        tag: "v2.5.0"
+        tag: "v2.9.0"
       csiResizerImage:
         repository: registry.k8s.io/sig-storage/csi-resizer
         tag: "v1.8.0"
