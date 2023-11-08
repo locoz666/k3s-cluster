@@ -22,10 +22,10 @@ spec:
   values:
     image:
       repository: "registry-gitlab.${SECRET_DOMAIN}/loco/juicefs-csi-driver"
-      tag: "36b2424f"
+      tag: "1.0.0"
 
     defaultMountImage:
-      ce: "registry-gitlab.${SECRET_DOMAIN}/loco/juicefs-csi-driver:36b2424f"
+      ce: "registry-gitlab.${SECRET_DOMAIN}/loco/juicefs-csi-driver:1.0.0"
 
     sidecars:
       livenessProbeImage:
