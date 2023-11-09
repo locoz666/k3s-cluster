@@ -23,7 +23,7 @@ spec:
   values:
     image:
       repository: bitnami/redis
-      tag: 7.0.12-debian-11-r1
+      tag: 7.2.3-debian-11-r1
 
     auth:
       enabled: true
