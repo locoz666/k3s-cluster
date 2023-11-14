@@ -72,10 +72,10 @@ spec:
         enabled: true
         existingClaim: octoprint-data
         mountPath: /octoprint
-      printer:
+      dev:
         enabled: true
         type: hostPath
-        hostPath: /dev/ttyUSB0
+        hostPath: /dev
       vcgencmd:
         enabled: true
         type: hostPath
