@@ -40,7 +40,7 @@ global:
   edition: ee
 
   ## https://docs.gitlab.com/charts/charts/globals#gitlab-version
-  gitlabVersion: "16.0.5"
+  gitlabVersion: "16.3.3"
 
   ## https://docs.gitlab.com/charts/charts/globals#application-resource
   application:
@@ -79,6 +79,10 @@ global:
   # Override the API version to use for HorizontalPodAutoscaler
   hpa:
     apiVersion: ""
+
+  # Enable KEDA globally (https://keda.sh/)
+  keda:
+    enabled: false
 
   # Override the API version to use for PodDisruptionBudget
   pdb:
@@ -210,6 +214,7 @@ global:
       wiki: true
       snippets: true
       builds: true
+    graphQlTimeout:
     webhookTimeout:
     maxRequestDurationSeconds:
 
@@ -246,7 +251,7 @@ global:
       #   cron: "@daily"
       ## Periodically clean up stale ci_runner_machines records
       # ci_runners_stale_machines_cleanup_worker:
-      #   cron: "36 4 * * *"
+      #   cron: "36 * * * *"
       ### GitLab Geo
       # Geo Primary only!
       # geo_prune_event_log_worker:
@@ -527,6 +532,7 @@ global:
     ## Geo Secondary only
     # nodeName allows multiple instances behind a load balancer.
     nodeName: # defaults to `gitlab.gitlab.host`
+    # ingressClass: 
     # PostgreSQL connection details only needed for `secondary`
     psql:
       password: { }
@@ -738,7 +744,7 @@ global:
   certificates:
     image:
       repository: registry.gitlab.com/gitlab-org/build/cng/certificates
-      # Default tag is `master`, overridable by `global.gitlabVersion`.
+      # Default tag is `global.gitlabVersion` or `master` if the former one is undefined.
       # tag: master
       # pullPolicy: IfNotPresent
       # pullSecrets: []
@@ -757,7 +763,7 @@ global:
   kubectl:
     image:
       repository: registry.gitlab.com/gitlab-org/build/cng/kubectl
-      # Default tag is `master`, overridable by `global.gitlabVersion`.
+      # Default tag is `global.gitlabVersion` or `master` if the former one is undefined.
       # tag: master
       # pullPolicy: IfNotPresent
       # pullSecrets: []
@@ -765,10 +771,12 @@ global:
       # in most base images, this is `nobody:nogroup`
       runAsUser: 65534
       fsGroup: 65534
-  busybox:
+  gitlabBase:
     image:
-      repository: registry.gitlab.com/gitlab-org/cloud-native/mirror/images/busybox
-      # tag: latest
+      repository: registry.gitlab.com/gitlab-org/build/cng/gitlab-base
+      # Default tag is `global.gitlabVersion` or `master` if the former one is undefined.
+      # Charts using this image as init container support further overrides with `init.image.tag`.
+      # tag: master
       # pullPolicy: IfNotPresent
       # pullSecrets: []
 
@@ -785,6 +793,10 @@ global:
     connection:
       string: ""
     urlTemplate: ""
+
+  zoekt:
+    gateway:
+      basicAuth: { }
 
   ## https://docs.gitlab.com/charts/charts/globals
   extraEnv: { }
@@ -853,13 +865,13 @@ certmanager:
 ## https://docs.gitlab.com/charts/charts/nginx/
 ## https://docs.gitlab.com/charts/architecture/decisions#nginx-ingress
 ## Installation & configuration of charts/ingress-nginx:
-nginx-ingress:
+nginx-ingress: &nginx-ingress
   enabled: true
   tcpExternalConfig: "true"
-  controller:
+  controller: &nginx-ingress-controller
     addHeaders:
       Referrer-Policy: strict-origin-when-cross-origin
-    config:
+    config: &nginx-ingress-controller-config
       annotation-value-word-blocklist: "load_module,lua_package,_by_lua,location,root,proxy_pass,serviceaccount,{,},',\""
       hsts: "true"
       hsts-include-subdomains: "false"
@@ -913,6 +925,38 @@ nginx-ingress:
     scope: false
   serviceAccount:
     create: true
+
+# Ingress controller to handle requests forwarded from other Geo sites.
+# Configuration differences compared to the main nginx ingress:
+#   - Pass X-Forwarded-For headers as is
+#   - Use a different IngressClass name
+nginx-ingress-geo:
+  <<: *nginx-ingress
+  enabled: false
+  controller:
+    <<: *nginx-ingress-controller
+    config:
+      <<: *nginx-ingress-controller-config
+      # Pass incoming X-Forwarded-* headers to upstream. Required to handle requests
+      # from other Geo sites.
+      # https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/#use-forwarded-headers
+      use-forwarded-headers: true
+    electionID: ingress-controller-leader-geo
+    ingressClassResource:
+      name: '{{ include "gitlab.geo.ingress.class.name" $ | quote }}'
+      controllerValue: 'k8s.io/nginx-ingress-geo'
+
+haproxy:
+  install: false
+  controller:
+    service:
+      type: LoadBalancer
+      tcpPorts:
+        - name: ssh
+          port: 22
+          targetPort: 22
+    extraArgs:
+      - --configmap-tcp-services=$(POD_NAMESPACE)/$(POD_NAMESPACE)-haproxy-tcp
 
 ## Installation & configuration of stable/prometheus
 ## See requirements.yaml for current version
@@ -1084,7 +1128,7 @@ postgresql:
     ## They are overridden by use of `existingSecret`
     password: bogus-satisfy-upgrade
     postgresPassword: bogus-satisfy-upgrade
-    ## 
+    ##
     usePasswordFiles: false
     existingSecret: '{{ include "gitlab.psql.password.secret" . }}'
     secretKeys:
@@ -1180,6 +1224,14 @@ gitlab-runner:
     gitlab.com/prometheus_scrape: "true"
     gitlab.com/prometheus_port: 9252
 
+traefik:
+  install: false
+  ports:
+    gitlab-shell:
+      expose: true
+      port: 2222
+      exposedPort: 22
+
 ## Settings for individual sub-charts under GitLab
 ## Note: Many of these settings are configurable via globals
 gitlab:
@@ -1213,3 +1265,7 @@ gitlab:
 ## Installation & configuration of gitlab/gitlab-zoekt
 gitlab-zoekt:
   install: false
+  gateway:
+    basicAuth:
+      enabled: true
+      secretName: '{{ include "gitlab.zoekt.gateway.basicAuth.secretName" $ }}'
