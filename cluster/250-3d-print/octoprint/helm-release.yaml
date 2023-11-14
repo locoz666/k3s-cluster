@@ -20,9 +20,8 @@ spec:
         name: bjw-s-charts
         namespace: flux-system
   values:
-    #    nodeSelector:
-    #      kubernetes.io/hostname: "home-server-nut"
-    #      kubernetes.io/hostname: "raspberry-pi4b"
+    nodeSelector:
+      kubernetes.io/hostname: "home-server-nut"
 
     tolerations:
       - key: "node-role.kubernetes.io/edge"
