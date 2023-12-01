@@ -17,7 +17,7 @@ spec:
       version: 54.2.2
       sourceRef:
         kind: HelmRepository
-        name: prometheus-community-charts
+        name: prometheus-community
         namespace: flux-system
   values:
     kubeProxy:

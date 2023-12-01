@@ -17,7 +17,7 @@ spec:
       version: 0.29.0
       sourceRef:
         kind: HelmRepository
-        name: vector-charts
+        name: vector
         namespace: flux-system
   values:
     role: "Aggregator"

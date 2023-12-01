@@ -17,5 +17,5 @@ spec:
       version: v0.13.2
       sourceRef:
         kind: HelmRepository
-        name: appscode-charts
+        name: appscode
         namespace: flux-system

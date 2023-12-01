@@ -17,7 +17,7 @@ spec:
       version: 20.11.0
       sourceRef:
         kind: HelmRepository
-        name: sentry-charts
+        name: sentry
         namespace: flux-system
   values:
     system:
