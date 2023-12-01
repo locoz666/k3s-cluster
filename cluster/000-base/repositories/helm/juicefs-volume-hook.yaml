@@ -1,10 +1,9 @@
----
 apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: HelmRepository
 metadata:
-  name: nextcloud-charts
+  name: juicefs-volume-hook
   namespace: flux-system
 spec:
   interval: 24h
-  url: https://nextcloud.github.io/helm/
   timeout: 2m
+  url: https://breuerfelix.github.io/juicefs-volume-hook

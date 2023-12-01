@@ -1,10 +1,9 @@
----
 apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: HelmRepository
 metadata:
-  name: traefik-charts
+  name: bjw-s
   namespace: flux-system
 spec:
-  interval: 10m
-  url: https://helm.traefik.io/traefik
-  timeout: 3m
+  interval: 24h
+  timeout: 2m
+  url: https://bjw-s.github.io/helm-charts

@@ -1,10 +1,9 @@
----
 apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: HelmRepository
 metadata:
-  name: elastic-charts
+  name: nvidia
   namespace: flux-system
 spec:
   interval: 24h
-  url: https://helm.elastic.co
   timeout: 2m
+  url: https://helm.ngc.nvidia.com/nvidia

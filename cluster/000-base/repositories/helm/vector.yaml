@@ -1,10 +1,9 @@
----
 apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: HelmRepository
 metadata:
-  name: vector-charts
+  name: vector
   namespace: flux-system
 spec:
   interval: 24h
-  url: https://helm.vector.dev
   timeout: 2m
+  url: https://helm.vector.dev

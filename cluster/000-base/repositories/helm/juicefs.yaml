@@ -1,10 +1,9 @@
----
 apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: HelmRepository
 metadata:
-  name: nvidia-charts
+  name: juicefs
   namespace: flux-system
 spec:
   interval: 24h
-  url: https://helm.ngc.nvidia.com/nvidia
   timeout: 2m
+  url: https://juicedata.github.io/charts/

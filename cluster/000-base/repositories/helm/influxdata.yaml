@@ -1,10 +1,9 @@
----
 apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: HelmRepository
 metadata:
-  name: juicefs-volume-hook-charts
+  name: influxdata
   namespace: flux-system
 spec:
   interval: 24h
-  url: https://breuerfelix.github.io/juicefs-volume-hook
   timeout: 2m
+  url: https://helm.influxdata.com/

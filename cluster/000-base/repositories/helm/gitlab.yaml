@@ -1,10 +1,9 @@
----
 apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: HelmRepository
 metadata:
-  name: appscode-charts
+  name: gitlab
   namespace: flux-system
 spec:
   interval: 24h
-  url: https://charts.appscode.com/stable/
   timeout: 2m
+  url: https://charts.gitlab.io/

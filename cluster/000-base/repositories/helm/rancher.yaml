@@ -1,10 +1,9 @@
----
 apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: HelmRepository
 metadata:
-  name: kasten-charts
+  name: rancher
   namespace: flux-system
 spec:
   interval: 24h
-  url: https://charts.kasten.io/
   timeout: 2m
+  url: http://rancher-mirror.oss-cn-beijing.aliyuncs.com/server-charts/stable
