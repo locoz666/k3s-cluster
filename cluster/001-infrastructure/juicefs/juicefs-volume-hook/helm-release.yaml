@@ -17,7 +17,7 @@ spec:
       version: 0.2.6
       sourceRef:
         kind: HelmRepository
-        name: juicefs-volume-hook-charts
+        name: juicefs-volume-hook
         namespace: flux-system
   values:
     controller:

@@ -17,7 +17,7 @@ spec:
       version: 61.0.2
       sourceRef:
         kind: HelmRepository
-        name: sonatype-charts
+        name: sonatype
         namespace: flux-system
   values:
     nexus:
