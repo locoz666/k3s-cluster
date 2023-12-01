@@ -17,7 +17,7 @@ spec:
       version: v1.13.2
       sourceRef:
         kind: HelmRepository
-        name: jetstack-charts
+        name: jetstack
         namespace: flux-system
   values:
     installCRDs: true
