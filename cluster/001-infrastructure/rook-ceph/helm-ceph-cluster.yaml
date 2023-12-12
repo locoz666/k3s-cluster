@@ -256,6 +256,21 @@ spec:
         storageClass:
           enabled: false  # 是否启用对应的K8S StorageClass，可以仅创建Ceph存储池但不创建StorageClass
 
+      # 基于JuiceFS提供服务的临时存储用存储池，不开启压缩，无副本存储，适用于下载临时存储等场景
+      - name: juicefs-temporary
+        spec:
+          failureDomain: osd  # 设置存储池的故障域
+          replicated: # 设置为副本池
+            size: 1  # 副本数
+            requireSafeReplicaSize: false  # 设为false以允许无副本存储池
+          deviceClass: nvme  # 设置后端osd类型
+          parameters:
+            pg_num: "32" # 设置初始的PG数量
+            pgp_num: "32" # 设置初始的PGP数量，需要和pg_num一致
+        # 由于是JuiceFS使用的存储池，所以不需要创建Ceph CSI提供的K8S StorageClass，而是使用JuiceFS CSI提供的K8S StorageClass
+        storageClass:
+          enabled: false  # 是否启用对应的K8S StorageClass，可以仅创建Ceph存储池但不创建StorageClass
+
       # 基于Ceph RBD提供服务的常规应用数据存储池，开启压缩，适用于JuiceFS不适用的场景（如普通数据库）
       - name: ceph-application-compressed
         spec:
