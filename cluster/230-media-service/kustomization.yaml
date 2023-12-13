@@ -15,5 +15,6 @@ resources:
   - radarr
   - samba
   - sonarr
+  - sonarr-anime
   - media-files.yaml
   - download-files.yaml
