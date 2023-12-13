@@ -25,15 +25,13 @@ spec:
       kubernetes.io/hostname: "home-server-sonic"
 
     image:
-      repository: ghcr.io/onedr0p/sonarr
-      tag: 3.0.10.1567
+      repository: linuxserver/sonarr
+      tag: 4.0.0-develop
 
     env:
       TZ: "Asia/Shanghai"
-
-    securityContext:
-      runAsUser: 1000
-      runAsGroup: 1000
+      PUID: "1000"
+      PGID: "1000"
 
     service:
       main:
