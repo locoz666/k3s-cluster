@@ -13,6 +13,7 @@ resources:
   - lidarr
   - qbittorrent
   - radarr
+  - radarr-anime
   - samba
   - sonarr
   - sonarr-anime
