@@ -31,7 +31,7 @@ spec:
 
     image:
       repository: linuxserver/jackett
-      tag: development-version-v0.21.294
+      tag: 0.21.1350
 
     service:
       main:
