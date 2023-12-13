@@ -25,15 +25,13 @@ spec:
       kubernetes.io/hostname: "home-server-sonic"
 
     image:
-      repository: ghcr.io/onedr0p/qbittorrent
+      repository: linuxserver/qbittorrent
       tag: 4.6.2
 
     env:
       TZ: "Asia/Shanghai"
-
-    securityContext:
-      runAsUser: 1000
-      runAsGroup: 1000
+      PUID: "1000"
+      PGID: "1000"
 
     service:
       main:
