@@ -102,7 +102,7 @@
       "matchPackageNames": [
         "photoprism/photoprism"
       ],
-      "versioning": "regex:^\\d{6}$"
+      "versioning": "regex:^(?<!\\\\d)(?<major>\\\\d{2})(?<minor>\\\\d{2})(?<patch>\\\\d{2})(?!\\\\d)$"
     }
   ]
 }
