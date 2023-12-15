@@ -26,7 +26,7 @@ spec:
 
     image:
       repository: linuxserver/qbittorrent
-      tag: 4.6.2
+      tag: 20.04.1
 
     env:
       TZ: "Asia/Shanghai"
