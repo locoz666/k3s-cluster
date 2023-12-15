@@ -3,12 +3,19 @@
   "semanticCommits": "enabled",
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "Renovate Dashboard",
-  "suppressNotifications": ["prIgnoreNotification"],
+  "suppressNotifications": [
+    "prIgnoreNotification"
+  ],
   "rebaseWhen": "conflicted",
   "helm-values": {
     "fileMatch": [
       "cluster/.+/helm-release\\.yaml$"
     ]
+  },
+  "docker": {
+    "digest": {
+      "enabled": true
+    }
   },
   "kubernetes": {
     "fileMatch": [
@@ -17,7 +24,7 @@
     "ignorePaths": [
       "cluster/base/",
       "cluster/apps/cluster-manage/kubesphere/fix/"
-    ],
+    ]
   },
   "regexManagers": [
     // regexManager to read and process HelmReleases and CRDs
@@ -32,7 +39,7 @@
         "registryUrl=(?<registryUrl>.*?) chart=(?<depName>.*?)\n.*\\/(?<currentValue>.*?)\\/"
       ],
       "datasourceTemplate": "helm"
-    },
+    }
   ],
   "packageRules": [
     // setup datasources
