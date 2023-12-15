@@ -22,8 +22,7 @@
       "cluster/.+\\.yaml$"
     ],
     "ignorePaths": [
-      "cluster/base/",
-      "cluster/apps/cluster-manage/kubesphere/fix/"
+      "cluster/000-base/"
     ]
   },
   "regexManagers": [
