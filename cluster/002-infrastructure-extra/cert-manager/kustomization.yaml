@@ -7,3 +7,4 @@ resources:
   - letsencrypt-http.yaml
   - direct-wildcard-certificate.yaml
   - wildcard-certificate.yaml
+  - wildcard-certificate-second.yaml
