@@ -73,6 +73,9 @@ spec:
         dependencyProxy: # 开启CI/CD用的依赖代理功能，可以操作过程中用到的镜像（未来版本貌似会支持各编程语言的包）缓存下来，提高速度
           enabled: true
 
+      pages:
+        enabled: true
+
     certmanager-issuer:
       email: "${SECRET_LETS_ENCRYPT_EMAIL}"  # 自动签发证书用的邮箱，gitlab要求必填
 
