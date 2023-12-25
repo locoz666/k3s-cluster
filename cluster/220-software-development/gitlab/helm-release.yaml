@@ -51,6 +51,7 @@ spec:
         size: 200Gi
 
     global:
+      time_zone: Asia/Shanghai
       nodeSelector:
         location: "home"
       hosts:
