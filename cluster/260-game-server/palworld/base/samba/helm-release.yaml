@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: minecraft-samba
+  name: palworld-samba
   namespace: game-server
 spec:
   interval: 5m
@@ -29,7 +29,7 @@ spec:
         type: LoadBalancer
         externalTrafficPolicy: Local
         annotations:
-          kube-vip.io/loadbalancerIPs: 192.168.254.6
+          kube-vip.io/loadbalancerIPs: 192.168.254.9
         ports:
           http:
             enabled: false
@@ -46,15 +46,15 @@ spec:
       config:
         enabled: true
         type: configMap
-        name: minecraft-samba-config
+        name: palworld-samba-config
         subPath: config.yml
         mountPath: /data/config.yml
         readOnly: true
-      minecraft-files:
+      palworld-data:
         enabled: true
         type: pvc
-        existingClaim: minecraft-data
-        mountPath: /share/minecraft
+        existingClaim: palworld-data
+        mountPath: /mnt/pvc/palworld-data
         mountPropagation: HostToContainer
 
     configMaps:
@@ -74,8 +74,8 @@ spec:
               - "force group = ${SECRET_SAMBA_USERNAME}"
 
             share:
-              - name: minecraft
-                path: /share/minecraft
+              - name: palworld-data
+                path: /mnt/pvc/palworld-data
                 browsable: yes
                 readonly: no
                 guestok: no
