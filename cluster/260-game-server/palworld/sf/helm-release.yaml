@@ -24,13 +24,10 @@ spec:
       repository: "thijsvanloef/palworld-server-docker"
       tag: "v0.4"
 
+    command: [ "/bin/bash", "/tmp/start.sh" ]
+
     env:
       TZ: "Asia/Shanghai"
-      PORT: "8211"
-      PLAYERS: "888"
-      MULTITHREADING: "true"
-      COMMUNITY: "false"
-      ADMIN_PASSWORD: "worldadmin"
 
     resources:
       requests:
@@ -68,6 +65,13 @@ spec:
             port: 27015
 
     persistence:
+      start-script:
+        enabled: true
+        type: configMap
+        name: palworld-sf-scripts
+        subPath: start.sh
+        mountPath: /tmp/start.sh
+        readOnly: true
       palworld-data:
         enabled: true
         existingClaim: palworld-data
@@ -76,3 +80,27 @@ spec:
 
     strategy:
       type: Recreate
+
+    configMaps:
+      scripts:
+        enabled: true
+        data:
+          start.sh: |
+            #!/bin/bash
+            
+            mkdir -p /palworld/bootstrap_server
+            mkdir -p /palworld/real_server
+            chown -R steam:steam /palworld
+            if [ -z "$(ls -A /palworld/bootstrap_server)" ]; then
+              su steam -c '/home/steam/steamcmd/steamcmd.sh +force_install_dir "/palworld/bootstrap_server" +login anonymous +app_update 2394010 validate +quit'
+              su steam -c 'cp -r /palworld/bootstrap_server/* /palworld/real_server/'
+            fi
+            
+            # 作为前置的服务端，不实际提供服务
+            nohup su steam -c "/palworld/bootstrap_server/PalServer.sh -port=12345" >/dev/null 2>&1 &
+            
+            # 等待前置服务端启动完成
+            sleep 5
+            
+            # 实际提供服务的服务端
+            su steam -c "/palworld/real_server/PalServer.sh -port=8211 -players=888 -adminpassword=worldadmin -useperfthreads -NoAsyncLoadingThread -UseMultithreadForDS"
