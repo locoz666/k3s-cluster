@@ -48,9 +48,6 @@ spec:
       startup:
         enabled: false
 
-    nodeSelector:
-      disk-type: "ssd"
-
     service:
       main:
         type: LoadBalancer
