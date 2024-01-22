@@ -62,6 +62,10 @@ spec:
         mountOptions:
           - "enable-xattr"
           - "cache-size=0"
+        mountPod:
+          resources:
+            requests:
+              cpu: 100m
 
       - name: "juicefs-media-replicated"
         enabled: true
@@ -80,6 +84,10 @@ spec:
         mountOptions:
           - "enable-xattr"
           - "cache-size=0"
+        mountPod:
+          resources:
+            requests:
+              cpu: 100m
 
       - name: "juicefs-application-compressed"
         enabled: true
@@ -98,6 +106,10 @@ spec:
         mountOptions:
           - "enable-xattr"
           - "cache-size=0"
+        mountPod:
+          resources:
+            requests:
+              cpu: 100m
 
       - name: "juicefs-temporary"
         enabled: true
@@ -116,3 +128,7 @@ spec:
         mountOptions:
           - "enable-xattr"
           - "cache-size=0"
+        mountPod:
+          resources:
+            requests:
+              cpu: 100m
