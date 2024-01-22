@@ -61,6 +61,7 @@ spec:
         pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
         mountOptions:
           - "enable-xattr"
+          - "cache-size=0"
 
       - name: "juicefs-media-replicated"
         enabled: true
@@ -78,6 +79,7 @@ spec:
         pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
         mountOptions:
           - "enable-xattr"
+          - "cache-size=0"
 
       - name: "juicefs-application-compressed"
         enabled: true
@@ -95,6 +97,7 @@ spec:
         pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
         mountOptions:
           - "enable-xattr"
+          - "cache-size=0"
 
       - name: "juicefs-temporary"
         enabled: true
@@ -112,3 +115,4 @@ spec:
         pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
         mountOptions:
           - "enable-xattr"
+          - "cache-size=0"
