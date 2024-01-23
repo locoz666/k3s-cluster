@@ -73,3 +73,6 @@ spec:
 
     strategy:
       type: Recreate
+
+    termination:
+      gracePeriodSeconds: 1

@@ -78,6 +78,9 @@ spec:
     strategy:
       type: Recreate
 
+    termination:
+      gracePeriodSeconds: 1
+
     configMaps:
       scripts:
         enabled: true
