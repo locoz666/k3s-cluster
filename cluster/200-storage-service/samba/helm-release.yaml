@@ -66,11 +66,11 @@ spec:
         existingClaim: media-files
         mountPath: /mnt/media-files
         mountPropagation: HostToContainer
-      apple-timemachine-files:
-        enabled: true
-        type: pvc
-        existingClaim: apple-timemachine-files
-        mountPath: /mnt/apple-timemachine-files
+    #      apple-timemachine-files:
+    #        enabled: true
+    #        type: pvc
+    #        existingClaim: apple-timemachine-files
+    #        mountPath: /mnt/apple-timemachine-files
 
     configMaps:
       config:
@@ -145,15 +145,6 @@ spec:
             
               - name: other-media
                 path: /mnt/media-files/other-media
-                browsable: yes
-                readonly: no
-                guestok: no
-                validusers: loco
-                writelist: loco
-                veto: no
-            
-              - name: apple-timemachine
-                path: /mnt/apple-timemachine-files
                 browsable: yes
                 readonly: no
                 guestok: no
