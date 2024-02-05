@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: vm-game-slow-data-disk
+  namespace: virtual-machine
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 4Ti
+  storageClassName: ceph-vm-low-performance-compressed
+  volumeMode: Block

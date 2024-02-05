@@ -166,6 +166,10 @@ spec:
           persistentVolumeClaim:
             claimName: vm-game-data-disk
 
+        - name: slow-data-disk
+          persistentVolumeClaim:
+            claimName: vm-game-slow-data-disk
+
       # 后端网络设置 https://kubevirt.io/user-guide/virtual_machines/interfaces_and_networks/#backend
       networks:
         - name: host-network
