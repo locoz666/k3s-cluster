@@ -345,8 +345,8 @@ spec:
             size: 3  # 副本数
           deviceClass: nvme  # 设置后端osd类型
           parameters:
-            pg_num: "128" # 设置初始的PG数量
-            pgp_num: "128" # 设置初始的PGP数量，需要和pg_num一致
+            pg_num: "256" # 设置初始的PG数量
+            pgp_num: "256" # 设置初始的PGP数量，需要和pg_num一致
         storageClass:
           enabled: true
           name: ceph-application-high-performance  # 存储类名称
