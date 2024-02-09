@@ -39,7 +39,7 @@ spec:
         tag: "v2.10.0"
       csiResizerImage:
         repository: registry.k8s.io/sig-storage/csi-resizer
-        tag: "v1.9.3"
+        tag: "v1.10.0"
 
     controller:
       provisioner: true
