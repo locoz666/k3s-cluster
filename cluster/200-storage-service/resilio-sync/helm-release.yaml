@@ -92,3 +92,9 @@ spec:
         existingClaim: media-files
         mountPath: /sync/media-files
         mountPropagation: HostToContainer
+      download-files:
+        enabled: true
+        type: pvc
+        existingClaim: download-files
+        mountPath: /sync/download-files
+        mountPropagation: HostToContainer
