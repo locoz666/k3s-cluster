@@ -288,8 +288,8 @@ spec:
           deviceClass: nvme  # 设置后端osd类型
           parameters:
             compression_mode: aggressive # 设置除了指定不可压缩的数据以外都进行压缩
-            pg_num: "256" # 设置初始的PG数量
-            pgp_num: "256" # 设置初始的PGP数量，需要和pg_num一致
+            pg_num: "512" # 设置初始的PG数量
+            pgp_num: "512" # 设置初始的PGP数量，需要和pg_num一致
         storageClass:
           enabled: true
           name: ceph-application-compressed  # 存储类名称
