@@ -273,8 +273,8 @@ spec:
             requireSafeReplicaSize: false  # 设为false以允许无副本存储池
           deviceClass: nvme  # 设置后端osd类型
           parameters:
-            pg_num: "256" # 设置初始的PG数量
-            pgp_num: "256" # 设置初始的PGP数量，需要和pg_num一致
+            pg_num: "512" # 设置初始的PG数量
+            pgp_num: "512" # 设置初始的PGP数量，需要和pg_num一致
         # 由于是JuiceFS使用的存储池，所以不需要创建Ceph CSI提供的K8S StorageClass，而是使用JuiceFS CSI提供的K8S StorageClass
         storageClass:
           enabled: false  # 是否启用对应的K8S StorageClass，可以仅创建Ceph存储池但不创建StorageClass
