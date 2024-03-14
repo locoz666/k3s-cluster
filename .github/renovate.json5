@@ -100,7 +100,7 @@
         "dep/patch"
       ]
     },
-    // test
+    // 测试调整renovate对photoprism的版本号解析逻辑
     {
       "matchDatasources": [
         "docker"
@@ -109,6 +109,62 @@
         "photoprism/photoprism"
       ],
       "versioning": "regex:(?<major>\\d{2})(?<minor>\\d{2})(?<patch>\\d{2})$"
+    },
+    // 测试允许部分镜像和helm包自动更新
+    {
+      "matchPackageNames": [
+        "linuxserver/qbittorrent",
+        "linuxserver/jackett",
+        "linuxserver/radarr",
+        "linuxserver/sonarr",
+        "ghcr.io/onedr0p/bazarr",
+        "ghcr.io/onedr0p/lidarr",
+        "ghcr.io/flaresolverr/flaresolverr",
+        "luckypuppy514/jproxy",
+        "emby/embyserver",
+        "homeassistant/home-assistant",
+        "nodered/node-red",
+        "collabora/code",
+        "codercom/code-server",
+        "timberio/vector",
+        "itzg/mc-router",
+        "thijsvanloef/palworld-server-docker",
+        "vaultwarden/server",
+        "influxdb",
+        "registry.k8s.io/metrics-server/metrics-server"
+      ],
+      "matchUpdateTypes": [
+        "patch",
+        "minor"
+      ],
+      // 除了大版本以外，均自动更新
+      "automerge": true
+    },
+    {
+      "matchPackageNames": [
+        "postgresql",
+        "kube-prometheus-stack",
+        "cert-manager",
+        "gitlab",
+        "gitlab-runner",
+        "nextcloud",
+        "vector",
+        "sentry",
+        "traefik",
+        "eck-operator",
+        "cilium",
+        "metrics-server",
+        "nexus-repository-manager"
+      ],
+      "matchDatasources": [
+        "helm"
+      ],
+      "matchUpdateTypes": [
+        "patch",
+        "minor"
+      ],
+      // 除了大版本以外，均自动更新
+      "automerge": true
     }
   ]
 }
