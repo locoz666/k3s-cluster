@@ -152,7 +152,6 @@
         "sentry",
         "traefik",
         "eck-operator",
-        "cilium",
         "metrics-server",
         "nexus-repository-manager"
       ],
