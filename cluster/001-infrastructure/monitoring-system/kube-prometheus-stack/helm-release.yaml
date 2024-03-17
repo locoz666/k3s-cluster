@@ -63,7 +63,7 @@ spec:
           provider:
             allowUiUpdates: false
             disableDelete: false
-            foldersFromFilesStructure: true
+            foldersFromFilesStructure: false
       dashboardProviders:
         dashboardproviders.yaml:
           apiVersion: 1
@@ -93,6 +93,7 @@ spec:
         juicefs:
           juicefs-grafana-template:
             gnetId: null
+            folder: /var/lib/grafana/dashboards/juicefs1
             json: |
               {
                 "annotations": {
@@ -2599,6 +2600,7 @@ spec:
               }
           juicefs-grafana-template-k8s:
             gnetId: null
+            folder: /var/lib/grafana/dashboards/juicefs2
             json: |
               {
                 "annotations": {
