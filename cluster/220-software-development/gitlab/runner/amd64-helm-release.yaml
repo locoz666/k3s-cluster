@@ -24,6 +24,7 @@ spec:
     rbac:
       create: true
     runners:
+      secret: gitlab-runner-amd64
       config: |
         [[runners]]
           [runners.kubernetes]
