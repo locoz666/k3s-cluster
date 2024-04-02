@@ -11,6 +11,7 @@ spec:
       - 172.16.0.0/12
       - 192.168.0.0/16
       - 10.5.0.0/24
+      - 100.64.0.0/10  # Tailscale
 
 ---
 apiVersion: traefik.containo.us/v1alpha1
