@@ -147,15 +147,15 @@ spec:
           rng: { }
 
       volumes:
-        # 系统安装ISO
-        - name: system-iso
-          persistentVolumeClaim:
-            claimName: iso-windows11-22621
-
-        # virtio驱动盘
-        - name: virtio-driver-disk
-          persistentVolumeClaim:
-            claimName: virtio-win
+#        # 系统安装ISO
+#        - name: system-iso
+#          persistentVolumeClaim:
+#            claimName: iso-windows11-22621
+#
+#        # virtio驱动盘
+#        - name: virtio-driver-disk
+#          persistentVolumeClaim:
+#            claimName: virtio-win
 
         # 系统盘
         - name: system-disk
