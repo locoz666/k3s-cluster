@@ -22,7 +22,7 @@ spec:
   values:
     image:
       repository: itzg/minecraft-server
-      tag: java20
+      tag: java21
 
     command: [ "/bin/bash", "-c" ]
     args:
@@ -35,7 +35,7 @@ spec:
         cpu: 10m
         memory: 8Gi
       limits:
-        cpu: 4
+        cpu: 8
         memory: 9Gi
 
     podSecurityContext:
@@ -50,8 +50,7 @@ spec:
         args:
           - |
             cd /minecraft && \
-            bash /scripts/init.sh && \
-            bash /scripts/close_online_mode.sh
+            bash /scripts/init.sh
         volumeMounts:
           - name: minecraft-data
             mountPath: /minecraft
