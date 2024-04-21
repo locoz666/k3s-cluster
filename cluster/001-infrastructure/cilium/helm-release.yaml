@@ -40,3 +40,8 @@ spec:
       masquerade: true
     cni:
       exclusive: false
+    ipMasqAgent:
+      enabled: true
+      config:
+        nonMasqueradeCIDRs:
+          - "10.96.0.0/24"
