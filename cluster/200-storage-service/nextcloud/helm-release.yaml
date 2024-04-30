@@ -66,6 +66,9 @@ spec:
         - name: media-files
           persistentVolumeClaim:
             claimName: media-files
+        - name: compressed-files
+          persistentVolumeClaim:
+            claimName: compressed-files
       extraVolumeMounts:
         - name: media-files
           subPath: "camera"
@@ -79,6 +82,9 @@ spec:
         - name: media-files
           subPath: "screenshot"
           mountPath: "/var/www/html/data/loco/files/screenshot"
+        - name: compressed-files
+          subPath: "live_records"
+          mountPath: "/var/www/html/data/loco/files/live_records"
       configs:
         proxy.config.php: |-
           <?php
