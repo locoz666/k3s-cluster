@@ -71,6 +71,10 @@ spec:
             claimName: compressed-files
       extraVolumeMounts:
         - name: media-files
+          mountPath: "/mnt/pvc/media-files"
+        - name: compressed-files
+          mountPath: "/mnt/pvc/compressed-files"
+        - name: media-files
           subPath: "camera"
           mountPath: "/var/www/html/data/loco/files/camera"
         - name: media-files
