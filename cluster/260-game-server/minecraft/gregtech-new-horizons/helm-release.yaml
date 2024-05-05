@@ -28,7 +28,7 @@ spec:
     args:
       - |
         cd /minecraft && \
-        java -Xmx8G -Xms8G -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -Dfml.readTimeout=180 -Dfml.debugExit=true @java9args.txt nogui
+        java -Xmx8G -Xms8G -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -Dfml.readTimeout=180 -Dfml.debugExit=true @java9args.txt -jar lwjgl3ify-forgePatches.jar nogui
 
     resources:
       requests:
