@@ -74,21 +74,6 @@ spec:
           mountPath: "/mnt/pvc/media-files"
         - name: compressed-files
           mountPath: "/mnt/pvc/compressed-files"
-        - name: media-files
-          subPath: "camera"
-          mountPath: "/var/www/html/data/loco/files/camera"
-        - name: media-files
-          subPath: "music"
-          mountPath: "/var/www/html/data/loco/files/music"
-        - name: media-files
-          subPath: "recording"
-          mountPath: "/var/www/html/data/loco/files/recording"
-        - name: media-files
-          subPath: "screenshot"
-          mountPath: "/var/www/html/data/loco/files/screenshot"
-        - name: compressed-files
-          subPath: "live_records"
-          mountPath: "/var/www/html/data/loco/files/live_records"
       configs:
         proxy.config.php: |-
           <?php
