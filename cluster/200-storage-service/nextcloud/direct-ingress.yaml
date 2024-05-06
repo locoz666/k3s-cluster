@@ -1,0 +1,94 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: nextcloud-redirect-dav-direct
+  namespace: file-service
+spec:
+  redirectRegex:
+    regex: "https://nextcloud.direct.${SECRET_DOMAIN}:10443/.well-known/(card|cal)dav"
+    replacement: "https://nextcloud.direct.${SECRET_DOMAIN}:10443/remote.php/dav/"
+    permanent: true
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: nextcloud-redirect-webfinger-direct
+  namespace: file-service
+spec:
+  redirectRegex:
+    regex: "https://nextcloud.direct.${SECRET_DOMAIN}:10443/.well-known/webfinger"
+    replacement: "https://nextcloud.direct.${SECRET_DOMAIN}:10443/index.php/.well-known/webfinger"
+    permanent: true
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: nextcloud-redirect-nodeinfo-direct
+  namespace: file-service
+spec:
+  redirectRegex:
+    regex: "https://nextcloud.direct.${SECRET_DOMAIN}:10443/.well-known/nodeinfo"
+    replacement: "https://nextcloud.direct.${SECRET_DOMAIN}:10443/index.php/.well-known/nodeinfo"
+    permanent: true
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: nextcloud-headers-direct
+  namespace: file-service
+spec:
+  headers:
+    customFrameOptionsValue: "SAMEORIGIN"
+    customResponseHeaders:
+      Strict-Transport-Security: "15552000"
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: nextcloud-direct
+  namespace: file-service
+spec:
+  chain:
+    middlewares:
+      - name: nextcloud-redirect-dav-direct
+      - name: nextcloud-redirect-webfinger-direct
+      - name: nextcloud-redirect-nodeinfo-direct
+      - name: nextcloud-headers-direct
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nextcloud-direct
+  namespace: file-service
+  labels:
+    app.kubernetes.io/component: app
+    app.kubernetes.io/instance: nextcloud
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: nextcloud
+    helm.toolkit.fluxcd.io/name: nextcloud
+    helm.toolkit.fluxcd.io/namespace: file-service
+  annotations:
+    meta.helm.sh/release-name: nextcloud
+    meta.helm.sh/release-namespace: file-service
+    traefik.ingress.kubernetes.io/router.middlewares: file-service-nextcloud-direct@kubernetescrd
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: "nextcloud.direct.${SECRET_DOMAIN}"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nextcloud
+                port:
+                  number: 8080
+  tls:
+    - secretName: "direct-${SECRET_DOMAIN/./-}-tls"

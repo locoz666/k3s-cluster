@@ -8,5 +8,6 @@ resources:
   - redis
   - config-pvc.yaml
   - data-pvc.yaml
+  - direct-ingress.yaml
   - helm-release.yaml
   - traefik-middleware.yaml

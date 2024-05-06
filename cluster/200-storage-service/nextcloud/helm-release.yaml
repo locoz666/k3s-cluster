@@ -90,6 +90,7 @@ spec:
             'overwriteprotocol' => 'https',
             'trusted_domains' => [
               'nextcloud.${SECRET_DOMAIN}',
+              'nextcloud.direct.${SECRET_DOMAIN}',
             ],
             'memcache.distributed' => '\OC\Memcache\Redis',
             'redis' => [
