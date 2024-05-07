@@ -26,7 +26,7 @@ spec:
 
     image:
       repository: linuxserver/qbittorrent
-      tag: 4.6.4@sha256:bd87153a3c9251a6bee08bea27a95d47758f9bde788bdd7109fd5b3a5d9a87b6
+      tag: 4.6.4@sha256:9c7f4344085c234194db4f6ca76c646f423e382ad826c5e4270dac13b89aba48
 
     env:
       TZ: "Asia/Shanghai"
