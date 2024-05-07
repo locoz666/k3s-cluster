@@ -22,7 +22,7 @@ spec:
   values:
     image:
       repository: louislam/uptime-kuma
-      tag: 1.23.11-alpine
+      tag: 1.23.13-alpine
 
     #    podSecurityContext:
     #      runAsUser: 1000
