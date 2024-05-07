@@ -14,7 +14,7 @@ spec:
     spec:
       # renovate: registryUrl=https://chrisingenhaag.github.io/helm/
       chart: collabora-code
-      version: 2.5.1
+      version: 2.6.0
       sourceRef:
         kind: HelmRepository
         name: chrisingenhaag
