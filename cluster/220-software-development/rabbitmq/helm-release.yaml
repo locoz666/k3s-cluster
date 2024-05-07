@@ -24,7 +24,7 @@ spec:
     image:
       registry: docker.io
       repository: bitnami/rabbitmq
-      tag: 3.11.10-debian-11-r0
+      tag: 3.12.13-debian-11-r0
 
     auth:
       username: "${SECRET_RABBITMQ_USERNAME}"
