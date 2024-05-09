@@ -167,11 +167,12 @@
       "matchDatasources": [
         "helm"
       ],
+      // helm可能会出现配置文件格式调整的情况，只更新小版本
       "matchUpdateTypes": [
         "patch",
         "minor"
       ],
-      // 除了大版本以外，均自动更新
+      // 自动更新
       "automerge": true
     }
   ]
