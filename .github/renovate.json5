@@ -147,6 +147,7 @@
       ],
       // 允许包括大版本在内的新版本自动更新
       "matchUpdateTypes": [
+        "digest",
         "patch",
         "minor",
         "major",
