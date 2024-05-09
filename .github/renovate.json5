@@ -113,6 +113,9 @@
     // 测试允许部分镜像和helm包自动更新
     {
       "matchPackageNames": [
+        "louislam/uptime-kuma",
+        "photoprism/photoprism",
+        "fallenbagel/jellyseerr",
         "linuxserver/qbittorrent",
         "linuxserver/jackett",
         "linuxserver/radarr",
