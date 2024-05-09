@@ -136,6 +136,9 @@
         "influxdb",
         "registry.k8s.io/metrics-server/metrics-server"
       ],
+      "matchDatasources": [
+        "docker"
+      ],
       "matchUpdateTypes": [
         "patch",
         "minor"
