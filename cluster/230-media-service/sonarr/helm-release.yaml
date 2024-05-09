@@ -71,3 +71,10 @@ spec:
         mountPath: /downloads
         existingClaim: download-files
         mountPropagation: HostToContainer
+
+    probes:
+      startup:
+        spec:
+          # 等待最多30分钟
+          periodSeconds: 5
+          failureThreshold: 360
