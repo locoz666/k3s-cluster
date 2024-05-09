@@ -22,7 +22,7 @@ spec:
   values:
     image:
       repository: bitnami/mongodb
-      tag: 6.0.13-debian-11-r0
+      tag: 7.0.5-debian-11-r0
 
     auth:
       enabled: true
