@@ -150,6 +150,7 @@
     },
     {
       "matchPackageNames": [
+        "collabora-code",
         "postgresql",
         "kube-prometheus-stack",
         "cert-manager",
