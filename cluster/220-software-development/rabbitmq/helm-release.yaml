@@ -39,3 +39,5 @@ spec:
       externalTrafficPolicy: Local
       annotations:
         kube-vip.io/loadbalancerIPs: 192.168.254.11
+
+    featureFlags: "classic_mirrored_queue_version"
