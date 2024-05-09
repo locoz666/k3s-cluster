@@ -1,5 +1,11 @@
 {
   "enabled": true,
+
+  // 移除频率限制，避免堆积一堆PR不创建也不自动更新
+  "prConcurrentLimit": 0,
+  "prHourlyLimit": 0,
+  "branchConcurrentLimit": 0,
+
   "semanticCommits": "enabled",
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "Renovate Dashboard",
