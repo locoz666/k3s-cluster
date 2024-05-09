@@ -14,7 +14,7 @@ spec:
     spec:
       # renovate: registryUrl=https://charts.bitnami.com/bitnami
       chart: rabbitmq
-      version: 11.16.2
+      version: 14.1.2
       sourceRef:
         kind: HelmRepository
         name: bitnami
