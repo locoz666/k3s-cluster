@@ -110,7 +110,7 @@
       ],
       "versioning": "regex:(?<major>\\d{2})(?<minor>\\d{2})(?<patch>\\d{2})$"
     },
-    // 测试允许部分镜像和helm包自动更新
+    // 允许普通应用的容器镜像和helm包自动更新
     {
       "matchPackageNames": [
         "louislam/uptime-kuma",
@@ -139,11 +139,13 @@
       "matchDatasources": [
         "docker"
       ],
+      // 允许包括大版本在内的新版本自动更新
       "matchUpdateTypes": [
         "patch",
-        "minor"
+        "minor",
+        "major",
       ],
-      // 除了大版本以外，均自动更新
+      // 自动更新
       "automerge": true
     },
     {
