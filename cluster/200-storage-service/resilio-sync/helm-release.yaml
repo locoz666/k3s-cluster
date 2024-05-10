@@ -53,6 +53,18 @@ spec:
             enabled: true
             port: 55555
             protocol: UDP
+          multicast:
+            enabled: true
+            port: 3838
+            protocol: UDP
+          upnp:
+            enabled: true
+            port: 1900
+            protocol: UDP
+          nat-pmp:
+            enabled: true
+            port: 5351
+            protocol: UDP
 
     ingress:
       main:
