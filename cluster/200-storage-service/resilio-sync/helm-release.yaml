@@ -25,8 +25,8 @@ spec:
       disk-type: "hdd"
 
     image:
-      repository: ghcr.io/linuxserver/resilio-sync
-      tag: version-2.7.2.1375
+      repository: linuxserver/resilio-sync
+      tag: 2.7.2
 
     env:
       TZ: "Asia/Shanghai"
