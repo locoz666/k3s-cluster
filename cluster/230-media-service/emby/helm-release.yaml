@@ -23,7 +23,7 @@ spec:
   values:
     image:
       repository: emby/embyserver
-      tag: 4.9.0.17
+      tag: 4.9.0.18
 
     nodeSelector:
       location: "home"
