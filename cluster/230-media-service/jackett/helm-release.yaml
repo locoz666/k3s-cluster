@@ -31,7 +31,7 @@ spec:
 
     image:
       repository: linuxserver/jackett
-      tag: 0.21.2635
+      tag: 0.21.2644
 
     service:
       main:
