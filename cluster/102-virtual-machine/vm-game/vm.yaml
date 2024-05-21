@@ -87,7 +87,7 @@ spec:
             reset: { }
 
         devices:
-          autoattachGraphicsDevice: true  # 是否添加默认图形设备（VNC）
+          autoattachGraphicsDevice: false  # 是否添加默认图形设备（VNC）
           autoattachPodInterface: false  # 是否添加Pod网络接口
           blockMultiQueue: true  # 开启virtio的硬盘多队列操作
           networkInterfaceMultiqueue: true  # 开启virtio的网卡多队列操作
