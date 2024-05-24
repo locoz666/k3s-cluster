@@ -27,7 +27,7 @@ spec:
         location: "home"
         kubernetes.io/arch: "amd64"
         kubernetes.io/os: "linux"
-    kubeProxyReplacement: "strict"
+    kubeProxyReplacement: "true"
     k8sServiceHost: "${SECRET_K8S_API_SERVER_HOST}"
     k8sServicePort: "${SECRET_K8S_API_SERVER_PORT}"
     hubble:
@@ -40,3 +40,13 @@ spec:
       masquerade: true
     cni:
       exclusive: false
+    routingMode: "native"
+    socketLB:
+      hostNamespaceOnly: "true"
+    autoDirectNodeRoutes: "true"
+    ipam:
+      mode: "cluster-pool"
+    ipMasqAgent:
+      enabled: false
+    enableIPv4Masquerade: true
+    ipv4NativeRoutingCIDR: "10.0.0.0/8"
