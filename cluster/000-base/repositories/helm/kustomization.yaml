@@ -24,5 +24,6 @@ resources:
   - rook.yaml
   - sentry.yaml
   - sonatype.yaml
+  - tailscale.yaml
   - traefik.yaml
   - vector.yaml
