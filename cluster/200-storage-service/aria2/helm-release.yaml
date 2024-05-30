@@ -1,0 +1,83 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: aria2
+  namespace: file-service
+spec:
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 1.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  values:
+    image:
+      repository: p3terx/aria2-pro
+      tag: "202209060423"
+
+    env:
+      TZ: "Asia/Shanghai"
+      PUID: "1000"
+      PGID: "1000"
+      UMASK: "002"
+      RPC_SECRET: aria2
+      RPC_PORT: 6800
+      LISTEN_PORT: 6888
+      DISK_CACHE: 64M
+      IPV6_MODE: "true"
+      UPDATE_TRACKERS: "true"
+
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          http:
+            enabled: true
+            port: 6800
+            targetPort: 6800
+          bt-tcp:
+            enabled: true
+            port: 6888
+            protocol: TCP
+          bt-udp:
+            enabled: true
+            port: 6888
+            protocol: UDP
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "traefik"
+        annotations:
+          traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
+        hosts:
+          - host: "aria2.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - secretName: "${SECRET_DOMAIN/./-}-tls"
+
+    persistence:
+      config:
+        enabled: true
+        type: pvc
+        existingClaim: aria2-config
+        mountPath: /config
+        mountPropagation: HostToContainer
+      downloads:
+        enabled: true
+        type: pvc
+        existingClaim: compressed-files
+        subPath: aria2-downloads
+        mountPath: /downloads
+        mountPropagation: HostToContainer
