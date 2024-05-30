@@ -105,11 +105,11 @@ spec:
         replicas: 2
         # 自动发现所有命名空间中所有的监测配置，而不是仅按照kube-prometheus-stack标准的来
         # 按照kube-prometheus-stack标准的来，会导致丢失一些监测信息，比如ceph的
-        ruleSelectorNilUsesHelmValues: false
-        serviceMonitorSelectorNilUsesHelmValues: false
-        podMonitorSelectorNilUsesHelmValues: false
-        probeSelectorNilUsesHelmValues: false
-        scrapeConfigSelectorNilUsesHelmValues: false
+#        ruleSelectorNilUsesHelmValues: false
+#        serviceMonitorSelectorNilUsesHelmValues: false
+#        podMonitorSelectorNilUsesHelmValues: false
+#        probeSelectorNilUsesHelmValues: false
+#        scrapeConfigSelectorNilUsesHelmValues: false
         storageSpec:
           volumeClaimTemplate:
             spec:
