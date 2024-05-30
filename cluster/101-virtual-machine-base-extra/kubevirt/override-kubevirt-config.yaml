@@ -28,6 +28,7 @@ spec:
         - GPU
         - DisableMDEVConfiguration
         - HostDevices
+        - Sidecar
   infra:
     nodePlacement:
       nodeSelector:
