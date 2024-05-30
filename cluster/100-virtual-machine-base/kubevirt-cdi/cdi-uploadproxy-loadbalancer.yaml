@@ -5,7 +5,7 @@ metadata:
   name: cdi-uploadproxy-loadbalancer
   namespace: cdi
   annotations:
-    kube-vip.io/loadbalancerIPs: 192.168.254.2
+    kube-vip.io/loadbalancerIPs: 192.168.170.231
 spec:
   ports:
     - protocol: TCP

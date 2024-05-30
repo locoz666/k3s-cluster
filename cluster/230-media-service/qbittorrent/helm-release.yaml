@@ -38,7 +38,7 @@ spec:
         type: LoadBalancer
         externalTrafficPolicy: Local
         annotations:
-          kube-vip.io/loadbalancerIPs: 192.168.254.101
+          kube-vip.io/loadbalancerIPs: 192.168.170.240
         ports:
           http:
             enabled: true

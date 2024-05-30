@@ -37,7 +37,7 @@ spec:
       type: LoadBalancer
       externalTrafficPolicy: Local
       annotations:
-        kube-vip.io/loadbalancerIPs: 192.168.254.10
+        kube-vip.io/loadbalancerIPs: 192.168.170.238
         tailscale.com/expose: "true"
 
     updateStrategy:
