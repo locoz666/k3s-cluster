@@ -5,6 +5,7 @@ resources:
   - appscode.yaml
   - bitnami.yaml
   - bjw-s.yaml
+  - chrisingenhaag.yaml
   - cilium.yaml
   - elastic.yaml
   - gitlab.yaml
@@ -19,6 +20,7 @@ resources:
   - metrics-server.yaml
   - nextcloud.yaml
   - nvidia.yaml
+  - pmint93.yaml
   - prometheus-community.yaml
   - rancher.yaml
   - rook.yaml

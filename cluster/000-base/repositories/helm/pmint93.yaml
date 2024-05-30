@@ -1,0 +1,9 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: HelmRepository
+metadata:
+  name: pmint93
+  namespace: flux-system
+spec:
+  interval: 24h
+  timeout: 2m
+  url: https://nexus.loco666.com/repository/helm-pmint93-proxy/
