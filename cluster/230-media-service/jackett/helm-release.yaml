@@ -14,38 +14,39 @@ spec:
     spec:
       # renovate: registryUrl=https://bjw-s.github.io/helm-charts
       chart: app-template
-      version: 1.5.1
+      version: 3.2.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
       interval: 5m
   values:
-    nodeSelector:
-      location: "home"
-
-    env:
-      TZ: "Asia/Shanghai"
-      PUID: "1000"
-      PGID: "1000"
-
-    image:
-      repository: linuxserver/jackett
-      tag: 0.21.2850
+    controllers:
+      main:
+        strategy: Recreate
+        containers:
+          main:
+            image:
+              repository: linuxserver/jackett
+              tag: 0.21.2850
+              pullPolicy: IfNotPresent
+            env:
+              TZ: "Asia/Shanghai"
+              PUID: "1000"
+              PGID: "1000"
 
     service:
       main:
+        controller: main
         type: ClusterIP
         ports:
           http:
-            enabled: true
             port: 9117
             protocol: HTTP
 
     ingress:
       main:
-        enabled: true
-        ingressClassName: "traefik"
+        className: "traefik"
         annotations:
           traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
         hosts:
@@ -58,6 +59,7 @@ spec:
 
     persistence:
       config:
-        enabled: true
+        type: persistentVolumeClaim
         existingClaim: jackett-config
-        mountPropagation: HostToContainer
+        globalMounts:
+          - path: /config
