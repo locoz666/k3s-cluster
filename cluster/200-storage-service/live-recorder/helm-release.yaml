@@ -51,4 +51,4 @@ spec:
         enabled: true
         volumeMounts:
           - name: config
-            mount: /data/config
+            mountPath: /data/config
