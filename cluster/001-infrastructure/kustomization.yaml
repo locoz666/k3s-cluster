@@ -8,7 +8,7 @@ resources:
   - gpu-operator
   - juicefs
 #  - kilo
-  - kubed
+  - config-syncer
   - monitoring-system
   - rook-ceph
   - snapshot-controller
