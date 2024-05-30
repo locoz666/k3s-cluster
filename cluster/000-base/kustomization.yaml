@@ -5,7 +5,6 @@ resources:
   - repositories
   - flux-system
   - cluster-secrets.sops.yaml
-  - cluster-settings.yaml
   - namespaces_infrastructure
   - namespaces_management-tools
   - namespaces_software-development
