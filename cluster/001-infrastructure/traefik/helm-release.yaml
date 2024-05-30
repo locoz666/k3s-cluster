@@ -33,12 +33,8 @@ spec:
     tolerations:
       - operator: Exists
     nodeSelector:
-      location: "home"
       kubernetes.io/arch: "amd64"
       kubernetes.io/os: "linux"
-    ingressClass:
-      enabled: true
-      isDefaultClass: true
     logs:
       general:
         level: ERROR
@@ -53,11 +49,7 @@ spec:
       spec:
         externalTrafficPolicy: Local
     ports:
-      traefik:
-        expose: true
       web:
-        expose: true
-        hostPort: 80
         redirectTo:
           port: websecure
         forwardedHeaders:
@@ -89,10 +81,6 @@ spec:
             - "222.189.172.0/24"
             - "36.158.253.0/24"
       websecure:
-        expose: true
-        hostPort: 443
-        tls:
-          enabled: true
         forwardedHeaders:
           trustedIPs:
             - "101.71.100.0/24"
