@@ -15,4 +15,5 @@ spec:
     - "*.direct.${SECRET_DOMAIN}"
   secretTemplate:
     annotations:
-      kubed.appscode.com/sync: "sync-https-wildcard-certificate=true" # Sync certificate to matching namespaces
+      kubed.appscode.com/sync: ""
+#      kubed.appscode.com/sync: "sync-https-wildcard-certificate=true" # Sync certificate to matching namespaces
