@@ -49,6 +49,8 @@ spec:
       spec:
         externalTrafficPolicy: Local
     ports:
+      traefik:
+        expose: true
       web:
         redirectTo:
           port: websecure
