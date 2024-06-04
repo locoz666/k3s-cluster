@@ -70,7 +70,7 @@ spec:
               - path: /notifications/hub
                 pathType: Prefix
                 service:
-                  port: 3012
+                  port: 80
         tls:
           - secretName: "${SECRET_DOMAIN/./-}-tls"
           - secretName: "direct-${SECRET_DOMAIN/./-}-tls"
