@@ -50,4 +50,5 @@ spec:
       enabled: false
     enableIPv4Masquerade: true
     ipv4NativeRoutingCIDR: "10.0.0.0/8"
-    devices: "bond0,br0"
+    nodePort:
+      directRoutingDevice: "bond0,br0"
