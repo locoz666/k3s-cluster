@@ -2,24 +2,13 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
-  name: rfc1918-ips
+  name: rfc1918
   namespace: kube-system
 spec:
-  ipWhiteList:
+  ipAllowList:
     sourceRange:
       - 10.0.0.0/8
       - 172.16.0.0/12
       - 192.168.0.0/16
       - 10.5.0.0/24
       - 100.64.0.0/10  # Tailscale
-
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: Middleware
-metadata:
-  name: rfc1918
-  namespace: kube-system
-spec:
-  chain:
-    middlewares:
-      - name: rfc1918-ips
