@@ -140,7 +140,8 @@
         "thijsvanloef/palworld-server-docker",
         "vaultwarden/server",
         "influxdb",
-        "registry.k8s.io/metrics-server/metrics-server"
+        "registry.k8s.io/metrics-server/metrics-server",
+        "linuxserver/resilio-sync",
       ],
       "matchDatasources": [
         "docker"
