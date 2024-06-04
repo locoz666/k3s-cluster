@@ -1,5 +1,5 @@
 ---
-apiVersion: traefik.containo.us/v1alpha1
+apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
   name: nextcloud-redirect-dav-direct
@@ -11,7 +11,7 @@ spec:
     permanent: true
 
 ---
-apiVersion: traefik.containo.us/v1alpha1
+apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
   name: nextcloud-redirect-webfinger-direct
@@ -23,7 +23,7 @@ spec:
     permanent: true
 
 ---
-apiVersion: traefik.containo.us/v1alpha1
+apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
   name: nextcloud-redirect-nodeinfo-direct
@@ -35,7 +35,7 @@ spec:
     permanent: true
 
 ---
-apiVersion: traefik.containo.us/v1alpha1
+apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
   name: nextcloud-headers-direct
@@ -47,7 +47,7 @@ spec:
       Strict-Transport-Security: "15552000"
 
 ---
-apiVersion: traefik.containo.us/v1alpha1
+apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
   name: nextcloud-direct
