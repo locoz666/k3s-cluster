@@ -20,6 +20,8 @@ spec:
         name: traefik
         namespace: flux-system
   values:
+    deployment:
+      replicas: 3
     experimental:
       plugins:
         plugin-rewritebody:
