@@ -28,7 +28,7 @@ spec:
           main:
             image:
               repository: linuxserver/jackett
-              tag: 0.22.56
+              tag: 0.22.58
               pullPolicy: IfNotPresent
             env:
               TZ: "Asia/Shanghai"
