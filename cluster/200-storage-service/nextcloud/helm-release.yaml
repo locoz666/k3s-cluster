@@ -177,4 +177,4 @@ spec:
       enabled: true
 
     nginx:
-      enabled: true
+      enabled: false
