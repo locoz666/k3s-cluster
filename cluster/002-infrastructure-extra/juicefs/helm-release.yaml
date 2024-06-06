@@ -61,7 +61,7 @@ spec:
         pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
         mountOptions:
           - "enable-xattr"
-#          - "cache-size=0"
+          - "cache-size=0"
 #        mountPod:
 #          resources:
 #            limits:
@@ -87,7 +87,7 @@ spec:
         pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
         mountOptions:
           - "enable-xattr"
-#          - "cache-size=0"
+          - "cache-size=0"
 #        mountPod:
 #          resources:
 #            limits:
@@ -113,7 +113,7 @@ spec:
         pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
         mountOptions:
           - "enable-xattr"
-#          - "cache-size=0"
+          - "cache-size=0"
 #        mountPod:
 #          resources:
 #            limits:
@@ -139,7 +139,7 @@ spec:
         pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
         mountOptions:
           - "enable-xattr"
-#          - "cache-size=0"
+          - "cache-size=0"
 #        mountPod:
 #          resources:
 #            limits:
