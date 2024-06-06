@@ -20,12 +20,12 @@ spec:
         name: juicefs
         namespace: flux-system
   values:
-    image:
-      repository: "registry-gitlab.${SECRET_DOMAIN}/loco/juicefs-csi-driver"
-      tag: "1.0.0"
-
-    defaultMountImage:
-      ce: "registry-gitlab.${SECRET_DOMAIN}/loco/juicefs-csi-driver:1.0.0"
+#    image:
+#      repository: "registry-gitlab.${SECRET_DOMAIN}/loco/juicefs-csi-driver"
+#      tag: "1.0.0"
+#
+#    defaultMountImage:
+#      ce: "registry-gitlab.${SECRET_DOMAIN}/loco/juicefs-csi-driver:1.0.0"
 
     sidecars:
       livenessProbeImage:
