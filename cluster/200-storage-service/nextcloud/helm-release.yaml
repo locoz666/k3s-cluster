@@ -21,12 +21,12 @@ spec:
         namespace: flux-system
   values:
     # NextCloud容器第一次启动和更新时会走安装流程，速度取决于网速，且基本的速度就比较慢，会导致触发超时而重启，所以在需要走安装流程时需要关闭探针
-    #    livenessProbe:
-    #      enabled: false
-    #    readinessProbe:
-    #      enabled: false
-    #    startupProbe:
-    #      enabled: false
+    livenessProbe:
+      enabled: false
+    readinessProbe:
+      enabled: false
+    startupProbe:
+      enabled: false
 
     resources:
       limits:
