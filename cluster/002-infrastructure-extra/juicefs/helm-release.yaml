@@ -61,15 +61,15 @@ spec:
         pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
         mountOptions:
           - "enable-xattr"
-          - "cache-size=0"
-        mountPod:
-          resources:
-            limits:
-              cpu: 5000m
-              memory: 5Gi
-            requests:
-              cpu: 10m
-              memory: 300Mi
+#          - "cache-size=0"
+#        mountPod:
+#          resources:
+#            limits:
+#              cpu: 5000m
+#              memory: 5Gi
+#            requests:
+#              cpu: 10m
+#              memory: 300Mi
 
       - name: "juicefs-media-replicated"
         enabled: true
@@ -87,15 +87,15 @@ spec:
         pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
         mountOptions:
           - "enable-xattr"
-          - "cache-size=0"
-        mountPod:
-          resources:
-            limits:
-              cpu: 5000m
-              memory: 5Gi
-            requests:
-              cpu: 10m
-              memory: 300Mi
+#          - "cache-size=0"
+#        mountPod:
+#          resources:
+#            limits:
+#              cpu: 5000m
+#              memory: 5Gi
+#            requests:
+#              cpu: 10m
+#              memory: 300Mi
 
       - name: "juicefs-application-compressed"
         enabled: true
@@ -113,15 +113,15 @@ spec:
         pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
         mountOptions:
           - "enable-xattr"
-          - "cache-size=0"
-        mountPod:
-          resources:
-            limits:
-              cpu: 5000m
-              memory: 5Gi
-            requests:
-              cpu: 10m
-              memory: 300Mi
+#          - "cache-size=0"
+#        mountPod:
+#          resources:
+#            limits:
+#              cpu: 5000m
+#              memory: 5Gi
+#            requests:
+#              cpu: 10m
+#              memory: 300Mi
 
       - name: "juicefs-temporary"
         enabled: true
@@ -139,12 +139,12 @@ spec:
         pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
         mountOptions:
           - "enable-xattr"
-          - "cache-size=0"
-        mountPod:
-          resources:
-            limits:
-              cpu: 5000m
-              memory: 5Gi
-            requests:
-              cpu: 10m
-              memory: 300Mi
+#          - "cache-size=0"
+#        mountPod:
+#          resources:
+#            limits:
+#              cpu: 5000m
+#              memory: 5Gi
+#            requests:
+#              cpu: 10m
+#              memory: 300Mi
