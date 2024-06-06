@@ -6,9 +6,6 @@ vars:
     sh: "git rev-parse --show-toplevel"
   CLUSTER_DIR: "{{.PROJECT_DIR}}/cluster"
 
-env:
-  KUBECONFIG: "{{.PROJECT_DIR}}/kubeconfig"
-
 includes:
   flux: .taskfiles/flux.yml
   format: .taskfiles/format.yml
