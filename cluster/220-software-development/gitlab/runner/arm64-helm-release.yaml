@@ -29,7 +29,7 @@ spec:
         [[runners]]
           [runners.kubernetes]
           image = "ubuntu:22.04"
-          helper_image = "registry.gitlab.com/gitlab-org/gitlab-runner/gitlab-runner-helper:alpine-latest-arm64-v16.5.0"
+          helper_image = "registry.gitlab.com/gitlab-org/gitlab-runner/gitlab-runner-helper:arm64-v17.0.1"
           [runners.kubernetes.node_selector]
             "node-role.kubernetes.io/gitlab-runner" = ""
             "kubernetes.io/arch" = "arm64"
