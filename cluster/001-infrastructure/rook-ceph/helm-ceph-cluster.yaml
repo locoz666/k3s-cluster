@@ -157,6 +157,15 @@ spec:
               - name: "/dev/disk/by-id/scsi-SATA_WDC_WUH722020BL_8LJS5Z9K"
                 config:
                   deviceClass: "hdd"
+              - name: "/dev/disk/by-id/scsi-SATA_WDC_WUH722020BL_9AHBDHBR"
+                config:
+                  deviceClass: "hdd"
+              - name: "/dev/disk/by-id/scsi-SATA_WDC_WUH722020BL_9AHBDJ9R"
+                config:
+                  deviceClass: "hdd"
+              - name: "/dev/disk/by-id/scsi-SATA_WDC_WUH722020BL_9AHBRAHR"
+                config:
+                  deviceClass: "hdd"
           - name: "home-server-nut"
             devices:
               - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD71JSA"
