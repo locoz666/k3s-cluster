@@ -137,6 +137,11 @@ spec:
         useAllNodes: false
         useAllDevices: false
         nodes:
+          - name: "home-server-power"
+            devices:
+              - name: "/dev/disk/by-id/scsi-SATA_WDC_WUH722020BL_9AHBDGTR"
+                config:
+                  deviceClass: "hdd"
           - name: "home-server-titan"
             devices:
               - name: "/dev/disk/by-id/scsi-SWDC_WUH722020BL5204_8LHPJ7WN"
