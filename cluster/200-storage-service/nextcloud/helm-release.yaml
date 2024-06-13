@@ -165,6 +165,9 @@ spec:
       password: "${SECRET_NEXTCLOUD_PGSQL_PASSWORD}"
       database: "nextcloud"
 
+    cronjob:
+      enabled: true
+
     persistence:
       enabled: true
       existingClaim: nextcloud-config
