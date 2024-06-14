@@ -26,7 +26,7 @@ spec:
 
     dashboardImage:
       repository: juicedata/csi-dashboard
-      tag: "v0.24.0"
+      tag: "v0.24.1"
 
     defaultMountImage:
       ce: "registry-gitlab.${SECRET_DOMAIN}/loco/juicefs-csi-driver:1.0.0"
