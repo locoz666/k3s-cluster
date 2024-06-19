@@ -14,22 +14,22 @@ spec:
     spec:
       # renovate: registryUrl=https://juicedata.github.io/charts/
       chart: juicefs-csi-driver
-      version: 0.18.1
+      version: 0.20.3
       sourceRef:
         kind: HelmRepository
         name: juicefs
         namespace: flux-system
   values:
     image:
-      repository: "registry-gitlab.${SECRET_DOMAIN}/loco/juicefs-csi-driver"
-      tag: "1.0.0"
+      repository: "registry-gitlab.${SECRET_DOMAIN}/loco/juicefs-csi-driver-ceph"
+      tag: "ceph18.2.2_juicefs1.1.2_csi0.24.1"
 
     dashboardImage:
       repository: juicedata/csi-dashboard
       tag: "v0.24.1"
 
     defaultMountImage:
-      ce: "registry-gitlab.${SECRET_DOMAIN}/loco/juicefs-csi-driver:1.0.0"
+      ce: "registry-gitlab.${SECRET_DOMAIN}/loco/juicefs-csi-driver-ceph:ceph18.2.2_juicefs1.1.2_csi0.24.1"
 
     sidecars:
       livenessProbeImage:
