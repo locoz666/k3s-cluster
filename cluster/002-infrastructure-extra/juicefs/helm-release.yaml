@@ -51,6 +51,11 @@ spec:
     globalConfig:
       mountPodPatch:
         - resources:
+            # 限制值为默认配置
+            limits:
+              cpu: 2
+              memory: 5Gi
+            # 将资源请求量限制到普遍低负载时实际的中位数水平
             requests:
               cpu: 10m
               memory: 300Mi
