@@ -48,6 +48,13 @@ spec:
     controller:
       provisioner: true
 
+    globalConfig:
+      mountPodPatch:
+        - resources:
+            requests:
+              cpu: 100m
+              memory: 300Mi
+
     storageClasses:
       - name: "juicefs-compressed-files"
         enabled: true
