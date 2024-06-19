@@ -20,13 +20,21 @@ spec:
         name: nextcloud
         namespace: flux-system
   values:
-    # NextCloud容器第一次启动和更新时会走安装流程，速度取决于网速，且基本的速度就比较慢，会导致触发超时而重启，所以在需要走安装流程时需要关闭探针
-#    livenessProbe:
-#      enabled: false
-#    readinessProbe:
-#      enabled: false
-#    startupProbe:
-#      enabled: false
+    # NextCloud容器第一次启动和镜像更新时会走安装流程并更新所有插件，速度取决于网速，且本身的速度就比较慢，会导致触发超时而重启
+    livenessProbe:
+      enabled: true
+      initialDelaySeconds: 300
+      periodSeconds: 600
+      timeoutSeconds: 30
+      failureThreshold: 3
+      successThreshold: 1
+    readinessProbe:
+      enabled: true
+      initialDelaySeconds: 10
+      periodSeconds: 30
+      timeoutSeconds: 5
+      failureThreshold: 120
+      successThreshold: 1
 
     resources:
       limits:
