@@ -116,6 +116,10 @@ spec:
               disk:
                 bus: virtio  # 使用virtio以榨干性能
 
+            - name: slow-data-disk
+              disk:
+                bus: virtio  # 使用virtio以榨干性能
+
           # 直通GPU设置
           gpus:
             - name: gpu1
@@ -166,9 +170,9 @@ spec:
           persistentVolumeClaim:
             claimName: vm-game-data-disk
 
-#        - name: slow-data-disk
-#          persistentVolumeClaim:
-#            claimName: vm-game-slow-data-disk
+        - name: slow-data-disk
+          persistentVolumeClaim:
+            claimName: vm-game-slow-data-disk
 
       # 后端网络设置 https://kubevirt.io/user-guide/virtual_machines/interfaces_and_networks/#backend
       networks:
