@@ -140,7 +140,7 @@ spec:
           name: "juicefs-temporary"
           metaurl: "redis://:${SECRET_JUICEFS_REDIS_PASSWORD}@juicefs-redis-master.kube-system.svc.cluster.local:6379/8"
           storage: "ceph"
-          bucket: "ceph://juicefs-temporary"
+          bucket: "ceph://juicefs-test"
           accessKey: "ceph"
           secretKey: "client.admin"
           envs: "{TZ: Asia/Shanghai}"
