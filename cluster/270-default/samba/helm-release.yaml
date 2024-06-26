@@ -55,6 +55,11 @@ spec:
         type: pvc
         existingClaim: other-files
         mountPath: /mnt/pvc/other-files
+      personal-files:
+        enabled: true
+        type: pvc
+        existingClaim: personal-files
+        mountPath: /mnt/pvc/personal-files
       personal-media-files:
         enabled: true
         type: pvc
@@ -85,6 +90,15 @@ spec:
             share:
               - name: other-files
                 path: /mnt/pvc/other-files
+                browsable: yes
+                readonly: no
+                guestok: no
+                validusers: loco
+                writelist: loco
+                veto: no
+            
+              - name: personal-files
+                path: /mnt/pvc/personal-files
                 browsable: yes
                 readonly: no
                 guestok: no

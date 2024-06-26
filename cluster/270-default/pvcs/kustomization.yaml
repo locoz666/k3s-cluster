@@ -4,4 +4,5 @@ kind: Kustomization
 resources:
   - entertainment-media-files.yaml
   - other-files.yaml
+  - personal-files.yaml
   - personal-media-files.yaml
