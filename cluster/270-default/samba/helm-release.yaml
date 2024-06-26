@@ -56,6 +56,16 @@ spec:
         existingClaim: compressed-files
         mountPath: /mnt/compressed-files
         mountPropagation: HostToContainer
+      other-files:
+        enabled: true
+        type: pvc
+        existingClaim: other-files
+        mountPath: /mnt/other-files
+      personal-media-files:
+        enabled: true
+        type: pvc
+        existingClaim: personal-media-files
+        mountPath: /mnt/personal-media-files
 
     configMaps:
       config:
@@ -76,6 +86,24 @@ spec:
             share:
               - name: compressed-files
                 path: /mnt/compressed-files
+                browsable: yes
+                readonly: no
+                guestok: no
+                validusers: loco
+                writelist: loco
+                veto: no
+
+              - name: other-files
+                path: /mnt/other-files
+                browsable: yes
+                readonly: no
+                guestok: no
+                validusers: loco
+                writelist: loco
+                veto: no
+
+              - name: personal-media-files
+                path: /mnt/personal-media-files
                 browsable: yes
                 readonly: no
                 guestok: no
