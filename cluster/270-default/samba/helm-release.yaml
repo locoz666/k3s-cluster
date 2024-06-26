@@ -54,17 +54,17 @@ spec:
         enabled: true
         type: pvc
         existingClaim: other-files
-        mountPath: /mnt/other-files
+        mountPath: /mnt/pvc/other-files
       personal-media-files:
         enabled: true
         type: pvc
         existingClaim: personal-media-files
-        mountPath: /mnt/personal-media-files
+        mountPath: /mnt/pvc/personal-media-files
       entertainment-media-files:
         enabled: true
         type: pvc
         existingClaim: entertainment-media-files
-        mountPath: /mnt/entertainment-media-files
+        mountPath: /mnt/pvc/entertainment-media-files
 
     configMaps:
       config:
@@ -84,7 +84,7 @@ spec:
 
             share:
               - name: other-files
-                path: /mnt/other-files
+                path: /mnt/pvc/other-files
                 browsable: yes
                 readonly: no
                 guestok: no
@@ -93,7 +93,7 @@ spec:
                 veto: no
 
               - name: personal-media-files
-                path: /mnt/personal-media-files
+                path: /mnt/pvc/personal-media-files
                 browsable: yes
                 readonly: no
                 guestok: no
@@ -102,7 +102,7 @@ spec:
                 veto: no
               
               - name: entertainment-media-files
-                path: /mnt/entertainment-media-files
+                path: /mnt/pvc/entertainment-media-files
                 browsable: yes
                 readonly: no
                 guestok: no
