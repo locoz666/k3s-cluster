@@ -60,6 +60,11 @@ spec:
         type: pvc
         existingClaim: personal-media-files
         mountPath: /mnt/personal-media-files
+      entertainment-media-files:
+        enabled: true
+        type: pvc
+        existingClaim: entertainment-media-files
+        mountPath: /mnt/entertainment-media-files
 
     configMaps:
       config:
@@ -89,6 +94,15 @@ spec:
 
               - name: personal-media-files
                 path: /mnt/personal-media-files
+                browsable: yes
+                readonly: no
+                guestok: no
+                validusers: loco
+                writelist: loco
+                veto: no
+              
+              - name: entertainment-media-files
+                path: /mnt/entertainment-media-files
                 browsable: yes
                 readonly: no
                 guestok: no
