@@ -61,6 +61,23 @@ spec:
               memory: 300Mi
 
     storageClasses:
+      - name: "juicefs-cache"
+        enabled: true
+        reclaimPolicy: Delete
+        backend:
+          name: "juicefs-cache"
+          metaurl: "redis://:${SECRET_JUICEFS_REDIS_PASSWORD}@juicefs-redis-master.kube-system.svc.cluster.local:6379/0"
+          storage: "ceph"
+          bucket: "ceph://juicefs-cache"
+          accessKey: "ceph"
+          secretKey: "client.admin"
+          envs: "{TZ: Asia/Shanghai}"
+          configs: '{"ceph-conf": "/etc/ceph"}'
+          trashDays: "0"
+        pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
+        mountOptions:
+          - "enable-xattr"
+
       - name: "juicefs-compressed-files"
         enabled: true
         reclaimPolicy: Delete

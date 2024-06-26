@@ -1,0 +1,15 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: juicefs-cache
+  namespace: rook-ceph
+spec:
+  deviceClass: nvme
+  failureDomain: osd
+  erasureCoded:
+    dataChunks: 2
+    codingChunks: 1
+  parameters:
+    pg_num: '64' # create the pool with a pre-configured placement group number
+    pgp_num: '64' # this should at least match `pg_num` so that all PGs are used
