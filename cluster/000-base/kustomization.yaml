@@ -24,3 +24,4 @@ resources:
   - 240-smart-home.yaml
   - 250-3d-print.yaml
   - 260-game-server.yaml
+  - 270-default.yaml
