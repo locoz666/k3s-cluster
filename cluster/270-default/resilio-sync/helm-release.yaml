@@ -77,3 +77,13 @@ spec:
         type: pvc
         existingClaim: compressed-files
         mountPath: /sync/compressed-files
+      other-files:
+        enabled: true
+        type: pvc
+        existingClaim: other-files
+        mountPath: /sync/other-files
+      personal-media-files:
+        enabled: true
+        type: pvc
+        existingClaim: personal-media-files
+        mountPath: /sync/personal-media-files
