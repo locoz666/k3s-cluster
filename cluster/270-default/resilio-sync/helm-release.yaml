@@ -77,6 +77,11 @@ spec:
         type: pvc
         existingClaim: other-files
         mountPath: /sync/other-files
+      personal-files:
+        enabled: true
+        type: pvc
+        existingClaim: personal-files
+        mountPath: /sync/personal-files
       personal-media-files:
         enabled: true
         type: pvc
