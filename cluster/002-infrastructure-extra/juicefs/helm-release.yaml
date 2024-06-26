@@ -95,6 +95,7 @@ spec:
         pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
         mountOptions:
           - "enable-xattr"
+          - "cache-size=512000"
 
       - name: "juicefs-media-replicated"
         enabled: true
