@@ -113,6 +113,7 @@ spec:
         pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
         mountOptions:
           - "enable-xattr"
+          - "cache-size=512000"
 
       - name: "juicefs-application-compressed"
         enabled: true
