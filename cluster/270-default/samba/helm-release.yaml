@@ -50,12 +50,6 @@ spec:
         subPath: config.yml
         mountPath: /data/config.yml
         readOnly: true
-      compressed-files:
-        enabled: true
-        type: pvc
-        existingClaim: compressed-files
-        mountPath: /mnt/compressed-files
-        mountPropagation: HostToContainer
       other-files:
         enabled: true
         type: pvc
@@ -84,15 +78,6 @@ spec:
               - "force group = ${SECRET_SAMBA_USERNAME}"
 
             share:
-              - name: compressed-files
-                path: /mnt/compressed-files
-                browsable: yes
-                readonly: no
-                guestok: no
-                validusers: loco
-                writelist: loco
-                veto: no
-
               - name: other-files
                 path: /mnt/other-files
                 browsable: yes
