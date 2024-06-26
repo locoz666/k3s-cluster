@@ -93,7 +93,6 @@ spec:
           configs: '{"ceph-conf": "/etc/ceph"}'
           trashDays: "0"
         pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
-        cachePVC: "juicefs-cache-pvc"
         mountOptions:
           - "enable-xattr"
 
@@ -111,7 +110,6 @@ spec:
           configs: '{"ceph-conf": "/etc/ceph"}'
           trashDays: "0"
         pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
-        cachePVC: "juicefs-cache-pvc"
         mountOptions:
           - "enable-xattr"
 
@@ -129,7 +127,6 @@ spec:
           configs: '{"ceph-conf": "/etc/ceph"}'
           trashDays: "0"
         pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
-        cachePVC: "juicefs-cache-pvc"
         mountOptions:
           - "enable-xattr"
 
@@ -147,6 +144,5 @@ spec:
           configs: '{"ceph-conf": "/etc/ceph"}'
           trashDays: "0"
         pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
-        cachePVC: "juicefs-cache-pvc"
         mountOptions:
           - "enable-xattr"
