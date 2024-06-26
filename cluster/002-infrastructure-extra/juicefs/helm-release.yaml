@@ -133,6 +133,7 @@ spec:
         pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
         mountOptions:
           - "enable-xattr"
+          - "cache-size=0"
 
       - name: "juicefs-temporary"
         enabled: true
@@ -150,3 +151,4 @@ spec:
         pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
         mountOptions:
           - "enable-xattr"
+          - "cache-size=0"
