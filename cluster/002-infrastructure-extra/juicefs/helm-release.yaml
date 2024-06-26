@@ -77,6 +77,7 @@ spec:
         pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
         mountOptions:
           - "enable-xattr"
+          - "cache-size=0"
 
       - name: "juicefs-compressed-files"
         enabled: true
@@ -92,9 +93,9 @@ spec:
           configs: '{"ceph-conf": "/etc/ceph"}'
           trashDays: "0"
         pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
+        cachePVC: "juicefs-cache-pvc"
         mountOptions:
           - "enable-xattr"
-          - "cache-size=0"
 
       - name: "juicefs-media-replicated"
         enabled: true
@@ -110,9 +111,9 @@ spec:
           configs: '{"ceph-conf": "/etc/ceph"}'
           trashDays: "0"
         pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
+        cachePVC: "juicefs-cache-pvc"
         mountOptions:
           - "enable-xattr"
-          - "cache-size=0"
 
       - name: "juicefs-application-compressed"
         enabled: true
@@ -128,9 +129,9 @@ spec:
           configs: '{"ceph-conf": "/etc/ceph"}'
           trashDays: "0"
         pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
+        cachePVC: "juicefs-cache-pvc"
         mountOptions:
           - "enable-xattr"
-          - "cache-size=0"
 
       - name: "juicefs-temporary"
         enabled: true
@@ -146,6 +147,6 @@ spec:
           configs: '{"ceph-conf": "/etc/ceph"}'
           trashDays: "0"
         pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
+        cachePVC: "juicefs-cache-pvc"
         mountOptions:
           - "enable-xattr"
-          - "cache-size=0"
