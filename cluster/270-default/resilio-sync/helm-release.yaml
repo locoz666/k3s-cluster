@@ -72,11 +72,6 @@ spec:
         type: pvc
         existingClaim: resilio-sync-config
         mountPath: /config
-      compressed-files:
-        enabled: true
-        type: pvc
-        existingClaim: compressed-files
-        mountPath: /sync/compressed-files
       other-files:
         enabled: true
         type: pvc
