@@ -4,7 +4,6 @@ kind: Kustomization
 resources:
   - juicefs-volume-hook
   - redis
-  - ceph-application-performace-pool.yaml
   - ceph-compressed-files-pool.yaml
   - ceph-juicefs-cache-pool.yaml
   - ceph-media-replicated-pool.yaml
