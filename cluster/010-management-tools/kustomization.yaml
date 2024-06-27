@@ -5,4 +5,3 @@ resources:
   - control-center
   - dell-idrac-fan-controller
   - librespeed
-  - uptime-kuma

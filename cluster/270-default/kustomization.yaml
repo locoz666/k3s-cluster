@@ -7,3 +7,4 @@ resources:
   - pvcs
   - resilio-sync
   - samba
+  - uptime-kuma
