@@ -10,4 +10,4 @@ spec:
   resources:
     requests:
       storage: 4Ti
-  storageClassName: juicefs-temporary
+  storageClassName: juicefs-media-replicated
