@@ -67,12 +67,6 @@ spec:
         existingClaim: media-files
         mountPath: /mnt/media-files
         mountPropagation: HostToContainer
-      download-files:
-        enabled: true
-        type: pvc
-        existingClaim: download-files
-        mountPath: /mnt/download-files
-        mountPropagation: HostToContainer
     #      apple-timemachine-files:
     #        enabled: true
     #        type: pvc
@@ -152,15 +146,6 @@ spec:
             
               - name: other-media
                 path: /mnt/media-files/other-media
-                browsable: yes
-                readonly: no
-                guestok: no
-                validusers: loco
-                writelist: loco
-                veto: no
-
-              - name: download-files
-                path: /mnt/download-files
                 browsable: yes
                 readonly: no
                 guestok: no
