@@ -46,7 +46,7 @@ spec:
 
     image:
       repository: nextcloud
-      tag: 29.0.2
+      tag: 29.0.3
 #      repository: "registry-gitlab.${SECRET_DOMAIN}/loco/loco-nextcloud-container-image"
 #      tag: c2218996
 
