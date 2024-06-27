@@ -10,4 +10,4 @@ spec:
   resources:
     requests:
       storage: 60Gi
-  storageClassName: ceph-block-application-performance
+  storageClassName: ceph-application-high-performance
