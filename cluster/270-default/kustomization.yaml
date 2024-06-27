@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - bitwarden
   - dell-idrac-fan-controller
+  - librespeed
   - octoprint
   - pvcs
   - resilio-sync
