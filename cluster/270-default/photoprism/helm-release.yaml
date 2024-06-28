@@ -1,0 +1,129 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: photoprism
+  namespace: default
+spec:
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 1.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  values:
+    image:
+      repository: photoprism/photoprism
+      tag: "240531"
+
+    podSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
+      fsGroupChangePolicy: OnRootMismatch
+
+    env:
+      TZ: Asia/Shanghai
+      PHOTOPRISM_ADMIN_USER: "${SECRET_PHOTOPRISM_ADMIN_USERNAME}"                 # 管理员登录用户名
+      PHOTOPRISM_ADMIN_PASSWORD: "${SECRET_PHOTOPRISM_ADMIN_PASSWORD}"          # 初始管理员密码(8-72个字符)
+      PHOTOPRISM_AUTH_MODE: "password"               # 认证模式(public, password)
+      PHOTOPRISM_SITE_URL: "https://photoprism.${SECRET_DOMAIN}/"  # 服务器URL格式为"http(s)://domain.name(:port)/(path)"
+      PHOTOPRISM_DISABLE_TLS: "false"                # 即使站点URL以https://开头且证书可用,也禁用HTTPS/TLS
+      PHOTOPRISM_DEFAULT_TLS: "false"                 # 如果没有其他证书可用,默认使用自签名HTTPS/TLS证书
+      PHOTOPRISM_ORIGINALS_LIMIT: "-1"               # 原始文件大小限制(MB)(增加以支持高分辨率视频)
+      PHOTOPRISM_HTTP_COMPRESSION: "gzip"            # 改善传输速度和带宽利用率(none或gzip)
+      PHOTOPRISM_LOG_LEVEL: "info"                   # 日志级别:trace, debug, info, warning, error, fatal, 或panic
+      PHOTOPRISM_READONLY: "false"                   # 不修改原始目录(功能减少)
+      PHOTOPRISM_EXPERIMENTAL: "false"               # 启用实验性功能
+      PHOTOPRISM_DISABLE_CHOWN: "false"              # 禁用在启动时通过chmod和chown更新存储权限
+      PHOTOPRISM_DISABLE_WEBDAV: "false"             # 禁用内置WebDAV服务器
+      PHOTOPRISM_DISABLE_SETTINGS: "false"           # 禁用设置UI和API
+      PHOTOPRISM_DISABLE_TENSORFLOW: "false"         # 禁用所有依赖TensorFlow的功能
+      PHOTOPRISM_DISABLE_FACES: "false"              # 禁用人脸检测和识别(需要TensorFlow)
+      PHOTOPRISM_DISABLE_CLASSIFICATION: "false"     # 禁用图像分类(需要TensorFlow)
+      PHOTOPRISM_DISABLE_VECTORS: "false"            # 禁用矢量图形支持
+      PHOTOPRISM_DISABLE_RAW: "false"                # 禁用RAW图像的索引和转换
+      PHOTOPRISM_RAW_PRESETS: "false"                # 启用在转换RAW图像时应用用户预设(降低性能)
+      PHOTOPRISM_SIDECAR_YAML: "true"                # 创建YAML sidecar文件以备份图片元数据
+      PHOTOPRISM_BACKUP_ALBUMS: "true"               # 创建YAML文件以备份相册元数据
+      PHOTOPRISM_BACKUP_DATABASE: "true"             # 根据配置的计划创建定期备份
+      PHOTOPRISM_BACKUP_SCHEDULE: "daily"            # 备份计划,cron格式(例如"0 12 * * *"表示每天中午)或随机时间(daily, weekly)
+      PHOTOPRISM_INDEX_SCHEDULE: "@every 3h"         # 索引计划,cron格式(例如"@every 3h"表示每3小时;""表示禁用)
+      PHOTOPRISM_AUTO_INDEX: 300                     # 通过WebDAV上传文件时自动索引的延迟(秒)(-1表示禁用)
+      PHOTOPRISM_AUTO_IMPORT: -1                     # 通过WebDAV上传文件时自动导入的延迟(秒)(-1表示禁用)
+      PHOTOPRISM_DETECT_NSFW: "false"                # 自动将可能冒犯的照片标记为私密(需要TensorFlow)
+      PHOTOPRISM_UPLOAD_NSFW: "true"                 # 允许上传可能冒犯的内容(没有TensorFlow则无效)
+      PHOTOPRISM_DATABASE_DRIVER: "mysql"            # MariaDB 10.5.12+(MySQL的继任者)与SQLite相比提供显著更好的性能
+      PHOTOPRISM_DATABASE_SERVER: "photoprism-mariadb:3306"     # MariaDB数据库服务器(主机名:端口)
+      PHOTOPRISM_DATABASE_NAME: "photoprism"         # MariaDB数据库模式名称
+      PHOTOPRISM_DATABASE_USER: "${SECRET_PHOTOPRISM_MARIADB_USERNAME}"         # MariaDB数据库用户名
+      PHOTOPRISM_DATABASE_PASSWORD: "${SECRET_PHOTOPRISM_MARIADB_PASSWORD}"       # MariaDB数据库用户密码
+      PHOTOPRISM_SITE_CAPTION: "AI-Powered Photos App"
+      PHOTOPRISM_SITE_DESCRIPTION: ""                # 元站点描述
+      PHOTOPRISM_SITE_AUTHOR: ""                     # 元站点作者
+      ## 视频转码(https://docs.photoprism.app/getting-started/advanced/transcoding/):
+      PHOTOPRISM_FFMPEG_ENCODER: "software"        # H.264/AVC编码器(software, intel, nvidia, apple, raspberry, 或vaapi)
+      PHOTOPRISM_FFMPEG_SIZE: "1920"               # 视频大小限制(像素)(720-7680)(默认:3840)
+      PHOTOPRISM_FFMPEG_BITRATE: "32"              # 视频比特率限制(Mbit/s)(默认:50)
+      ## 首次启动时运行/安装(选项:update https gpu ffmpeg tensorflow davfs clitools clean):
+      # PHOTOPRISM_INIT: "https gpu tensorflow"
+      ## 初始化后以非root用户身份运行(支持:0, 33, 50-99, 500-600, 和900-1200):
+      PHOTOPRISM_UID: 1000
+      PHOTOPRISM_GID: 1000
+      PHOTOPRISM_UMASK: 0002
+
+
+    probes:
+      startup:
+        spec:
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          failureThreshold: 1000
+
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          http:
+            enabled: true
+            port: 2342
+            protocol: HTTP
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "traefik"
+        annotations:
+          traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
+        hosts:
+          - host: "photoprism.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+          - host: "photoprism.direct.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - secretName: "${SECRET_DOMAIN/./-}-tls"
+          - secretName: "direct-${SECRET_DOMAIN/./-}-tls"
+
+    persistence:
+      data:
+        enabled: true
+        type: pvc
+        existingClaim: photoprism-data
+        mountPath: /photoprism/storage
+      media-files:
+        enabled: true
+        type: pvc
+        existingClaim: personal-media-files
+        mountPath: /photoprism/originals
