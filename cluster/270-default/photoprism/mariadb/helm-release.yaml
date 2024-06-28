@@ -1,0 +1,36 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: photoprism-mariadb
+  namespace: default
+spec:
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://charts.bitnami.com/bitnami
+      chart: mariadb
+      version: 18.2.4
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      repository: bitnami/mariadb
+      tag: 11.3.2-debian-12-r6
+
+    auth:
+      username: "${SECRET_PHOTOPRISM_MARIADB_USERNAME}"
+      password: "${SECRET_PHOTOPRISM_MARIADB_PASSWORD}"
+      database: "photoprism"
+
+    primary:
+      persistence:
+        enabled: true
+        existingClaim: photoprism-mariadb-data

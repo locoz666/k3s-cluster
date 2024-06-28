@@ -2,12 +2,12 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: photoprism-config
-  namespace: file-service
+  name: photoprism-data
+  namespace: default
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 400Gi
-  storageClassName: juicefs-application-compressed
+  storageClassName: ceph-application-high-performance

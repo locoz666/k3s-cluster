@@ -5,6 +5,7 @@ resources:
   - bitwarden
   - dell-idrac-fan-controller
   - librespeed
+  - photoprism
   - octoprint
   - pvcs
   - resilio-sync
