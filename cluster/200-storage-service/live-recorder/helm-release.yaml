@@ -22,7 +22,7 @@ spec:
   values:
     image:
       repository: ihmily/douyin-live-recorder
-      tag: v3.0.5
+      tag: v3.0.6
 
     env:
       TZ: "Asia/Shanghai"
