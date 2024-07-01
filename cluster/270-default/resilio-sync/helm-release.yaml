@@ -35,7 +35,7 @@ spec:
         type: LoadBalancer
         externalTrafficPolicy: Local
         annotations:
-          kube-vip.io/loadbalancerIPs: 192.168.170.243
+          kube-vip.io/loadbalancerIPs: 192.168.170.241
         ports:
           http:
             enabled: true
@@ -64,7 +64,22 @@ spec:
 
     ingress:
       main:
-        enabled: false
+        enabled: true
+        ingressClassName: "traefik"
+        annotations:
+          traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
+        hosts:
+          - host: "resilio-sync.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+          - host: "resilio-sync.direct.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - secretName: "${SECRET_DOMAIN/./-}-tls"
+          - secretName: "direct-${SECRET_DOMAIN/./-}-tls"
 
     persistence:
       config:

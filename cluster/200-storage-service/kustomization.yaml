@@ -5,6 +5,5 @@ resources:
   - aria2
   - live-recorder
   - pvcs
-  - resilio-sync
   - samba
   - nextcloud
