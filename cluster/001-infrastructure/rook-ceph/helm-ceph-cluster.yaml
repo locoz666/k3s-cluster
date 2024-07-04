@@ -93,6 +93,8 @@ spec:
         enabled: true
         # 关闭Ceph Dashboard的SSL，锁定为HTTP模式，避免因为Ceph自己生成的自签名证书导致无法正常通过Ingress访问
         ssl: false
+        # 设置Prometheus的访问URL，使Ceph的Dashboard可以正常显示监控内容
+        prometheusEndpoint: http://kube-prometheus-stack-prometheus.monitoring-system:9090
 
       # Ceph组件的K8S部署策略，设置以添加额外的策略
       placement:
