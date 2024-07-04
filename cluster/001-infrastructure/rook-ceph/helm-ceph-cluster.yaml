@@ -39,6 +39,7 @@ spec:
       osd_scrub_max_interval = 2592000
       osd_deep_scrub_interval = 2592000
       osd_pool_default_pg_autoscale_mode = off
+      mon_pg_warn_max_object_skew = 20
       
       [mon]
       mon_data_avail_warn = 10
