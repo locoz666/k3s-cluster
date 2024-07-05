@@ -26,7 +26,6 @@ spec:
 
     env:
       TZ: "Asia/Shanghai"
-      WSDD2_ENABLE: "1"
 
     service:
       main:
@@ -41,22 +40,6 @@ spec:
             enabled: true
             port: 445
             protocol: TCP
-          wsdd-tcp:
-            enabled: true
-            port: 3702
-            protocol: TCP
-          wsdd-udp:
-            enabled: true
-            port: 3702
-            protocol: UDP
-          llmnr-tcp:
-            enabled: true
-            port: 5355
-            protocol: TCP
-          llmnr-udp:
-            enabled: true
-            port: 5355
-            protocol: UDP
 
     persistence:
       config:
