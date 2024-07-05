@@ -21,11 +21,13 @@ spec:
         namespace: flux-system
   values:
     image:
-      repository: "ghcr.io/crazy-max/samba"
-      tag: 4.19.6
+      repository: "registry-gitlab.${SECRET_DOMAIN}/loco/docker-samba"
+      tag: "1.0.0_samba4.19.6"
 
     env:
       TZ: "Asia/Shanghai"
+      GLOBAL_CREATE_MASK: "0775"
+      GLOBAL_FORCE_CREATE_MODE: "0775"
 
     service:
       main:
