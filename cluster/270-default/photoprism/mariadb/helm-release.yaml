@@ -28,6 +28,7 @@ spec:
     auth:
       username: "${SECRET_PHOTOPRISM_MARIADB_USERNAME}"
       password: "${SECRET_PHOTOPRISM_MARIADB_PASSWORD}"
+      rootPassword: "${SECRET_PHOTOPRISM_MARIADB_ROOT_PASSWORD}"  # 必须设置，否则会自动生成，并在更新时报错
       database: "photoprism"
 
     primary:
