@@ -26,7 +26,7 @@ spec:
 
     image:
       repository: linuxserver/sonarr
-      tag: 4.0.6-develop
+      tag: 4.0.7-develop
 
     env:
       TZ: "Asia/Shanghai"
