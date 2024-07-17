@@ -1,0 +1,61 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: mobileraker-companion
+  namespace: default
+spec:
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 3.2.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  values:
+    defaultPodOptions:
+      terminationGracePeriodSeconds: 1
+      automountServiceAccountToken: false
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+
+    controllers:
+      main:
+        type: deployment
+        replicas: 1
+        containers:
+          &main_container mobileraker-companion:
+            image:
+              repository: "ghcr.io/clon1998/mobileraker_companion"
+              tag: "latest@sha256:bbbcb1657cdd0a9fd8e2b861f2af6c0cefad8bba6d8f73ff8b382b8aa6720679"
+            env:
+              TZ: "Asia/Shanghai"
+
+    configMaps:
+      config:
+        data:
+          mobileraker.conf: |
+            [printer voron2]
+            moonraker_uri: ws://klipper-voron2:7125/websocket
+            moonraker_api_key: False        
+
+    persistence:
+      config:
+        type: configMap
+        name: "{{ .Release.Name }}-config"
+        advancedMounts:
+          main:
+            *main_container :
+              - path: "/opt/printer_data/config/mobileraker.conf"
+                readOnly: true
+                subPath: "mobileraker.conf"
