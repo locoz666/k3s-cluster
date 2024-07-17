@@ -71,6 +71,11 @@ spec:
         type: pvc
         existingClaim: entertainment-media-files
         mountPath: /mnt/pvc/entertainment-media-files
+      3d-print-data:
+        enabled: true
+        type: pvc
+        existingClaim: 3d-print-data
+        mountPath: /mnt/pvc/3d-print-data
 
     configMaps:
       config:
@@ -118,6 +123,15 @@ spec:
               
               - name: entertainment-media-files
                 path: /mnt/pvc/entertainment-media-files
+                browsable: yes
+                readonly: no
+                guestok: no
+                validusers: loco
+                writelist: loco
+                veto: yes
+              
+              - name: 3d-print-data
+                path: /mnt/pvc/3d-print-data
                 browsable: yes
                 readonly: no
                 guestok: no
