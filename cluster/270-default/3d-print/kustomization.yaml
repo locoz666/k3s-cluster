@@ -5,4 +5,5 @@ resources:
   - klipper
   - mainsail
   - mobileraker-companion
+  - spoolman
   - data-pvc.yaml
