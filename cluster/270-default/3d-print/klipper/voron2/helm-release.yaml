@@ -205,20 +205,20 @@ spec:
             init-klippy-extras:
               - path: *klippy_extra_files_base_path
                 readOnly: false
-                subPath: &klippy_extra_files_base_path_storage_dir "{{ .Release.Name }}/klippy_extras"
+                subPath: &klippy_extra_files_base_path_storage_dir "klipper-voron2/klippy_extras"
 
             klippy:
               - path: &klipper_config_path "/opt/printer_data/config"
                 readOnly: false
-                subPath: &klipper_config_path_storage_dir "{{ .Release.Name }}/config"
+                subPath: &klipper_config_path_storage_dir "klipper-voron2/config"
 
               - path: &klipper_gcodes_path "/opt/printer_data/gcodes"
                 readOnly: false
-                subPath: &klipper_gcodes_path_storage_dir "{{ .Release.Name }}/gcodes"
+                subPath: &klipper_gcodes_path_storage_dir "klipper-voron2/gcodes"
 
               - path: &klipper_logs_path "/opt/printer_data/logs"
                 readOnly: false
-                subPath: &klipper_logs_path_storage_dir "{{ .Release.Name }}/logs"
+                subPath: &klipper_logs_path_storage_dir "klipper-voron2/logs"
 
               - path: *klippy_extra_files_base_path
                 readOnly: false
@@ -243,9 +243,9 @@ spec:
 
               - path: "/opt/printer_data/database"
                 readOnly: false
-                subPath: "{{ .Release.Name }}/moonraker-database"
+                subPath: "klipper-voron2/moonraker-database"
 
             vscode:
               - path: "/config"
                 readOnly: false
-                subPath: "{{ .Release.Name }}"
+                subPath: "klipper-voron2"

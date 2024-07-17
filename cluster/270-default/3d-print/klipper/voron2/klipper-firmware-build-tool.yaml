@@ -72,7 +72,7 @@ spec:
             *main_container:
               - path: "/opt/klipper/out"
                 readOnly: false
-                subPath: "{{ .Release.Name }}/firmware-build-output"
+                subPath: "klipper-voron2/firmware-build-output"
 
     configMaps:
       config:
