@@ -23,11 +23,6 @@ spec:
     defaultPodOptions:
       terminationGracePeriodSeconds: 1
       automountServiceAccountToken: false
-      securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
-        fsGroupChangePolicy: "OnRootMismatch"
 
     controllers:
       main:
