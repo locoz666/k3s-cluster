@@ -1,0 +1,251 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: klipper-voron2
+  namespace: default
+spec:
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 3.2.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  values:
+    defaultPodOptions:
+      nodeSelector:
+        kubernetes.io/hostname: "home-server-power"
+      terminationGracePeriodSeconds: 1
+      automountServiceAccountToken: false
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+
+    controllers:
+      main:
+        type: statefulset
+        replicas: 1
+        initContainers:
+          init-klippy-extras:
+            image:
+              repository: "alpine/git"
+              tag: "v2.45.2"
+            env:
+              TZ: "Asia/Shanghai"
+              KLIPPY_EXTRA_FILES_BASE_PATH: &klippy_extra_files_base_path "/opt/printer_data/klippy_extras"
+              KLIPPY_EXTRA_GIT_SOURCES: |
+                https://github.com/andrewmcgr/klipper_tmc_autotune.git
+                https://github.com/protoloft/klipper_z_calibration.git
+                https://github.com/voidtrance/voron-klipper-extensions.git
+                https://github.com/jlas1/Klicky-Probe.git
+            command:
+              - /bin/sh
+              - -c
+              - |
+                for git_source in $(echo "$KLIPPY_EXTRA_GIT_SOURCES" | tr ' ' '\n'); do
+                  path="$KLIPPY_EXTRA_FILES_BASE_PATH/$(basename "$git_source" .git)"
+                  if [ ! -d "$path" ]; then
+                      echo "Install klippy plugin from git source: $git_source to $path"
+                      git clone "$git_source" "$path"
+                  else
+                      echo "Installed klippy plugin from git source: $git_source to $path"
+                  fi
+                done
+
+        containers:
+          klippy:
+            image:
+              repository: "mkuf/klipper"
+              tag: "v0.12.0-263-g0087f04c"
+            securityContext:
+              privileged: true
+            env:
+              TZ: "Asia/Shanghai"
+              KLIPPY_EXTRA_FILES_BASE_PATH: *klippy_extra_files_base_path
+              KLIPPY_PLUGIN_FILES: |
+                klipper_tmc_autotune/autotune_tmc.py
+                klipper_tmc_autotune/motor_constants.py
+                klipper_tmc_autotune/motor_database.cfg
+                klipper_z_calibration/z_calibration.py
+                voron-klipper-extensions/settling_probe/settling_probe.py
+              KLIPPY_EXTRA_CONFIG_FILES: |
+                Klicky-Probe/Klipper_macros/klicky-macros.cfg
+                Klicky-Probe/Klipper_macros/klicky-bed-mesh-calibrate.cfg
+                Klicky-Probe/Klipper_macros/klicky-quad-gantry-level.cfg
+            command:
+              - /bin/bash
+              - -c
+              - |
+                for file in $(echo "$KLIPPY_PLUGIN_FILES" | tr ' ' '\n'); do
+                  src="$KLIPPY_EXTRA_FILES_BASE_PATH/$file"
+                  dest="/opt/klipper/klippy/extras/$(basename "$file")"
+                  echo "Link klippy plugin file: $src to $dest"
+                  ln -sf "$src" "$dest"
+                done &&
+                
+                for file in $(echo "$KLIPPY_EXTRA_CONFIG_FILES" | tr ' ' '\n'); do
+                  src="$KLIPPY_EXTRA_FILES_BASE_PATH/$file"
+                  dest="/opt/printer_data/config/$(basename "$file")"
+                  echo "Copy klippy extra config file: $src to $dest"
+                  cp "$src" "$dest"
+                done &&
+                
+                /opt/venv/bin/python klipper/klippy/klippy.py -I printer_data/run/klipper.tty -a printer_data/run/klipper.sock printer_data/config/printer.cfg
+
+          &service_container moonraker:
+            dependsOn: "klippy"
+            image:
+              repository: "mkuf/moonraker"
+              tag: "v0.8.0-385-gdc00d38"
+            env:
+              TZ: "Asia/Shanghai"
+
+          vscode:
+            image:
+              repository: "ghcr.io/coder/code-server"
+              tag: "4.19.0"
+            args:
+              - --auth
+              - "none"
+              - --user-data-dir
+              - "/config/.vscode"
+              - --extensions-dir
+              - "/config/.vscode"
+              - --port
+              - "8081"
+              - "/config"
+
+    service:
+      moonraker:
+        controller: main
+        type: ClusterIP
+        ports:
+          http:
+            enabled: true
+            port: 7125
+            protocol: HTTP
+      vscode:
+        controller: main
+        type: ClusterIP
+        ports:
+          http:
+            port: 8081
+
+    ingress:
+      *service_container:
+        className: "traefik"
+        hosts:
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: *service_container
+                  port: http
+        tls:
+          - secretName: "${SECRET_DOMAIN/./-}-tls"
+            hosts:
+              - *host
+      vscode:
+        className: "traefik"
+        hosts:
+          - host: &host_vscode "{{ .Release.Name }}-vscode.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: vscode
+                  port: http
+        tls:
+          - secretName: "${SECRET_DOMAIN/./-}-tls"
+            hosts:
+              - *host_vscode
+
+    persistence:
+      host-devices:
+        type: hostPath
+        hostPath: "/dev"
+        advancedMounts:
+          main:
+            klippy:
+              - path: "/dev"
+                readOnly: true
+
+      klipper-tmp:
+        type: emptyDir
+        advancedMounts:
+          main:
+            klippy:
+              # 用于共享klipper的进程通信文件，使moonraker可以访问到klippy
+              - path: &klipper_run_path "/opt/printer_data/run"
+                readOnly: false
+            moonraker:
+              - path: *klipper_run_path
+                readOnly: false
+              # 解决镜像中精简掉的部分导致moonraker报warning的问题
+              - path: "/opt/klipper/config/null"
+                readOnly: true
+              - path: "/opt/klipper/docs/null"
+                readOnly: true
+
+      data:
+        existingClaim: 3d-print-data
+        advancedMounts:
+          main:
+            init-klippy-extras:
+              - path: *klippy_extra_files_base_path
+                readOnly: false
+                subPath: &klippy_extra_files_base_path_storage_dir "{{ .Release.Name }}/klippy_extras"
+
+            klippy:
+              - path: &klipper_config_path "/opt/printer_data/config"
+                readOnly: false
+                subPath: &klipper_config_path_storage_dir "{{ .Release.Name }}/config"
+
+              - path: &klipper_gcodes_path "/opt/printer_data/gcodes"
+                readOnly: false
+                subPath: &klipper_gcodes_path_storage_dir "{{ .Release.Name }}/gcodes"
+
+              - path: &klipper_logs_path "/opt/printer_data/logs"
+                readOnly: false
+                subPath: &klipper_logs_path_storage_dir "{{ .Release.Name }}/logs"
+
+              - path: *klippy_extra_files_base_path
+                readOnly: false
+                subPath: *klippy_extra_files_base_path_storage_dir
+
+            moonraker:
+              - path: *klipper_config_path
+                readOnly: false
+                subPath: *klipper_config_path_storage_dir
+
+              - path: *klipper_gcodes_path
+                readOnly: false
+                subPath: *klipper_gcodes_path_storage_dir
+
+              - path: *klipper_logs_path
+                readOnly: false
+                subPath: *klipper_logs_path_storage_dir
+
+              - path: *klippy_extra_files_base_path
+                readOnly: false
+                subPath: *klippy_extra_files_base_path_storage_dir
+
+              - path: "/opt/printer_data/database"
+                readOnly: false
+                subPath: "{{ .Release.Name }}/moonraker-database"
+
+            vscode:
+              - path: "/config"
+                readOnly: false
+                subPath: "{{ .Release.Name }}"
