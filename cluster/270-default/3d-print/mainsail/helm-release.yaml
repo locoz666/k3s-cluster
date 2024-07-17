@@ -1,0 +1,90 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: mainsail
+  namespace: default
+spec:
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 3.2.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  values:
+    defaultPodOptions:
+      terminationGracePeriodSeconds: 1
+      automountServiceAccountToken: false
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+
+    controllers:
+      main:
+        type: deployment
+        replicas: 1
+        containers:
+          &main_container mainsail:
+            image:
+              repository: "ghcr.io/mainsail-crew/mainsail"
+              tag: "v2.12.0"
+            env:
+              TZ: "Asia/Shanghai"
+
+    service:
+      main:
+        controller: main
+        type: ClusterIP
+        ports:
+          http:
+            enabled: true
+            port: 80
+            protocol: HTTP
+
+    ingress:
+      main:
+        className: "traefik"
+        hosts:
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: http
+        tls:
+          - secretName: "${SECRET_DOMAIN/./-}-tls"
+            hosts:
+              - *host
+
+    configMaps:
+      config:
+        data:
+          config.json: |
+            {
+              "instancesDB": "json",
+              "instances": [
+                { "hostname": "klipper-voron2.${SECRET_DOMAIN}", "port": 443 }
+              ]
+            }
+
+    persistence:
+      config:
+        type: configMap
+        name: "{{ .Release.Name }}-config"
+        advancedMounts:
+          main:
+            *main_container:
+              - path: "/usr/share/nginx/html/config.json"
+                readOnly: true
+                subPath: "config.json"
