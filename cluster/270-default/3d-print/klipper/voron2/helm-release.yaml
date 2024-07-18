@@ -79,9 +79,9 @@ spec:
                 klipper_z_calibration/z_calibration.py
                 voron-klipper-extensions/settling_probe/settling_probe.py
               KLIPPY_EXTRA_CONFIG_FILES: |
-                Klicky-Probe/Klipper_macros/klicky-macros.cfg
-                Klicky-Probe/Klipper_macros/klicky-bed-mesh-calibrate.cfg
-                Klicky-Probe/Klipper_macros/klicky-quad-gantry-level.cfg
+                Klicky-Probe/Klipper_macros/klicky-macros.cfg:klicky/klicky-macros.cfg
+                Klicky-Probe/Klipper_macros/klicky-bed-mesh-calibrate.cfg:klicky/klicky-bed-mesh-calibrate.cfg
+                Klicky-Probe/Klipper_macros/klicky-quad-gantry-level.cfg:klicky/klicky-quad-gantry-level.cfg
             command:
               - /bin/bash
               - -c
@@ -94,8 +94,16 @@ spec:
                 done &&
                 
                 for file in $(echo "$KLIPPY_EXTRA_CONFIG_FILES" | tr ' ' '\n'); do
-                  src="$KLIPPY_EXTRA_FILES_BASE_PATH/$file"
-                  dest="/opt/printer_data/config/$(basename "$file")"
+                  src=$(echo "$file" | cut -d':' -f1)
+                  src="$KLIPPY_EXTRA_FILES_BASE_PATH/$src"
+                  
+                  dest=$(echo "$file" | cut -d':' -f2)
+                  if [ -z "$dest" ]; then
+                    dest="/opt/printer_data/config/$(basename "$src")"
+                  else
+                    dest="/opt/printer_data/config/$dest"
+                  fi
+                  
                   echo "Copy klippy extra config file: $src to $dest"
                   cp "$src" "$dest"
                 done &&
