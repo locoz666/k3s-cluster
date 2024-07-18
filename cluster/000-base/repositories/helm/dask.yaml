@@ -1,0 +1,9 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: HelmRepository
+metadata:
+  name: dask
+  namespace: flux-system
+spec:
+  interval: 24h
+  timeout: 2m
+  url: https://helm.dask.org
