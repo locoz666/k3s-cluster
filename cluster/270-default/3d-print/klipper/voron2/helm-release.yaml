@@ -48,6 +48,7 @@ spec:
                 https://github.com/protoloft/klipper_z_calibration.git
                 https://github.com/voidtrance/voron-klipper-extensions.git
                 https://github.com/jlas1/Klicky-Probe.git
+                https://github.com/Frix-x/klippain.git
             command:
               - /bin/sh
               - -c
@@ -82,6 +83,9 @@ spec:
                 Klicky-Probe/Klipper_macros/klicky-macros.cfg:klicky/klicky-macros.cfg
                 Klicky-Probe/Klipper_macros/klicky-bed-mesh-calibrate.cfg:klicky/klicky-bed-mesh-calibrate.cfg
                 Klicky-Probe/Klipper_macros/klicky-quad-gantry-level.cfg:klicky/klicky-quad-gantry-level.cfg
+                klippain/macros/calibration/adaptive_bed_mesh.cfg:klippain/adaptive_bed_mesh.cfg
+                klippain/macros/calibration/calibrate_pa.cfg:klippain/calibrate_pa.cfg
+                klippain/macros/calibration/calibrate_flow.cfg:klippain/calibrate_flow.cfg
             command:
               - /bin/bash
               - -c
