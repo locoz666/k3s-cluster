@@ -49,6 +49,7 @@ spec:
                 https://github.com/voidtrance/voron-klipper-extensions.git
                 https://github.com/jlas1/Klicky-Probe.git
                 https://github.com/Frix-x/klippain.git
+                https://github.com/julianschill/klipper-led_effect.git
             command:
               - /bin/sh
               - -c
@@ -79,6 +80,7 @@ spec:
                 klipper_tmc_autotune/motor_database.cfg
                 klipper_z_calibration/z_calibration.py
                 voron-klipper-extensions/settling_probe/settling_probe.py
+                klipper-led_effect/led_effect.py
               KLIPPY_EXTRA_CONFIG_FILES: |
                 Klicky-Probe/Klipper_macros/klicky-macros.cfg:klicky/klicky-macros.cfg
                 Klicky-Probe/Klipper_macros/klicky-bed-mesh-calibrate.cfg:klicky/klicky-bed-mesh-calibrate.cfg
