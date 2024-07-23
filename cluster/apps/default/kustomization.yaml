@@ -11,5 +11,6 @@ resources:
   - ./3d-print/spoolman/ks.yaml
 
   - ./bitwarden/ks.yaml
+  - ./dell-idrac-fan-controller/ks.yaml
 
   - ./uptime-kuma/ks.yaml
