@@ -4,4 +4,7 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
 
+  - ./3d-print/data-pvc.yaml
+  - ./3d-print/klipper/voron2/ks.yaml
+
   - ./uptime-kuma/ks.yaml
