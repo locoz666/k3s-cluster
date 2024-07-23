@@ -10,4 +10,6 @@ resources:
   - ./3d-print/mobileraker-companion/ks.yaml
   - ./3d-print/spoolman/ks.yaml
 
+  - ./bitwarden/ks.yaml
+
   - ./uptime-kuma/ks.yaml
