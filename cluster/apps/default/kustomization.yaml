@@ -14,5 +14,6 @@ resources:
   - ./bitwarden/ks.yaml
   - ./dell-idrac-fan-controller/ks.yaml
   - ./librespeed/ks.yaml
+  - ./photoprism/ks.yaml
 
   - ./uptime-kuma/ks.yaml
