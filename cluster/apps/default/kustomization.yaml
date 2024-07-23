@@ -20,3 +20,4 @@ resources:
   - ./uptime-kuma/ks.yaml
 
   - ./minecraft/mc-router/ks.yaml
+  - ./minecraft/gregtech-new-horizons/ks.yaml
