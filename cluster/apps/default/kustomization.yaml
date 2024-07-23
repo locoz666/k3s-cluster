@@ -6,5 +6,6 @@ resources:
 
   - ./3d-print/data-pvc.yaml
   - ./3d-print/klipper/voron2/ks.yaml
+  - ./3d-print/mainsail/ks.yaml
 
   - ./uptime-kuma/ks.yaml
