@@ -75,6 +75,11 @@ spec:
         type: pvc
         existingClaim: 3d-print-data
         mountPath: /mnt/pvc/3d-print-data
+      minecraft-data:
+        enabled: true
+        type: pvc
+        existingClaim: minecraft-data
+        mountPath: /mnt/pvc/minecraft-data
 
     configMaps:
       config:
@@ -131,6 +136,15 @@ spec:
               
               - name: 3d-print-data
                 path: /mnt/pvc/3d-print-data
+                browsable: yes
+                readonly: no
+                guestok: no
+                validusers: loco
+                writelist: loco
+                veto: yes
+
+              - name: minecraft-data
+                path: /mnt/pvc/minecraft-data
                 browsable: yes
                 readonly: no
                 guestok: no
