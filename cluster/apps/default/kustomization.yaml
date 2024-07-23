@@ -19,3 +19,5 @@ resources:
   - ./resilio-sync/ks.yaml
   - ./samba/ks.yaml
   - ./uptime-kuma/ks.yaml
+
+  - ./minecraft/mc-router/ks.yaml
