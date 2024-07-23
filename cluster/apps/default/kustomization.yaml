@@ -8,5 +8,6 @@ resources:
   - ./3d-print/klipper/voron2/ks.yaml
   - ./3d-print/mainsail/ks.yaml
   - ./3d-print/mobileraker-companion/ks.yaml
+  - ./3d-print/spoolman/ks.yaml
 
   - ./uptime-kuma/ks.yaml
