@@ -15,5 +15,6 @@ resources:
   - ./dell-idrac-fan-controller/ks.yaml
   - ./librespeed/ks.yaml
   - ./photoprism/ks.yaml
+  - ./resilio-sync/ks.yaml
 
   - ./uptime-kuma/ks.yaml
