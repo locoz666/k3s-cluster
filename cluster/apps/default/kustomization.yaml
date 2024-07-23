@@ -9,6 +9,7 @@ resources:
   - ./3d-print/mainsail/ks.yaml
   - ./3d-print/mobileraker-companion/ks.yaml
   - ./3d-print/spoolman/ks.yaml
+  - ./3d-print/octoprint/ks.yaml
 
   - ./bitwarden/ks.yaml
   - ./dell-idrac-fan-controller/ks.yaml
