@@ -22,5 +22,4 @@ resources:
   - 230-media-service.yaml
   - 240-smart-home.yaml
   - 260-game-server.yaml
-  - 270-default.yaml
   - apps.yaml
