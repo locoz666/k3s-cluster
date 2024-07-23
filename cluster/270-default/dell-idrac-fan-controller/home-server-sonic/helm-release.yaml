@@ -29,7 +29,7 @@ spec:
       IDRAC_HOST: "home-server-sonic-ipmi"
       IDRAC_USERNAME: "root"
       IDRAC_PASSWORD: "calvin"
-      FAN_SPEED: "30"
+      FAN_SPEED: "40"
       CPU_TEMPERATURE_THRESHOLD: "85"
       CHECK_INTERVAL: "5"
 
