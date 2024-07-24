@@ -80,6 +80,11 @@ spec:
         type: pvc
         existingClaim: minecraft-data
         mountPath: /mnt/pvc/minecraft-data
+      palworld-data:
+        enabled: true
+        type: pvc
+        existingClaim: palworld-data
+        mountPath: /mnt/pvc/palworld-data
 
     configMaps:
       config:
@@ -145,6 +150,15 @@ spec:
 
               - name: minecraft-data
                 path: /mnt/pvc/minecraft-data
+                browsable: yes
+                readonly: no
+                guestok: no
+                validusers: loco
+                writelist: loco
+                veto: yes
+
+              - name: palworld-data
+                path: /mnt/pvc/palworld-data
                 browsable: yes
                 readonly: no
                 guestok: no
