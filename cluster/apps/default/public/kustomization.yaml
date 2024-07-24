@@ -7,5 +7,6 @@ resources:
   - minecraft-data.yaml
   - minecraft-scripts.yaml
   - other-files.yaml
+  - palworld-data.yaml
   - personal-files.yaml
   - personal-media-files.yaml
