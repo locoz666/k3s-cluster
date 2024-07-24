@@ -21,3 +21,26 @@ resources:
 
   - ./minecraft/mc-router/ks.yaml
   - ./minecraft/gregtech-new-horizons/ks.yaml
+  - ./minecraft/pseudos-sandbox/ks.yaml
+  - ./minecraft/ftb-ocean-block/ks.yaml
+  - ./minecraft/evolution-of-the-ages-2/ks.yaml
+  - ./minecraft/mine-space/ks.yaml
+  - ./minecraft/unexpected-farm/ks.yaml
+  - ./minecraft/dawn-craft/ks.yaml
+  - ./minecraft/gear-carol/ks.yaml
+  - ./minecraft/prominence-2/ks.yaml
+  - ./minecraft/all-the-mods-8/ks.yaml
+  - ./minecraft/divine-journey/ks.yaml
+  - ./minecraft/end-of-days-traveller/ks.yaml
+  - ./minecraft/tinkers-heartwork-and-deities/ks.yaml
+  - ./minecraft/unity-craft/ks.yaml
+  - ./minecraft/rlcraft/ks.yaml
+  - ./minecraft/mianmian-craft/ks.yaml
+  - ./minecraft/mc-eternal/ks.yaml
+  - ./minecraft/dragon-dventure/ks.yaml
+  - ./minecraft/stellaris-craft/ks.yaml
+  - ./minecraft/rad2/ks.yaml
+  - ./minecraft/infinity/ks.yaml
+  - ./minecraft/the-winter-frontier/ks.yaml
+  - ./minecraft/better-minecraft/ks.yaml
+  - ./minecraft/naturalism/ks.yaml
