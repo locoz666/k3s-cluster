@@ -20,8 +20,9 @@ spec:
         namespace: flux-system
   values:
     defaultPodOptions:
+      hostNetwork: true
       nodeSelector:
-        kubernetes.io/hostname: "home-server-power"
+        kubernetes.io/hostname: "raspberry-pi-4b"
       terminationGracePeriodSeconds: 1
       automountServiceAccountToken: false
       securityContext:
@@ -60,9 +61,9 @@ spec:
         advancedMounts:
           main:
             *main_container:
-              - path: "/opt/klipper/.config"
+              - path: "/opt/klipper/controller.config"
                 readOnly: true
-                subPath: "firmware-build-config"
+                subPath: "controller-firmware-build-config"
 
       data:
         existingClaim: 3d-print-data
@@ -76,7 +77,7 @@ spec:
     configMaps:
       config:
         data:
-          firmware-build-config: |
+          controller-firmware-build-config: |
             CONFIG_LOW_LEVEL_OPTIONS=y
             # CONFIG_MACH_AVR is not set
             # CONFIG_MACH_ATSAM is not set
