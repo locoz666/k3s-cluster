@@ -44,3 +44,7 @@ resources:
 #  - ./minecraft/the-winter-frontier/ks.yaml
 #  - ./minecraft/better-minecraft/ks.yaml
 #  - ./minecraft/naturalism/ks.yaml
+
+#  - ./palworld-llm/ks.yaml
+#  - ./palworld-sf/ks.yaml
+#  - ./palworld-mianmian/ks.yaml

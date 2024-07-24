@@ -2,8 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: palworld-mianmian
-  namespace: game-server
+  name: palworld-llm
 spec:
   interval: 5m
   timeout: 30m
@@ -35,10 +34,10 @@ spec:
     resources:
       requests:
         cpu: 10m
-        memory: 24Gi
+        memory: 16Gi
       limits:
         cpu: 4
-        memory: 25Gi
+        memory: 17Gi
 
     probes:
       liveness:
@@ -53,7 +52,7 @@ spec:
         type: LoadBalancer
         externalTrafficPolicy: Local
         annotations:
-          kube-vip.io/loadbalancerIPs: 192.168.254.103
+          kube-vip.io/loadbalancerIPs: 192.168.254.105
         ports:
           http:
             enabled: false
@@ -68,7 +67,7 @@ spec:
       palworld-data:
         enabled: true
         existingClaim: palworld-data
-        subPath: mianmian
+        subPath: llm
         mountPath: /palworld
 
     strategy:
