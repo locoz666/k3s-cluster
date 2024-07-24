@@ -49,8 +49,7 @@ spec:
         args:
           - |
             cd /minecraft && \
-            bash /scripts/init.sh && \
-            bash /scripts/close_online_mode.sh
+            bash /scripts/init.sh
         volumeMounts:
           - name: minecraft-data
             mountPath: /minecraft
