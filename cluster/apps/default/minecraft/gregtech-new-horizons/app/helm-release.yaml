@@ -27,15 +27,15 @@ spec:
     args:
       - |
         cd /minecraft && \
-        java -Xmx8G -Xms8G -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -Dfml.readTimeout=180 -Dfml.debugExit=true @java9args.txt -jar lwjgl3ify-forgePatches.jar nogui
+        java -Xmx16G -Xms16G -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -Dfml.readTimeout=180 -Dfml.debugExit=true @java9args.txt -jar lwjgl3ify-forgePatches.jar nogui
 
     resources:
       requests:
         cpu: 10m
-        memory: 8Gi
+        memory: 16Gi
       limits:
-        cpu: 8
-        memory: 9Gi
+        cpu: 4
+        memory: 16Gi
 
     podSecurityContext:
       runAsUser: 1000
@@ -63,7 +63,7 @@ spec:
       TZ: "Asia/Shanghai"
 
     nodeSelector:
-      disk-type: "ssd"
+      kubernetes.io/arch: amd64
 
     probes:
       liveness:
