@@ -33,6 +33,8 @@ spec:
         xpack.ml.enabled: true
       podTemplate:
         spec:
+          nodeSelector:
+            kubernetes.io/arch: amd64
           containers:
             - name: elasticsearch  # 保持默认名称不变，该名称被默认的模板使用
               # eck会按照这里设置的资源限制，为每个节点设置java的堆内存限制，所以无需在其他地方再设置一遍java的内存
@@ -64,6 +66,8 @@ spec:
         node.roles: [ "data", "ingest", "ml", "transform" ]
       podTemplate:
         spec:
+          nodeSelector:
+            kubernetes.io/arch: amd64
           containers:
             - name: elasticsearch  # 保持默认名称不变，该名称被默认的模板使用
               # data节点需要足够的CPU和内存资源以确保性能
@@ -94,6 +98,8 @@ spec:
         node.roles: [ "data_hot", "data_content" ]
       podTemplate:
         spec:
+          nodeSelector:
+            kubernetes.io/arch: amd64
           containers:
             - name: elasticsearch  # 保持默认名称不变，该名称被默认的模板使用
               # data节点需要足够的CPU和内存资源以确保性能
@@ -124,6 +130,8 @@ spec:
         node.roles: [ "data_cold" ]
       podTemplate:
         spec:
+          nodeSelector:
+            kubernetes.io/arch: amd64
           containers:
             - name: elasticsearch  # 保持默认名称不变，该名称被默认的模板使用
               # data节点需要足够的CPU和内存资源以确保性能
