@@ -21,7 +21,7 @@ spec:
   values:
     defaultPodOptions:
       nodeSelector:
-        kubernetes.io/hostname: "home-server-power"
+        kubernetes.io/hostname: "raspberry-pi-4b"
       terminationGracePeriodSeconds: 1
       automountServiceAccountToken: false
       securityContext:
