@@ -48,15 +48,15 @@ spec:
               - path: "/dev"
                 readOnly: true
 
-      config:
-        type: configMap
-        name: "{{ .Release.Name }}-config"
-        advancedMounts:
-          main:
-            *main_container:
-              - path: "/opt/klipper/.config"
-                readOnly: true
-                subPath: "firmware-build-config"
+#      config:
+#        type: configMap
+#        name: "{{ .Release.Name }}-config"
+#        advancedMounts:
+#          main:
+#            *main_container:
+#              - path: "/opt/klipper/.config"
+#                readOnly: true
+#                subPath: "firmware-build-config"
 
       data:
         existingClaim: 3d-print-data
