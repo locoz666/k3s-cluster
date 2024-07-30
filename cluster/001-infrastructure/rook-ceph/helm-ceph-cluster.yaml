@@ -36,7 +36,7 @@ spec:
       mon_osd_backfillfull_ratio = 0.96
       mon_osd_nearfull_ratio = 0.94
       osd_scrub_max_interval = 2592000
-      osd_deep_scrub_interval = 2592000
+      osd_deep_scrub_interval = 7776000
       osd_pool_default_pg_autoscale_mode = off
       mon_pg_warn_max_object_skew = 20
       rbd_read_from_replica_policy = balance
