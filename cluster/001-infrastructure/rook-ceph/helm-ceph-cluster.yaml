@@ -30,7 +30,6 @@ spec:
     # 所以单独建了一个带注释的ceph.conf文件，用于存放带中文注释的版本
     configOverride: |
       [global]
-      device_failure_prediction_mode = local
       bdev_enable_discard = true
       bdev_async_discard = true
       mon_osd_full_ratio = 0.98
@@ -81,10 +80,6 @@ spec:
         allowMultiplePerNode: false
         # 手动管理的MGR模块
         modules:
-          # 硬盘健康状态预测模块，默认未开启，开启后可以在命令行和仪表盘中查看硬盘的健康状态预测，显示预测的剩余可用寿命时间
-          # 预测依赖硬盘的SMART信息，需要硬盘支持SMART并且能提供读写量、报错量等信息，否则会显示为未知
-          - name: diskprediction_local
-            enabled: true
           # Rook集成模块，默认未开启，开启后可以在命令行和仪表盘中，通过Rook操作K8S管理Ceph的各组件运行状态
           - name: rook
             enabled: true
