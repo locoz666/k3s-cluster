@@ -4,5 +4,4 @@ resources:
   - entertainment.yaml
   - file-service.yaml
   - smart-home.yaml
-  - kasten-io.yaml
   - nexus.yaml
