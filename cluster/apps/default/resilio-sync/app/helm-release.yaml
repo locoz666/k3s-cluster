@@ -21,7 +21,7 @@ spec:
   values:
     image:
       repository: linuxserver/resilio-sync
-      tag: 2.8.1
+      tag: 3.0.0
 
     env:
       TZ: "Asia/Shanghai"
