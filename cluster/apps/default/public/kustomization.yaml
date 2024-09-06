@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - 3d-print-data.yaml
   - entertainment-media-files.yaml
+  - live-record-files.yaml
   - minecraft-data.yaml
   - minecraft-scripts.yaml
   - other-files.yaml

@@ -85,6 +85,11 @@ spec:
         type: pvc
         existingClaim: palworld-data
         mountPath: /mnt/pvc/palworld-data
+      live-record-files:
+        enabled: true
+        type: pvc
+        existingClaim: live-record-files
+        mountPath: /mnt/pvc/live-record-files
 
     configMaps:
       config:
@@ -159,6 +164,15 @@ spec:
 
               - name: palworld-data
                 path: /mnt/pvc/palworld-data
+                browsable: yes
+                readonly: no
+                guestok: no
+                validusers: loco
+                writelist: loco
+                veto: yes
+              
+              - name: live-record-files
+                path: /mnt/pvc/live-record-files
                 browsable: yes
                 readonly: no
                 guestok: no
