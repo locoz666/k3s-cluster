@@ -72,10 +72,30 @@ spec:
           maxSurge: 1
           maxUnavailable: 0
       extraVolumes:
+        - name: other-files
+          persistentVolumeClaim:
+            claimName: other-files
+        - name: personal-files
+          persistentVolumeClaim:
+            claimName: personal-files
+        - name: personal-media-files
+          persistentVolumeClaim:
+            claimName: personal-media-files
+        - name: entertainment-media-files
+          persistentVolumeClaim:
+            claimName: entertainment-media-files
         - name: live-record-files
           persistentVolumeClaim:
             claimName: live-record-files
       extraVolumeMounts:
+        - name: other-files
+          mountPath: "/mnt/pvc/other-files"
+        - name: personal-files
+          mountPath: "/mnt/pvc/personal-files"
+        - name: personal-media-files
+          mountPath: "/mnt/pvc/personal-media-files"
+        - name: entertainment-media-files
+          mountPath: "/mnt/pvc/entertainment-media-files"
         - name: live-record-files
           mountPath: "/mnt/pvc/live-record-files"
       configs:
