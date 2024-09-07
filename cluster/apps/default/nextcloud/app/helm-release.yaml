@@ -71,18 +71,13 @@ spec:
         rollingUpdate:
           maxSurge: 1
           maxUnavailable: 0
-#      extraVolumes:
-#        - name: media-files
-#          persistentVolumeClaim:
-#            claimName: media-files
-#        - name: compressed-files
-#          persistentVolumeClaim:
-#            claimName: compressed-files
-#      extraVolumeMounts:
-#        - name: media-files
-#          mountPath: "/mnt/pvc/media-files"
-#        - name: compressed-files
-#          mountPath: "/mnt/pvc/compressed-files"
+      extraVolumes:
+        - name: live-record-files
+          persistentVolumeClaim:
+            claimName: live-record-files
+      extraVolumeMounts:
+        - name: live-record-files
+          mountPath: "/mnt/pvc/live-record-files"
       configs:
         proxy.config.php: |-
           <?php
