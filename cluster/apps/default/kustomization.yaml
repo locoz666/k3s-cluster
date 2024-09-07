@@ -18,6 +18,7 @@ resources:
   - ./resilio-sync/ks.yaml
   - ./samba/ks.yaml
   - ./uptime-kuma/ks.yaml
+  - ./nextcloud/ks.yaml
 
   - ./minecraft/mc-router/ks.yaml
   - ./minecraft/gregtech-new-horizons/ks.yaml

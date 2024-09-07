@@ -1,0 +1,190 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: nextcloud
+spec:
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://nextcloud.github.io/helm/
+      chart: nextcloud
+      version: 5.5.4
+      sourceRef:
+        kind: HelmRepository
+        name: nextcloud
+        namespace: flux-system
+  values:
+    # NextCloud容器第一次启动和镜像更新时会走安装流程并更新所有插件，速度取决于网速，且本身的速度就比较慢，会导致触发超时而重启
+    livenessProbe:
+      enabled: true
+      initialDelaySeconds: 300
+      periodSeconds: 600
+      timeoutSeconds: 30
+      failureThreshold: 3
+      successThreshold: 1
+    readinessProbe:
+      enabled: true
+      initialDelaySeconds: 10
+      periodSeconds: 30
+      timeoutSeconds: 5
+      failureThreshold: 120
+      successThreshold: 1
+
+    resources:
+      limits:
+        cpu: 16
+        memory: 30Gi
+      requests:
+        cpu: 100m
+        memory: 1Gi
+
+    image:
+      repository: nextcloud
+      tag: 29.0.6
+#      repository: "registry-gitlab.${SECRET_DOMAIN}/loco/loco-nextcloud-container-image"
+#      tag: c2218996
+
+    ingress:
+      enabled: true
+      className: "traefik"
+      annotations:
+        traefik.ingress.kubernetes.io/router.middlewares: "default-nextcloud@kubernetescrd"
+      tls:
+        - secretName: "${SECRET_DOMAIN/./-}-tls"
+
+    nextcloud:
+      host: "nextcloud.${SECRET_DOMAIN}"
+      username: "${SECRET_NEXTCLOUD_ADMIN_USERNAME}"
+      password: "${SECRET_NEXTCLOUD_ADMIN_PASSWORD}"
+      extraEnv:
+        - name: PHP_MEMORY_LIMIT
+          value: 16G
+        - name: PHP_UPLOAD_LIMIT
+          value: 16G
+      strategy:
+        type: RollingUpdate
+        rollingUpdate:
+          maxSurge: 1
+          maxUnavailable: 0
+#      extraVolumes:
+#        - name: media-files
+#          persistentVolumeClaim:
+#            claimName: media-files
+#        - name: compressed-files
+#          persistentVolumeClaim:
+#            claimName: compressed-files
+#      extraVolumeMounts:
+#        - name: media-files
+#          mountPath: "/mnt/pvc/media-files"
+#        - name: compressed-files
+#          mountPath: "/mnt/pvc/compressed-files"
+      configs:
+        proxy.config.php: |-
+          <?php
+          $CONFIG = array (
+            'trusted_proxies' => array(
+              0 => '127.0.0.1',
+              1 => '10.0.0.0/8',
+            ),
+            'forwarded_for_headers' => array('HTTP_X_FORWARDED_FOR'),
+          );
+        custom.config.php: |-
+          <?php
+          $CONFIG = array (
+            'overwriteprotocol' => 'https',
+            'trusted_domains' => [
+              'nextcloud.${SECRET_DOMAIN}',
+              'nextcloud.direct.${SECRET_DOMAIN}',
+            ],
+            'memcache.distributed' => '\OC\Memcache\Redis',
+            'redis' => [
+                 'host' => 'nextcloud-redis-master',
+                 'port' => 6379,
+                 'password' => '${SECRET_NEXTCLOUD_REDIS_PASSWORD}',
+                 'dbindex'  => 0,
+            ],
+            'memcache.locking' => '\OC\Memcache\Redis',
+            'default_language' => 'zh_CN',
+            'default_locale' => 'zh-cn',
+            'default_phone_region' => 'CN',
+            'force_language' => 'zh_CN',
+            'force_locale' => 'zh-cn',
+            'knowledgebaseenabled' => false,
+            'allow_user_to_change_display_name' => false,
+            'logtimezone' => 'Asia/Shanghai',
+            'skeletondirectory' => '',
+            'enable_previews' => true,
+            'preview_concurrency_all' => 64,
+            'preview_concurrency_new' => 32,
+            'enabledPreviewProviders' => [
+                'OC\Preview\Image',
+                'OC\Preview\PNG',
+                'OC\Preview\JPEG',
+                'OC\Preview\GIF',
+                'OC\Preview\BMP',
+                'OC\Preview\XBitmap',
+                'OC\Preview\MP3',
+                'OC\Preview\TXT',
+                'OC\Preview\MarkDown',
+                'OC\Preview\OpenDocument',
+                'OC\Preview\Krita',
+                'OC\Preview\Illustrator',
+                'OC\Preview\HEIC',
+                'OC\Preview\Movie',
+                'OC\Preview\MKV',
+                'OC\Preview\MP4',
+                'OC\Preview\AVI',
+                'OC\Preview\FLV',
+                'OC\Preview\MSOffice2003',
+                'OC\Preview\MSOffice2007',
+                'OC\Preview\MSOfficeDoc',
+                'OC\Preview\PDF',
+                'OC\Preview\Photoshop',
+                'OC\Preview\Postscript',
+                'OC\Preview\StarOffice',
+                'OC\Preview\SVG',
+                'OC\Preview\TIFF',
+                'OC\Preview\Font',
+            ],
+           'preview_imaginary_url' => 'http://nextcloud-imaginary:9000',
+          );
+      phpConfigs:
+        overwrite-config.conf: |
+          pm = dynamic
+          pm.max_children = 172
+          pm.start_servers = 43
+          pm.min_spare_servers = 43
+          pm.max_spare_servers = 129
+
+    internalDatabase:
+      enabled: false
+
+    externalDatabase:
+      enabled: true
+      type: postgresql
+      host: "nextcloud-postgresql"
+      user: "${SECRET_NEXTCLOUD_PGSQL_USERNAME}"
+      password: "${SECRET_NEXTCLOUD_PGSQL_PASSWORD}"
+      database: "nextcloud"
+
+    cronjob:
+      enabled: true
+
+    persistence:
+      enabled: true
+      existingClaim: nextcloud-config
+      nextcloudData:
+        enabled: true
+        existingClaim: nextcloud-data
+        accessMode: ReadWriteMany
+
+    rbac:
+      enabled: true
+
+    nginx:
+      enabled: false
