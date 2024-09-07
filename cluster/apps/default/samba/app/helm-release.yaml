@@ -90,6 +90,16 @@ spec:
         type: pvc
         existingClaim: live-record-files
         mountPath: /mnt/pvc/live-record-files
+      nextcloud-config:
+        enabled: true
+        type: pvc
+        name: nextcloud-config
+        mountPath: /mnt/pvc/nextcloud-config
+      nextcloud-data:
+        enabled: true
+        type: pvc
+        name: nextcloud-data
+        mountPath: /mnt/pvc/nextcloud-data
 
     configMaps:
       config:
@@ -173,6 +183,24 @@ spec:
               
               - name: live-record-files
                 path: /mnt/pvc/live-record-files
+                browsable: yes
+                readonly: no
+                guestok: no
+                validusers: loco
+                writelist: loco
+                veto: yes
+              
+              - name: nextcloud-config
+                path: /mnt/pvc/nextcloud-config
+                browsable: yes
+                readonly: no
+                guestok: no
+                validusers: loco
+                writelist: loco
+                veto: yes
+            
+              - name: nextcloud-data
+                path: /mnt/pvc/nextcloud-data
                 browsable: yes
                 readonly: no
                 guestok: no
