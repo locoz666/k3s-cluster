@@ -3,7 +3,6 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: aria2
-  namespace: file-service
 spec:
   interval: 5m
   timeout: 30m
@@ -77,7 +76,7 @@ spec:
       downloads:
         enabled: true
         type: pvc
-        existingClaim: compressed-files
-        subPath: aria2-downloads
+        existingClaim: other-files
+        subPath: download/aria2
         mountPath: /downloads
         mountPropagation: HostToContainer
