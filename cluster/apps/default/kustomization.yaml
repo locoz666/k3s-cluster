@@ -19,6 +19,7 @@ resources:
   - ./samba/ks.yaml
   - ./uptime-kuma/ks.yaml
   - ./nextcloud/ks.yaml
+  - ./douyin-live-recorder/ks.yaml
 
   - ./minecraft/mc-router/ks.yaml
   - ./minecraft/gregtech-new-horizons/ks.yaml

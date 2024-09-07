@@ -2,12 +2,11 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: live-recorder-config
-  namespace: file-service
+  name: douyin-live-recorder-config
 spec:
   accessModes:
     - ReadWriteMany
   resources:
     requests:
-      storage: 5Gi
+      storage: 100Mi
   storageClassName: juicefs-application-compressed

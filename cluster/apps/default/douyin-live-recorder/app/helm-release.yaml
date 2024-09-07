@@ -2,8 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: live-recorder
-  namespace: file-service
+  name: douyin-live-recorder
 spec:
   interval: 5m
   timeout: 30m
@@ -36,14 +35,14 @@ spec:
       config:
         enabled: true
         type: pvc
-        existingClaim: live-recorder-config
+        existingClaim: douyin-live-recorder-config
         mountPath: /app/config
 
       downloads:
         enabled: true
         type: pvc
-        existingClaim: compressed-files
-        subPath: live_records
+        existingClaim: live-record-files
+        subPath: douyin-live-recorder
         mountPath: /app/downloads
 
     addons:
