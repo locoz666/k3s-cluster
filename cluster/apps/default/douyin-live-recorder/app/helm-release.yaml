@@ -51,3 +51,13 @@ spec:
         volumeMounts:
           - name: config
             mountPath: /data/config
+        ingress:
+          enabled: true
+          ingressClassName: "traefik"
+          hosts:
+            - host: "douyin-live-recorder.${SECRET_DOMAIN}"
+              paths:
+                - path: /
+                  pathType: Prefix
+          tls:
+            - secretName: "${SECRET_DOMAIN/./-}-tls"
