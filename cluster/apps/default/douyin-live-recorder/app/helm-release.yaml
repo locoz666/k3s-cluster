@@ -13,51 +13,79 @@ spec:
     spec:
       # renovate: registryUrl=https://bjw-s.github.io/helm-charts
       chart: app-template
-      version: 1.5.1
+      version: 3.2.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
   values:
-    image:
-      repository: ihmily/douyin-live-recorder
-      tag: v3.0.6
-
-    env:
-      TZ: "Asia/Shanghai"
-      TERM: "xterm-256color"
+    controllers:
+      main:
+        type: deployment
+        replicas: 1
+        containers:
+          douyin-live-recorder:
+            image:
+              repository: ihmily/douyin-live-recorder
+              tag: v3.0.6
+            env:
+              TZ: "Asia/Shanghai"
+              TERM: "xterm-256color"
+          vscode:
+            image:
+              repository: "ghcr.io/coder/code-server"
+              tag: "4.19.0"
+            args:
+              - --auth
+              - "none"
+              - --user-data-dir
+              - "/config/.vscode"
+              - --extensions-dir
+              - "/config/.vscode"
+              - --port
+              - "8081"
+              - "/config"
 
     service:
-      main:
-        enabled: false
+      vscode:
+        controller: main
+        type: ClusterIP
+        ports:
+          http:
+            port: 8081
+
+    ingress:
+      vscode:
+        className: "traefik"
+        hosts:
+          - host: &host_vscode "{{ .Release.Name }}-vscode.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: vscode
+                  port: http
+        tls:
+          - secretName: "${SECRET_DOMAIN/./-}-tls"
+            hosts:
+              - *host_vscode
 
     persistence:
       config:
-        enabled: true
-        type: pvc
         existingClaim: douyin-live-recorder-config
-        mountPath: /app/config
-
+        advancedMounts:
+          main:
+            douyin-live-recorder:
+              - path: /app/config
+                readOnly: false
+            vscode:
+              - path: /config
+                readOnly: false
       downloads:
-        enabled: true
-        type: pvc
         existingClaim: live-record-files
-        subPath: douyin-live-recorder
-        mountPath: /app/downloads
-
-    addons:
-      codeserver:
-        enabled: true
-        volumeMounts:
-          - name: config
-            mountPath: /data/config
-        ingress:
-          enabled: true
-          ingressClassName: "traefik"
-          hosts:
-            - host: "douyin-live-recorder.${SECRET_DOMAIN}"
-              paths:
-                - path: /
-                  pathType: Prefix
-          tls:
-            - secretName: "${SECRET_DOMAIN/./-}-tls"
+        advancedMounts:
+          main:
+            douyin-live-recorder:
+              - path: /app/downloads
+                readOnly: false
+                subPath: douyin-live-recorder
