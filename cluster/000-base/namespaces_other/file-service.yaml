@@ -1,8 +1,0 @@
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: file-service
-  labels:
-    sync-https-wildcard-certificate: "true"
-    sync-elastic-cluster-es-users-diskover-secret: "true"
