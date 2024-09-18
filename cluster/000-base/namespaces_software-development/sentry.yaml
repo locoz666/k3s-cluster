@@ -1,7 +1,0 @@
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: sentry
-  labels:
-    sync-https-wildcard-certificate: "true"
