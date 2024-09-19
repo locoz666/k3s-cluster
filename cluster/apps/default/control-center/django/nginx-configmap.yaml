@@ -34,7 +34,7 @@ data:
         proxy_set_header Connection $connection_upgrade;
         proxy_redirect off;
         proxy_buffering off;
-        proxy_pass http://django:8000;
+        proxy_pass http://control-center-django:8000;
       }
     
       location /static/ {
