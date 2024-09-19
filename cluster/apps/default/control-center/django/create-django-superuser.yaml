@@ -2,8 +2,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: create-django-superuser
-  namespace: control-center
+  name: control-center-create-django-superuser
 spec:
   backoffLimit: 0
   template:

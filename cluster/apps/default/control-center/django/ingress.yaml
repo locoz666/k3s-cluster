@@ -3,10 +3,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: control-center
-  namespace: control-center
-  annotations:
-    kubernetes.io/ingress.class: traefik
 spec:
+  ingressClassName: traefik
   tls:
     - secretName: "${SECRET_DOMAIN/./-}-tls"
   rules:

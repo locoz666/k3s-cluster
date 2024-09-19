@@ -2,8 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: django
-  namespace: control-center
+  name: control-center-django
 spec:
   replicas: 3
   strategy:

@@ -2,8 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: redis-data
-  namespace: control-center
+  name: control-center-postgresql-data
 spec:
   accessModes:
     - ReadWriteOnce

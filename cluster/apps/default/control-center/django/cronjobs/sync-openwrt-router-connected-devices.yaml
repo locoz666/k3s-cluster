@@ -3,7 +3,6 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: sync-openwrt-router-connected-devices
-  namespace: control-center
 spec:
   schedule: "*/1 * * * *"
   successfulJobsHistoryLimit: 1
