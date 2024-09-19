@@ -26,6 +26,8 @@ resources:
   - ./mongodb/ks.yaml
   - ./rabbitmq/ks.yaml
 
+  - ./control-center/ks.yaml
+
   - ./minecraft/mc-router/ks.yaml
   - ./minecraft/gregtech-new-horizons/ks.yaml
 #  - ./minecraft/pseudos-sandbox/ks.yaml
