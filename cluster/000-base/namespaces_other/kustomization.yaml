@@ -3,4 +3,3 @@ kind: Kustomization
 resources:
   - entertainment.yaml
   - smart-home.yaml
-  - nexus.yaml
