@@ -3,7 +3,6 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: mongodb
-  namespace: development
 spec:
   interval: 5m
   timeout: 30m
@@ -38,7 +37,6 @@ spec:
       externalTrafficPolicy: Local
       annotations:
         kube-vip.io/loadbalancerIPs: 192.168.170.238
-        tailscale.com/expose: "true"
 
     updateStrategy:
       type: Recreate

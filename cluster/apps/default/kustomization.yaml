@@ -22,6 +22,9 @@ resources:
   - ./douyin-live-recorder/ks.yaml
   - ./aria2/ks.yaml
 
+  - ./mongodb/ks.yaml
+  - ./rabbitmq/ks.yaml
+
   - ./minecraft/mc-router/ks.yaml
   - ./minecraft/gregtech-new-horizons/ks.yaml
 #  - ./minecraft/pseudos-sandbox/ks.yaml
