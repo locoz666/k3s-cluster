@@ -5,7 +5,6 @@ resources:
   - cronjobs
   - deployments
   - services
-  - create-django-superuser.yaml
   - django-static-files-pvc.yaml
   - ingress.yaml
   - nginx-configmap.yaml
