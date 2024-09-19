@@ -15,10 +15,10 @@ spec:
           command: [ "python", "manage.py", "createsuperuser", "--username", "$(DJANGO_SUPERUSER_USERNAME)", "--email", "$(DJANGO_SUPERUSER_EMAIL)", "--no-input" ]
           envFrom:
             - configMapRef:
-                name: django-config
+                name: control-center-django-config
             - secretRef:
-                name: database-secrets
+                name: control-center-database-secrets
             - secretRef:
-                name: django-secrets
+                name: control-center-django-secrets
             - secretRef:
-                name: router-secrets
+                name: control-center-router-secrets

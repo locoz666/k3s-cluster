@@ -32,7 +32,7 @@ spec:
       volumes:
         - name: static-files
           persistentVolumeClaim:
-            claimName: django-static-files
+            claimName: control-center-django-static-files
         - name: nginx-config-volume
           configMap:
-            name: nginx-config
+            name: control-center-nginx-config
