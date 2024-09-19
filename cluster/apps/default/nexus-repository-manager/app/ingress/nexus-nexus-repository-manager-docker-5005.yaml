@@ -2,40 +2,39 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: nexus-nexus-repository-manager-docker-5002
-  namespace: nexus
+  name: nexus-nexus-repository-manager-docker-5005
   labels:
     app.kubernetes.io/instance: nexus
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: nexus-repository-manager
     helm.toolkit.fluxcd.io/name: nexus
-    helm.toolkit.fluxcd.io/namespace: nexus
+    helm.toolkit.fluxcd.io/namespace: default
   annotations:
     meta.helm.sh/release-name: nexus
-    meta.helm.sh/release-namespace: nexus
+    meta.helm.sh/release-namespace: default
 spec:
   ingressClassName: traefik
   rules:
-    - host: "gcr-io-nexus.${SECRET_DOMAIN}"
+    - host: "ghcr-io-nexus.${SECRET_DOMAIN}"
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: nexus-nexus-repository-manager-docker-5002
+                name: nexus-nexus-repository-manager-docker-5005
                 port:
-                  number: 5002
-    - host: "gcr-io-nexus.direct.${SECRET_DOMAIN}"
+                  number: 5005
+    - host: "ghcr-io-nexus.direct.${SECRET_DOMAIN}"
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: nexus-nexus-repository-manager-docker-5002
+                name: nexus-nexus-repository-manager-docker-5005
                 port:
-                  number: 5002
+                  number: 5005
   tls:
     - secretName: "${SECRET_DOMAIN/./-}-tls"
     - secretName: "direct-${SECRET_DOMAIN/./-}-tls"
