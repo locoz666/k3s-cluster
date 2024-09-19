@@ -44,13 +44,13 @@ spec:
           command: [ "python", "manage.py", "migrate" ]
           envFrom:
             - configMapRef:
-                name: django-config
+                name: control-center-django-config
             - secretRef:
-                name: database-secrets
+                name: control-center-database-secrets
             - secretRef:
-                name: django-secrets
+                name: control-center-django-secrets
             - secretRef:
-                name: router-secrets
+                name: control-center-router-secrets
       containers:
         - name: django
           image: registry-gitlab.${SECRET_DOMAIN}/loco/control-center:76e664f9
@@ -59,14 +59,14 @@ spec:
             - containerPort: 8000
           envFrom:
             - configMapRef:
-                name: django-config
+                name: control-center-django-config
             - secretRef:
-                name: database-secrets
+                name: control-center-database-secrets
             - secretRef:
-                name: django-secrets
+                name: control-center-django-secrets
             - secretRef:
-                name: router-secrets
+                name: control-center-router-secrets
       volumes:
         - name: static-files
           persistentVolumeClaim:
-            claimName: django-static-files
+            claimName: control-center-django-static-files
