@@ -9,11 +9,11 @@ spec:
     type: Recreate
   selector:
     matchLabels:
-      app: nginx
+      app: control-center-nginx
   template:
     metadata:
       labels:
-        app: nginx
+        app: control-center-nginx
     spec:
       nodeSelector:
         location: "home"

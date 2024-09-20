@@ -13,11 +13,11 @@ spec:
 
   selector:
     matchLabels:
-      app: django
+      app: control-center-django
   template:
     metadata:
       labels:
-        app: django
+        app: control-center-django
     spec:
       nodeSelector:
         location: "home"
