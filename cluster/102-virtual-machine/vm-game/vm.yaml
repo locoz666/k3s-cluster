@@ -52,7 +52,7 @@ spec:
         cpu:
           sockets: 1  # 虚拟机中的CPU插槽数量
           threads: 1  # 虚拟机中每个CPU的线程数，设成2就类似于Intel的超线程
-          cores: 24  # 分配CPU核心数
+          cores: 16  # 分配CPU核心数
           # 使用以下两个配置，会产生K8S的resources.requests配置锁定CPU资源
           dedicatedCpuPlacement: true  # 分配专用CPU资源，给虚拟机固定CPU核心
           isolateEmulatorThread: true  # 分配一个独立的CPU核心用于QEMU的模拟器线程，避免影响虚拟机本身
@@ -61,7 +61,7 @@ spec:
         # 内存设置（这里用的是k8s原生写法）
         resources:
           requests:
-            memory: 64G
+            memory: 32G
             devices.kubevirt.io/kvm: "1"
         # 根据高性能虚拟机模板设置
         features:
