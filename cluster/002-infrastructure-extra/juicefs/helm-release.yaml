@@ -22,14 +22,14 @@ spec:
   values:
     image:
       repository: "registry-gitlab.${SECRET_DOMAIN}/loco/juicefs-csi-driver-ceph"
-      tag: "ceph18.2.2_juicefs1.2.0_csi0.24.4_rebuild"
+      tag: "ceph18.2.4_juicefs1.2.1_csi0.24.7"
 
     dashboardImage:
       repository: juicedata/csi-dashboard
       tag: "v0.24.7"
 
     defaultMountImage:
-      ce: "registry-gitlab.${SECRET_DOMAIN}/loco/juicefs-csi-driver-ceph:ceph18.2.2_juicefs1.2.0_csi0.24.4_rebuild"
+      ce: "registry-gitlab.${SECRET_DOMAIN}/loco/juicefs-csi-driver-ceph:ceph18.2.4_juicefs1.2.1_csi0.24.7"
 
     sidecars:
       livenessProbeImage:
