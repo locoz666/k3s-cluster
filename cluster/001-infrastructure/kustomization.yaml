@@ -6,6 +6,5 @@ resources:
   - elastic-system
   - gpu-operator
   - juicefs
-#  - kilo
   - monitoring-system
   - rook-ceph
