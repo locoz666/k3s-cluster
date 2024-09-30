@@ -5,3 +5,4 @@ resources:
   - ./namespace.yaml
 
   - ./kubed/ks.yaml
+  - ./traefik/ks.yaml

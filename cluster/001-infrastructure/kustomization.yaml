@@ -11,4 +11,3 @@ resources:
   - monitoring-system
   - rook-ceph
   - snapshot-controller
-  - traefik
