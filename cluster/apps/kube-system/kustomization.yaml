@@ -7,3 +7,4 @@ resources:
   - ./kubed/ks.yaml
   - ./traefik/ks.yaml
   - ./cilium/ks.yaml
+  - ./snapshot-controller/ks.yaml

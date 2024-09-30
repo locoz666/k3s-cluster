@@ -9,4 +9,3 @@ resources:
 #  - kilo
   - monitoring-system
   - rook-ceph
-  - snapshot-controller
