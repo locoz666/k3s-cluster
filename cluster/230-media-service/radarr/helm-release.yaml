@@ -21,9 +21,6 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    nodeSelector:
-      kubernetes.io/hostname: "home-server-sonic"
-
     image:
       repository: linuxserver/radarr
       tag: 5.12.2-nightly

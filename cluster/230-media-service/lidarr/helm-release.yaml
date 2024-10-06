@@ -21,9 +21,6 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    nodeSelector:
-      kubernetes.io/hostname: "home-server-sonic"
-
     image:
       repository: ghcr.io/onedr0p/lidarr
       tag: 2.4.3.4248

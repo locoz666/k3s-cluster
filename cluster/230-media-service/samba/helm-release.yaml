@@ -20,9 +20,6 @@ spec:
         name: bjw-s
         namespace: flux-system
   values:
-    nodeSelector:
-      kubernetes.io/hostname: "home-server-sonic"
-
     image:
       repository: "registry-gitlab.${SECRET_DOMAIN}/loco/docker-samba"
       tag: 4.18.3
