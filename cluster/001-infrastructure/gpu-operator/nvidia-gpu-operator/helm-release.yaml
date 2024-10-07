@@ -20,6 +20,8 @@ spec:
         name: nvidia
         namespace: flux-system
   values:
+    driver:
+      enabled: false
     devicePlugin:
       config:
         name: "time-slicing-config"
