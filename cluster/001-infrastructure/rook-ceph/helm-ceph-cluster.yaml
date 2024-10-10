@@ -141,6 +141,15 @@ spec:
               - name: "/dev/disk/by-id/scsi-SATA_WDC_WUH722020BL_9AHBDGTR"
                 config:
                   deviceClass: "hdd"
+              - name: "/dev/disk/by-id/scsi-SATA_WDC_WUH722020BL_9BGN94WE"
+                config:
+                  deviceClass: "hdd"
+              - name: "/dev/disk/by-id/scsi-SATA_WDC_WUH722020BL_9BGTUAXH"
+                config:
+                  deviceClass: "hdd"
+              - name: "/dev/disk/by-id/scsi-SATA_WDC_WUH722020BL_9BGTV7GH"
+                config:
+                  deviceClass: "hdd"
           - name: "home-server-titan"
             devices:
               - name: "/dev/disk/by-id/scsi-SWDC_WUH722020BL5204_8LHPJ7WN"
