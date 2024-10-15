@@ -31,7 +31,7 @@ spec:
 
     image:
       repository: fallenbagel/jellyseerr
-      tag: 1.9.2
+      tag: 2.0.0
 
     service:
       main:
