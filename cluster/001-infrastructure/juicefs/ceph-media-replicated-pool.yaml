@@ -11,5 +11,5 @@ spec:
     size: 3
     requireSafeReplicaSize: true
   parameters:
-    pg_num: '512' # create the pool with a pre-configured placement group number
-    pgp_num: '512' # this should at least match `pg_num` so that all PGs are used
+    pg_num: '1024' # create the pool with a pre-configured placement group number
+    pgp_num: '1024' # this should at least match `pg_num` so that all PGs are used
