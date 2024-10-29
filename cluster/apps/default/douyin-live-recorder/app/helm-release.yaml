@@ -27,7 +27,7 @@ spec:
           douyin-live-recorder:
             image:
               repository: ihmily/douyin-live-recorder
-              tag: v3.0.8
+              tag: v3.0.9
             env:
               TZ: "Asia/Shanghai"
               TERM: "xterm-256color"
