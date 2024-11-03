@@ -132,7 +132,7 @@ spec:
           interfaces:
             - name: host-network
               macAddress: 9E:5C:2D:0E:86:2B
-              bridge: { }
+              macvtap: { }
               model: virtio
 
           # 根据高性能虚拟机模板设置，该设置是给VNC操作时鼠标指针位置同步用的
@@ -170,4 +170,4 @@ spec:
       networks:
         - name: host-network
           multus:
-            networkName: br0
+            networkName: macvtap-network
