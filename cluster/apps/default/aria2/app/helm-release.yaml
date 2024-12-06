@@ -37,7 +37,10 @@ spec:
 
     service:
       main:
-        type: ClusterIP
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        annotations:
+          kube-vip.io/loadbalancerIPs: 192.168.170.232
         ports:
           http:
             enabled: true
