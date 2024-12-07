@@ -93,12 +93,12 @@ spec:
       nextcloud-config:
         enabled: true
         type: pvc
-        name: nextcloud-config
+        existingClaim: nextcloud-config
         mountPath: /mnt/pvc/nextcloud-config
       nextcloud-data:
         enabled: true
         type: pvc
-        name: nextcloud-data
+        existingClaim: nextcloud-data
         mountPath: /mnt/pvc/nextcloud-data
 
     configMaps:
