@@ -22,7 +22,7 @@ spec:
   values:
     image:
       repository: vaultwarden/server
-      tag: 1.32.6
+      tag: 1.32.7
 
     env:
       TZ: "Asia/Shanghai"
