@@ -3,7 +3,6 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: sentry
-  namespace: sentry
 spec:
   interval: 5m
   timeout: 30m
@@ -23,56 +22,27 @@ spec:
     system:
       adminEmail: "${SECRET_SENTRY_ADMIN_EMAIL}"
       url: "https://sentry.${SECRET_DOMAIN}"
+
     user:
       create: true
       email: "${SECRET_SENTRY_ADMIN_EMAIL}"
       password: "${SECRET_SENTRY_ADMIN_PASSWORD}"
 
-    sentry:
-      # sentry-web
-      web:
-        replicas: 1
-      # sentry-worker
-      worker:
-        replicas: 1
-
     # sentry-web
     filestore:
+      backend: filesystem
       filesystem:
         persistence:
           existingClaim: "sentry-web-filestore"
 
-    # sentry-sentry-redis
-    redis:
-      architecture: standalone
-
-    # sentry-rabbitmq
-    rabbitmq:
-      replicaCount: 1
-
-    # sentry-kafka
-    kafka:
-      replicaCount: 3  # 不能低于3，否则会因为topic创建设置中是3副本，而节点不足3个而无法创建topic，进而导致消息无法正常处理
-      zookeeper:
-        enabled: false
-      kraft:
-        enabled: true
-
     # sentry-zookeeper-clickhouse
     zookeeper:
-      replicaCount: 1
       persistence:
-        dataLogDir:
-          # sentry-clickhouse-data-sentry-clickhouse
-          size: 80Gi
-
-    # sentry-clickhouse
-    clickhouse:
-      clickhouse:
-        replicas: 1
+        size: 80Gi
 
     nginx:
       enabled: false
+
     ingress:
       enabled: true
       regexPathStyle: traefik
@@ -81,6 +51,7 @@ spec:
       hostname: "sentry.${SECRET_DOMAIN}"
       tls:
         - secretName: "${SECRET_DOMAIN/./-}-tls"
+
     config:
       # https://github.com/sentry-kubernetes/charts/issues/414
       sentryConfPy: |
