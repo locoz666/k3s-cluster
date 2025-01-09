@@ -41,7 +41,7 @@ spec:
         size: 80Gi
 
     nginx:
-      enabled: false
+      enabled: true
 
     ingress:
       enabled: true
