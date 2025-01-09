@@ -40,8 +40,8 @@ spec:
       persistence:
         size: 80Gi
 
-    # nginx:
-      # enabled: false
+    nginx:
+      enabled: false
 
     ingress:
       enabled: true
@@ -51,6 +51,8 @@ spec:
       hostname: "sentry.${SECRET_DOMAIN}"
       tls:
         - secretName: "${SECRET_DOMAIN/./-}-tls"
+      additionalHostNames:
+        - "sentry.${SECRET_DOMAIN}"
 
     config:
       # https://github.com/sentry-kubernetes/charts/issues/414
