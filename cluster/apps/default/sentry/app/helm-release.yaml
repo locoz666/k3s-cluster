@@ -40,8 +40,8 @@ spec:
       persistence:
         size: 80Gi
 
-    nginx:
-      enabled: false
+    # nginx:
+      # enabled: false
 
     ingress:
       enabled: true
