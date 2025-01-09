@@ -45,8 +45,10 @@ spec:
 
     ingress:
       enabled: true
-      regexPathStyle: traefik
-      ingressClassName: traefik
+      regexPathStyle: "traefik"
+      ingressClassName: "traefik"
+      annotations:
+        traefik.ingress.kubernetes.io/router.rulesyntax: "v2"
       hostname: "sentry.${SECRET_DOMAIN}"
       tls:
         - secretName: "${SECRET_DOMAIN/./-}-tls"
