@@ -23,6 +23,14 @@ spec:
       adminEmail: "${SECRET_SENTRY_ADMIN_EMAIL}"
       url: "https://sentry.${SECRET_DOMAIN}"
 
+    kafka:
+      controller:
+        resources:
+          limits:
+            memory: 4Gi
+          requests:
+            memory: 2Gi
+
     user:
       create: true
       email: "${SECRET_SENTRY_ADMIN_EMAIL}"
