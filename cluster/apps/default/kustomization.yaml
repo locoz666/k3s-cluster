@@ -28,6 +28,7 @@ resources:
 
   - ./mongodb/ks.yaml
   - ./rabbitmq/ks.yaml
+  - ./prefect/ks.yaml
 
   - ./control-center/ks.yaml
 
