@@ -19,12 +19,12 @@ spec:
         name: prefecthq
         namespace: flux-system
   values:
-    server:
-      replicaCount: 1
-      image:
-        repository: prefecthq/prefect
-        prefectTag: 3.1.12-python3.12
-      prefectApiUrl: "https://prefect.${SECRET_DOMAIN}/api"
+    global:
+      prefect:
+        image:
+          repository: prefecthq/prefect
+          prefectTag: 3.1.12-python3.12
+        prefectApiUrl: "https://prefect.${SECRET_DOMAIN}/api"
     ingress:
       enabled: true
       className: "traefik"
