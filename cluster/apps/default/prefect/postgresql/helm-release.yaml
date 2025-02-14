@@ -25,7 +25,7 @@ spec:
 
     auth:
       username: "prefect"
-      password: "${PREFECT_POSTGRESQL_PASSWORD}"
+      password: "${SECRRT_PREFECT_POSTGRESQL_PASSWORD}"
       database: "prefect"
 
     primary:
