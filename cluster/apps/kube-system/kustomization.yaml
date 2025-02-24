@@ -8,3 +8,4 @@ resources:
   - ./traefik/ks.yaml
   - ./cilium/ks.yaml
   - ./snapshot-controller/ks.yaml
+  - ./juicefs-gc-cronjob/ks.yaml

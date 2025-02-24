@@ -1,0 +1,59 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: juicefs-gc-juicefs-cache
+spec:
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 3.2.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  values:
+    defaultPodOptions:
+      nodeSelector:
+        kubernetes.io/hostname: "home-server-sonic"
+      terminationGracePeriodSeconds: 1
+
+    controllers:
+      main:
+        type: cronjob
+
+        cronjob:
+          timeZone: "Asia/Shanghai"
+          # 每周一凌晨0点执行
+          schedule: "0 0 * * 1"
+          # 如果已有任务在执行，跳过本次执行
+          concurrencyPolicy: "Forbid"
+
+        containers:
+          main:
+            image:
+              repository: "registry-gitlab.${SECRET_DOMAIN}/loco/juicefs-csi-driver-ceph"
+              tag: "ceph18.2.4_juicefs1.2.1_csi0.24.7"
+
+            env:
+              TZ: "Asia/Shanghai"
+
+            command:
+              - "/bin/bash"
+              - "-c"
+              - "juicefs gc redis://:${SECRET_JUICEFS_REDIS_PASSWORD}@juicefs-redis-master.kube-system.svc.cluster.local:6379/0 --compact --delete"
+
+    persistence:
+      config:
+        type: secret
+        name: ceph-conf
+        advancedMounts:
+          main:
+            main:
+              - path: /etc/ceph
