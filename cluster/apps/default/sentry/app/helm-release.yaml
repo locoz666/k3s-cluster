@@ -30,6 +30,19 @@ spec:
             memory: 4Gi
           requests:
             memory: 2Gi
+        persistence:
+          size: 80Gi
+      broker:
+        persistence:
+          size: 80Gi
+
+    redis:
+      master:
+        persistence:
+          size: 80Gi
+      replica:
+        persistence:
+          size: 80Gi
 
     user:
       create: true
