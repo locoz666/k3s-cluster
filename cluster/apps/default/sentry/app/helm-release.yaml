@@ -64,6 +64,7 @@ spec:
     zookeeper:
       persistence:
         size: 80Gi
+        storageClass: ceph-application-high-performance
 
     nginx:
       enabled: true
@@ -99,4 +100,4 @@ spec:
         persistentVolumeClaim:
           dataPersistentVolume:
             storage: 30Gi
-            storageClass: ceph-application-high-performance
+            storageClassName: ceph-application-high-performance
