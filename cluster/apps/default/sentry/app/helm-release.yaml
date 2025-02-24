@@ -32,17 +32,21 @@ spec:
             memory: 2Gi
         persistence:
           size: 80Gi
+          storageClass: ceph-application-high-performance
       broker:
         persistence:
           size: 80Gi
+          storageClass: ceph-application-high-performance
 
     redis:
       master:
         persistence:
           size: 80Gi
+          storageClass: ceph-application-high-performance
       replica:
         persistence:
           size: 80Gi
+          storageClass: ceph-application-high-performance
 
     user:
       create: true
@@ -78,3 +82,21 @@ spec:
       # https://github.com/sentry-kubernetes/charts/issues/414
       sentryConfPy: |
         CSRF_TRUSTED_ORIGINS = ['sentry.${SECRET_DOMAIN}']
+
+    postgresql:
+      primary:
+        persistence:
+          size: 30Gi
+          storageClass: ceph-application-high-performance
+
+    rabbitmq:
+      persistence:
+        size: 10Gi
+        storageClass: ceph-application-high-performance
+
+    clickhouse:
+      clickhouse:
+        persistentVolumeClaim:
+          dataPersistentVolume:
+            storage: 30Gi
+            storageClass: ceph-application-high-performance
