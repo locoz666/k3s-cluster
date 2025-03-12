@@ -23,6 +23,12 @@ spec:
       adminEmail: "${SECRET_SENTRY_ADMIN_EMAIL}"
       url: "https://sentry.${SECRET_DOMAIN}"
 
+    sentry:
+      cleanup:
+        enabled: true
+        schedule: "0 0 * * *"  # 每天午夜执行
+        days: 3  # 只保留近 3 天的事件数据
+
     kafka:
       controller:
         resources:
