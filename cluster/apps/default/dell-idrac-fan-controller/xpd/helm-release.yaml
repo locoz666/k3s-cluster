@@ -28,7 +28,7 @@ spec:
       IDRAC_HOST: "192.168.171.10"
       IDRAC_USERNAME: "root"
       IDRAC_PASSWORD: "calvin"
-      FAN_SPEED: "30"
+      FAN_SPEED: "45"
       CPU_TEMPERATURE_THRESHOLD: "85"
       CHECK_INTERVAL: "5"
 
