@@ -493,7 +493,7 @@ spec:
         - --logtostderr
         - --secure-listen-address=:8443
         - --upstream=http://127.0.0.1:8080
-        image: quay.io/openshift/origin-kube-rbac-proxy@sha256:50204eb94a7f51d919ea6a0b41d72ccb76f6db7c68243eea24c640c667cedf7d
+        image: quay.io/openshift/origin-kube-rbac-proxy@sha256:bad68b0fc57804550e903a557562e7b430f1786e9636d971343a65bd2bf17883
         imagePullPolicy: Always
         name: kube-rbac-proxy
         ports:
