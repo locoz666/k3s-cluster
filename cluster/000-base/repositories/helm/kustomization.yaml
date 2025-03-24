@@ -6,6 +6,7 @@ resources:
   - appscode.yaml
   - bitnami.yaml
   - bjw-s.yaml
+  - borispolonsky-dify.yaml
   - chrisingenhaag.yaml
   - cilium.yaml
   - dask.yaml
