@@ -21,7 +21,7 @@ spec:
   values:
     image:
       repository: photoprism/photoprism
-      tag: "250425"
+      tag: "250426"
 
     podSecurityContext:
       runAsUser: 1000
