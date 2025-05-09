@@ -50,3 +50,5 @@ spec:
       replica:
         persistence:
           storageClass: "ceph-application-high-performance"
+    proxy:
+      clientMaxBodySize: "1G"
