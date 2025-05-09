@@ -1,0 +1,52 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: dify
+spec:
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://borispolonsky.github.io/dify-helm
+      chart: dify
+      version: 0.23.0
+      sourceRef:
+        kind: HelmRepository
+        name: borispolonsky-dify
+        namespace: flux-system
+      interval: 5m
+  values:
+    api:
+      persistence:
+        persistentVolumeClaim:
+          storageClass: "juicefs-application-compressed"
+    pluginDaemon:
+      marketplace:
+        enabled: true
+      persistence:
+        persistentVolumeClaim:
+          storageClass: "juicefs-application-compressed"
+    postgresql:
+      global:
+        storageClass: "ceph-application-high-performance"
+    ingress:
+      enabled: true
+      className: traefik
+      hosts:
+        - host: "dify.${SECRET_DOMAIN}"
+          paths:
+            - path: /
+              pathType: ImplementationSpecific
+      tls:
+        - secretName: "${SECRET_DOMAIN/./-}-tls"
+    redis:
+      master:
+        persistence:
+          storageClass: "ceph-application-high-performance"
+      replica:
+        persistence:
+          storageClass: "ceph-application-high-performance"
