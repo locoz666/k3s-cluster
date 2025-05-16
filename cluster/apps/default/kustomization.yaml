@@ -25,6 +25,7 @@ resources:
   - ./aria2/ks.yaml
   - ./nexus-repository-manager/ks.yaml
   - ./sentry/ks.yaml
+  - ./win-getty/ks.yaml
 
   - ./mongodb/ks.yaml
   - ./rabbitmq/ks.yaml
