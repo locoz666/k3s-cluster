@@ -48,7 +48,7 @@ spec:
         tls:
           secretName: gitlab-minio-tls
       persistence:
-        size: 200Gi
+        size: 250Gi
 
     global:
       time_zone: Asia/Shanghai
