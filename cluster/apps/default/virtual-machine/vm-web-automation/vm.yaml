@@ -92,7 +92,7 @@ spec:
         # 内存设置（这里用的是k8s原生写法）
         resources:
           requests:
-            memory: 48G
+            memory: 16G
             devices.kubevirt.io/kvm: "1"
 
         # 根据高性能虚拟机模板设置
