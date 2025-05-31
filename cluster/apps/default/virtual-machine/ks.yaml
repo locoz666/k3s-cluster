@@ -28,21 +28,21 @@ spec:
       affinity:
         nodeAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 100
+            - weight: 500
               preference:
                 matchExpressions:
                   - key: kubernetes.io/hostname
                     operator: In
                     values:
                       - home-server-power
-            - weight: 50
+            - weight: 300
               preference:
                 matchExpressions:
                   - key: kubernetes.io/hostname
                     operator: In
                     values:
                       - home-server-titan
-            - weight: 25
+            - weight: 100
               preference:
                 matchExpressions:
                   - key: kubernetes.io/hostname
