@@ -5,6 +5,6 @@ tasks:
   sync:
     desc: Sync flux-system with the Git Repository
     cmds:
-      - kubectx home
+      - kubectl ctx home
       - flux reconcile source git flux-system
     silent: true
