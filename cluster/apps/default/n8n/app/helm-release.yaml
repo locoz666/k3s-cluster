@@ -36,6 +36,7 @@ spec:
       className: "traefik"
       hosts:
         - host: "n8n.${SECRET_DOMAIN}"
+          paths: []
       tls:
         - secretName: "${SECRET_DOMAIN/./-}-tls"
           hosts:
