@@ -38,6 +38,7 @@ spec:
         - host: "n8n.${SECRET_DOMAIN}"
           paths:
             - path: /
+              pathType: Prefix
       tls:
         - secretName: "${SECRET_DOMAIN/./-}-tls"
           hosts:
