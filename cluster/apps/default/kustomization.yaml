@@ -23,6 +23,7 @@ resources:
   - ./nextcloud/ks.yaml
   - ./douyin-live-recorder/ks.yaml
   - ./aria2/ks.yaml
+  - ./n8n/ks.yaml
   - ./nexus-repository-manager/ks.yaml
   - ./sentry/ks.yaml
   - ./win-getty/ks.yaml
