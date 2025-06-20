@@ -1,0 +1,59 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: n8n
+spec:
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=oci://8gears.container-registry.com/library
+      chart: n8n
+      version: 1.0.7
+      sourceRef:
+        kind: HelmRepository
+        name: 8gears
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      repository: n8nio/n8n
+      tag: 1.99.1
+
+    ingress:
+      enabled: true
+      className: "traefik"
+      hosts:
+        - host: "n8n.${SECRET_DOMAIN}"
+          paths:
+            - path: /
+      tls:
+        - secretName: "${SECRET_DOMAIN/./-}-tls"
+          hosts:
+            - "n8n.${SECRET_DOMAIN}"
+
+    # Main n8n instance configuration
+    main:
+      config:
+        db:
+          type: "postgresdb"
+          postgresdb:
+            host: "n8n-postgresql"
+            port: "5432"
+            database: "n8n"
+            user: "${SECRET_N8N_PGSQL_USERNAME}"
+      
+      secret:
+        db:
+          postgresdb:
+            password: "${SECRET_N8N_PGSQL_PASSWORD}"
+        n8n:
+          encryption_key: "${SECRET_N8N_ENCRYPTION_KEY}"
+
+      persistence:
+        enabled: true
+        existingClaim: "n8n-config"
