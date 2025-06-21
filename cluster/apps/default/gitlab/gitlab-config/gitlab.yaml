@@ -1,0 +1,42 @@
+---
+apiVersion: apps.gitlab.com/v1beta1
+kind: GitLab
+metadata:
+  name: gitlab
+spec:
+  chart:
+    version: "9.1.0"
+    values:
+      global:
+        time_zone: Asia/Shanghai
+        nodeSelector:
+          kubernetes.io/arch: amd64
+        hosts:
+          domain: "${SECRET_DOMAIN}"
+          hostSuffix: "new-gitlab"  # 其他gitlab提供的服务在对外服务时的域名后缀，比如容器镜像服务的是registry-gitlab.example.com
+          https: true
+          gitlab:
+            name: "new-git.${SECRET_DOMAIN}"  # 指定gitlab本身的web服务域名为gitlab.example.com
+          ssh: "ssh-new-git.${SECRET_DOMAIN}"
+        ingress:
+          enabled: true
+          class: traefik
+          configureCertmanager: false
+          tls:
+            secretName: "${SECRET_DOMAIN/./-}-tls"
+        pages:
+          enabled: true
+      minio:
+        persistence:
+          size: 100Gi
+      installCertmanager: false
+      nginx-ingress:
+        enabled: false  # 不让gitlab单独部署ingress，直接使用公共的ingress
+      prometheus:
+        install: false  # 已经有安装公共的prometheus，没必要反复安装
+      gitlab:
+        gitlab-shell:
+          service:
+            type: LoadBalancer
+            loadBalancerIP: 192.168.170.235
+

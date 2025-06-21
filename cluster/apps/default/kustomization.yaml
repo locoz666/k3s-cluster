@@ -27,6 +27,7 @@ resources:
   - ./nexus-repository-manager/ks.yaml
   - ./sentry/ks.yaml
   - ./win-getty/ks.yaml
+  - ./gitlab/ks.yaml
 
   - ./mongodb/ks.yaml
   - ./rabbitmq/ks.yaml
