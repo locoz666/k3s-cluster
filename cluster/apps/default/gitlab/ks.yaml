@@ -50,3 +50,59 @@ spec:
   postBuild:
     substitute:
       APP: *app 
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app gitlab-runner-amd64
+  namespace: flux-system
+spec:
+  targetNamespace: default
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  dependsOn:
+    - name: 002-infrastructure-extra
+    - name: gitlab-operator
+    - name: gitlab-config
+  path: ./cluster/apps/default/gitlab/runner-amd64
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: false
+  interval: 30m
+  retryInterval: 1m
+  timeout: 10m
+  postBuild:
+    substitute:
+      APP: *app 
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app gitlab-runner-arm64
+  namespace: flux-system
+spec:
+  targetNamespace: default
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  dependsOn:
+    - name: 002-infrastructure-extra
+    - name: gitlab-operator
+    - name: gitlab-config
+  path: ./cluster/apps/default/gitlab/runner-arm64
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: false
+  interval: 30m
+  retryInterval: 1m
+  timeout: 10m
+  postBuild:
+    substitute:
+      APP: *app 
