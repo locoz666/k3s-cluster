@@ -13,11 +13,11 @@ spec:
           kubernetes.io/arch: amd64
         hosts:
           domain: "${SECRET_DOMAIN}"
-          hostSuffix: "new-gitlab"  # 其他gitlab提供的服务在对外服务时的域名后缀，比如容器镜像服务的是registry-gitlab.example.com
+          hostSuffix: "gitlab"  # 其他gitlab提供的服务在对外服务时的域名后缀，比如容器镜像服务的是registry-gitlab.example.com
           https: true
           gitlab:
-            name: "new-git.${SECRET_DOMAIN}"  # 指定gitlab本身的web服务域名
-          ssh: "ssh-new-git.${SECRET_DOMAIN}"
+            name: "git.${SECRET_DOMAIN}"  # 指定gitlab本身的web服务域名
+          ssh: "ssh-gitlab.${SECRET_DOMAIN}"
         ingress:
           enabled: true
           class: traefik
