@@ -85,6 +85,8 @@ spec:
             - "222.189.172.0/24"
             - "36.158.253.0/24"
       websecure:
+        http3:
+          enabled: false
         forwardedHeaders:
           trustedIPs:
             - "101.71.100.0/24"
