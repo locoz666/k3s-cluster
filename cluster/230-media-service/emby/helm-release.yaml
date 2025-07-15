@@ -25,10 +25,6 @@ spec:
       repository: emby/embyserver
       tag: 4.9.1.7
 
-    nodeSelector:
-      location: "home"
-      disk-type: "hdd"
-
     env:
       TZ: "Asia/Shanghai"
       UID: "1000"
