@@ -5,6 +5,7 @@ metadata:
   name: pci-init
 
 resources:
+  - rbac.yaml
   - init-script.yaml
   - daemonset.yaml
 

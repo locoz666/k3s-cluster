@@ -14,12 +14,19 @@ data:
     
     log "Starting PCI device initialization for KubeVirt VM support..."
     
+    # Debug: List available PCI devices
+    log "Available PCI devices:"
+    ls -la /sys/bus/pci/devices/ | head -10
+    
     # NVMe device configuration
     NVME_DEVICE="0000:02:00.0"
+    log "Looking for NVMe device: ${NVME_DEVICE}"
     
     # Check if NVMe device exists
     if [ ! -d "/sys/bus/pci/devices/${NVME_DEVICE}" ]; then
         log "ERROR: NVMe device ${NVME_DEVICE} not found"
+        log "Available devices:"
+        ls /sys/bus/pci/devices/
         exit 1
     fi
     
@@ -72,6 +79,42 @@ data:
     fi
     
     log "PCI device initialization completed successfully"
+    
+    # Install necessary tools
+    log "Installing necessary tools..."
+    apt-get update -qq
+    apt-get install -y curl
+    
+    # Install kubectl if not present
+    if ! command -v kubectl &> /dev/null; then
+        log "Installing kubectl..."
+        curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+        chmod +x kubectl
+        mv kubectl /usr/local/bin/
+    fi
+    
+    # Restart virt-handler on current node to recognize PCI device changes
+    log "Restarting virt-handler on current node (${NODE_NAME})..."
+    
+    # Get virt-handler pod name on current node
+    VIRT_HANDLER_POD=$(kubectl get pods -n kubevirt -l kubevirt.io=virt-handler --field-selector spec.nodeName=${NODE_NAME} -o jsonpath='{.items[0].metadata.name}')
+    
+    if [ -n "$VIRT_HANDLER_POD" ]; then
+        log "Found virt-handler pod: $VIRT_HANDLER_POD"
+        log "Deleting virt-handler pod to trigger restart..."
+        kubectl delete pod "$VIRT_HANDLER_POD" -n kubevirt
+        
+        # Wait for pod to be recreated
+        log "Waiting for virt-handler to be recreated..."
+        kubectl wait --for=condition=Ready pod -l kubevirt.io=virt-handler --field-selector spec.nodeName=${NODE_NAME} -n kubevirt --timeout=300s
+        
+        log "✓ virt-handler successfully restarted on node ${NODE_NAME}"
+    else
+        log "✗ virt-handler pod not found on node ${NODE_NAME}"
+        exit 1
+    fi
+    
+    log "PCI device initialization and virt-handler restart completed successfully"
     
     # Keep the container running to prevent restart loops
     log "Initialization complete. Sleeping indefinitely..."
