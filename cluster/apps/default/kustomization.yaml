@@ -35,6 +35,7 @@ resources:
   - ./dify/ks.yaml
 
   - ./control-center/ks.yaml
+  - ./zalando-postgres-operator/ks.yaml
 
   - ./minecraft/mc-router/ks.yaml
   - ./minecraft/gregtech-new-horizons/ks.yaml
