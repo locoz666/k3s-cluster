@@ -1,0 +1,15 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+metadata:
+  name: pci-init
+
+resources:
+  - init-script.yaml
+  - daemonset.yaml
+
+labels:
+  - pairs:
+      app.kubernetes.io/name: pci-init
+      app.kubernetes.io/component: node-init
+      app.kubernetes.io/part-of: virtual-machine

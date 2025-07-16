@@ -1,0 +1,80 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pci-init-script
+data:
+  init.sh: |
+    #!/bin/bash
+    set -e
+    
+    log() {
+        echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"
+    }
+    
+    log "Starting PCI device initialization for KubeVirt VM support..."
+    
+    # NVMe device configuration
+    NVME_DEVICE="0000:02:00.0"
+    
+    # Check if NVMe device exists
+    if [ ! -d "/sys/bus/pci/devices/${NVME_DEVICE}" ]; then
+        log "ERROR: NVMe device ${NVME_DEVICE} not found"
+        exit 1
+    fi
+    
+    # Unbind from nvme driver if currently bound
+    if [ -e "/sys/bus/pci/drivers/nvme/${NVME_DEVICE}" ]; then
+        log "Unbinding NVMe device ${NVME_DEVICE} from nvme driver..."
+        echo "${NVME_DEVICE}" > /sys/bus/pci/drivers/nvme/unbind
+    else
+        log "NVMe device ${NVME_DEVICE} is not bound to nvme driver"
+    fi
+    
+    # Set driver override to vfio-pci
+    log "Setting driver override to vfio-pci for device ${NVME_DEVICE}..."
+    echo "vfio-pci" > "/sys/bus/pci/devices/${NVME_DEVICE}/driver_override"
+    
+    # Bind to vfio-pci driver
+    if [ ! -e "/sys/bus/pci/drivers/vfio-pci/${NVME_DEVICE}" ]; then
+        log "Binding NVMe device ${NVME_DEVICE} to vfio-pci driver..."
+        echo "${NVME_DEVICE}" > /sys/bus/pci/drivers/vfio-pci/bind
+    else
+        log "NVMe device ${NVME_DEVICE} is already bound to vfio-pci driver"
+    fi
+    
+    # Unbind EFI framebuffer for GPU passthrough
+    EFI_FB_DEVICE="efi-framebuffer.0"
+    if [ -e "/sys/bus/platform/drivers/efi-framebuffer/${EFI_FB_DEVICE}" ]; then
+        log "Unbinding EFI framebuffer ${EFI_FB_DEVICE}..."
+        echo "${EFI_FB_DEVICE}" > /sys/bus/platform/drivers/efi-framebuffer/unbind
+    else
+        log "EFI framebuffer ${EFI_FB_DEVICE} is not bound"
+    fi
+    
+    # Verify configuration
+    log "Verifying configuration..."
+    
+    # Check NVMe device is bound to vfio-pci
+    if [ -e "/sys/bus/pci/drivers/vfio-pci/${NVME_DEVICE}" ]; then
+        log "✓ NVMe device ${NVME_DEVICE} is successfully bound to vfio-pci"
+    else
+        log "✗ NVMe device ${NVME_DEVICE} is NOT bound to vfio-pci"
+        exit 1
+    fi
+    
+    # Check EFI framebuffer is unbound
+    if [ ! -e "/sys/bus/platform/drivers/efi-framebuffer/${EFI_FB_DEVICE}" ]; then
+        log "✓ EFI framebuffer ${EFI_FB_DEVICE} is successfully unbound"
+    else
+        log "✗ EFI framebuffer ${EFI_FB_DEVICE} is still bound"
+        exit 1
+    fi
+    
+    log "PCI device initialization completed successfully"
+    
+    # Keep the container running to prevent restart loops
+    log "Initialization complete. Sleeping indefinitely..."
+    while true; do
+        sleep 3600
+    done
