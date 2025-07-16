@@ -6,7 +6,6 @@ resources:
   - flux-system
   - cluster-secrets.sops.yaml
   - namespaces_infrastructure
-  - namespaces_software-development
   - namespaces_other
   - 001-infrastructure.yaml
   - 002-infrastructure-extra.yaml
