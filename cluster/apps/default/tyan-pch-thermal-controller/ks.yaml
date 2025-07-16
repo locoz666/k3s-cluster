@@ -1,0 +1,16 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: tyan-pch-thermal-controller
+  namespace: flux-system
+spec:
+  interval: 10m
+  path: ./cluster/apps/default/tyan-pch-thermal-controller/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: false
+  dependsOn:
+    - name: bjw-s-charts

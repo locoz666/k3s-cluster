@@ -15,6 +15,7 @@ resources:
 
   - ./bitwarden/ks.yaml
   - ./dell-idrac-fan-controller/ks.yaml
+  - ./tyan-pch-thermal-controller/ks.yaml
   - ./librespeed/ks.yaml
   - ./photoprism/ks.yaml
   - ./resilio-sync/ks.yaml
