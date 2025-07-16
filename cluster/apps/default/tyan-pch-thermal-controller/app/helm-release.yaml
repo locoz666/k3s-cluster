@@ -1,0 +1,80 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: tyan-pch-thermal-controller
+spec:
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 1.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  values:
+    image:
+      repository: registry-gitlab.loco666.com/loco/tyan_pch_thermal_controller
+      tag: 5373cb2d
+      pullPolicy: Always
+
+    env:
+      TZ: "Asia/Shanghai"
+      IPMI_HOST: "192.168.170.10"
+      IPMI_USERNAME: "admin"
+      IPMI_PASSWORD: "admin"
+      IPMI_INTERFACE: "lan"
+      PCH_UPPER_NON_CRITICAL: "65"
+      PCH_UPPER_CRITICAL: "70"
+      PCH_UPPER_NON_RECOVERABLE: "75"
+      CHECK_INTERVAL: "300"
+      APPLY_ON_STARTUP: "true"
+
+    service:
+      main:
+        enabled: false
+
+    probes:
+      liveness:
+        enabled: true
+        custom: true
+        spec:
+          exec:
+            command:
+              - /app/healthcheck.sh
+          initialDelaySeconds: 30
+          periodSeconds: 60
+          timeoutSeconds: 30
+          failureThreshold: 3
+      readiness:
+        enabled: true
+        custom: true
+        spec:
+          exec:
+            command:
+              - /app/healthcheck.sh
+          initialDelaySeconds: 10
+          periodSeconds: 30
+          timeoutSeconds: 30
+          failureThreshold: 3
+
+    resources:
+      requests:
+        cpu: 10m
+        memory: 32Mi
+      limits:
+        cpu: 100m
+        memory: 128Mi
+
+    securityContext:
+      capabilities:
+        add:
+          - NET_RAW
+      runAsNonRoot: false
+      runAsUser: 0
