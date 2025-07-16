@@ -34,3 +34,5 @@ resources:
   - tailscale.yaml
   - traefik.yaml
   - vector.yaml
+  - zalando-postgres-operator.yaml
+  - zalando-postgres-operator-ui.yaml
