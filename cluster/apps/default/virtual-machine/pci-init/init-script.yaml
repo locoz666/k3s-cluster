@@ -20,61 +20,61 @@ data:
     
     # NVMe device configuration
     NVME_DEVICE="0000:02:00.0"
-    log "Looking for NVMe device: ${NVME_DEVICE}"
+    log "Looking for NVMe device: $${NVME_DEVICE}"
     
     # Check if NVMe device exists
-    if [ ! -d "/sys/bus/pci/devices/${NVME_DEVICE}" ]; then
-        log "ERROR: NVMe device ${NVME_DEVICE} not found"
+    if [ ! -d "/sys/bus/pci/devices/$${NVME_DEVICE}" ]; then
+        log "ERROR: NVMe device $${NVME_DEVICE} not found"
         log "Available devices:"
         ls /sys/bus/pci/devices/
         exit 1
     fi
     
     # Unbind from nvme driver if currently bound
-    if [ -e "/sys/bus/pci/drivers/nvme/${NVME_DEVICE}" ]; then
-        log "Unbinding NVMe device ${NVME_DEVICE} from nvme driver..."
-        echo "${NVME_DEVICE}" > /sys/bus/pci/drivers/nvme/unbind
+    if [ -e "/sys/bus/pci/drivers/nvme/$${NVME_DEVICE}" ]; then
+        log "Unbinding NVMe device $${NVME_DEVICE} from nvme driver..."
+        echo "$${NVME_DEVICE}" > /sys/bus/pci/drivers/nvme/unbind
     else
-        log "NVMe device ${NVME_DEVICE} is not bound to nvme driver"
+        log "NVMe device $${NVME_DEVICE} is not bound to nvme driver"
     fi
     
     # Set driver override to vfio-pci
-    log "Setting driver override to vfio-pci for device ${NVME_DEVICE}..."
-    echo "vfio-pci" > "/sys/bus/pci/devices/${NVME_DEVICE}/driver_override"
+    log "Setting driver override to vfio-pci for device $${NVME_DEVICE}..."
+    echo "vfio-pci" > "/sys/bus/pci/devices/$${NVME_DEVICE}/driver_override"
     
     # Bind to vfio-pci driver
-    if [ ! -e "/sys/bus/pci/drivers/vfio-pci/${NVME_DEVICE}" ]; then
-        log "Binding NVMe device ${NVME_DEVICE} to vfio-pci driver..."
-        echo "${NVME_DEVICE}" > /sys/bus/pci/drivers/vfio-pci/bind
+    if [ ! -e "/sys/bus/pci/drivers/vfio-pci/$${NVME_DEVICE}" ]; then
+        log "Binding NVMe device $${NVME_DEVICE} to vfio-pci driver..."
+        echo "$${NVME_DEVICE}" > /sys/bus/pci/drivers/vfio-pci/bind
     else
-        log "NVMe device ${NVME_DEVICE} is already bound to vfio-pci driver"
+        log "NVMe device $${NVME_DEVICE} is already bound to vfio-pci driver"
     fi
     
     # Unbind EFI framebuffer for GPU passthrough
     EFI_FB_DEVICE="efi-framebuffer.0"
-    if [ -e "/sys/bus/platform/drivers/efi-framebuffer/${EFI_FB_DEVICE}" ]; then
-        log "Unbinding EFI framebuffer ${EFI_FB_DEVICE}..."
-        echo "${EFI_FB_DEVICE}" > /sys/bus/platform/drivers/efi-framebuffer/unbind
+    if [ -e "/sys/bus/platform/drivers/efi-framebuffer/$${EFI_FB_DEVICE}" ]; then
+        log "Unbinding EFI framebuffer $${EFI_FB_DEVICE}..."
+        echo "$${EFI_FB_DEVICE}" > /sys/bus/platform/drivers/efi-framebuffer/unbind
     else
-        log "EFI framebuffer ${EFI_FB_DEVICE} is not bound"
+        log "EFI framebuffer $${EFI_FB_DEVICE} is not bound"
     fi
     
     # Verify configuration
     log "Verifying configuration..."
     
     # Check NVMe device is bound to vfio-pci
-    if [ -e "/sys/bus/pci/drivers/vfio-pci/${NVME_DEVICE}" ]; then
-        log "✓ NVMe device ${NVME_DEVICE} is successfully bound to vfio-pci"
+    if [ -e "/sys/bus/pci/drivers/vfio-pci/$${NVME_DEVICE}" ]; then
+        log "✓ NVMe device $${NVME_DEVICE} is successfully bound to vfio-pci"
     else
-        log "✗ NVMe device ${NVME_DEVICE} is NOT bound to vfio-pci"
+        log "✗ NVMe device $${NVME_DEVICE} is NOT bound to vfio-pci"
         exit 1
     fi
     
     # Check EFI framebuffer is unbound
-    if [ ! -e "/sys/bus/platform/drivers/efi-framebuffer/${EFI_FB_DEVICE}" ]; then
-        log "✓ EFI framebuffer ${EFI_FB_DEVICE} is successfully unbound"
+    if [ ! -e "/sys/bus/platform/drivers/efi-framebuffer/$${EFI_FB_DEVICE}" ]; then
+        log "✓ EFI framebuffer $${EFI_FB_DEVICE} is successfully unbound"
     else
-        log "✗ EFI framebuffer ${EFI_FB_DEVICE} is still bound"
+        log "✗ EFI framebuffer $${EFI_FB_DEVICE} is still bound"
         exit 1
     fi
     
@@ -94,10 +94,10 @@ data:
     fi
     
     # Restart virt-handler on current node to recognize PCI device changes
-    log "Restarting virt-handler on current node (${NODE_NAME})..."
+    log "Restarting virt-handler on current node ($${NODE_NAME})..."
     
     # Get virt-handler pod name on current node
-    VIRT_HANDLER_POD=$(kubectl get pods -n kubevirt -l kubevirt.io=virt-handler --field-selector spec.nodeName=${NODE_NAME} -o jsonpath='{.items[0].metadata.name}')
+    VIRT_HANDLER_POD=$(kubectl get pods -n kubevirt -l kubevirt.io=virt-handler --field-selector spec.nodeName=$${NODE_NAME} -o jsonpath='{.items[0].metadata.name}')
     
     if [ -n "$VIRT_HANDLER_POD" ]; then
         log "Found virt-handler pod: $VIRT_HANDLER_POD"
@@ -106,11 +106,11 @@ data:
         
         # Wait for pod to be recreated
         log "Waiting for virt-handler to be recreated..."
-        kubectl wait --for=condition=Ready pod -l kubevirt.io=virt-handler --field-selector spec.nodeName=${NODE_NAME} -n kubevirt --timeout=300s
+        kubectl wait --for=condition=Ready pod -l kubevirt.io=virt-handler --field-selector spec.nodeName=$${NODE_NAME} -n kubevirt --timeout=300s
         
-        log "✓ virt-handler successfully restarted on node ${NODE_NAME}"
+        log "✓ virt-handler successfully restarted on node $${NODE_NAME}"
     else
-        log "✗ virt-handler pod not found on node ${NODE_NAME}"
+        log "✗ virt-handler pod not found on node $${NODE_NAME}"
         exit 1
     fi
     
