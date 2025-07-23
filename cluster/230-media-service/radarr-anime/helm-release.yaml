@@ -23,7 +23,7 @@ spec:
   values:
     image:
       repository: linuxserver/radarr
-      tag: 5.27.2-nightly
+      tag: 5.27.3-nightly
 
     env:
       TZ: "Asia/Shanghai"
