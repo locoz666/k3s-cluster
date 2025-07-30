@@ -29,7 +29,7 @@ spec:
   values:
     image:
       repository: n8nio/n8n
-      tag: 1.104.1
+      tag: 1.105.0
 
     ingress:
       enabled: true
