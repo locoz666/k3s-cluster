@@ -36,7 +36,7 @@ spec:
           &main_container mobileraker-companion:
             image:
               repository: "ghcr.io/clon1998/mobileraker_companion"
-              tag: "latest@sha256:03ff7860644659966dee93a440819d0dea8a8823bb6405d27dfd8a81d25e1ac0"
+              tag: "latest@sha256:74ad73d6cc5bc27315a488b3590c81300a3577ea741827257d2af2bb0eca6b5e"
             env:
               TZ: "Asia/Shanghai"
 
