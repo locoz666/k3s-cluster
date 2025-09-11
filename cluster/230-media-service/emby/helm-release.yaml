@@ -23,7 +23,7 @@ spec:
   values:
     image:
       repository: emby/embyserver
-      tag: 4.9.1.29
+      tag: 4.9.1.30
 
     env:
       TZ: "Asia/Shanghai"
