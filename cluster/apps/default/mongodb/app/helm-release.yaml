@@ -13,7 +13,7 @@ spec:
     spec:
       # renovate: registryUrl=https://charts.bitnami.com/bitnami
       chart: mongodb
-      version: 14.0.14
+      version: 16.5.45
       sourceRef:
         kind: HelmRepository
         name: bitnami
