@@ -26,7 +26,7 @@ spec:
 
     image:
       repository: homeassistant/home-assistant
-      tag: 2025.9.3
+      tag: 2025.9.4
 
     env:
       TZ: "Asia/Shanghai"
