@@ -22,7 +22,7 @@ spec:
   values:
     image:
       repository: collabora/code
-      tag: 25.04.5.2.1
+      tag: 25.04.5.3.1
 
     ingress:
       enabled: true
