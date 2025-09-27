@@ -4,7 +4,7 @@ kind: VirtualMachine
 metadata:
   name: vm-message
 spec:
-  runStrategy: Always
+  runStrategy: Manual
   template:
     metadata:
       labels:
