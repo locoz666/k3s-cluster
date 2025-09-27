@@ -30,6 +30,11 @@ spec:
         days: 3  # 只保留近 3 天的事件数据
 
     kafka:
+      overrideConfiguration:
+          log.cleaner.delete.retention.ms: "3600000"
+          log.retention.bytes: "161061273600"
+          log.retention.check.interval.ms: "60000"
+          log.retention.hours: "168"
       controller:
         resources:
           limits:
