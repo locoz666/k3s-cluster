@@ -38,7 +38,7 @@ spec:
           secretKeyRef:
             name: immich.immich-db.credentials.postgresql.acid.zalan.do
             key: password
-      DB_DATABASE_NAME: immich
+      DB_DATABASE_NAME: immich_db
       REDIS_HOSTNAME: immich-redis-master
       REDIS_PORT: "6379"
       REDIS_PASSWORD: "${SECRET_IMMICH_REDIS_PASSWORD}"
