@@ -22,8 +22,6 @@ spec:
     immich: []
   databases:
     immich_db: immich
-    parameters:
-      shared_buffers: "256MB"
   allowedSourceRanges: []
   
   resources:

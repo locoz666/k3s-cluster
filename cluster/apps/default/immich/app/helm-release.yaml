@@ -26,7 +26,7 @@ spec:
 
     env:
       TZ: Asia/Shanghai
-      DB_HOSTNAME: immich-db
+      DB_HOSTNAME: immich-db-pooler
       DB_PORT: "5432"
       DB_USERNAME:
         valueFrom:
