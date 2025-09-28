@@ -29,12 +29,27 @@ spec:
         schedule: "0 0 * * *"  # 每天午夜执行
         days: 3  # 只保留近 3 天的事件数据
 
+      web:
+        env:
+          - name: SENTRY_RETENTION_DAYS
+            value: "3"
+
+      worker:
+        env:
+          - name: SENTRY_RETENTION_DAYS
+            value: "3"
+
+      cron:
+        env:
+          - name: SENTRY_RETENTION_DAYS
+            value: "3"
+
     kafka:
       overrideConfiguration:
-          log.cleaner.delete.retention.ms: "3600000"
-          log.retention.bytes: "161061273600"
+          log.cleaner.delete.retention.ms: "259200000"
+          log.retention.bytes: "85899345920"
           log.retention.check.interval.ms: "60000"
-          log.retention.hours: "168"
+          log.retention.hours: "72"
       controller:
         resources:
           limits:
