@@ -18,6 +18,7 @@ resources:
   - ./tyan-pch-thermal-controller/ks.yaml
   - ./librespeed/ks.yaml
   - ./photoprism/ks.yaml
+  - ./immich/ks.yaml
   - ./resilio-sync/ks.yaml
   - ./samba/ks.yaml
   - ./uptime-kuma/ks.yaml

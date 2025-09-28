@@ -12,6 +12,7 @@ resources:
   - dask.yaml
   - elastic.yaml
   - gitlab.yaml
+  - immich.yaml
   - go-skynet.yaml
   - grafana.yaml
   - influxdata.yaml
