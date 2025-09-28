@@ -31,18 +31,14 @@ spec:
       DB_USERNAME:
         valueFrom:
           secretKeyRef:
-            name: default.immich.immich-db.credentials.postgresql.acid.zalan.do
+            name: immich.immich-db.credentials.postgresql.acid.zalan.do
             key: username
       DB_PASSWORD:
         valueFrom:
           secretKeyRef:
-            name: default.immich.immich-db.credentials.postgresql.acid.zalan.do
+            name: immich.immich-db.credentials.postgresql.acid.zalan.do
             key: password
-      DB_DATABASE_NAME:
-        valueFrom:
-          secretKeyRef:
-            name: default.immich.immich-db.credentials.postgresql.acid.zalan.do
-            key: dbname
+      DB_DATABASE_NAME: immich
       REDIS_HOSTNAME: immich-redis-master
       REDIS_PORT: "6379"
       REDIS_PASSWORD: "${SECRET_IMMICH_REDIS_PASSWORD}"
