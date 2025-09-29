@@ -6,4 +6,4 @@ metadata:
 spec:
   interval: 24h
   timeout: 2m
-  url: https://locoz666.github.io/helm-charts
+  url: https://bjw-s-labs.github.io/helm-charts
