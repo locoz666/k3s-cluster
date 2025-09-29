@@ -8,6 +8,7 @@ resources:
   - bjw-s.yaml
   - borispolonsky-dify.yaml
   - chrisingenhaag.yaml
+  - cloudnative-pg.yaml
   - cilium.yaml
   - dask.yaml
   - elastic.yaml
