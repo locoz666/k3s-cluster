@@ -9,5 +9,5 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 20Ti
+      storage: 40Ti
   storageClassName: juicefs-media-replicated
