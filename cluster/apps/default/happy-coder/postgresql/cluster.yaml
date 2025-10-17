@@ -1,0 +1,27 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: happy-coder-postgresql
+spec:
+  instances: 1
+  primaryUpdateStrategy: unsupervised
+  storage:
+    size: 1Gi
+    storageClass: ceph-application-high-performance
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: happy-coder-db-superuser
+  postgresql:
+    parameters:
+      max_connections: "300"
+      shared_buffers: 512MB
+  bootstrap:
+    initdb:
+      database: happy-server
+      owner: happy
+      secret:
+        name: happy-coder-db-app-user
+      dataChecksums: true
+  monitoring:
+    enablePodMonitor: true

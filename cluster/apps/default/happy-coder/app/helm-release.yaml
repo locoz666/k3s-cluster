@@ -1,0 +1,72 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: happy-coder
+spec:
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 4.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  values:
+    controllers:
+      main:
+        type: deployment
+        replicas: 1
+        strategy: RollingUpdate
+        containers:
+          happy-coder:
+            image:
+              repository: ghcr.io/denysvitali/happy-server
+              tag: main-6182d02
+              pullPolicy: IfNotPresent
+
+            env:
+              TZ: "Asia/Shanghai"
+              NODE_ENV: "production"
+              DATABASE_URL: "postgresql://${SECRET_HAPPY_CODER_PGSQL_USERNAME}:${SECRET_HAPPY_CODER_PGSQL_PASSWORD}@happy-coder-postgresql-rw:5432/${SECRET_HAPPY_CODER_PGSQL_DATABASE}"
+              REDIS_URL: "redis://happy-coder-redis-master:6379"
+              SEED: "${SECRET_HAPPY_CODER_SEED}"
+              PORT: 3005
+              HANDY_MASTER_SECRET: "${SECRET_HAPPY_CODER_HANDY_MASTER_SECRET}"
+              S3_HOST: happy-coder-minio
+              S3_PORT: 9000
+              S3_USE_SSL: false
+              S3_ACCESS_KEY: "${SECRET_HAPPY_CODER_MINIO_ACCESS_KEY}"
+              S3_SECRET_KEY: "${SECRET_HAPPY_CODER_MINIO_SECRET_KEY}"
+              S3_BUCKET: happy
+              S3_PUBLIC_URL: http://happy-coder-minio:9000/happy
+    service:
+      main:
+        controller: main
+        type: ClusterIP
+        ports:
+          http:
+            enabled: true
+            port: 3005
+            protocol: HTTP
+
+    ingress:
+      main:
+        hosts:
+          - host: "happy-coder.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: http
+        tls:
+          - secretName: "${SECRET_DOMAIN/./-}-tls"
+            hosts:
+              - "happy-coder.${SECRET_DOMAIN}"
