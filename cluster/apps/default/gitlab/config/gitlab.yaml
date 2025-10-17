@@ -35,9 +35,12 @@ spec:
       installCertmanager: false
       nginx-ingress:
         enabled: false  # 不让gitlab单独部署ingress，直接使用公共的ingress
+      prometheus:
+        server:
+          persistentVolume:
+            size: 10Gi
       gitlab:
         gitlab-shell:
           service:
             type: LoadBalancer
             loadBalancerIP: 192.168.170.235
-
