@@ -1,0 +1,107 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: immich-server
+spec:
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 4.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  values:
+    controllers:
+      main:
+        type: deployment
+        replicas: 4
+        strategy: RollingUpdate
+        containers:
+          immich-server:
+            image:
+              repository: ghcr.io/immich-app/immich-server
+              tag: v2.0.0
+              pullPolicy: IfNotPresent
+
+            env:
+              TZ: "Asia/Shanghai"
+              # PostgreSQL
+              DB_HOSTNAME: "immich-postgresql-rw"
+              DB_PORT: "5432"
+              DB_DATABASE_NAME: "immich"
+              DB_USERNAME:
+                valueFrom:
+                  secretKeyRef:
+                    name: "immich-db-superuser"
+                    key: "username"
+              DB_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: "immich-db-superuser"
+                    key: "password"
+              DB_VECTOR_EXTENSION: "vectorchord"
+              DB_STORAGE_TYPE: "SSD"
+              # Redis
+              REDIS_HOSTNAME: "immich-redis-master"
+              REDIS_PORT: "6379"
+              REDIS_PASSWORD: "${SECRET_IMMICH_REDIS_PASSWORD}"
+              REDIS_DBINDEX: "0"
+
+    service:
+      main:
+        controller: main
+        type: ClusterIP
+        ports:
+          http:
+            enabled: true
+            port: 2283
+            protocol: HTTP
+
+    ingress:
+      main:
+        hosts:
+          - host: "immich.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: http
+          - host: "immich.direct.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: http
+        tls:
+          - secretName: "${SECRET_DOMAIN/./-}-tls"
+            hosts:
+              - "immich.${SECRET_DOMAIN}"
+          - secretName: "direct-${SECRET_DOMAIN/./-}-tls"
+            hosts:
+              - "immich.direct.${SECRET_DOMAIN}"
+
+    persistence:
+      immich-data:
+        existingClaim: immich-data
+        advancedMounts:
+          main:
+            immich-server:
+              - path: "/data"
+                readOnly: false
+      personal-media-files:
+        existingClaim: personal-media-files
+        advancedMounts:
+          main:
+            immich-server:
+              - path: "/mnt/pvc/personal-media-files"
+                readOnly: false

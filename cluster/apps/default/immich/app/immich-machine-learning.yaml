@@ -1,0 +1,82 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: immich-machine-learning
+spec:
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 4.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  values:
+    controllers:
+      main:
+        type: deployment
+        strategy: RollingUpdate
+        containers:
+          immich-machine-learning:
+            image:
+              repository: ghcr.io/immich-app/immich-machine-learning
+              tag: v2.0.0-cuda
+              pullPolicy: IfNotPresent
+
+            env:
+              TZ: "Asia/Shanghai"
+              # PostgreSQL
+              DB_HOSTNAME: "immich-postgresql-rw"
+              DB_PORT: "5432"
+              DB_DATABASE_NAME: "immich"
+              DB_USERNAME:
+                valueFrom:
+                  secretKeyRef:
+                    name: "immich-db-superuser"
+                    key: "username"
+              DB_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: "immich-db-superuser"
+                    key: "password"
+              DB_VECTOR_EXTENSION: "vectorchord"
+              DB_STORAGE_TYPE: "SSD"
+              # Redis
+              REDIS_HOSTNAME: "immich-redis-master"
+              REDIS_PORT: "6379"
+              REDIS_PASSWORD: "${SECRET_IMMICH_REDIS_PASSWORD}"
+              REDIS_DBINDEX: "0"
+            
+            resources:
+              limits:
+                nvidia.com/gpu: 1
+
+    service:
+      main:
+        controller: main
+        type: ClusterIP
+        ports:
+          http:
+            enabled: true
+            port: 3003
+            protocol: HTTP
+
+    ingress:
+      main:
+        enabled: false
+
+    persistence:
+      immich-machine-learning-cache:
+        existingClaim: immich-machine-learning-cache
+        advancedMounts:
+          main:
+            immich-machine-learning:
+              - path: "/cache"
+                readOnly: false
