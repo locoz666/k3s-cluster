@@ -12,5 +12,3 @@ spec:
     kind: GitRepository
     name: flux-system
   wait: false
-  dependsOn:
-    - name: bjw-s-charts
