@@ -38,16 +38,17 @@ spec:
         controller: main
         type: ClusterIP
         ports:
-          http:
+          https:
             port: 3001
             targetPort: 3001
-            protocol: HTTP
+            protocol: HTTPS
 
     ingress:
       main:
         className: "traefik"
         annotations:
           traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
+          traefik.ingress.kubernetes.io/service.serversscheme: "https"
         hosts:
           - host: &host "wechat.${SECRET_DOMAIN}"
             paths:
@@ -55,7 +56,7 @@ spec:
                 pathType: Prefix
                 service:
                   identifier: main
-                  port: http
+                  port: https
         tls:
           - secretName: "${SECRET_DOMAIN/./-}-tls"
             hosts:
