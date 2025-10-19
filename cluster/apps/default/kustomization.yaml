@@ -31,6 +31,7 @@ resources:
   - ./gitlab/ks.yaml
   - ./happy-coder/ks.yaml
   - ./immich/ks.yaml
+  - ./wechat/ks.yaml
 
   - ./mongodb/ks.yaml
   - ./rabbitmq/ks.yaml
