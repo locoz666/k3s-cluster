@@ -37,3 +37,7 @@ spec:
       persistence:
         enabled: true
         existingClaim: juicefs-redis-replica-data
+      livenessProbe:
+        timeoutSeconds: 900
+      readinessProbe:
+        timeoutSeconds: 900
