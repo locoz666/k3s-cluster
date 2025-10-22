@@ -21,8 +21,8 @@ spec:
         namespace: flux-system
   values:
     image:
-      repository: "registry-gitlab.${SECRET_DOMAIN}/loco/docker-samba"
-      tag: 4.18.3
+      repository: "ghcr.io/crazy-max/samba"
+      tag: 4.21.4
 
     service:
       main:
