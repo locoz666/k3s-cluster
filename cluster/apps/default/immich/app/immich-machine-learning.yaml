@@ -27,7 +27,7 @@ spec:
           immich-machine-learning:
             image:
               repository: ghcr.io/immich-app/immich-machine-learning
-              tag: v2.0.0-cuda
+              tag: v2.2.0-cuda
               pullPolicy: IfNotPresent
 
             env:
