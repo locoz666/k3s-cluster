@@ -75,11 +75,9 @@ spec:
         type: pvc
         existingClaim: aria2-config
         mountPath: /config
-        mountPropagation: HostToContainer
       downloads:
         enabled: true
         type: pvc
         existingClaim: other-files
         subPath: download/aria2
         mountPath: /downloads
-        mountPropagation: HostToContainer
