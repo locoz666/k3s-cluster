@@ -26,6 +26,7 @@ resources:
   - metrics-server.yaml
   - nextcloud.yaml
   - nvidia.yaml
+  - pingcap.yaml
   - pmint93.yaml
   - prefecthq.yaml
   - prometheus-community.yaml
