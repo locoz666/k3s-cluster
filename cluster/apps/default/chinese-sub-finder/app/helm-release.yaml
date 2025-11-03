@@ -30,7 +30,6 @@ spec:
             image:
               repository: allanpk716/chinesesubfinder
               tag: v0.55.3
-              pullPolicy: IfNotPresent
             env:
               TZ: Asia/Shanghai
               PUID: "1000"
