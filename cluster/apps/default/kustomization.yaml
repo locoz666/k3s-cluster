@@ -49,7 +49,6 @@ resources:
   - ./jellyseerr/ks.yaml
   - ./jproxy/ks.yaml
   - ./lidarr/ks.yaml
-  - ./overseerr/ks.yaml
   - ./qbittorrent/ks.yaml
   - ./radarr/ks.yaml
   - ./radarr-anime/ks.yaml
