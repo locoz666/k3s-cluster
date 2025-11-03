@@ -41,6 +41,8 @@ resources:
 
   - ./control-center/ks.yaml
 
+  - ./bazarr/ks.yaml
+
   - ./minecraft/mc-router/ks.yaml
   - ./minecraft/gregtech-new-horizons/ks.yaml
 #  - ./minecraft/pseudos-sandbox/ks.yaml
