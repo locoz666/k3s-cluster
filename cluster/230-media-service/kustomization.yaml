@@ -3,7 +3,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - overseerr
-  - lidarr
   - qbittorrent
   - radarr
   - radarr-anime

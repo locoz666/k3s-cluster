@@ -48,6 +48,7 @@ resources:
   - ./jackett/ks.yaml
   - ./jellyseerr/ks.yaml
   - ./jproxy/ks.yaml
+  - ./lidarr/ks.yaml
 
   - ./minecraft/mc-router/ks.yaml
   - ./minecraft/gregtech-new-horizons/ks.yaml
