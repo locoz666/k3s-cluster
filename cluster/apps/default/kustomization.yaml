@@ -45,6 +45,7 @@ resources:
   - ./chinese-sub-finder/ks.yaml
   - ./emby/ks.yaml
   - ./flaresolverr/ks.yaml
+  - ./jackett/ks.yaml
 
   - ./minecraft/mc-router/ks.yaml
   - ./minecraft/gregtech-new-horizons/ks.yaml
