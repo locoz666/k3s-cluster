@@ -3,7 +3,6 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: sonarr-anime
-  namespace: entertainment
 spec:
   interval: 5m
   timeout: 30m
@@ -14,35 +13,39 @@ spec:
     spec:
       # renovate: registryUrl=https://bjw-s.github.io/helm-charts
       chart: app-template
-      version: 1.5.1
+      version: 4.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
       interval: 5m
   values:
-    image:
-      repository: linuxserver/sonarr
-      tag: 4.0.16-develop
-
-    env:
-      TZ: "Asia/Shanghai"
-      PUID: "1000"
-      PGID: "1000"
+    controllers:
+      main:
+        type: deployment
+        replicas: 1
+        containers:
+          sonarr-anime:
+            image:
+              repository: linuxserver/sonarr
+              tag: 4.0.16-develop
+            env:
+              TZ: Asia/Shanghai
+              PUID: "1000"
+              PGID: "1000"
 
     service:
       main:
+        controller: main
         type: ClusterIP
         ports:
           http:
-            enabled: true
             port: 8989
             protocol: HTTP
 
     ingress:
       main:
-        enabled: true
-        ingressClassName: "traefik"
+        className: "traefik"
         annotations:
           traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
         hosts:
@@ -50,21 +53,31 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
+                service:
+                  identifier: main
+                  port: http
         tls:
           - secretName: "${SECRET_DOMAIN/./-}-tls"
+            hosts:
+              - "sonarr-anime.${SECRET_DOMAIN}"
 
     persistence:
       config:
-        enabled: true
         existingClaim: sonarr-anime-config
-        mountPropagation: HostToContainer
+        advancedMounts:
+          main:
+            sonarr-anime:
+              - path: /config
       media:
-        enabled: true
-        mountPath: /media
-        existingClaim: media-files
-        mountPropagation: HostToContainer
+        existingClaim: entertainment-media-files
+        advancedMounts:
+          main:
+            sonarr-anime:
+              - path: /media
       download:
-        enabled: true
-        mountPath: /downloads
-        existingClaim: download-files
-        mountPropagation: HostToContainer
+        existingClaim: other-files
+        advancedMounts:
+          main:
+            sonarr-anime:
+              - path: /downloads
+                subPath: "download"

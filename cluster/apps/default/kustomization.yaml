@@ -53,6 +53,8 @@ resources:
   - ./qbittorrent/ks.yaml
   - ./radarr/ks.yaml
   - ./radarr-anime/ks.yaml
+  - ./sonarr/ks.yaml
+  - ./sonarr-anime/ks.yaml
 
   - ./minecraft/mc-router/ks.yaml
   - ./minecraft/gregtech-new-horizons/ks.yaml
