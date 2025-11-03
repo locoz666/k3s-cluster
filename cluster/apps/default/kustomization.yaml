@@ -43,6 +43,7 @@ resources:
 
   - ./bazarr/ks.yaml
   - ./chinese-sub-finder/ks.yaml
+  - ./emby/ks.yaml
 
   - ./minecraft/mc-router/ks.yaml
   - ./minecraft/gregtech-new-horizons/ks.yaml

@@ -3,7 +3,6 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: emby
-  namespace: entertainment
 spec:
   interval: 5m
   timeout: 30m
@@ -14,77 +13,97 @@ spec:
     spec:
       # renovate: registryUrl=https://bjw-s.github.io/helm-charts
       chart: app-template
-      version: 1.5.1
+      version: 4.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
       interval: 5m
   values:
-    image:
-      repository: emby/embyserver
-      tag: 4.9.2.6
-
-    env:
-      TZ: "Asia/Shanghai"
-      UID: "1000"
-      GID: "1000"
-      GIDLIST: "1000"
-
+    controllers:
+      main:
+        type: deployment
+        replicas: 1
+        containers:
+          emby:
+            image:
+              repository: emby/embyserver
+              tag: 4.9.2.6
+            env:
+              TZ: Asia/Shanghai
+              UID: "1000"
+              GID: "1000"
+              GIDLIST: "1000"
+            resources:
+              limits:
+                nvidia.com/gpu: 1
     service:
       main:
+        controller: main
         type: LoadBalancer
         externalTrafficPolicy: Local
         annotations:
           kube-vip.io/loadbalancerIPs: 192.168.170.234
         ports:
           http:
-            enabled: true
             port: 8096
             protocol: HTTP
           dlna:
-            enabled: true
             port: 1900
             protocol: UDP
 
     ingress:
       main:
-        enabled: true
-        ingressClassName: "traefik"
+        className: "traefik"
         hosts:
           - host: "emby.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
+                service:
+                  identifier: main
+                  port: http
           - host: "emby.direct.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
+                service:
+                  identifier: main
+                  port: http
           - host: "emby.${SECRET_SECOND_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
+                service:
+                  identifier: main
+                  port: http
         tls:
           - secretName: "${SECRET_DOMAIN/./-}-tls"
+            hosts:
+              - "emby.${SECRET_DOMAIN}"
           - secretName: "direct-${SECRET_DOMAIN/./-}-tls"
+            hosts:
+              - "emby.direct.${SECRET_DOMAIN}"
           - secretName: "${SECRET_SECOND_DOMAIN/./-}-tls"
+            hosts:
+              - "emby.${SECRET_SECOND_DOMAIN}"
 
     persistence:
       config:
-        enabled: true
         existingClaim: emby-config
-        mountPropagation: HostToContainer
+        advancedMounts:
+          main:
+            emby:
+              - path: /config
       transcode:
-        enabled: true
-        mountPath: /tmp/transcoding-temp
         existingClaim: emby-transcode
-        mountPropagation: HostToContainer
+        advancedMounts:
+          main:
+            emby:
+              - path: /tmp/transcoding-temp
       media:
-        enabled: true
-        mountPath: /media
-        existingClaim: media-files
-        mountPropagation: HostToContainer
-
-    resources:
-      limits:
-        nvidia.com/gpu: 1
+        existingClaim: entertainment-media-files
+        advancedMounts:
+          main:
+            emby:
+              - path: /media
