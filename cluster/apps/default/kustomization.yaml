@@ -51,6 +51,8 @@ resources:
   - ./lidarr/ks.yaml
   - ./overseerr/ks.yaml
   - ./qbittorrent/ks.yaml
+  - ./radarr/ks.yaml
+  - ./radarr-anime/ks.yaml
 
   - ./minecraft/mc-router/ks.yaml
   - ./minecraft/gregtech-new-horizons/ks.yaml
