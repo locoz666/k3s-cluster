@@ -78,4 +78,3 @@ spec:
           main:
             jellyseerr:
               - path: /app/config
-                mountPropagation: HostToContainer

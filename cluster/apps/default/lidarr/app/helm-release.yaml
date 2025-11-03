@@ -68,14 +68,12 @@ spec:
           main:
             lidarr:
               - path: /config
-                mountPropagation: HostToContainer
       media:
         existingClaim: entertainment-media-files
         advancedMounts:
           main:
             lidarr:
               - path: /media
-                mountPropagation: HostToContainer
       download:
         existingClaim: other-files
         advancedMounts:
@@ -83,4 +81,3 @@ spec:
             lidarr:
               - path: /downloads
                 subPath: "download"
-                mountPropagation: HostToContainer
