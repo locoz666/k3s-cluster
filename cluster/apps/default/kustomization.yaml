@@ -50,6 +50,7 @@ resources:
   - ./jproxy/ks.yaml
   - ./lidarr/ks.yaml
   - ./overseerr/ks.yaml
+  - ./qbittorrent/ks.yaml
 
   - ./minecraft/mc-router/ks.yaml
   - ./minecraft/gregtech-new-horizons/ks.yaml

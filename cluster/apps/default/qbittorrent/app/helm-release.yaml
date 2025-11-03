@@ -1,0 +1,107 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: qbittorrent
+spec:
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 4.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  values:
+    controllers:
+      main:
+        type: deployment
+        replicas: 1
+        containers:
+          qbittorrent:
+            image:
+              repository: linuxserver/qbittorrent
+              tag: 20.04.1@sha256:fc98c8af048936d0070dc5e5992feab08664f8a61a860d91be02f782f8721485
+            env:
+              TZ: Asia/Shanghai
+              PUID: "1000"
+              PGID: "1000"
+            probes:
+              liveness:
+                spec:
+                  initialDelaySeconds: 10
+                  periodSeconds: 20
+                  failureThreshold: 100
+              readiness:
+                spec:
+                  initialDelaySeconds: 10
+                  periodSeconds: 20
+                  failureThreshold: 100
+              startup:
+                spec:
+                  initialDelaySeconds: 10
+                  periodSeconds: 20
+                  failureThreshold: 100
+    service:
+      main:
+        controller: main
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        annotations:
+          kube-vip.io/loadbalancerIPs: 192.168.170.240
+        ports:
+          http:
+            port: 8080
+            protocol: HTTP
+          bt-tcp:
+            port: 6881
+            protocol: TCP
+          bt-udp:
+            port: 6881
+            protocol: UDP
+
+    ingress:
+      main:
+        className: "traefik"
+        annotations:
+          traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
+        hosts:
+          - host: "qbittorrent.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: http
+        tls:
+          - secretName: "${SECRET_DOMAIN/./-}-tls"
+            hosts:
+              - "qbittorrent.${SECRET_DOMAIN}"
+
+    persistence:
+      config:
+        existingClaim: qbittorrent-config
+        advancedMounts:
+          main:
+            qbittorrent:
+              - path: /config
+      media:
+        existingClaim: entertainment-media-files
+        advancedMounts:
+          main:
+            qbittorrent:
+              - path: /media
+      download:
+        existingClaim: other-files
+        advancedMounts:
+          main:
+            qbittorrent:
+              - path: /downloads
+                subPath: "download"
