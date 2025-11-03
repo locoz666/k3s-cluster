@@ -78,9 +78,9 @@ spec:
                 mountPropagation: HostToContainer
       download:
         existingClaim: other-files
-        subPath: download
         advancedMounts:
           main:
             lidarr:
               - path: /downloads
+                subPath: "download"
                 mountPropagation: HostToContainer
