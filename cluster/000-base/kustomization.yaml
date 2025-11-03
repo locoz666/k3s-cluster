@@ -12,6 +12,5 @@ resources:
   - 100-virtual-machine-base.yaml
   - 101-virtual-machine-base-extra.yaml
   - 102-virtual-machine.yaml
-  - 230-media-service.yaml
   - 240-smart-home.yaml
   - apps.yaml
