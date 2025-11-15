@@ -14,6 +14,11 @@ spec:
     name: bitnami-redis
     namespace: flux-system
   values:
+    image:
+      registry: docker.io
+      repository: bitnamilegacy/redis
+      tag: 7.2.3-debian-11-r1
+
     architecture: standalone
 
     auth:
