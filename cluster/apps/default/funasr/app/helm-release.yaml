@@ -1,0 +1,152 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: funasr
+spec:
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 4.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  values:
+    controllers:
+      main:
+        type: deployment
+        replicas: 3
+        strategy: Recreate
+        pod:
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchLabels:
+                      app.kubernetes.io/instance: funasr
+                      app.kubernetes.io/name: funasr
+                  topologyKey: kubernetes.io/hostname
+            nodeAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+                - weight: 100
+                  preference:
+                    matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - home-server-power
+                - weight: 50
+                  preference:
+                    matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - home-server-titan
+                - weight: 25
+                  preference:
+                    matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - home-server-sonic
+                - weight: 10
+                  preference:
+                    matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - home-server-nut
+          nodeSelector:
+            kubernetes.io/arch: amd64
+        containers:
+          funasr:
+            image:
+              repository: registry.cn-hangzhou.aliyuncs.com/funasr_repo/funasr
+              tag: funasr-runtime-sdk-cpu-0.4.7
+            env:
+              TZ: "Asia/Shanghai"
+              PYTHONUNBUFFERED: "1"
+              MODELSCOPE_CACHE: /workspace/models
+            command:
+              - /bin/bash
+              - '-c'
+            args:
+              - |
+                set -euo pipefail
+                if ! command -v ffmpeg >/dev/null 2>&1; then
+                  apt-get update
+                  apt-get install -y --no-install-recommends ffmpeg
+                  rm -rf /var/lib/apt/lists/*
+                fi
+                cd /workspace/FunASR/runtime/python/http
+                python3 -m pip install --no-cache-dir -r requirements.txt
+                python3 -m pip install --no-cache-dir ffmpeg-python python-multipart
+                mkdir -p /tmp/funasr-upload
+                exec python3 server.py \
+                  --host 0.0.0.0 \
+                  --port 10095 \
+                  --device cpu \
+                  --ngpu 0 \
+                  --ncpu 4 \
+                  --asr_model paraformer-zh \
+                  --asr_model_revision v2.0.4 \
+                  --vad_model fsmn-vad \
+                  --vad_model_revision v2.0.4 \
+                  --punc_model ct-punc-c \
+                  --punc_model_revision v2.0.4 \
+                  --hotword_path /workspace/FunASR/runtime/websocket/hotwords.txt \
+                  --temp_dir /tmp/funasr-upload
+            resources:
+              requests:
+                cpu: 2000m
+                memory: 4Gi
+              limits:
+                cpu: 4000m
+                memory: 8Gi
+            securityContext:
+              privileged: true
+              allowPrivilegeEscalation: true
+
+    service:
+      main:
+        controller: main
+        type: ClusterIP
+        ports:
+          http:
+            port: 10095
+            targetPort: 10095
+            protocol: HTTP
+
+    ingress:
+      main:
+        className: "traefik"
+        annotations:
+          traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
+        hosts:
+          - host: "funasr.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: http
+        tls:
+          - secretName: "${SECRET_DOMAIN/./-}-tls"
+            hosts:
+              - "funasr.${SECRET_DOMAIN}"
+
+    persistence:
+      models:
+        existingClaim: funasr-models
+        advancedMounts:
+          main:
+            funasr:
+              - path: /workspace/models

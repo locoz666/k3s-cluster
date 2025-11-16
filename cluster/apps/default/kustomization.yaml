@@ -33,6 +33,7 @@ resources:
   - ./immich/ks.yaml
   - ./wechat/ks.yaml
   - ./qq/ks.yaml
+  - ./funasr/ks.yaml
 
   - ./mongodb/ks.yaml
   - ./rabbitmq/ks.yaml
