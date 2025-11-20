@@ -96,7 +96,7 @@ spec:
                   --device cpu \
                   --ngpu 0 \
                   --ncpu 4 \
-                  --asr_model iic/speech_paraformer-large-vad-punc_asr_nat-zh-cn-16k-common-vocab8404-pytorch \
+                  --asr_model speech_paraformer-large-vad-punc_asr_nat-zh-cn-16k-common-vocab8404-onnx \
                   --asr_model_revision v2.0.4 \
                   --temp_dir /tmp/funasr-upload
             resources:
