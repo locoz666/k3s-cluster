@@ -86,7 +86,7 @@ spec:
                 touch /workspace/models/hotwords.txt
                 exec ./funasr-wss-server \
                   --download-model-dir /workspace/models \
-                  --model-dir damo/speech_paraformer-large_asr_nat-zh-cn-16k-common-vocab8404-onnx \
+                  --model-dir damo/speech_paraformer-large-vad-punc_asr_nat-zh-cn-16k-common-vocab8404-onnx \
                   --vad-dir damo/speech_fsmn_vad_zh-cn-16k-common-onnx \
                   --punc-dir damo/punc_ct-transformer_cn-en-common-vocab471067-large-onnx \
                   --lm-dir damo/speech_ngram_lm_zh-cn-ai-wesp-fst \
