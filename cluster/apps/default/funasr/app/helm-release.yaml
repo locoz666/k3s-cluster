@@ -81,8 +81,10 @@ spec:
             args:
               - |
                 set -euo pipefail
-                cd /workspace/FunASR/runtime
-                exec bash run_server.sh \
+                cd /workspace/FunASR/runtime/websocket/build/bin
+                mkdir -p /workspace/models
+                touch /workspace/models/hotwords.txt
+                exec ./funasr-wss-server \
                   --download-model-dir /workspace/models \
                   --model-dir damo/speech_paraformer-large_asr_nat-zh-cn-16k-common-vocab8404-onnx \
                   --vad-dir damo/speech_fsmn_vad_zh-cn-16k-common-onnx \
@@ -94,7 +96,8 @@ spec:
                   --keyfile "" \
                   --decoder-thread-num 16 \
                   --io-thread-num 8 \
-                  --model-thread-num 12
+                  --model-thread-num 12 \
+                  --hotword /workspace/models/hotwords.txt
             resources:
               requests:
                 cpu: 2000m
