@@ -81,24 +81,20 @@ spec:
             args:
               - |
                 set -euo pipefail
-                if ! command -v ffmpeg >/dev/null 2>&1; then
-                  apt-get update
-                  apt-get install -y --no-install-recommends ffmpeg
-                  rm -rf /var/lib/apt/lists/*
-                fi
-                cd /workspace/FunASR/runtime/python/http
-                python3 -m pip install --no-cache-dir -r requirements.txt
-                python3 -m pip install --no-cache-dir ffmpeg-python python-multipart
-                mkdir -p /tmp/funasr-upload
-                exec python3 server.py \
-                  --host 0.0.0.0 \
+                cd /workspace/FunASR/runtime
+                exec bash run_server.sh \
+                  --download-model-dir /workspace/models \
+                  --model-dir damo/speech_paraformer-large_asr_nat-zh-cn-16k-common-vocab8404-onnx \
+                  --vad-dir damo/speech_fsmn_vad_zh-cn-16k-common-onnx \
+                  --punc-dir damo/punc_ct-transformer_cn-en-common-vocab471067-large-onnx \
+                  --lm-dir damo/speech_ngram_lm_zh-cn-ai-wesp-fst \
+                  --itn-dir thuduj12/fst_itn_zh \
                   --port 10095 \
-                  --device cpu \
-                  --ngpu 0 \
-                  --ncpu 4 \
-                  --asr_model speech_paraformer-large-vad-punc_asr_nat-zh-cn-16k-common-vocab8404-onnx \
-                  --asr_model_revision v2.0.4 \
-                  --temp_dir /tmp/funasr-upload
+                  --certfile "" \
+                  --keyfile "" \
+                  --decoder-thread-num 16 \
+                  --io-thread-num 8 \
+                  --model-thread-num 12
             resources:
               requests:
                 cpu: 2000m
