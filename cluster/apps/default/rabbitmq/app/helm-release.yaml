@@ -21,7 +21,7 @@ spec:
       interval: 5m
   values:
     image:
-      repository: bitnami/rabbitmq
+      repository: bitnamilegacy/rabbitmq
       tag: 3.12.13-debian-11-r0
 
     auth:

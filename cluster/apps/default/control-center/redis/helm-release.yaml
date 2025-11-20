@@ -20,7 +20,7 @@ spec:
         namespace: flux-system
   values:
     image:
-      repository: bitnami/redis
+      repository: bitnamilegacy/redis
       tag: 7.2.4-debian-11-r7@sha256:07a8387e6735491720e539c55439a60235ab268bd7da0403d61f7bfb895822c2
     auth:
       enabled: true

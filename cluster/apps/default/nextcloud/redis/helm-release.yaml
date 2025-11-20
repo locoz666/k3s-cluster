@@ -21,7 +21,7 @@ spec:
       interval: 5m
   values:
     image:
-      repository: bitnami/redis
+      repository: bitnamilegacy/redis
       tag: 7.2.4-debian-11-r1
 
     auth:

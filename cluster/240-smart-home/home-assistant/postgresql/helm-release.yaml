@@ -22,7 +22,7 @@ spec:
       interval: 5m
   values:
     image:
-      repository: bitnami/postgresql
+      repository: bitnamilegacy/postgresql
       tag: 14.2.0-debian-10-r89
 
     auth:
