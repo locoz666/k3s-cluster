@@ -22,7 +22,7 @@ spec:
   values:
     image:
       repository: bitnamilegacy/postgresql
-      tag: 14.2.0-debian-10-r89
+      tag: 14.2.0
 
     auth:
       username: "${SECRET_N8N_PGSQL_USERNAME}"
