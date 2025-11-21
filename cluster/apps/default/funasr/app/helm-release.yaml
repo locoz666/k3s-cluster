@@ -81,6 +81,11 @@ spec:
             args:
               - |
                 set -euo pipefail
+                if ! command -v ffmpeg >/dev/null 2>&1; then
+                  apt-get update
+                  apt-get install -y --no-install-recommends ffmpeg
+                  rm -rf /var/lib/apt/lists/*
+                fi
                 cd /workspace/FunASR/runtime/websocket/build/bin
                 mkdir -p /workspace/models
                 touch /workspace/models/hotwords.txt
