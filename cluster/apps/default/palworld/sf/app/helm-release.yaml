@@ -21,7 +21,7 @@ spec:
   values:
     image:
       repository: "thijsvanloef/palworld-server-docker"
-      tag: "v1.4"
+      tag: "v2.0"
 
     command: [ "/bin/bash", "/tmp/start.sh" ]
 
