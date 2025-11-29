@@ -28,7 +28,7 @@ spec:
           emby:
             image:
               repository: emby/embyserver
-              tag: 4.9.2.6
+              tag: 4.9.2.7
             env:
               TZ: Asia/Shanghai
               UID: "1000"
