@@ -140,7 +140,7 @@ spec:
         reclaimPolicy: Delete
         backend:
           name: "juicefs-media-ec"
-          metaurl: "postgres://juicefs@juicefs-db-pooler-rw.juicefs-system.svc.cluster.local:5432/juicefs_metadata?sslmode=disable&max_open_conns=50&max_idle_conns=20&max_idle_time=300&max_life_time=3600"
+          metaurl: "postgres://juicefs@juicefs-db-pooler-rw.juicefs-system.svc.cluster.local:5432/juicefs_metadata"
           storage: "ceph"
           bucket: "ceph://juicefs-media-ec"
           accessKey: "ceph"
