@@ -405,6 +405,19 @@ spec:
             csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
             csi.storage.k8s.io/fstype: ext4  # 可以设置为xfs，但官方不推荐
 
+      - name: juicefs-media-ec
+        spec:
+          failureDomain: osd  # 设置存储池的故障域
+          erasurecoded: # 设置为EC池
+            dataChunks: 4   # EC数据块数
+            codingChunks: 2 # EC编码数据块数
+          deviceClass: hdd  # 设置后端osd类型
+          parameters:
+            pg_num: "128" # 设置初始的PG数量
+            pgp_num: "128" # 设置初始的PGP数量，需要和pg_num一致
+        storageClass:
+          enabled: false
+
     # CephFS存储池和对应的K8S StorageClass设置
     # Rook会默认设置一个，在不需要使用CephFS的情况下，将该设置项显式设为空列表以避免该存储池创建
     cephFileSystems: [ ]
