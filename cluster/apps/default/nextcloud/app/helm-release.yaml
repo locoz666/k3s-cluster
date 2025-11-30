@@ -87,6 +87,9 @@ spec:
         - name: live-record-files
           persistentVolumeClaim:
             claimName: live-record-files
+        - name: live-record-ec-files
+          persistentVolumeClaim:
+            claimName: live-record-ec-files
       extraVolumeMounts:
         - name: other-files
           mountPath: "/mnt/pvc/other-files"
@@ -98,6 +101,8 @@ spec:
           mountPath: "/mnt/pvc/entertainment-media-files"
         - name: live-record-files
           mountPath: "/mnt/pvc/live-record-files"
+        - name: live-record-ec-files
+          mountPath: "/mnt/pvc/live-record-ec-files"
       configs:
         proxy.config.php: |-
           <?php

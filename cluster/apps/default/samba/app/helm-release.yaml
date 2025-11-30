@@ -70,6 +70,11 @@ spec:
         type: pvc
         existingClaim: entertainment-media-files
         mountPath: /mnt/pvc/entertainment-media-files
+      entertainment-media-ec-files:
+        enabled: true
+        type: pvc
+        existingClaim: entertainment-media-ec-files
+        mountPath: /mnt/pvc/entertainment-media-ec-files
       3d-print-data:
         enabled: true
         type: pvc
@@ -90,6 +95,11 @@ spec:
         type: pvc
         existingClaim: live-record-files
         mountPath: /mnt/pvc/live-record-files
+      live-record-ec-files:
+        enabled: true
+        type: pvc
+        existingClaim: live-record-ec-files
+        mountPath: /mnt/pvc/live-record-ec-files
       nextcloud-config:
         enabled: true
         type: pvc
@@ -154,6 +164,15 @@ spec:
                 writelist: loco
                 veto: yes
               
+              - name: entertainment-media-ec-files
+                path: /mnt/pvc/entertainment-media-ec-files
+                browsable: yes
+                readonly: no
+                guestok: no
+                validusers: loco
+                writelist: loco
+                veto: yes
+              
               - name: 3d-print-data
                 path: /mnt/pvc/3d-print-data
                 browsable: yes
@@ -183,6 +202,15 @@ spec:
               
               - name: live-record-files
                 path: /mnt/pvc/live-record-files
+                browsable: yes
+                readonly: no
+                guestok: no
+                validusers: loco
+                writelist: loco
+                veto: yes
+              
+              - name: live-record-ec-files
+                path: /mnt/pvc/live-record-ec-files
                 browsable: yes
                 readonly: no
                 guestok: no
