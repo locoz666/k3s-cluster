@@ -408,8 +408,8 @@ spec:
       - name: juicefs-media-ec
         spec:
           failureDomain: osd  # 设置存储池的故障域
-          erasurecoded: # 设置为EC池
-            dataChunks: 4   # EC数据块数
+          erasureCoded: # 设置为EC池
+            dataChunks: 6   # EC数据块数
             codingChunks: 2 # EC编码数据块数
           deviceClass: hdd  # 设置后端osd类型
           parameters:
