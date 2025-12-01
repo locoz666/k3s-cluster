@@ -1,0 +1,29 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Pooler
+metadata:
+  name: juicefs-media-ec-postgresql-pooler-rw
+  namespace: juicefs-system
+spec:
+  cluster:
+    name: juicefs-media-ec-postgresql
+  instances: 1
+  type: rw
+  serviceTemplate:
+    metadata:
+      name: juicefs-media-ec-postgresql-lb
+      labels:
+        app.kubernetes.io/name: juicefs-media-ec-postgresql-pooler-rw
+        cnpg.io/cluster: juicefs-media-ec-postgresql
+    spec:
+      type: LoadBalancer
+      loadBalancerIP: 192.168.170.233
+      ports:
+        - name: pgbouncer
+          port: 5432
+          targetPort: pgbouncer
+  pgbouncer:
+    poolMode: transaction
+    parameters:
+      max_client_conn: "2000"
+      default_pool_size: "200"
