@@ -82,7 +82,7 @@ spec:
               - path: /config
                 readOnly: false
       downloads:
-        existingClaim: live-record-files
+        existingClaim: live-record-ec-files
         advancedMounts:
           main:
             douyin-live-recorder:
