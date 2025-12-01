@@ -135,21 +135,21 @@ spec:
           - "enable-xattr"
           - "cache-size=0"
       
-      - name: "juicefs-media-ec"
-        enabled: true
-        reclaimPolicy: Delete
-        backend:
-          name: "juicefs-media-ec"
-          metaurl: "postgres://juicefs@juicefs-db-pooler-rw.juicefs-system.svc.cluster.local:5432/juicefs_metadata"
-          storage: "ceph"
-          bucket: "ceph://juicefs-media-ec"
-          accessKey: "ceph"
-          secretKey: "client.admin"
-          envs: "{TZ: Asia/Shanghai}"
-          configs: '{"ceph-conf": "/etc/ceph"}'
-          trashDays: "0"
-        pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
-        cachePVC: "juicefs-cache-pvc"
-        mountOptions:
-          - "enable-xattr"
-          - "cache-size=512000"
+      # - name: "juicefs-media-ec"
+      #   enabled: true
+      #   reclaimPolicy: Delete
+      #   backend:
+      #     name: "juicefs-media-ec"
+      #     metaurl: "postgres://juicefs@juicefs-db-pooler-rw.juicefs-system.svc.cluster.local:5432/juicefs_metadata"
+      #     storage: "ceph"
+      #     bucket: "ceph://juicefs-media-ec"
+      #     accessKey: "ceph"
+      #     secretKey: "client.admin"
+      #     envs: "{TZ: Asia/Shanghai}"
+      #     configs: '{"ceph-conf": "/etc/ceph"}'
+      #     trashDays: "0"
+      #   pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
+      #   cachePVC: "juicefs-cache-pvc"
+      #   mountOptions:
+      #     - "enable-xattr"
+      #     - "cache-size=512000"
