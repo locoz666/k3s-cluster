@@ -135,14 +135,14 @@ spec:
           - "enable-xattr"
           - "cache-size=0"
       
-      - name: "juicefs-media-ec"
+      - name: "juicefs-media-erasure-coded"
         enabled: true
         reclaimPolicy: Delete
         backend:
-          name: "juicefs-media-ec"
-          metaurl: "postgres://juicefs:${SECRET_JUICEFS_POSTGRESQL_PASSWORD}@juicefs-media-ec-postgresql-pooler-rw.juicefs-system.svc.cluster.local:5432/juicefs_metadata"
+          name: "juicefs-media-erasure-coded"
+          metaurl: "postgres://juicefs:${SECRET_JUICEFS_POSTGRESQL_PASSWORD}@juicefs-media-erasure-coded-postgresql-pooler-rw.juicefs-system.svc.cluster.local:5432/juicefs_metadata"
           storage: "ceph"
-          bucket: "ceph://juicefs-media-ec"
+          bucket: "ceph://juicefs-media-erasure-coded"
           accessKey: "ceph"
           secretKey: "client.admin"
           envs: "{TZ: Asia/Shanghai}"

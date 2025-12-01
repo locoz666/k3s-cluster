@@ -2,7 +2,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: juicefs-media-ec-postgresql
+  name: juicefs-media-erasure-coded-postgresql
   namespace: juicefs-system
 spec:
   instances: 1
@@ -23,13 +23,13 @@ spec:
       memory: "4Gi"
   enableSuperuserAccess: true
   superuserSecret:
-    name: juicefs-media-ec-postgresql-superuser
+    name: juicefs-media-erasure-coded-postgresql-superuser
   bootstrap:
     initdb:
       database: juicefs_metadata
       owner: juicefs
       secret:
-        name: juicefs-media-ec-postgresql-user-juicefs-metadata-owner
+        name: juicefs-media-erasure-coded-postgresql-user-juicefs-metadata-owner
       dataChecksums: true
   postgresql:
     parameters:

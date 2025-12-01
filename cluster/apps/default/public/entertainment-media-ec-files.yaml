@@ -10,4 +10,4 @@ spec:
   resources:
     requests:
       storage: 40Ti
-  storageClassName: juicefs-media-ec
+  storageClassName: juicefs-media-erasure-coded

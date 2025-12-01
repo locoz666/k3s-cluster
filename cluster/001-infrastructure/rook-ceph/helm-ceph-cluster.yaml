@@ -405,7 +405,7 @@ spec:
             csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
             csi.storage.k8s.io/fstype: ext4  # 可以设置为xfs，但官方不推荐
 
-      - name: juicefs-media-ec
+      - name: juicefs-media-erasure-coded
         spec:
           failureDomain: osd  # 设置存储池的故障域
           erasureCoded: # 设置为EC池

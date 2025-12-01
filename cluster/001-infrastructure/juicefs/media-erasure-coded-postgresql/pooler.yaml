@@ -2,19 +2,19 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Pooler
 metadata:
-  name: juicefs-media-ec-postgresql-pooler-rw
+  name: juicefs-media-erasure-coded-postgresql-pooler-rw
   namespace: juicefs-system
 spec:
   cluster:
-    name: juicefs-media-ec-postgresql
+    name: juicefs-media-erasure-coded-postgresql
   instances: 1
   type: rw
   serviceTemplate:
     metadata:
-      name: juicefs-media-ec-postgresql-lb
+      name: juicefs-media-erasure-coded-postgresql-lb
       labels:
-        app.kubernetes.io/name: juicefs-media-ec-postgresql-pooler-rw
-        cnpg.io/cluster: juicefs-media-ec-postgresql
+        app.kubernetes.io/name: juicefs-media-erasure-coded-postgresql-pooler-rw
+        cnpg.io/cluster: juicefs-media-erasure-coded-postgresql
     spec:
       type: LoadBalancer
       loadBalancerIP: 192.168.170.233
