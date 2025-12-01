@@ -19,23 +19,17 @@ global:
       ## prefect tag is pinned to the latest available image tag at packaging time.  Update the value here to
       ## override pinned tag
       # -- prefect image tag (immutable tags are recommended)
-      prefectTag: 3.2.2-python3.11
+      prefectTag: 3.6.4-python3.11
       # -- prefect image pull policy
       pullPolicy: IfNotPresent
       ## Optionally specify an array of imagePullSecrets.
       ## Secrets must be manually created in the namespace.
-      ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+      # ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
       ## e.g:
       ## pullSecrets:
       ##   - myRegistryKeySecretName
       # -- prefect image pull secrets
       pullSecrets: []
-
-    # -- sets PREFECT_API_URL
-    prefectApiUrl: http://localhost:4200/api
-
-    # -- sets PREFECT_SERVER_API_HOST
-    prefectApiHost: 0.0.0.0
 
     # see here for a full list of possible environment variables - https://docs.prefect.io/latest/api-ref/prefect/settings/
     # -- array with environment variables to add to all deployments
@@ -59,29 +53,36 @@ server:
   # -- priority class name to use for the server pods; if the priority class is empty or doesn't exist, the server pods are scheduled without a priority class
   priorityClassName: ""
 
-  # -- enable server debug mode
+  # ref: https://docs.prefect.io/v3/develop/settings-ref#base-path
+  # -- sets PREFECT_SERVER_API_BASE_PATH
+  apiBasePath: "/api"
+
+  # ref: https://docs.prefect.io/v3/develop/settings-ref#debug-mode
+  # -- sets PREFECT_DEBUG_MODE
   debug: false
 
-  # sets PREFECT_LOGGING_SERVER_LEVEL
+  # ref: https://docs.prefect.io/v3/develop/settings-ref#logging-level-2
+  # -- sets PREFECT_LOGGING_SERVER_LEVEL
   loggingLevel: WARNING
 
-  ## If you want to run the UI seperately from the server, you will need to set the UI-specific URLs below
   uiConfig:
-    # -- set PREFECT_UI_ENABLED; enable the UI on the server
-    enabled: true
-    # -- sets PREFECT_UI_API_URL
-    prefectUiApiUrl: ""
-    # -- sets PREFECT_UI_URL
-    prefectUiUrl: ""
+    # -- sets PREFECT_UI_API_URL; If you want to connect to the UI from somewhere external to the cluster (i.e. via an ingress), you need to set this value to the ingress URL (e.g. http://app.internal.prefect.com/api). You can find additional documentation on this here - https://docs.prefect.io/v3/manage/self-host#ui
+    prefectUiApiUrl: "http://localhost:4200/api"
     # -- sets PREFECT_UI_STATIC_DIRECTORY
     prefectUiStaticDirectory: "/ui_build"
 
-  # see here for a full list of possible environment variables - https://docs.prefect.io/latest/api-ref/prefect/settings/
+  # see here for a full list of possible environment variables - https://docs.prefect.io/v3/develop/settings-ref#serversettings
   # -- array with environment variables to add to server deployment
   env: []
   ## env:
   ##   - name: PREFECT_API_ENABLE_HTTP2
   ##     value: false
+
+  # -- Custom container command arguments
+  args: []
+
+  # -- Custom container entrypoint
+  command: []
 
   # -- the number of old ReplicaSets to retain to allow rollback
   revisionHistoryLimit: 10
@@ -100,7 +101,7 @@ server:
     # -- target Memory utilization percentage
     targetMemory: 80
 
-  # -- number of server replicas to deploy
+  # -- number of server replicas to deploy, ignored if autoscaling is enabled
   replicaCount: 1
 
   # requests MUST be specified if using an HPA, otherwise the HPA will not know when to trigger a scale event
@@ -109,10 +110,12 @@ server:
     requests:
       cpu: 500m
       memory: 512Mi
+      # ephemeral-storage:
     # -- the requested limits for the server container
     limits:
       cpu: "1"
       memory: 1Gi
+      # ephemeral-storage:
 
   # ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
   livenessProbe:
@@ -142,7 +145,7 @@ server:
       # -- The minimum consecutive successes required to consider the probe successful.
       successThreshold: 1
 
-  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
+  # ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
   podSecurityContext:
     # -- set server pod's security context runAsUser
     runAsUser: 1001
@@ -156,7 +159,7 @@ server:
       # -- in case of Localhost value in seccompProfile.type, set seccompProfile.localhostProfile value below
       # localhostProfile: /my-path.json
 
-  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
+  # ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
   containerSecurityContext:
     # -- set server containers' security context runAsUser
     runAsUser: 1001
@@ -169,23 +172,33 @@ server:
     # -- set server container's security context capabilities
     capabilities: {}
 
-  ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+  # ref: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+  # -- Specifies the strategy used to replace old Pods by new ones. Type can be "Recreate" or "RollingUpdate".
+  # Setting this to "Recreate" is useful when database is on a mounted volume that can only be attached to a single node at a time.
+  updateStrategy:
+    type: RollingUpdate
+    # example RollingUpdate options
+    # rollingUpdate:
+    #   maxUnavailable: "1"
+    #   maxSurge: "25%"
+
+  # ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
   # -- extra labels for server pod
   podLabels: {}
 
-  ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
+  # ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
   # -- extra annotations for server pod
   podAnnotations: {}
 
-  ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+  # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
   # -- affinity for server pods assignment
   affinity: {}
 
-  ## ref: https://kubernetes.io/docs/user-guide/node-selection/
+  # ref: https://kubernetes.io/docs/user-guide/node-selection/
   # -- node labels for server pods assignment
   nodeSelector: {}
 
-  ## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+  # ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
   # -- tolerations for server pods assignment
   tolerations: []
 
@@ -207,9 +220,58 @@ server:
   # -- array with extra Arguments for the server container to start with
   extraArgs: []
 
+## Database Migration Configuration
+migrations:
+  # -- enable automatic database migrations during chart upgrades
+  enabled: true
+  # -- commands to run for database migrations (default: prefect server database upgrade -y)
+  command: |
+    prefect server database upgrade -y
+  # -- custom container entrypoint for the migration job
+  entrypoint: ["/bin/sh", "-c"]
+  # -- job resources configuration
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi
+  # -- job security context configuration
+  securityContext:
+    runAsUser: 1001
+    runAsNonRoot: true
+    readOnlyRootFilesystem: true
+    allowPrivilegeEscalation: false
+    capabilities: {}
+  # -- job timeout in seconds (default: 300 seconds / 5 minutes)
+  timeoutSeconds: 300
+  # -- job backoff limit (number of retries)
+  backoffLimit: 5
+  # -- job restart policy
+  restartPolicy: Never
+  # -- additional environment variables for the migration job
+  env: []
+  # -- additional volume mounts for the migration job
+  extraVolumeMounts: []
+  # -- additional volumes for the migration job
+  extraVolumes: []
+
+  # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+  # -- affinity for migration job pods assignment
+  affinity: {}
+
+  # ref: https://kubernetes.io/docs/user-guide/node-selection/
+  # -- node labels for migration job pods assignment
+  nodeSelector: {}
+
+  # ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+  # -- tolerations for migration job pods assignment
+  tolerations: []
+
 ## Background Services Deployment Configuration
 backgroundServices:
-  # https://github.com/PrefectHQ/prefect/tree/main/src/prefect/server/services
+  # ref: https://github.com/PrefectHQ/prefect/tree/main/src/prefect/server/services
   # This can help with:
   # - Separate scaling of web server and background services
   # - Independent connection pools for better database management
@@ -221,10 +283,12 @@ backgroundServices:
   # -- priority class name to use for the background-services pods; if the priority class is empty or doesn't exist, the background-services pods are scheduled without a priority class
   priorityClassName: ""
 
-  # -- enable background-services debug mode
+  # ref: https://docs.prefect.io/v3/develop/settings-ref#debug-mode
+  # -- sets PREFECT_DEBUG_MODE
   debug: false
 
-  # sets PREFECT_LOGGING_SERVER_LEVEL
+  # ref: https://docs.prefect.io/v3/develop/settings-ref#logging-level-2
+  # -- sets PREFECT_LOGGING_SERVER_LEVEL
   loggingLevel: WARNING
 
   # see here for a full list of possible environment variables - https://docs.prefect.io/latest/api-ref/prefect/settings/
@@ -233,6 +297,12 @@ backgroundServices:
   ## env:
   ##   - name: PREFECT_API_ENABLE_HTTP2
   ##     value: false
+
+  # -- Custom container command arguments
+  args: []
+
+  # -- Custom container entrypoint
+  command: []
 
   # -- the number of old ReplicaSets to retain to allow rollback
   revisionHistoryLimit: 10
@@ -247,35 +317,7 @@ backgroundServices:
       cpu: "1"
       memory: 1Gi
 
-  # ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
-  livenessProbe:
-    enabled: false
-    config:
-      # -- The number of seconds to wait before starting the first probe.
-      initialDelaySeconds: 10
-      # -- The number of seconds to wait between consecutive probes.
-      periodSeconds: 10
-      # -- The number of seconds to wait for a probe response before considering it as failed.
-      timeoutSeconds: 5
-      # -- The number of consecutive failures allowed before considering the probe as failed.
-      failureThreshold: 3
-      # -- The minimum consecutive successes required to consider the probe successful.
-      successThreshold: 1
-  readinessProbe:
-    enabled: false
-    config:
-      # -- The number of seconds to wait before starting the first probe.
-      initialDelaySeconds: 10
-      # -- The number of seconds to wait between consecutive probes.
-      periodSeconds: 10
-      # -- The number of seconds to wait for a probe response before considering it as failed.
-      timeoutSeconds: 5
-      # -- The number of consecutive failures allowed before considering the probe as failed.
-      failureThreshold: 3
-      # -- The minimum consecutive successes required to consider the probe successful.
-      successThreshold: 1
-
-  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
+  # ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
   podSecurityContext:
     # -- set background-services pod's security context runAsUser
     runAsUser: 1001
@@ -284,7 +326,7 @@ backgroundServices:
     # -- set background-services pod's security context fsGroup
     fsGroup: 1001
 
-  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
+  # ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
   containerSecurityContext:
     # -- set background-services containers' security context runAsUser
     runAsUser: 1001
@@ -297,23 +339,23 @@ backgroundServices:
     # -- set background-services container's security context capabilities
     capabilities: {}
 
-  ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+  # ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
   # -- extra labels for background-services pod
   podLabels: {}
 
-  ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
+  # ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
   # -- extra annotations for background-services pod
   podAnnotations: {}
 
-  ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+  # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
   # -- affinity for background-services pod assignment
   affinity: {}
 
-  ## ref: https://kubernetes.io/docs/user-guide/node-selection/
+  # ref: https://kubernetes.io/docs/user-guide/node-selection/
   # -- node labels for background-services pod assignment
   nodeSelector: {}
 
-  ## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+  # ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
   # -- tolerations for background-services pod assignment
   tolerations: []
 
@@ -341,6 +383,40 @@ backgroundServices:
     # -- additional service account annotations (evaluated as a template)
     annotations: {}
 
+  # Configuration for background service messaging using Redis
+  messaging:
+    # ref: https://docs.prefect.io/v3/api-ref/settings-ref#messaging-broker
+    # -- messaging broker class to use for background services
+    broker: prefect_redis.messaging
+
+    # ref: https://docs.prefect.io/v3/api-ref/settings-ref#messaging-cache
+    # -- messaging cache class to use for background services
+    cache: prefect_redis.messaging
+
+    # -- settings for redis broker/cache
+    # change these if not using the built-in redis subchart
+    redis:
+      # -- redis hostname
+      # if using the built-in redis subchart, this will be automatically set to the redis subchart's service name
+      host: ""
+
+      # -- redis port
+      port: 6379
+
+      # -- redis database number
+      db: 0
+
+      # -- redis username, leave empty to use no authentication
+      # if using the built-in redis subchart, this will be automatically set to the redis subchart's username value
+      username: ""
+
+      # -- redis password, leave empty to use default
+      # if using the built-in redis subchart, this will be automatically set to the redis subchart's password value
+      password: ""
+
+      # -- use TLS for redis connection
+      ssl: false
+
 ## Server Service Account configuration
 serviceAccount:
   # -- specifies whether a service account should be created
@@ -352,6 +428,8 @@ serviceAccount:
 
 ## Service configuration
 service:
+  # -- service port name
+  portName: server-svc-port
   # -- service port
   port: 4200
   # -- target port of the server pod; also sets PREFECT_SERVER_API_PORT
@@ -360,14 +438,14 @@ service:
   nodePort: ""
 
   extraPorts: []
-    # # example extra ports
-    # - name: sample-svc-port
-    #   # -- service port
-    #   port: 8080
-    #   # -- target port
-    #   targetPort: 8080
-    #   # -- service port if defining service as type nodeport
-    #   nodePort: ""
+  # example extra ports
+  # - name: sample-svc-port
+  #   # -- service port
+  #   port: 8080
+  #   # -- target port
+  #   targetPort: 8080
+  #   # -- service port if defining service as type nodeport
+  #   nodePort: ""
 
   # -- service type
   type: ClusterIP
@@ -375,10 +453,10 @@ service:
   clusterIP: ""
 
 
-  ## ref http://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip
+  # ref: http://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip
   # -- service external traffic policy
   externalTrafficPolicy: Cluster
-  ## -- additional custom annotations for server service
+  # -- additional custom annotations for server service
   annotations: {}
 
 # Ingress configuration
@@ -390,7 +468,7 @@ ingress:
   servicePort: server-svc-port
 
   ## This is supported in Kubernetes 1.18+ and required if you have more than one IngressClass marked as the default for your cluster .
-  ## ref: https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/
+  # ref: https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/
   # -- IngressClass that will be used to implement the Ingress (Kubernetes 1.18+)
   className: ""
   host:
@@ -402,7 +480,7 @@ ingress:
     pathType: ImplementationSpecific
 
   ## Use this parameter to set the required annotations for cert-manager, see
-  ## ref: https://cert-manager.io/docs/usage/ingress/#supported-annotations
+  # ref: https://cert-manager.io/docs/usage/ingress/#supported-annotations
   # -- additional annotations for the Ingress resource. To enable certificate autogeneration, place here your cert-manager annotations.
   annotations: {}
   ## annotations:
@@ -433,7 +511,7 @@ ingress:
   ##     serviceName: ssl-redirect
   ##     servicePort: use-annotation
 
-  ## ref: https://kubernetes.io/docs/concepts/services-networking/ingress/#tls
+  # ref: https://kubernetes.io/docs/concepts/services-networking/ingress/#tls
   # -- an array with additional tls configuration to be added to the ingress record
   extraTls: []
   ## extraTls:
@@ -441,7 +519,7 @@ ingress:
   ##     - server.local
   ##   secretName: server.local-tls
 
-  ## ref: https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-rules
+  # ref: https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-rules
   # -- additional rules to be covered with this ingress record
   extraRules: []
   ## extraRules:
@@ -453,6 +531,103 @@ ingress:
   ##           name: example-svc
   ##           port:
   ##             name: http
+
+# Gateway API Configuration
+# ref: https://gateway-api.sigs.k8s.io/
+gateway:
+  # -- enable Gateway API resources (mutually exclusive with ingress)
+  enabled: false
+
+  # -- GatewayClass that will be used to implement the Gateway
+  # This must match an existing GatewayClass in your cluster
+  className: ""
+
+  # -- Gateway resource name (defaults to chart fullname if not set)
+  name: ""
+
+  # -- additional labels for the Gateway resource
+  labels: {}
+
+  # -- additional annotations for the Gateway resource
+  annotations: {}
+
+  # -- Gateway listeners configuration
+  listeners:
+      # -- listener name
+    - name: http
+      # -- listener port
+      port: 80
+      # -- listener protocol (HTTP, HTTPS, TCP, TLS)
+      protocol: HTTP
+      # -- hostname pattern for this listener (e.g., "*.example.com")
+      hostname: ""
+      # -- listener name
+    - name: https
+      # -- listener port
+      port: 443
+      # -- listener protocol
+      protocol: HTTPS
+      # -- hostname pattern for this listener
+      hostname: ""
+      # -- TLS configuration for HTTPS listener
+      tls:
+        # -- TLS mode (Terminate or Passthrough)
+        mode: Terminate
+        # -- certificate references (Secrets containing TLS cert/key)
+        certificateRefs:
+            # -- kind of resource (usually Secret)
+          - kind: Secret
+            # -- name of the Secret (defaults to ingress pattern if not set)
+            name: ""
+            # -- namespace of the Secret (optional, defaults to same namespace)
+            namespace: ""
+
+  # -- infrastructure configuration for Gateway
+  # ref: https://gateway-api.sigs.k8s.io/guides/infrastructure/
+  infrastructure: {}
+
+# HTTPRoute Configuration
+httproute:
+  # -- enable HTTPRoute resource (auto-enabled when gateway.enabled=true)
+  # Can be disabled if you want to create HTTPRoutes manually
+  enabled: true
+
+  # -- HTTPRoute resource name (defaults to chart fullname if not set)
+  name: ""
+
+  # -- additional labels for the HTTPRoute resource
+  labels: {}
+
+  # -- additional annotations for the HTTPRoute resource
+  annotations: {}
+
+  # -- hostnames that this HTTPRoute should match
+  hostnames: []
+
+  # -- path prefix for HTTPRoute matching
+  path: /
+
+  # -- parent Gateway references
+  parentRefs:
+      # -- name of the Gateway to attach to (defaults to gateway.name)
+    - name: ""
+      # -- namespace of the Gateway (optional)
+      namespace: ""
+      # -- specific listener name to attach to (optional, defaults to "https")
+      sectionName: https
+      # -- port number (optional)
+      port: null
+
+  # -- additional HTTPRoute rules (advanced usage)
+  # Will be merged with auto-generated rules
+  extraRules: []
+
+  # -- TLS redirect configuration
+  tls:
+    # -- enable automatic HTTP to HTTPS redirect
+    redirect: false
+    # -- HTTPS port for redirect (defaults to 443)
+    redirectPort: 443
 
 # Secret configuration
 secret:
@@ -504,7 +679,7 @@ postgresql:
     password: prefect-rocks
 
   ## Initdb configuration
-  ## ref: https://github.com/bitnami/containers/tree/main/bitnami/postgresql#specifying-initdb-arguments
+  # ref: https://github.com/bitnami/containers/tree/main/bitnami/postgresql#specifying-initdb-arguments
   primary:
     initdb:
       # -- specify the PostgreSQL username to execute the initdb scripts
@@ -518,6 +693,24 @@ postgresql:
       enabled: false
 
   image:
-    # -- Version tag, corresponds to tags at https://hub.docker.com/r/bitnami/postgresql/
+    # -- Image repository.  Defaults to legacy bitnami repository for postgres 14.13.0 availability.
+    repository: bitnamilegacy/postgresql
+    # -- Version tag, corresponds to tags at https://hub.docker.com/layers/bitnamilegacy/postgresql/
     tag: 14.13.0
+
+# Redis subchart - default overrides
+redis:
+  # -- enable use of bitnami/redis subchart
+  # if backgroundServices.runAsSeparateDeployment=true, you must set this to true or provide your own redis instance
+  enabled: false
+
+  # -- Redis architecture
+  # Note: Prefect currently only supports standalone Redis deployments.
+  architecture: standalone
+
+  image:
+    # -- Image repository.  Defaults to legacy bitnami repository for redis 8.2.1 availability.
+    repository: bitnamilegacy/redis
+    # -- Version tag, corresponds to tags at https://hub.docker.com/r/bitnami/redis/
+    tag: 8.2.1
 

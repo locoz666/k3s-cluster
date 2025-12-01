@@ -24,15 +24,6 @@ worker:
     # -- target memory utilization percentage for scaling the worker
     targetMemoryUtilizationPercentage: 80
 
-  # ref: https://docs.prefect.io/v3/develop/settings-and-profiles#security-settings
-  basicAuth:
-    # -- enable basic auth for the worker, for an administrator/password combination. must be enabled on the server as well
-    enabled: false
-    # -- basic auth credentials in the format admin:<your-password> (no brackets)
-    authString: "admin:pass"
-    # -- name of existing secret containing basic auth credentials. takes precedence over authString. must contain a key `auth-string` with the value of the auth string
-    existingSecret: ""
-
   # -- unique cluster identifier, if none is provided this value will be inferred at time of helm install
   clusterUid: ""
 
@@ -44,14 +35,16 @@ worker:
       # requests:
       #   memory: 256Mi
       #   cpu: 100m
+      #   ephemeral-storage:
       # -- the requested limits for the sync-base-job-template initContainer
       # limits:
       #   memory: 1Gi
       #   cpu: 1000m
+      #   ephemeral-storage:
     ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
     # -- security context for the sync-base-job-template initContainer
     containerSecurityContext:
-      # -- set init containers' security context runAsUser
+      # -- set init containers' security context runAsUser, set to `null` to unset
       runAsUser: 1001
       # -- set init containers' security context runAsNonRoot
       runAsNonRoot: true
@@ -64,13 +57,28 @@ worker:
     # -- additional sidecar containers
     extraContainers: []
 
+  ## ref: https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy
+  # -- optional dns policy for worker deployment
+  dnsPolicy: ""
+
+  ## ref: https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-dns-config
+  dnsConfig:
+    # -- optional list of IP addresses that will be used as dns servers for the Pod
+    nameservers: []
+    # -- optional list of dns search domains for hostname lookup in the Pod
+    searches: []
+    # -- optional list of dns options for the Pod
+    options: []
+    # - name: ndots
+    #   value: "2"
+
   image:
     # -- worker image repository
     repository: prefecthq/prefect
     ## prefect tag is pinned to the latest available image tag at packaging time.  Update the value here to
     ## override pinned tag
     # -- prefect image tag (immutable tags are recommended)
-    prefectTag: 3.2.2-python3.11-kubernetes
+    prefectTag: 3.6.4-python3.11-kubernetes
     # -- worker image pull policy
     pullPolicy: IfNotPresent
     ## Optionally specify an array of imagePullSecrets.
@@ -109,6 +117,8 @@ worker:
     name: null
     # -- maximum number of flow runs to start simultaneously (default: unlimited)
     limit: null
+    # -- the namespace where the jobs would spawn. If unset, spawns in the same namespace as the worker controller. Requires role.namespace to be set with the same value.
+    jobNamespace: null
 
     ##  If unspecified, Prefect will use the default base job template for the given worker type. If the work pool already exists, this will be ignored.
     ## e.g.:
@@ -134,8 +144,8 @@ worker:
       # name: ""
 
   ## connection settings
-  # -- one of 'cloud', 'selfManaged', or 'server'
-  apiConfig: "cloud"
+  # -- one of 'cloud', 'customerManagedCloud', or 'selfHostedServer'
+  apiConfig: cloud
 
   cloudApiConfig:
     # -- prefect account ID
@@ -152,7 +162,7 @@ worker:
     # -- prefect cloud API url; the full URL is constructed as https://cloudUrl/accounts/accountId/workspaces/workspaceId
     cloudUrl: https://api.prefect.cloud/api
 
-  selfManagedCloudApiConfig:
+  customerManagedCloudApiConfig:
     # -- prefect API url (PREFECT_API_URL)
     apiUrl: ""
     # -- prefect account ID
@@ -169,21 +179,26 @@ worker:
     # -- Cloud API url for PREFECT_CLOUD_API_URL
     # -- This is used in self managed cloud instances to congfigure events and logs over websockets
     cloudApiUrl: ""
-    # -- self hosted UI url
-    uiUrl: ""
 
-  serverApiConfig:
+  selfHostedServerApiConfig:
     # If the prefect server is located external to this cluster, set a fully qualified domain name as the apiUrl
     # If the prefect server pod is deployed to this cluster, use the cluster DNS endpoint: http://<prefect-server-service-name>.<namespace>.svc.cluster.local:<prefect-server-port>/api
     # -- prefect API url (PREFECT_API_URL)
     apiUrl: ""
-    # -- prefect UI url
-    uiUrl: http://localhost:4200
+
+    # ref: https://docs.prefect.io/v3/develop/settings-and-profiles#security-settings
+    basicAuth:
+      # -- enable basic auth for the worker, for an administrator/password combination. must be enabled on the server as well
+      enabled: false
+      # -- basic auth credentials in the format admin:<your-password> (no brackets)
+      authString: "admin:pass"
+      # -- name of existing secret containing basic auth credentials. takes precedence over authString. must contain a key `auth-string` with the value of the auth string
+      existingSecret: ""
 
   # -- the number of old ReplicaSets to retain to allow rollback
   revisionHistoryLimit: 10
 
-  # -- number of worker replicas to deploy
+  # -- number of worker replicas to deploy, ignored if autoscaling is enabled
   replicaCount: 1
 
   resources:
@@ -191,10 +206,12 @@ worker:
     requests:
       memory: 256Mi
       cpu: 100m
+      # ephemeral-storage:
     # -- the requested limits for the worker container
     limits:
       memory: 1Gi
       cpu: 1000m
+      # ephemeral-storage:
 
   # ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
   livenessProbe:
@@ -213,11 +230,11 @@ worker:
 
   ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
   podSecurityContext:
-    # -- set worker pod's security context runAsUser
+    # -- set worker pod's security context runAsUser, set to `null` to unset
     runAsUser: 1001
     # -- set worker pod's security context runAsNonRoot
     runAsNonRoot: true
-    # -- set worker pod's security context fsGroup
+    # -- set worker pod's security context fsGroup, set to `null` to unset
     fsGroup: 1001
     # -- set worker pod's seccomp profile
     seccompProfile:
@@ -231,7 +248,7 @@ worker:
 
   ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
   containerSecurityContext:
-    # -- set worker containers' security context runAsUser
+    # -- set worker containers' security context runAsUser, set to `null` to unset
     runAsUser: 1001
     # -- set worker containers' security context runAsNonRoot
     runAsNonRoot: true
@@ -241,6 +258,12 @@ worker:
     allowPrivilegeEscalation: false
     # -- set worker container's security context capabilities
     capabilities: {}
+
+  # -- Custom container command arguments
+  args: []
+
+  # -- Custom container entrypoint
+  command: []
 
   ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
   # -- extra labels for worker pod
@@ -294,6 +317,11 @@ worker:
   # -- array with extra Arguments for the worker container to start with
   extraArgs: []
 
+  # -- Limits the number of Pods of a replicated application that are down simultaneously from voluntary disruptions
+  podDisruptionBudget: {}
+    # maxUnavailable: 1
+    # minAvailable: 1
+
 ## ServiceAccount configuration
 serviceAccount:
   # -- specifies whether a ServiceAccount should be created
@@ -307,6 +335,8 @@ serviceAccount:
 role:
   # -- specifies whether a Role should be created
   create: true
+  # -- the namespace to deploy the role to. If not provided, deploys to the same namespace as the worker
+  namespace: null
   ## List of extra role permissions
   ## e.g:
   ## extraPermissions:

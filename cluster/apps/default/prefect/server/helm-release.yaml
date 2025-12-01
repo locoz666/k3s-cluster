@@ -19,15 +19,14 @@ spec:
         name: prefecthq
         namespace: flux-system
   values:
-    global:
-      prefect:
-        image:
-          repository: prefecthq/prefect
-          prefectTag: 3.1.12-python3.12
-        prefectApiUrl: "https://prefect.${SECRET_DOMAIN}/api"
+    server:
+      uiConfig:
+        prefectUiApiUrl: "https://prefect.${SECRET_DOMAIN}/api"
     ingress:
       enabled: true
       className: "traefik"
+      annotations:
+        traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
       host:
         hostname: "prefect.${SECRET_DOMAIN}"
       tls: true
