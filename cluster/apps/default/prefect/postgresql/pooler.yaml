@@ -1,0 +1,28 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Pooler
+metadata:
+  name: prefect-postgresql-pooler-rw
+  namespace: juicefs-system
+spec:
+  cluster:
+    name: prefect-postgresql
+  instances: 1
+  type: rw
+  serviceTemplate:
+    metadata:
+      name: prefect-postgresql-lb
+      labels:
+        app.kubernetes.io/name: prefect-postgresql-pooler-rw
+        cnpg.io/cluster: prefect-postgresql
+    spec:
+      type: ClusterIP
+      ports:
+        - name: pgbouncer
+          port: 5432
+          targetPort: pgbouncer
+  pgbouncer:
+    poolMode: transaction
+    parameters:
+      max_client_conn: "500"
+      default_pool_size: "40"

@@ -1,0 +1,64 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: prefect-postgresql
+spec:
+  instances: 1
+  primaryUpdateStrategy: unsupervised
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.1
+  storage:
+    size: 30Gi
+    storageClass: ceph-application-high-performance
+  walStorage:
+    size: 10Gi
+    storageClass: ceph-application-high-performance
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "512Mi"
+    limits:
+      cpu: "4"
+      memory: "4Gi"
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: prefect-postgresql-superuser
+  bootstrap:
+    initdb:
+      database: prefect
+      owner: prefect
+      secret:
+        name: prefect-postgresql-user-prefect-owner
+      dataChecksums: true
+      postInitApplicationSQL:
+      - "CREATE EXTENSION IF NOT EXISTS pg_trgm;"
+  postgresql:
+    parameters:
+      max_connections: "120"
+      shared_buffers: "1GB"
+      effective_cache_size: "3GB"
+      work_mem: "16MB"
+      maintenance_work_mem: "128MB"
+      wal_level: "replica"
+      max_wal_senders: "10"
+      max_replication_slots: "10"
+      max_wal_size: "4GB"
+      min_wal_size: "1GB"
+      wal_compression: "on"
+      wal_buffers: "16MB"
+      checkpoint_timeout: "15min"
+      checkpoint_completion_target: "0.9"
+      effective_io_concurrency: "256"
+      random_page_cost: "1.1"
+      synchronous_commit: "on"
+      autovacuum_vacuum_scale_factor: "0.05"
+      autovacuum_analyze_scale_factor: "0.05"
+      autovacuum_vacuum_cost_limit: "3000"
+      autovacuum_vacuum_cost_delay: "5ms"
+      autovacuum_vacuum_threshold: "50"
+      autovacuum_analyze_threshold: "50"
+      log_min_duration_statement: "1000"
+      idle_in_transaction_session_timeout: "300000"
+    pg_hba:
+      - host prefect prefect 192.168.0.0/16 scram-sha-256
+  logLevel: info

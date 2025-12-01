@@ -5,4 +5,4 @@ metadata:
   name: prefect-server-postgresql-connection
 type: Opaque
 stringData:
-  connection-string: "postgresql+asyncpg://prefect:${SECRRT_PREFECT_POSTGRESQL_PASSWORD}@prefect-postgresql:5432/prefect"
+  connection-string: "postgresql+asyncpg://prefect:${SECRET_PREFECT_POSTGRESQL_PASSWORD}@prefect-postgresql-pooler-rw:5432/prefect"
