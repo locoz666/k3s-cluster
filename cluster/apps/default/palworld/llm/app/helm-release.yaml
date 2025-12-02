@@ -21,7 +21,7 @@ spec:
   values:
     image:
       repository: "thijsvanloef/palworld-server-docker"
-      tag: "v2.0"
+      tag: "v2.1"
 
     env:
       TZ: "Asia/Shanghai"
