@@ -131,7 +131,7 @@ spec:
             memory: "1Gi"
 
       # 当OSD被标记为out且安全可移除时，允许Rook自动清理
-      removeOSDsIfOutAndSafeToRemove: true
+      removeOSDsIfOutAndSafeToRemove: false
 
       # 设置需要添加到Ceph集群中的硬盘，以及OSD的初始化设置
       storage:
