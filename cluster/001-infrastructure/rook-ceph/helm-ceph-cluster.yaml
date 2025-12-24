@@ -130,6 +130,9 @@ spec:
             # 在节点内存冗余量小，且OSD较多的情况下，需要确保留有OSD内存膨胀的空间
             memory: "1Gi"
 
+      # 当OSD被标记为out且安全可移除时，允许Rook自动清理
+      removeOSDsIfOutAndSafeToRemove: true
+
       # 设置需要添加到Ceph集群中的硬盘，以及OSD的初始化设置
       storage:
         # 关闭自动在所有节点和所有磁盘上寻找空白盘并添加为OSD的操作，改为手动配置方式添加
@@ -190,11 +193,6 @@ spec:
                 config:
                   deviceClass: "hdd"
                   metadataDevice: "/dev/ceph-osd-db/osd-db-scsi-SATA_ST6000NM0115-1YZ_ZAD41FWR"
-                  databaseSizeMB: "30720"  # 30GB
-              - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD463ZF"
-                config:
-                  deviceClass: "hdd"
-                  metadataDevice: "/dev/ceph-osd-db/osd-db-scsi-SATA_ST6000NM0115-1YZ_ZAD463ZF"
                   databaseSizeMB: "30720"  # 30GB
               - name: "/dev/disk/by-id/scsi-SATA_ST6000NM0115-1YZ_ZAD6XBFD"
                 config:
