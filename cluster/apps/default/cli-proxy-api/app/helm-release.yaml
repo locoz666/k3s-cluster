@@ -40,6 +40,12 @@ spec:
           http:
             port: 8317
             protocol: HTTP
+          gemini-callback:
+            port: 8085
+            protocol: HTTP
+          openai-callback:
+            port: 1455
+            protocol: HTTP
 
     ingress:
       main:
@@ -54,10 +60,26 @@ spec:
                 service:
                   identifier: main
                   port: http
+          - host: "cli-proxy-api-gemini.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: gemini-callback
+          - host: "cli-proxy-api-openai.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: openai-callback
         tls:
           - secretName: "${SECRET_DOMAIN/./-}-tls"
             hosts:
               - "cli-proxy-api.${SECRET_DOMAIN}"
+              - "cli-proxy-api-gemini.${SECRET_DOMAIN}"
+              - "cli-proxy-api-openai.${SECRET_DOMAIN}"
 
     configMaps:
       config:
@@ -79,7 +101,7 @@ spec:
     persistence:
       config:
         type: configMap
-        name: "{{ .Release.Name }}-config"
+        name: "{{ .Release.Name }}"
         advancedMounts:
           main:
             cli-proxy-api:
