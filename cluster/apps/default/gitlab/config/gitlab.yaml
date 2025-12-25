@@ -31,7 +31,7 @@ spec:
             enabled: true
       minio:
         persistence:
-          size: 100Gi
+          size: 200Gi
       installCertmanager: false
       nginx-ingress:
         enabled: false  # 不让gitlab单独部署ingress，直接使用公共的ingress
