@@ -1,0 +1,165 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: happy-coder-cli-daemon
+spec:
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 4.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  values:
+    controllers:
+      main:
+        type: deployment
+        replicas: 1
+        strategy: RollingUpdate
+        pod:
+          affinity:
+            nodeAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+                - weight: 100
+                  preference:
+                    matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - home-server-power
+                - weight: 50
+                  preference:
+                    matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - home-server-titan
+                - weight: 25
+                  preference:
+                    matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - home-server-sonic
+                - weight: 10
+                  preference:
+                    matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - home-server-nut
+        containers:
+          dev-container:
+            image:
+              repository: "registry-gitlab.${SECRET_DOMAIN}/loco/dev-container"
+              tag: "1766642108"
+              pullPolicy: IfNotPresent
+            env:
+              TZ: "Asia/Shanghai"
+            command:
+              - /tini
+              - --
+            args:
+              - /bin/bash
+              - -c
+              - |
+                happy daemon start &
+                exec /usr/local/bin/init.sh
+
+    service:
+      main:
+        enabled: false
+
+    ingress:
+      main:
+        enabled: false
+
+    persistence:
+      shared-data:
+        existingClaim: "dev-container-shared-data"
+        advancedMounts:
+          main:
+            dev-container:
+              - path: "/shared_data"
+                readOnly: false
+      code-data:
+        existingClaim: "dev-container-code-data"
+        advancedMounts:
+          main:
+            dev-container:
+              - path: "/root/code"
+                readOnly: false
+      nextcloud-loco:
+        type: hostPath
+        hostPath: "/mnt/nextcloud-loco"
+        advancedMounts:
+          main:
+            dev-container:
+              - path: "/mnt/nextcloud-loco"
+                readOnly: false
+      nextcloud-xpd:
+        type: hostPath
+        hostPath: "/mnt/nextcloud-xpd"
+        advancedMounts:
+          main:
+            dev-container:
+              - path: "/mnt/nextcloud-xpd"
+                readOnly: false
+      # 共享PVC
+      other-files:
+        existingClaim: "other-files"
+        advancedMounts:
+          main:
+            dev-container:
+              - path: "/mnt/pvc/other-files"
+                readOnly: false
+      personal-files:
+        existingClaim: "personal-files"
+        advancedMounts:
+          main:
+            dev-container:
+              - path: "/mnt/pvc/personal-files"
+                readOnly: false
+      entertainment-media-ec-files:
+        existingClaim: "entertainment-media-ec-files"
+        advancedMounts:
+          main:
+            dev-container:
+              - path: "/mnt/pvc/entertainment-media-ec-files"
+                readOnly: false
+      live-record-ec-files:
+        existingClaim: "live-record-ec-files"
+        advancedMounts:
+          main:
+            dev-container:
+              - path: "/mnt/pvc/live-record-ec-files"
+                readOnly: false
+      entertainment-media-files:
+        existingClaim: "entertainment-media-files"
+        advancedMounts:
+          main:
+            dev-container:
+              - path: "/mnt/pvc/entertainment-media-files"
+                readOnly: false
+      live-record-files:
+        existingClaim: "live-record-files"
+        advancedMounts:
+          main:
+            dev-container:
+              - path: "/mnt/pvc/live-record-files"
+                readOnly: false
+      personal-media-files:
+        existingClaim: "personal-media-files"
+        advancedMounts:
+          main:
+            dev-container:
+              - path: "/mnt/pvc/personal-media-files"
+                readOnly: false
