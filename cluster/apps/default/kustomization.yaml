@@ -49,6 +49,7 @@ resources:
   - ./jackett/ks.yaml
   - ./jellyseerr/ks.yaml
   - ./jproxy/ks.yaml
+  - ./cli-proxy-api/ks.yaml
   - ./lidarr/ks.yaml
   - ./qbittorrent/ks.yaml
   - ./radarr/ks.yaml

@@ -1,0 +1,94 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cli-proxy-api
+spec:
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 4.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  values:
+    controllers:
+      main:
+        type: deployment
+        replicas: 1
+        containers:
+          cli-proxy-api:
+            image:
+              repository: eceasy/cli-proxy-api
+              tag: v6.6.53
+            env:
+              TZ: Asia/Shanghai
+
+    service:
+      main:
+        controller: main
+        type: ClusterIP
+        ports:
+          http:
+            port: 8317
+            protocol: HTTP
+
+    ingress:
+      main:
+        className: "traefik"
+        annotations:
+          traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
+        hosts:
+          - host: "cli-proxy-api.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: http
+        tls:
+          - secretName: "${SECRET_DOMAIN/./-}-tls"
+            hosts:
+              - "cli-proxy-api.${SECRET_DOMAIN}"
+
+    configMaps:
+      config:
+        data:
+          config.yaml: |
+            port: 8317
+            remote-management:
+              allow-remote: false
+              secret-key: ""
+              disable-control-panel: false
+            auth-dir: "/root/.cli-proxy-api"
+            api-keys: [
+              "${SECRET_CLI_PROXY_API_API_KEY}"
+            ]
+            logging-to-file: false
+            usage-statistics-enabled: false
+            ws-auth: false
+
+    persistence:
+      config:
+        type: configMap
+        name: "{{ .Release.Name }}-config"
+        advancedMounts:
+          main:
+            cli-proxy-api:
+              - path: /CLIProxyAPI/config.yaml
+                subPath: config.yaml
+                readOnly: true
+      auth:
+        existingClaim: cli-proxy-api-auth
+        advancedMounts:
+          main:
+            cli-proxy-api:
+              - path: /root/.cli-proxy-api
