@@ -76,7 +76,7 @@ spec:
           config.yaml: |
             port: 8317
             remote-management:
-              allow-remote: false
+              allow-remote: true
               secret-key: "${SECRET_CLI_PROXY_API_API_KEY}"
               disable-control-panel: false
             auth-dir: "/root/.cli-proxy-api"
