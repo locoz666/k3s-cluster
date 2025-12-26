@@ -84,7 +84,7 @@ spec:
               "${SECRET_CLI_PROXY_API_API_KEY}"
             ]
             logging-to-file: false
-            usage-statistics-enabled: false
+            usage-statistics-enabled: true
             ws-auth: false
 
     persistence:
