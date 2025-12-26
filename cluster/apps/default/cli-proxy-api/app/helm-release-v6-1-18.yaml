@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: cli-proxy-api
+  name: cli-proxy-api-v6-1-18
 spec:
   interval: 5m
   timeout: 30m
@@ -28,7 +28,7 @@ spec:
           cli-proxy-api:
             image:
               repository: eceasy/cli-proxy-api
-              tag: v6.6.53
+              tag: v6.1.18
             env:
               TZ: Asia/Shanghai
 
@@ -40,9 +40,6 @@ spec:
           http:
             port: 8317
             protocol: HTTP
-          gemini-callback:
-            port: 8085
-            protocol: HTTP
 
     ingress:
       main:
@@ -50,25 +47,17 @@ spec:
         annotations:
           traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
         hosts:
-          - host: "cli-proxy-api.${SECRET_DOMAIN}"
+          - host: "cli-proxy-api-v6-1-18.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
                 service:
                   identifier: main
                   port: http
-          - host: "cli-proxy-api-gemini.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  identifier: main
-                  port: gemini-callback
         tls:
           - secretName: "${SECRET_DOMAIN/./-}-tls"
             hosts:
-              - "cli-proxy-api.${SECRET_DOMAIN}"
-              - "cli-proxy-api-gemini.${SECRET_DOMAIN}"
+              - "cli-proxy-api-v6-1-18.${SECRET_DOMAIN}"
 
     configMaps:
       config:
@@ -86,20 +75,6 @@ spec:
             logging-to-file: false
             usage-statistics-enabled: true
             ws-auth: false
-            openai-compatibility:
-              - name: "cli-proxy-api-v6-1-18"
-                base-url: "http://cli-proxy-api-v6-1-18:8317/v1"
-                api-key-entries:
-                  - api-key: "${SECRET_CLI_PROXY_API_API_KEY}"
-                models:
-                  - name: "gemini-2.5-flash-image-web"
-                    alias: "gemini-2.5-flash-image"
-                  - name: "gemini-2.5-flash-image-preview-web"
-                    alias: "gemini-2.5-flash-image-preview"
-                  - name: "gemini-2.5-flash-web"
-                    alias: "gemini-2.5-flash"
-                  - name: "gemini-2.5-pro-web"
-                    alias: "gemini-2.5-pro"
 
     persistence:
       config:
@@ -112,7 +87,7 @@ spec:
                 subPath: config.yaml
                 readOnly: true
       auth:
-        existingClaim: cli-proxy-api-auth
+        existingClaim: cli-proxy-api-v6-1-18-auth
         advancedMounts:
           main:
             cli-proxy-api:

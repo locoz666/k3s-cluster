@@ -3,4 +3,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - auth-pvc.yaml
+  - auth-pvc-v6-1-18.yaml
   - helm-release.yaml
+  - helm-release-v6-1-18.yaml
