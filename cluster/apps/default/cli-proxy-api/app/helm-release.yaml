@@ -86,20 +86,6 @@ spec:
             logging-to-file: false
             usage-statistics-enabled: true
             ws-auth: false
-            openai-compatibility:
-              - name: "cli-proxy-api-v6-1-18"
-                base-url: "http://cli-proxy-api-v6-1-18:8317/v1"
-                api-key-entries:
-                  - api-key: "${SECRET_CLI_PROXY_API_API_KEY}"
-                models:
-                  - name: "gemini-2.5-flash-image-web"
-                    alias: "gemini-2.5-flash-image"
-                  - name: "gemini-2.5-flash-image-preview-web"
-                    alias: "gemini-2.5-flash-image-preview"
-                  - name: "gemini-2.5-flash-web"
-                    alias: "gemini-2.5-flash"
-                  - name: "gemini-2.5-pro-web"
-                    alias: "gemini-2.5-pro"
 
     persistence:
       config:
