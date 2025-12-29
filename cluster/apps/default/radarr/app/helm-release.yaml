@@ -28,7 +28,7 @@ spec:
           radarr:
             image:
               repository: linuxserver/radarr
-              tag: 6.1.0-nightly
+              tag: 6.1.1-nightly
             env:
               TZ: Asia/Shanghai
               PUID: "1000"
