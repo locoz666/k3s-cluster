@@ -64,7 +64,7 @@ spec:
     spec:
       serviceAccountName: mc-router
       containers:
-        - image: itzg/mc-router:1.38.2
+        - image: itzg/mc-router:1.39.0
           name: mc-router
           args: [ "--api-binding", ":8080", "--in-kube-cluster" ]
           ports:
