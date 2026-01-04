@@ -1,0 +1,92 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: searxng
+spec:
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 4.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  values:
+    controllers:
+      main:
+        type: deployment
+        replicas: 1
+        containers:
+          searxng:
+            image:
+              repository: searxng/searxng
+              tag: 2026.1.2-3d88876a3@sha256:472dd0c84b8e2a05bca773b4a430b9fc9e4e92cd4fa0afaa223efab925ab752a
+            env:
+              TZ: Asia/Shanghai
+
+    service:
+      main:
+        controller: main
+        type: ClusterIP
+        ports:
+          http:
+            port: 8080
+            protocol: HTTP
+
+    ingress:
+      main:
+        className: "traefik"
+        annotations:
+          traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
+        hosts:
+          - host: "searxng.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: http
+        tls:
+          - secretName: "${SECRET_DOMAIN/./-}-tls"
+            hosts:
+              - "searxng.${SECRET_DOMAIN}"
+
+    configMaps:
+      config:
+        data:
+          settings.yml: |
+            use_default_settings: true
+            search:
+              formats:
+                - html
+                - json
+            server:
+              secret_key: "${SECRET_SEARXNG_SECRET}"
+              base_url: "https://searxng.${SECRET_DOMAIN}/"
+              bind_address: "0.0.0.0"
+              port: 8080
+
+    persistence:
+      config:
+        type: configMap
+        name: "{{ .Release.Name }}"
+        advancedMounts:
+          main:
+            searxng:
+              - path: /etc/searxng/settings.yml
+                subPath: settings.yml
+                readOnly: true
+      cache:
+        existingClaim: searxng-cache
+        advancedMounts:
+          main:
+            searxng:
+              - path: /var/cache/searxng

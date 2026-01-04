@@ -50,6 +50,7 @@ resources:
   - ./jellyseerr/ks.yaml
   - ./jproxy/ks.yaml
   - ./cli-proxy-api/ks.yaml
+  - ./searxng/ks.yaml
   - ./lidarr/ks.yaml
   - ./mcpo/ks.yaml
   - ./qbittorrent/ks.yaml
