@@ -1,0 +1,24 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: new-api-postgresql
+spec:
+  instances: 1
+  primaryUpdateStrategy: unsupervised
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.1
+  storage:
+    size: 10Gi
+    storageClass: ceph-application-high-performance
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: new-api-db-superuser
+  bootstrap:
+    initdb:
+      database: new_api
+      owner: new_api
+      secret:
+        name: new-api-db-app-user
+      dataChecksums: true
+  monitoring:
+    enablePodMonitor: true
