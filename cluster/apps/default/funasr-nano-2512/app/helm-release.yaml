@@ -1,0 +1,78 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: funasr-nano-2512
+spec:
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 4.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  values:
+    controllers:
+      main:
+        type: deployment
+        replicas: 1
+        pod:
+          imagePullSecrets:
+            - name: funasr-nano-2512-registry
+        containers:
+          main:
+            image:
+              repository: registry-gitlab.${SECRET_DOMAIN}/loco/funasr-nano-2512-service
+              tag: "3ec33018"
+            env:
+              TZ: Asia/Shanghai
+
+    service:
+      main:
+        controller: main
+        type: ClusterIP
+        ports:
+          http:
+            port: 8000
+            targetPort: 8000
+            protocol: HTTP
+
+    ingress:
+      main:
+        className: "traefik"
+        annotations:
+          traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
+        hosts:
+          - host: "funasr-nano-2512.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: http
+        tls:
+          - secretName: "${SECRET_DOMAIN/./-}-tls"
+            hosts:
+              - "funasr-nano-2512.${SECRET_DOMAIN}"
+
+    persistence:
+      model-cache:
+        existingClaim: funasr-nano-2512-model-cache
+        advancedMounts:
+          main:
+            main:
+              - path: /opt/model-cache
+      asr-uploads:
+        existingClaim: funasr-nano-2512-asr-uploads
+        advancedMounts:
+          main:
+            main:
+              - path: /tmp/asr-uploads
