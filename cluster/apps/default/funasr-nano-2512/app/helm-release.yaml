@@ -31,7 +31,7 @@ spec:
           main:
             image:
               repository: registry-gitlab.${SECRET_DOMAIN}/loco/funasr-nano-2512-service
-              tag: "3ec33018"
+              tag: "85c694be"
             env:
               TZ: Asia/Shanghai
 
