@@ -1,0 +1,78 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: funasr-forced-alignment
+spec:
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 4.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  values:
+    controllers:
+      main:
+        type: deployment
+        replicas: 1
+        pod:
+          imagePullSecrets:
+            - name: funasr-forced-alignment-registry
+        containers:
+          main:
+            image:
+              repository: registry-gitlab.${SECRET_DOMAIN}/loco/funasr-forced-alignment-service
+              tag: "01bc7689"
+            env:
+              TZ: Asia/Shanghai
+
+    service:
+      main:
+        controller: main
+        type: ClusterIP
+        ports:
+          http:
+            port: 8000
+            targetPort: 8000
+            protocol: HTTP
+
+    ingress:
+      main:
+        className: "traefik"
+        annotations:
+          traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
+        hosts:
+          - host: "funasr-forced-alignment.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: http
+        tls:
+          - secretName: "${SECRET_DOMAIN/./-}-tls"
+            hosts:
+              - "funasr-forced-alignment.${SECRET_DOMAIN}"
+
+    persistence:
+      model-cache:
+        existingClaim: funasr-forced-alignment-model-cache
+        advancedMounts:
+          main:
+            main:
+              - path: /opt/model-cache
+      fa-uploads:
+        existingClaim: funasr-forced-alignment-fa-uploads
+        advancedMounts:
+          main:
+            main:
+              - path: /tmp/fa-uploads

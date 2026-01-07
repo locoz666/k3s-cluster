@@ -34,6 +34,7 @@ resources:
   - ./wechat/ks.yaml
   - ./qq/ks.yaml
   - ./funasr/ks.yaml
+  - ./funasr-forced-alignment/ks.yaml
 
   - ./mongodb/ks.yaml
   - ./rabbitmq/ks.yaml
