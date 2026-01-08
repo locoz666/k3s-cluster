@@ -4,6 +4,7 @@ kind: HelmRelease
 metadata:
   name: fun-cosyvoice3-0-5b-2512
 spec:
+  maxHistory: 1
   interval: 5m
   timeout: 30m
   install:

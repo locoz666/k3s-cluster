@@ -5,6 +5,7 @@ metadata:
   name: nvidia-gpu-operator
   namespace: gpu-operator
 spec:
+  maxHistory: 1
   interval: 5m
   timeout: 30m
   install:

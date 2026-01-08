@@ -4,6 +4,7 @@ kind: HelmRelease
 metadata:
   name: douyin-live-recorder
 spec:
+  maxHistory: 1
   interval: 5m
   timeout: 30m
   install:

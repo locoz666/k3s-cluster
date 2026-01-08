@@ -4,6 +4,7 @@ kind: HelmRelease
 metadata:
   name: minecraft-evolution-of-the-ages-2
 spec:
+  maxHistory: 1
   interval: 5m
   timeout: 30m
   install:

@@ -5,6 +5,7 @@ metadata:
   name: cert-manager
   namespace: cert-manager
 spec:
+  maxHistory: 1
   interval: 5m
   timeout: 30m
   install:

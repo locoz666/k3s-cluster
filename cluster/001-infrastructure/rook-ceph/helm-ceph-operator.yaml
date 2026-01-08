@@ -5,6 +5,7 @@ metadata:
   name: rook-ceph
   namespace: rook-ceph
 spec:
+  maxHistory: 1
   interval: 5m
   timeout: 30m
   install:

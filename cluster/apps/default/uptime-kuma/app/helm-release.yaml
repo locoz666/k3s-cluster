@@ -4,6 +4,7 @@ kind: HelmRelease
 metadata:
   name: uptime-kuma
 spec:
+  maxHistory: 1
   interval: 5m
   timeout: 30m
   install:
@@ -67,4 +68,3 @@ spec:
 
     strategy:
       type: Recreate
-

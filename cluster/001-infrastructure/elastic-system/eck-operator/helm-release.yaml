@@ -5,6 +5,7 @@ metadata:
   name: elastic-operator
   namespace: elastic-system
 spec:
+  maxHistory: 1
   interval: 5m
   timeout: 30m
   install:

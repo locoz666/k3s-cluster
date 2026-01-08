@@ -4,6 +4,7 @@ kind: HelmRelease
 metadata:
   name: dell-idrac-fan-controller-xpd
 spec:
+  maxHistory: 1
   interval: 5m
   timeout: 30m
   install:

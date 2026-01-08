@@ -4,6 +4,7 @@ kind: OCIRepository
 metadata:
   name: n8n
 spec:
+  maxHistory: 1
   interval: 5m
   layerSelector:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip

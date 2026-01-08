@@ -5,6 +5,7 @@ metadata:
   name: kube-prometheus-stack
   namespace: monitoring-system
 spec:
+  maxHistory: 1
   interval: 5m
   timeout: 30m
   install:
