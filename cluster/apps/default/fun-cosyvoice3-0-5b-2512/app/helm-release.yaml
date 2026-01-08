@@ -32,7 +32,7 @@ spec:
           main:
             image:
               repository: registry-gitlab.${SECRET_DOMAIN}/loco/fun-cosyvoice3-0-5b-2512-service
-              tag: "46076b88"
+              tag: "fd511fe4"
             env:
               TZ: Asia/Shanghai
 
