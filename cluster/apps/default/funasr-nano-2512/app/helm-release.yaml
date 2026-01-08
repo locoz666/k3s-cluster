@@ -75,6 +75,11 @@ spec:
               tag: "85c694be"
             env:
               TZ: Asia/Shanghai
+            resources:
+              requests:
+                memory: 4.5Gi
+              limits:
+                memory: 6Gi
 
     service:
       main:

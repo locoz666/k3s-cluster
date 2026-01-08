@@ -75,6 +75,11 @@ spec:
               tag: "01bc7689"
             env:
               TZ: Asia/Shanghai
+            resources:
+              requests:
+                memory: 1Gi
+              limits:
+                memory: 2Gi
 
     service:
       main:

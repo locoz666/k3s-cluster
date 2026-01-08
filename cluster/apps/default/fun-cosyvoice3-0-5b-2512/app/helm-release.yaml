@@ -75,6 +75,11 @@ spec:
               tag: "fd511fe4"
             env:
               TZ: Asia/Shanghai
+            resources:
+              requests:
+                memory: 9.5Gi
+              limits:
+                memory: 12Gi
 
     service:
       main:
