@@ -62,7 +62,7 @@ spec:
           dev-container:
             image:
               repository: "registry-gitlab.${SECRET_DOMAIN}/loco/dev-container"
-              tag: "1767597047"
+              tag: "f4d03307"
               pullPolicy: IfNotPresent
             env:
               TZ: "Asia/Shanghai"
