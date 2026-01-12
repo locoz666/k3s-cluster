@@ -37,6 +37,7 @@ resources:
   - ./funasr-forced-alignment/ks.yaml
   - ./fun-cosyvoice3-0-5b-2512/ks.yaml
   - ./funasr-nano-2512/ks.yaml
+  - ./dev-container/ks.yaml
 
   - ./mongodb/ks.yaml
   - ./rabbitmq/ks.yaml
