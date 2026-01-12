@@ -57,6 +57,8 @@ spec:
                         operator: In
                         values:
                           - home-server-nut
+          imagePullSecrets:
+            - name: dev-container-registry
         containers:
           dev-container:
             image:
