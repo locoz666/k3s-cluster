@@ -68,8 +68,10 @@ spec:
               TZ: "Asia/Shanghai"
             resources:
               requests:
+                cpu: 10m
                 memory: 16Gi
               limits:
+                cpu: 16
                 memory: 32Gi
 
     service:
