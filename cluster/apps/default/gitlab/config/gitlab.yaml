@@ -5,7 +5,7 @@ metadata:
   name: gitlab
 spec:
   chart:
-    version: "9.4.3"
+    version: "9.5.1"
     values:
       global:
         time_zone: Asia/Shanghai
