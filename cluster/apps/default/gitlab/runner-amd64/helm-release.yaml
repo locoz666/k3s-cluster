@@ -33,6 +33,29 @@ spec:
             "node-role.kubernetes.io/gitlab-runner" = ""
             "kubernetes.io/arch" = "amd64"
             "kubernetes.io/os" = "linux"
+          [runners.kubernetes.affinity]
+            [runners.kubernetes.affinity.node_affinity]
+              [[runners.kubernetes.affinity.node_affinity.preferred_during_scheduling_ignored_during_execution]]
+                weight = 100
+                [runners.kubernetes.affinity.node_affinity.preferred_during_scheduling_ignored_during_execution.preference]
+                  [[runners.kubernetes.affinity.node_affinity.preferred_during_scheduling_ignored_during_execution.preference.match_expressions]]
+                    key = "kubernetes.io/hostname"
+                    operator = "In"
+                    values = ["home-server-power"]
+              [[runners.kubernetes.affinity.node_affinity.preferred_during_scheduling_ignored_during_execution]]
+                weight = 50
+                [runners.kubernetes.affinity.node_affinity.preferred_during_scheduling_ignored_during_execution.preference]
+                  [[runners.kubernetes.affinity.node_affinity.preferred_during_scheduling_ignored_during_execution.preference.match_expressions]]
+                    key = "kubernetes.io/hostname"
+                    operator = "In"
+                    values = ["home-server-titan"]
+              [[runners.kubernetes.affinity.node_affinity.preferred_during_scheduling_ignored_during_execution]]
+                weight = 25
+                [runners.kubernetes.affinity.node_affinity.preferred_during_scheduling_ignored_during_execution.preference]
+                  [[runners.kubernetes.affinity.node_affinity.preferred_during_scheduling_ignored_during_execution.preference.match_expressions]]
+                    key = "kubernetes.io/hostname"
+                    operator = "In"
+                    values = ["home-server-sonic"]
           [runners.cache]
             Type = "s3"
             Path = "gitlab-runner"
