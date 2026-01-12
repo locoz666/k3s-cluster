@@ -2,13 +2,22 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: tyan-pch-thermal-controller
+  name: &app tyan-pch-thermal-controller
   namespace: flux-system
 spec:
-  interval: 10m
+  targetNamespace: default
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
   path: ./cluster/apps/default/tyan-pch-thermal-controller/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
   wait: false
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+  postBuild:
+    substitute:
+      APP: *app
