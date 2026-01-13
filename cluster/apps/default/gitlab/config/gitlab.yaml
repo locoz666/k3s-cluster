@@ -32,6 +32,10 @@ spec:
       minio:
         persistence:
           size: 200Gi
+      postgresql:
+        primary:
+          extendedConfiguration: |
+            max_connections = 300
       # 固定 registry 副本数，避免 HPA 频繁扩缩容
       registry:
         hpa:
