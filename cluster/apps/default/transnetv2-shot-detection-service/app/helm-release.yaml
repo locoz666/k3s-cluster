@@ -1,0 +1,118 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: transnetv2-shot-detection-service
+spec:
+  maxHistory: 1
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 4.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  values:
+    controllers:
+      main:
+        type: deployment
+        replicas: 1
+        pod:
+          imagePullSecrets:
+            - name: transnetv2-shot-detection-service-registry
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchLabels:
+                      app.kubernetes.io/instance: transnetv2-shot-detection-service
+                      app.kubernetes.io/name: transnetv2-shot-detection-service
+                  topologyKey: kubernetes.io/hostname
+            nodeAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+                - weight: 100
+                  preference:
+                    matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - home-server-power
+                - weight: 50
+                  preference:
+                    matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - home-server-titan
+                - weight: 25
+                  preference:
+                    matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - home-server-sonic
+                - weight: 10
+                  preference:
+                    matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - home-server-nut
+          nodeSelector:
+            kubernetes.io/arch: amd64
+        containers:
+          main:
+            image:
+              repository: registry-gitlab.${SECRET_DOMAIN}/loco/transnetv2-shot-detection-service
+              tag: "e38ea50b"
+            env:
+              TZ: Asia/Shanghai
+            resources:
+              requests:
+                memory: 500Mi
+              limits:
+                memory: 1Gi
+
+    service:
+      main:
+        controller: main
+        type: ClusterIP
+        ports:
+          http:
+            port: 8000
+            targetPort: 8000
+            protocol: HTTP
+
+    ingress:
+      main:
+        className: "traefik"
+        annotations:
+          traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
+        hosts:
+          - host: "transnetv2-shot-detection-service.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: http
+        tls:
+          - secretName: "${SECRET_DOMAIN/./-}-tls"
+            hosts:
+              - "transnetv2-shot-detection-service.${SECRET_DOMAIN}"
+
+    persistence:
+      tmp-uploads:
+        existingClaim: transnetv2-shot-detection-service-tmp-uploads
+        advancedMounts:
+          main:
+            main:
+              - path: /tmp/transnetv2-uploads
