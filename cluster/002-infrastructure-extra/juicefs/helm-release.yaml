@@ -159,3 +159,23 @@ spec:
         mountOptions:
           - "enable-xattr"
           - "cache-size=512000"
+
+      - name: "juicefs-compressed-files-erasure-coded"
+        enabled: true
+        reclaimPolicy: Delete
+        allowVolumeExpansion: true
+        backend:
+          name: "juicefs-compressed-files-erasure-coded"
+          metaurl: "postgres://juicefs:${SECRET_JUICEFS_POSTGRESQL_PASSWORD}@juicefs-compressed-files-erasure-coded-postgresql-pooler-rw.juicefs-system.svc.cluster.local:5432/juicefs_metadata"
+          storage: "ceph"
+          bucket: "ceph://juicefs-compressed-files-erasure-coded"
+          accessKey: "ceph"
+          secretKey: "client.admin"
+          envs: "{TZ: Asia/Shanghai}"
+          configs: '{"ceph-conf": "/etc/ceph"}'
+          trashDays: "0"
+        pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
+        cachePVC: "juicefs-cache-pvc"
+        mountOptions:
+          - "enable-xattr"
+          - "cache-size=512000"

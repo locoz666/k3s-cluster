@@ -5,6 +5,7 @@ resources:
   - juicefs-volume-hook
   - redis
   - media-erasure-coded-postgresql
+  - compressed-files-erasure-coded-postgresql
   - ceph-compressed-files-pool.yaml
   - ceph-juicefs-cache-pool.yaml
   - ceph-media-replicated-pool.yaml
