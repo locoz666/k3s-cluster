@@ -92,6 +92,10 @@ spec:
           blockMultiQueue: true  # 开启virtio的硬盘多队列操作
           networkInterfaceMultiqueue: true  # 开启virtio的网卡多队列操作
 
+          filesystems:
+            - name: share-data
+              virtiofs: {}
+
           # 硬盘设置
           disks:
             # 系统安装ISO
@@ -165,6 +169,10 @@ spec:
         - name: data-disk
           persistentVolumeClaim:
             claimName: vm-game-data-disk
+        
+        - name: share-data
+          persistentVolumeClaim:
+            claimName: vm-game-share-data
 
       # 后端网络设置 https://kubevirt.io/user-guide/virtual_machines/interfaces_and_networks/#backend
       networks:

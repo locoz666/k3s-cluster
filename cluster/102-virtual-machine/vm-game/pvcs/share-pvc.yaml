@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: vm-game-share-data
+  namespace: virtual-machine
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Ti
+  storageClassName: juicefs-compressed-files-erasure-coded
+  volumeMode: Filesystem
