@@ -30,7 +30,7 @@ spec:
           jackett:
             image:
               repository: linuxserver/jackett
-              tag: 0.24.846
+              tag: 0.24.850
               pullPolicy: IfNotPresent
             env:
               TZ: "Asia/Shanghai"
