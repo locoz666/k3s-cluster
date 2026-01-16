@@ -95,6 +95,8 @@ spec:
           filesystems:
             - name: share-data
               virtiofs: {}
+            - name: app-data
+              virtiofs: {}
 
           # 硬盘设置
           disks:
@@ -173,6 +175,10 @@ spec:
         - name: share-data
           persistentVolumeClaim:
             claimName: vm-game-share-data
+        
+        - name: app-data
+          persistentVolumeClaim:
+            claimName: vm-game-app-data
 
       # 后端网络设置 https://kubevirt.io/user-guide/virtual_machines/interfaces_and_networks/#backend
       networks:
