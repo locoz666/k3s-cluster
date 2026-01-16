@@ -140,6 +140,25 @@ spec:
           - "enable-xattr"
           - "cache-size=0"
       
+      - name: "juicefs-application-high-performance"
+        enabled: true
+        reclaimPolicy: Delete
+        allowVolumeExpansion: true
+        backend:
+          name: "juicefs-application-high-performance"
+          metaurl: "postgres://juicefs:${SECRET_JUICEFS_POSTGRESQL_PASSWORD}@juicefs-application-high-performance-postgresql-pooler-rw.juicefs-system.svc.cluster.local:5432/juicefs_metadata"
+          storage: "ceph"
+          bucket: "ceph://juicefs-application-high-performance"
+          accessKey: "ceph"
+          secretKey: "client.admin"
+          envs: "{TZ: Asia/Shanghai}"
+          configs: '{"ceph-conf": "/etc/ceph"}'
+          trashDays: "0"
+        pathPattern: "$${.PVC.namespace}-$${.PVC.name}"
+        mountOptions:
+          - "enable-xattr"
+          - "cache-size=0"
+      
       - name: "juicefs-media-erasure-coded"
         enabled: true
         reclaimPolicy: Delete

@@ -6,6 +6,7 @@ resources:
   - redis
   - media-erasure-coded-postgresql
   - compressed-files-erasure-coded-postgresql
+  - application-high-performance-postgresql
   - ceph-compressed-files-pool.yaml
   - ceph-juicefs-cache-pool.yaml
   - ceph-media-replicated-pool.yaml

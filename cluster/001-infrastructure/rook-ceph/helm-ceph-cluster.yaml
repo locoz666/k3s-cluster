@@ -370,6 +370,21 @@ spec:
             csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
             csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
             csi.storage.k8s.io/fstype: ext4  # 可以设置为xfs，但官方不推荐
+      
+      # 基于JuiceFS提供服务的高性能应用数据存储池，不开启压缩，适用于需要高性能的场景
+      # ⚠️不适用于有大量随机写（会使JuiceFS产生大量碎片）的应用，碎片会导致JuiceFS占用巨量空间，尤其是数据库持续高负载时极其容易将存储撑爆
+      - name: juicefs-application-high-performance
+        spec:
+          failureDomain: osd  # 设置存储池的故障域
+          replicated: # 设置为副本池
+            size: 3  # 副本数
+          deviceClass: nvme  # 设置后端osd类型
+          parameters:
+            pg_num: "32" # 设置初始的PG数量
+            pgp_num: "32" # 设置初始的PGP数量，需要和pg_num一致
+        # 由于是JuiceFS使用的存储池，所以不需要创建Ceph CSI提供的K8S StorageClass，而是使用JuiceFS CSI提供的K8S StorageClass
+        storageClass:
+          enabled: false  # 是否启用对应的K8S StorageClass，可以仅创建Ceph存储池但不创建StorageClass
 
       # 基于Ceph RBD提供服务的高性能虚拟机数据存储池，不开启压缩，适用于虚拟机系统盘之类的高性能场景
       - name: ceph-vm-high-performance
