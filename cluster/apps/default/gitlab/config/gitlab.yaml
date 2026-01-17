@@ -36,11 +36,11 @@ spec:
         primary:
           extendedConfiguration: |
             max_connections = 300
-      # 固定 registry 副本数，避免 HPA 频繁扩缩容
+      # 固定 GitLab 相关组件为单副本，避免 HPA 频繁扩缩容
       registry:
         hpa:
-          minReplicas: 2
-          maxReplicas: 2
+          minReplicas: 1
+          maxReplicas: 1
       installCertmanager: false
       nginx-ingress:
         enabled: false  # 不让gitlab单独部署ingress，直接使用公共的ingress
@@ -49,7 +49,21 @@ spec:
           persistentVolume:
             size: 10Gi
       gitlab:
+        sidekiq:
+          minReplicas: 1
+          maxReplicas: 1
+        webservice:
+          minReplicas: 1
+          maxReplicas: 1
         gitlab-shell:
+          minReplicas: 1
+          maxReplicas: 1
           service:
             type: LoadBalancer
             loadBalancerIP: 192.168.170.235
+        gitlab-pages:
+          minReplicas: 1
+          maxReplicas: 1
+        kas:
+          minReplicas: 1
+          maxReplicas: 1
