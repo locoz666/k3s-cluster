@@ -115,7 +115,7 @@ spec:
                   cp "$src" "$dest"
                 done &&
                 
-                /opt/venv/bin/python klipper/klippy/klippy.py -I printer_data/run/klipper.tty -a printer_data/run/klipper.sock printer_data/config/printer.cfg
+                /opt/venv/bin/python klipper/klippy/klippy.py -I printer_data/run/klipper.tty -a printer_data/run/klipper.sock -l /opt/printer_data/logs/klippy.log printer_data/config/printer.cfg
 
           &service_container moonraker:
             dependsOn: "klippy"
