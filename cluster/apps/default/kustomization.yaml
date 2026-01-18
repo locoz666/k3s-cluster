@@ -26,7 +26,7 @@ resources:
   - ./aria2/ks.yaml
   - ./n8n/ks.yaml
   - ./nexus-repository-manager/ks.yaml
-  - ./sentry/ks.yaml
+  # - ./sentry/ks.yaml
   - ./win-getty/ks.yaml
   - ./gitlab/ks.yaml
   - ./happy-coder/ks.yaml
