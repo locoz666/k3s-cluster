@@ -27,7 +27,6 @@ resources:
   - ./n8n/ks.yaml
   - ./nexus-repository-manager/ks.yaml
   # - ./sentry/ks.yaml
-  - ./win-getty/ks.yaml
   - ./gitlab/ks.yaml
   - ./happy-coder/ks.yaml
   - ./immich/ks.yaml
