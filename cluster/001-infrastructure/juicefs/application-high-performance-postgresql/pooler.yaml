@@ -22,6 +22,53 @@ spec:
         - name: pgbouncer
           port: 5432
           targetPort: pgbouncer
+  template:
+    spec:
+      containers: []
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: cnpg.io/cluster
+                    operator: In
+                    values:
+                      - juicefs-application-high-performance-postgresql
+                  - key: cnpg.io/podRole
+                    operator: In
+                    values:
+                      - instance
+              topologyKey: kubernetes.io/hostname
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              preference:
+                matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - home-server-sonic
+            - weight: 50
+              preference:
+                matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - home-server-power
+            - weight: 25
+              preference:
+                matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - home-server-titan
+            - weight: 10
+              preference:
+                matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - home-server-nut
   pgbouncer:
     poolMode: transaction
     parameters:

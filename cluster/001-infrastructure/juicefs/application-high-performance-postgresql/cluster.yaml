@@ -8,6 +8,37 @@ spec:
   instances: 1
   primaryUpdateStrategy: unsupervised
   imageName: ghcr.io/cloudnative-pg/postgresql:18.1
+  affinity:
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          preference:
+            matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                  - home-server-sonic
+        - weight: 50
+          preference:
+            matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                  - home-server-power
+        - weight: 25
+          preference:
+            matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                  - home-server-titan
+        - weight: 10
+          preference:
+            matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                  - home-server-nut
   storage:
     size: 30Gi
     storageClass: ceph-application-high-performance
