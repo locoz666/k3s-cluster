@@ -116,6 +116,26 @@
       ],
       "versioning": "regex:(?<major>\\d{2})(?<minor>\\d{2})(?<patch>\\d{2})$"
     },
+    // 允许高频更新的应用的容器镜像和helm包自动更新
+    {
+      "matchPackageNames": [
+        "eceasy/cli-proxy-api",
+        "prefect-server",
+        "prefect-worker",
+      ],
+      "matchDatasources": [
+        "docker"
+      ],
+      // 允许包括大版本在内的新版本自动更新
+      "matchUpdateTypes": [
+        "digest",
+        "patch",
+        "minor",
+        "major",
+      ],
+      // 自动更新
+      "automerge": true
+    },
     // 允许普通应用的容器镜像和helm包自动更新
     {
       "matchPackageNames": [
