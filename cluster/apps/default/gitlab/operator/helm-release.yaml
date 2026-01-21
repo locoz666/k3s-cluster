@@ -14,7 +14,7 @@ spec:
     spec:
       # renovate: registryUrl=https://charts.gitlab.io
       chart: gitlab-operator
-      version: 2.8.0
+      version: 2.8.2
       sourceRef:
         kind: HelmRepository
         name: gitlab
