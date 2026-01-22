@@ -118,9 +118,6 @@ spec:
               bootOrder: 2
             #              cache: "none"  # 关闭缓存以减少IO操作层数
             #              io: "native"  # 使用原生IO以榨干性能
-            - name: data-disk
-              disk:
-                bus: virtio  # 使用virtio以榨干性能
 
           # 直通GPU设置
           gpus:
@@ -167,10 +164,6 @@ spec:
         - name: system-disk
           persistentVolumeClaim:
             claimName: vm-game-system-disk
-
-        - name: data-disk
-          persistentVolumeClaim:
-            claimName: vm-game-data-disk
         
         - name: share-data
           persistentVolumeClaim:
