@@ -23,7 +23,7 @@ spec:
   values:
     image:
       repository: bitnamilegacy/postgresql
-      tag: 14.2.0
+      tag: 14.18.0
 
     auth:
       username: "${SECRET_NEXTCLOUD_PGSQL_USERNAME}"
