@@ -38,6 +38,7 @@ resources:
   - ./funasr-nano-2512/ks.yaml
   - ./transnetv2-shot-detection-service/ks.yaml
   - ./dev-container/ks.yaml
+  - ./clawdbot/ks.yaml
 
   - ./mongodb/ks.yaml
   - ./rabbitmq/ks.yaml

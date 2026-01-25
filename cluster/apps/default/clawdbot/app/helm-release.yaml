@@ -1,0 +1,170 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: clawdbot
+spec:
+  maxHistory: 1
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 4.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  values:
+    controllers:
+      main:
+        type: deployment
+        replicas: 1
+        strategy: RollingUpdate
+        pod:
+          affinity:
+            nodeAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+                - weight: 100
+                  preference:
+                    matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - home-server-power
+                - weight: 50
+                  preference:
+                    matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - home-server-titan
+                - weight: 25
+                  preference:
+                    matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - home-server-sonic
+                - weight: 10
+                  preference:
+                    matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - home-server-nut
+          imagePullSecrets:
+            - name: dev-container-registry
+        containers:
+          clawdbot:
+            image:
+              repository: "registry-gitlab.${SECRET_DOMAIN}/loco/dev-container"
+              tag: "f4d03307"
+              pullPolicy: IfNotPresent
+            env:
+              TZ: "Asia/Shanghai"
+              # Use PVC-backed config + persistent state/workspace
+              CLAWDBOT_CONFIG_PATH: "/data/config/clawdbot.json"
+              CLAWDBOT_STATE_DIR: "/data/state"
+            command:
+              - /tini
+              - --
+            args:
+              - /bin/bash
+              - -lc
+              - |
+                set -euo pipefail
+
+                mkdir -p /data/state /data/workspace /data/config
+
+                # Install clawdbot via npm each start (image is fine, but ensure latest CLI exists).
+                npm i -g clawdbot@latest
+
+                # Persist config inside the PVC (no ConfigMap).
+                # 1) Create a base config on first boot.
+                if [ ! -f /data/config/clawdbot.json ]; then
+                  cat > /data/config/clawdbot.json <<'JSON'
+                {
+                  "gateway": {
+                    "mode": "local",
+                    "port": 18789
+                  },
+                  "canvasHost": {
+                    "enabled": false
+                  },
+                  "agents": {
+                    "defaults": {
+                      "workspace": "/data/workspace"
+                    }
+                  }
+                }
+                JSON
+                fi
+
+                # 2) Ensure a gateway token exists (required for non-loopback binds).
+                if [ ! -f /data/config/gateway.token ]; then
+                  node -e 'process.stdout.write(require("crypto").randomBytes(32).toString("hex"))' > /data/config/gateway.token
+                  echo
+                  echo "[clawdbot] generated gateway token: $(cat /data/config/gateway.token)"
+                  echo
+                fi
+
+                # 3) Patch config with required settings (idempotent).
+                TOKEN="$(cat /data/config/gateway.token)"
+                jq \
+                  --arg token "$TOKEN" \
+                  '(.gateway.auth.mode = "token")
+                   | (.gateway.auth.token = $token)' \
+                  /data/config/clawdbot.json > /data/config/clawdbot.json.tmp
+                mv /data/config/clawdbot.json.tmp /data/config/clawdbot.json
+
+                # Listen on 0.0.0.0 in the pod.
+                exec clawdbot gateway --port 18789 --bind lan
+            resources:
+              requests:
+                cpu: 10m
+                memory: 512Mi
+              limits:
+                cpu: 2
+                memory: 4Gi
+
+    service:
+      main:
+        enabled: true
+        type: ClusterIP
+        ports:
+          http:
+            port: 18789
+            protocol: HTTP
+
+    ingress:
+      main:
+        className: "traefik"
+        enabled: true
+        annotations:
+          traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
+        hosts:
+          - host: "clawdbot.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: http
+        tls:
+          - secretName: "${SECRET_DOMAIN/./-}-tls"
+            hosts:
+              - "clawdbot.${SECRET_DOMAIN}"
+
+    persistence:
+      data:
+        existingClaim: clawdbot-data
+        advancedMounts:
+          main:
+            clawdbot:
+              - path: /data
+                readOnly: false
