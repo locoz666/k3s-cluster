@@ -24,7 +24,7 @@ spec:
     controllers:
       main:
         type: deployment
-        replicas: 0
+        replicas: 1
         containers:
           emby:
             image:
