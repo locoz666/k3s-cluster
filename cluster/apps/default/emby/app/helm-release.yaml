@@ -24,12 +24,12 @@ spec:
     controllers:
       main:
         type: deployment
-        replicas: 1
+        replicas: 0
         containers:
           emby:
             image:
               repository: emby/embyserver
-              tag: 4.10.0.1
+              tag: "latest@sha256:338a17ad65a822f18d18574459046003a84d2fee82c2e234adf8645009238d0a"
             env:
               TZ: Asia/Shanghai
               UID: "1000"
