@@ -64,6 +64,12 @@ spec:
               repository: "registry-gitlab.${SECRET_DOMAIN}/loco/dev-container"
               tag: "0ac1adea"
               pullPolicy: IfNotPresent
+            args:
+              - /bin/bash
+              - -lc
+              - |
+                /usr/local/bin/init.sh &
+                exec opencode web --hostname=0.0.0.0
             env:
               TZ: "Asia/Shanghai"
             resources:
@@ -87,10 +93,27 @@ spec:
           ssh:
             port: 22
             protocol: TCP
+          opencode-http:
+            port: 4096
+            protocol: HTTP
 
     ingress:
       main:
-        enabled: false
+        className: "traefik"
+        annotations:
+          traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
+        hosts:
+          - host: "opencode.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: opencode-http
+        tls:
+          - hosts:
+              - "opencode.${SECRET_DOMAIN}"
+            secretName: "${SECRET_DOMAIN/./-}-tls"
 
     persistence:
       dev-share-files:
