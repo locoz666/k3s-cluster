@@ -62,12 +62,13 @@ spec:
           dev-container:
             image:
               repository: "registry-gitlab.${SECRET_DOMAIN}/loco/dev-container"
-              tag: "821e57d9"
+              tag: "890a9cfc"
               pullPolicy: IfNotPresent
             args:
               - /bin/bash
               - -lc
               - |
+                /usr/sbin/sshd -D &
                 /usr/local/bin/init.sh &
                 exec opencode web --hostname=0.0.0.0
             env:
