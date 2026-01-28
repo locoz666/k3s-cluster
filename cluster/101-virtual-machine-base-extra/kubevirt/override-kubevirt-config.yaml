@@ -8,11 +8,6 @@ spec:
   configuration:
     permittedHostDevices:
       pciHostDevices:
-        - pciVendorSelector: "10DE:2684"
-          resourceName: "nvidia.com/AD102_GEFORCE_RTX_4090"
-          externalResourceProvider: true
-        - pciVendorSelector: "10DE:22BA"
-          resourceName: "devices.kubevirt.io/NVIDIA_RTX_4090_AUDIO_CONTROLLER"
         - pciVendorSelector: "144D:A808"
           resourceName: "devices.kubevirt.io/SAMSUNG_970_PRO_1TB"
     vmStateStorageClass: "juicefs-application-compressed"

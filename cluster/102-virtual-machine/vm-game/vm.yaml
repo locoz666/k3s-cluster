@@ -119,15 +119,8 @@ spec:
             #              cache: "none"  # 关闭缓存以减少IO操作层数
             #              io: "native"  # 使用原生IO以榨干性能
 
-          # 直通GPU设置
-          gpus:
-            - name: gpu1
-              deviceName: nvidia.com/AD102_GEFORCE_RTX_4090
-
           # 直通硬件设置
           hostDevices:
-            - name: gpu1_audio_controller
-              deviceName: devices.kubevirt.io/NVIDIA_RTX_4090_AUDIO_CONTROLLER
             - name: ssd1
               deviceName: devices.kubevirt.io/SAMSUNG_970_PRO_1TB
 
