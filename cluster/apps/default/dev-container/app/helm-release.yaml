@@ -62,7 +62,7 @@ spec:
           dev-container:
             image:
               repository: "registry-gitlab.${SECRET_DOMAIN}/loco/dev-container"
-              tag: "890a9cfc"
+              tag: "73449792"
               pullPolicy: IfNotPresent
             args:
               - /bin/bash
