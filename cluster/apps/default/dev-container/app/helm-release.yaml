@@ -23,7 +23,7 @@ spec:
       main:
         type: deployment
         replicas: 1
-        strategy: RollingUpdate
+        strategy: Recreate
         pod:
           affinity:
             nodeAffinity:
