@@ -127,6 +127,14 @@ spec:
               - path: "/root/code"
                 subPath: "code"
               
+              # Cache
+              ## Bun
+              - path: "/root/.bun"
+                subPath: "user_data/HOME/.bun"
+              ## UV
+              - path: "/root/.cache/uv"
+                subPath: "user_data/HOME/.cache/uv"
+              
               # User Data
               ## Zsh
               - path: "/root/.zsh_history"
