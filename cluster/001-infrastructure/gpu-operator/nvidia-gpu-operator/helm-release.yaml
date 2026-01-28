@@ -37,7 +37,7 @@ spec:
     
     driver:
       enabled: true
-      version: "550.90.07"
+      version: "550.144.03"
     devicePlugin:
       config:
         name: "time-slicing-config"
