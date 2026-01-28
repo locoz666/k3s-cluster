@@ -69,8 +69,8 @@ spec:
               - -lc
               - |
                 /usr/sbin/sshd -D &
-                /usr/local/bin/init.sh &
-                exec opencode web --hostname=0.0.0.0
+                opencode web --hostname=0.0.0.0 &
+                exec sleep infinity
             env:
               TZ: "Asia/Shanghai"
             resources:
