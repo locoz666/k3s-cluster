@@ -99,83 +99,60 @@ spec:
           main:
             dev-container:
               - path: "/mnt/pvc/dev-share-files"
-                readOnly: false
 
-      shared-data:
-        existingClaim: "dev-container-shared-data"
-        advancedMounts:
-          main:
-            dev-container:
-              - path: "/mnt/pvc/shared-data"
-                readOnly: false
-                
-              # OpenCode
-              - path: "/root/.config/opencode"
-                subPath: "HOME/.config/opencode"
-                readOnly: false
-              - path: "/root/.local/share/opencode"
-                subPath: "HOME/.local/share/opencode"
-                readOnly: false
-
-              # Zsh
-              - path: "/root/.zsh_history"
-                subPath: "HOME/.zsh_history"
-                readOnly: false
-
-              # SSH
-              - path: "/root/.ssh"
-                subPath: "HOME/.ssh"
-                readOnly: false
-
-              # Kubenetes
-              - path: "/root/.kube"
-                subPath: "HOME/.kube"
-                readOnly: false
-
-              # VSCode
-              - path: "/root/.vscode-server"
-                subPath: "HOME/.vscode-server"
-                readOnly: false
-
-              # Happy Coder
-              - path: "/root/.happy"
-                subPath: "HOME/.happy"
-                readOnly: false
-
-              # Codex
-              - path: "/root/.codex"
-                subPath: "HOME/.codex"
-                readOnly: false
-
-              # Qwen CLI
-              - path: "/root/.qwen"
-                subPath: "HOME/.qwen"
-                readOnly: false
-
-              # Gemini CLI
-              - path: "/root/.gemini"
-                subPath: "HOME/.gemini"
-                readOnly: false
-
-              # Every Code
-              - path: "/root/.code"
-                subPath: "HOME/.code"
-                readOnly: false
-
-              # Claude Code
-              - path: "/root/.claude"
-                subPath: "HOME/.claude"
-                readOnly: false
-              - path: "/root/.claude.json"
-                subPath: "HOME/.claude.json"
-                readOnly: false
-      code-data:
-        existingClaim: "dev-container-code-data"
-        advancedMounts:
-          main:
-            dev-container:
+              # Code Directory
               - path: "/root/code"
-                readOnly: false
+                subPath: "code"
+              
+              # User Data
+              ## Zsh
+              - path: "/root/.zsh_history"
+                subPath: "user_data/HOME/.zsh_history"
+
+              ## SSH
+              - path: "/root/.ssh"
+                subPath: "user_data/HOME/.ssh"
+
+              ## Kubenetes
+              - path: "/root/.kube"
+                subPath: "user_data/HOME/.kube"
+
+              ## VSCode
+              - path: "/root/.vscode-server"
+                subPath: "user_data/HOME/.vscode-server"
+
+              ## Happy Coder
+              - path: "/root/.happy"
+                subPath: "user_data/HOME/.happy"
+
+              ## Codex
+              - path: "/root/.codex"
+                subPath: "user_data/HOME/.codex"
+
+              ## Qwen CLI
+              - path: "/root/.qwen"
+                subPath: "user_data/HOME/.qwen"
+
+              ## Gemini CLI
+              - path: "/root/.gemini"
+                subPath: "user_data/HOME/.gemini"
+
+              ## Every Code
+              - path: "/root/.code"
+                subPath: "user_data/HOME/.code"
+
+              ## Claude Code
+              - path: "/root/.claude"
+                subPath: "user_data/HOME/.claude"
+              - path: "/root/.claude.json"
+                subPath: "user_data/HOME/.claude.json"
+
+              ## OpenCode
+              - path: "/root/.config/opencode"
+                subPath: "user_data/HOME/.config/opencode"
+              - path: "/root/.local/share/opencode"
+                subPath: "user_data/HOME/.local/share/opencode"
+
       # Rclone
       nextcloud-loco:
         type: hostPath
@@ -184,7 +161,6 @@ spec:
           main:
             dev-container:
               - path: "/mnt/nextcloud-loco"
-                readOnly: false
       nextcloud-xpd:
         type: hostPath
         hostPath: "/mnt/nextcloud-xpd"
@@ -192,7 +168,7 @@ spec:
           main:
             dev-container:
               - path: "/mnt/nextcloud-xpd"
-                readOnly: false
+
       # PVC
       other-files:
         existingClaim: "other-files"
@@ -200,46 +176,39 @@ spec:
           main:
             dev-container:
               - path: "/mnt/pvc/other-files"
-                readOnly: false
       personal-files:
         existingClaim: "personal-files"
         advancedMounts:
           main:
             dev-container:
               - path: "/mnt/pvc/personal-files"
-                readOnly: false
       entertainment-media-ec-files:
         existingClaim: "entertainment-media-ec-files"
         advancedMounts:
           main:
             dev-container:
               - path: "/mnt/pvc/entertainment-media-ec-files"
-                readOnly: false
       live-record-ec-files:
         existingClaim: "live-record-ec-files"
         advancedMounts:
           main:
             dev-container:
               - path: "/mnt/pvc/live-record-ec-files"
-                readOnly: false
       entertainment-media-files:
         existingClaim: "entertainment-media-files"
         advancedMounts:
           main:
             dev-container:
               - path: "/mnt/pvc/entertainment-media-files"
-                readOnly: false
       live-record-files:
         existingClaim: "live-record-files"
         advancedMounts:
           main:
             dev-container:
               - path: "/mnt/pvc/live-record-files"
-                readOnly: false
       personal-media-files:
         existingClaim: "personal-media-files"
         advancedMounts:
           main:
             dev-container:
               - path: "/mnt/pvc/personal-media-files"
-                readOnly: false
