@@ -70,6 +70,7 @@ spec:
               - |
                 /usr/sbin/sshd -D &
                 opencode web --hostname=0.0.0.0 &
+                moltbot gateway --port 18789 --verbose &
                 exec sleep infinity
             env:
               TZ: "Asia/Shanghai"
@@ -97,6 +98,9 @@ spec:
           opencode-http:
             port: 4096
             protocol: HTTP
+          moltbot-gateway:
+            port: 18789
+            protocol: HTTP
 
     ingress:
       main:
@@ -111,9 +115,17 @@ spec:
                 service:
                   identifier: main
                   port: opencode-http
+          - host: "moltbot.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: moltbot-gateway
         tls:
           - hosts:
               - "opencode.${SECRET_DOMAIN}"
+              - "moltbot.${SECRET_DOMAIN}"
             secretName: "${SECRET_DOMAIN/./-}-tls"
 
     persistence:
@@ -251,3 +263,14 @@ spec:
           main:
             dev-container:
               - path: "/mnt/pvc/personal-media-files"
+      clawdbot-data:
+        existingClaim: "clawdbot-data"
+        advancedMounts:
+          main:
+            dev-container:
+              - path: "/root/.clawdbot"
+                subPath: ".clawdbot"
+              - path: "/root/clawd"
+                subPath: "clawd"
+              - path: "/tmp/clawdbot"
+                subPath: "tmp"
