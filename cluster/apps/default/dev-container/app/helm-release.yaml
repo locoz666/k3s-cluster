@@ -121,6 +121,10 @@ spec:
               - path: "/root/.vscode-server"
                 subPath: "user_data/HOME/.vscode-server"
 
+              ## Zed
+              - path: "/root/.zed_server"
+                subPath: "user_data/HOME/.zed_server"
+
               ## Happy Coder
               - path: "/root/.happy"
                 subPath: "user_data/HOME/.happy"
