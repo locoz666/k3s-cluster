@@ -134,6 +134,9 @@ spec:
               ## UV
               - path: "/root/.cache/uv"
                 subPath: "user_data/HOME/.cache/uv"
+              ## Open Code
+              - path: "/root/.cache/opencode"
+                subPath: "user_data/HOME/.cache/opencode"
               
               # User Data
               ## Zsh
