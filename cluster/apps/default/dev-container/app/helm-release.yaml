@@ -62,7 +62,7 @@ spec:
           dev-container:
             image:
               repository: "registry-gitlab.${SECRET_DOMAIN}/loco/dev-container"
-              tag: "f4d03307"
+              tag: "0ac1adea"
               pullPolicy: IfNotPresent
             env:
               TZ: "Asia/Shanghai"
@@ -70,9 +70,11 @@ spec:
               requests:
                 cpu: 10m
                 memory: 16Gi
+                nvidia.com/gpu: 2
               limits:
                 cpu: 16
                 memory: 32Gi
+                nvidia.com/gpu: 2
 
     service:
       main:
@@ -91,12 +93,81 @@ spec:
         enabled: false
 
     persistence:
+      dev-share-files:
+        existingClaim: "dev-share-files"
+        advancedMounts:
+          main:
+            dev-container:
+              - path: "/mnt/pvc/dev-share-files"
+                readOnly: false
+
       shared-data:
         existingClaim: "dev-container-shared-data"
         advancedMounts:
           main:
             dev-container:
-              - path: "/shared_data"
+              - path: "/mnt/pvc/shared-data"
+                readOnly: false
+                
+              # OpenCode
+              - path: "/root/.config/opencode"
+                subPath: "HOME/.config/opencode"
+                readOnly: false
+              - path: "/root/.local/share/opencode"
+                subPath: "HOME/.local/share/opencode"
+                readOnly: false
+
+              # Zsh
+              - path: "/root/.zsh_history"
+                subPath: "HOME/.zsh_history"
+                readOnly: false
+
+              # SSH
+              - path: "/root/.ssh"
+                subPath: "HOME/.ssh"
+                readOnly: false
+
+              # Kubenetes
+              - path: "/root/.kube"
+                subPath: "HOME/.kube"
+                readOnly: false
+
+              # VSCode
+              - path: "/root/.vscode-server"
+                subPath: "HOME/.vscode-server"
+                readOnly: false
+
+              # Happy Coder
+              - path: "/root/.happy"
+                subPath: "HOME/.happy"
+                readOnly: false
+
+              # Codex
+              - path: "/root/.codex"
+                subPath: "HOME/.codex"
+                readOnly: false
+
+              # Qwen CLI
+              - path: "/root/.qwen"
+                subPath: "HOME/.qwen"
+                readOnly: false
+
+              # Gemini CLI
+              - path: "/root/.gemini"
+                subPath: "HOME/.gemini"
+                readOnly: false
+
+              # Every Code
+              - path: "/root/.code"
+                subPath: "HOME/.code"
+                readOnly: false
+
+              # Claude Code
+              - path: "/root/.claude"
+                subPath: "HOME/.claude"
+                readOnly: false
+              - path: "/root/.claude.json"
+                subPath: "HOME/.claude.json"
                 readOnly: false
       code-data:
         existingClaim: "dev-container-code-data"
