@@ -70,7 +70,13 @@ spec:
               - |
                 /usr/sbin/sshd -D &
                 opencode web --hostname=0.0.0.0 &
-                clawdbot gateway --port 18789 --verbose &
+                # ClawdBot: enable maximum diagnostics for crash investigation
+                mkdir -p /tmp/clawdbot
+                CLAWDBOT_DIAGNOSTICS='*' \
+                CLAWDBOT_CACHE_TRACE=1 \
+                CLAWDBOT_CACHE_TRACE_FILE=/tmp/clawdbot/cache-trace.jsonl \
+                NODE_DEBUG=undici \
+                clawdbot gateway --port 18789 --verbose --ws-log full --raw-stream --raw-stream-path /tmp/clawdbot/raw-stream.jsonl &
                 exec sleep infinity
             env:
               TZ: "Asia/Shanghai"
