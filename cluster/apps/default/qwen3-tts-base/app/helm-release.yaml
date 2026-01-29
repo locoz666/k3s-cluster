@@ -40,7 +40,7 @@ spec:
           qwen3-tts-base:
             image:
               repository: "registry-gitlab.${SECRET_DOMAIN}/loco/dev-container"
-              tag: "42c441b0"
+              tag: "b734ad52"
               pullPolicy: IfNotPresent
             command:
               - /bin/bash
