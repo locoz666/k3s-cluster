@@ -57,6 +57,11 @@ spec:
       web:
         redirectTo:
           port: websecure
+        transport:
+          respondingTimeouts:
+            readTimeout: 3600s
+            idleTimeout: 3600s
+            writeTimeout: 0s
         forwardedHeaders:
           trustedIPs:
             - "101.71.100.0/24"
@@ -88,6 +93,11 @@ spec:
       websecure:
         http3:
           enabled: false
+        transport:
+          respondingTimeouts:
+            readTimeout: 3600s
+            idleTimeout: 3600s
+            writeTimeout: 0s
         forwardedHeaders:
           trustedIPs:
             - "101.71.100.0/24"
