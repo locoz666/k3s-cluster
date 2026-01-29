@@ -1,0 +1,140 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: paddleocr-vlm-server
+spec:
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 4.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  values:
+    controllers:
+      main:
+        type: deployment
+        replicas: 1
+        strategy: Recreate
+        pod:
+          securityContext:
+            runAsNonRoot: false
+            runAsUser: 0
+          affinity:
+            nodeAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+                - weight: 100
+                  preference:
+                    matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - home-server-power
+                - weight: 50
+                  preference:
+                    matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - home-server-titan
+                - weight: 25
+                  preference:
+                    matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - home-server-sonic
+                - weight: 10
+                  preference:
+                    matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - home-server-nut
+        containers:
+          main:
+            image:
+              repository: ccr-2vdh3abv-pub.cnc.bj.baidubce.com/paddlepaddle/paddleocr-genai-vllm-server
+              tag: latest-nvidia-gpu-offline
+              pullPolicy: IfNotPresent
+            env:
+              TZ: Asia/Shanghai
+              HOME: /home/paddleocr
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: 8080
+                  initialDelaySeconds: 30
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 10
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: 8080
+                  initialDelaySeconds: 10
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 30
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: 8080
+                  initialDelaySeconds: 10
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 90
+            resources:
+              requests:
+                cpu: 10m
+                memory: 16Gi
+                nvidia.com/gpu: 1
+              limits:
+                cpu: 16
+                memory: 32Gi
+                nvidia.com/gpu: 1
+
+    service:
+      main:
+        controller: main
+        type: ClusterIP
+        ports:
+          http:
+            port: 8080
+            targetPort: 8080
+            protocol: HTTP
+
+    persistence:
+      model-cache:
+        existingClaim: paddleocr-vl-model-cache
+        advancedMounts:
+          main:
+            main:
+              - path: /home/paddleocr/.paddlex
+      shm:
+        type: emptyDir
+        medium: Memory
+        sizeLimit: 8Gi
+        advancedMounts:
+          main:
+            main:
+              - path: /dev/shm
+                readOnly: false

@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: paddleocr-vl-model-cache
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 50Gi
+  storageClassName: juicefs-compressed-files

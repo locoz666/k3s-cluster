@@ -1,0 +1,346 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: paddleocr-vl-api
+spec:
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 4.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  values:
+    controllers:
+      main:
+        type: deployment
+        replicas: 1
+        strategy: Recreate
+        pod:
+          securityContext:
+            runAsNonRoot: false
+            runAsUser: 0
+          affinity:
+            nodeAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+                - weight: 100
+                  preference:
+                    matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - home-server-power
+                - weight: 50
+                  preference:
+                    matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - home-server-titan
+                - weight: 25
+                  preference:
+                    matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - home-server-sonic
+                - weight: 10
+                  preference:
+                    matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - home-server-nut
+        containers:
+          main:
+            image:
+              repository: ccr-2vdh3abv-pub.cnc.bj.baidubce.com/paddlepaddle/paddleocr-vl
+              tag: latest-nvidia-gpu-offline
+              pullPolicy: IfNotPresent
+            command:
+              - /bin/bash
+              - -lc
+            args:
+              - |
+                exec paddlex --serve --pipeline "/home/paddleocr/pipeline_config_$VLM_BACKEND.yaml"
+            env:
+              TZ: Asia/Shanghai
+              HOME: /home/paddleocr
+              VLM_BACKEND: vllm
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: 8080
+                  initialDelaySeconds: 30
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 10
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: 8080
+                  initialDelaySeconds: 10
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 30
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: 8080
+                  initialDelaySeconds: 10
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 90
+            resources:
+              requests:
+                cpu: 10m
+                memory: 8Gi
+                nvidia.com/gpu: 1
+              limits:
+                cpu: 8
+                memory: 16Gi
+                nvidia.com/gpu: 1
+
+    service:
+      main:
+        controller: main
+        type: ClusterIP
+        ports:
+          http:
+            port: 8080
+            targetPort: 8080
+            protocol: HTTP
+
+    ingress:
+      main:
+        className: "traefik"
+        annotations:
+          traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
+        hosts:
+          - host: "paddleocr-vl.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: http
+        tls:
+          - secretName: "${SECRET_DOMAIN/./-}-tls"
+            hosts:
+              - "paddleocr-vl.${SECRET_DOMAIN}"
+
+    configMaps:
+      config:
+        data:
+          pipeline_config_vllm.yaml: |
+            pipeline_name: PaddleOCR-VL-1.5
+
+            batch_size: 64
+
+            use_queues: True
+
+            use_doc_preprocessor: False
+            use_layout_detection: True
+            use_chart_recognition: False
+            use_seal_recognition: False
+            format_block_content: False
+            merge_layout_blocks: True
+            markdown_ignore_labels:
+              - number
+              - footnote
+              - header
+              - header_image
+              - footer
+              - footer_image
+              - aside_text
+
+            SubModules:
+              LayoutDetection:
+                module_name: layout_detection
+                model_name: PP-DocLayoutV3
+                model_dir: null
+                batch_size: 8
+                threshold: 0.3
+                layout_nms: True
+                layout_unclip_ratio: [1.0, 1.0]
+                layout_merge_bboxes_mode:
+                  0: "union" # abstract
+                  1: "union" # algorithm
+                  2: "union" # aside_text
+                  3: "large" # chart
+                  4: "union" # content
+                  5: "large" # display_formula
+                  6: "large" # doc_title
+                  7: "union" # figure_title
+                  8: "union" # footer
+                  9: "union" # footer
+                  10: "union" # footnote
+                  11: "union" # formula_number
+                  12: "union" # header
+                  13: "union" # header
+                  14: "union" # image
+                  15: "large" # inline_formula
+                  16: "union" # number
+                  17: "large" # paragraph_title
+                  18: "union" # reference
+                  19: "union" # reference_content
+                  20: "union" # seal
+                  21: "union" # table
+                  22: "union" # text
+                  23: "union" # text
+                  24: "union" # vision_footnote
+              VLRecognition:
+                module_name: vl_recognition
+                model_name: PaddleOCR-VL-1.5-0.9B
+                model_dir: null
+                batch_size: 4096
+                genai_config:
+                  backend: vllm-server
+                  server_url: http://paddleocr-vlm-server:8080/v1
+
+            SubPipelines:
+              DocPreprocessor:
+                pipeline_name: doc_preprocessor
+                batch_size: 8
+                use_doc_orientation_classify: True
+                use_doc_unwarping: True
+                SubModules:
+                  DocOrientationClassify:
+                    module_name: doc_text_orientation
+                    model_name: PP-LCNet_x1_0_doc_ori
+                    model_dir: null
+                    batch_size: 8
+                  DocUnwarping:
+                    module_name: image_unwarping
+                    model_name: UVDoc
+                    model_dir: null
+
+          pipeline_config_fastdeploy.yaml: |
+            pipeline_name: PaddleOCR-VL-1.5
+
+            batch_size: 64
+
+            use_queues: True
+
+            use_doc_preprocessor: False
+            use_layout_detection: True
+            use_chart_recognition: False
+            use_seal_recognition: False
+            format_block_content: False
+            merge_layout_blocks: True
+            markdown_ignore_labels:
+              - number
+              - footnote
+              - header
+              - header_image
+              - footer
+              - footer_image
+              - aside_text
+
+            SubModules:
+              LayoutDetection:
+                module_name: layout_detection
+                model_name: PP-DocLayoutV3
+                model_dir: null
+                batch_size: 8
+                threshold: 0.3
+                layout_nms: True
+                layout_unclip_ratio: [1.0, 1.0]
+                layout_merge_bboxes_mode:
+                  0: "union" # abstract
+                  1: "union" # algorithm
+                  2: "union" # aside_text
+                  3: "large" # chart
+                  4: "union" # content
+                  5: "large" # display_formula
+                  6: "large" # doc_title
+                  7: "union" # figure_title
+                  8: "union" # footer
+                  9: "union" # footer
+                  10: "union" # footnote
+                  11: "union" # formula_number
+                  12: "union" # header
+                  13: "union" # header
+                  14: "union" # image
+                  15: "large" # inline_formula
+                  16: "union" # number
+                  17: "large" # paragraph_title
+                  18: "union" # reference
+                  19: "union" # reference_content
+                  20: "union" # seal
+                  21: "union" # table
+                  22: "union" # text
+                  23: "union" # text
+                  24: "union" # vision_footnote
+              VLRecognition:
+                module_name: vl_recognition
+                model_name: PaddleOCR-VL-1.5-0.9B
+                model_dir: null
+                batch_size: 4096
+                genai_config:
+                  backend: fastdeploy-server
+                  server_url: http://paddleocr-vlm-server:8080/v1
+
+            SubPipelines:
+              DocPreprocessor:
+                pipeline_name: doc_preprocessor
+                batch_size: 8
+                use_doc_orientation_classify: True
+                use_doc_unwarping: True
+                SubModules:
+                  DocOrientationClassify:
+                    module_name: doc_text_orientation
+                    model_name: PP-LCNet_x1_0_doc_ori
+                    model_dir: null
+                    batch_size: 8
+                  DocUnwarping:
+                    module_name: image_unwarping
+                    model_name: UVDoc
+                    model_dir: null
+
+    persistence:
+      pipeline-config:
+        type: configMap
+        name: "{{ .Release.Name }}"
+        advancedMounts:
+          main:
+            main:
+              - path: /home/paddleocr/pipeline_config_vllm.yaml
+                subPath: pipeline_config_vllm.yaml
+                readOnly: true
+              - path: /home/paddleocr/pipeline_config_fastdeploy.yaml
+                subPath: pipeline_config_fastdeploy.yaml
+                readOnly: true
+      model-cache:
+        existingClaim: paddleocr-vl-model-cache
+        advancedMounts:
+          main:
+            main:
+              - path: /home/paddleocr/.paddlex
+      shm:
+        type: emptyDir
+        medium: Memory
+        sizeLimit: 8Gi
+        advancedMounts:
+          main:
+            main:
+              - path: /dev/shm
+                readOnly: false
