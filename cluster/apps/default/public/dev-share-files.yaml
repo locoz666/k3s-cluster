@@ -3,6 +3,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: dev-share-files
+  namespace: default
 spec:
   accessModes:
     - ReadWriteOnce
