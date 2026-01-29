@@ -72,7 +72,7 @@ spec:
           main:
             image:
               repository: registry-gitlab.${SECRET_DOMAIN}/loco/dev-container
-              tag: "42c441b0"
+              tag: "b734ad52"
               pullPolicy: IfNotPresent
             command:
               - /bin/bash
@@ -81,9 +81,7 @@ spec:
               - |
                 set -euo pipefail
                 cd /root/code/loco/funasr-nano-2512-service
-                export UV_HTTP_TIMEOUT=1200
-                uv sync --frozen --python 3.12 --extra gpu
-                exec uv run uvicorn funasr_nano_2512_service.main:app --host 0.0.0.0 --port 8000
+                exec uv run --frozen --no-dev --extra gpu uvicorn funasr_nano_2512_service.main:app --host 0.0.0.0 --port 8000
             env:
               TZ: Asia/Shanghai
               MODEL_DEVICE: "auto"
@@ -131,16 +129,8 @@ spec:
             main:
               - path: "/root/code"
                 subPath: "code"
-              - path: "/root/.cache/uv"
-                subPath: "user_data/HOME/.cache/uv"
               - path: "/root/.cache/modelscope"
                 subPath: "user_data/HOME/.cache/modelscope"
-      model-cache:
-        existingClaim: funasr-nano-2512-model-cache
-        advancedMounts:
-          main:
-            main:
-              - path: /opt/model-cache
       asr-uploads:
         existingClaim: funasr-nano-2512-asr-uploads
         advancedMounts:
