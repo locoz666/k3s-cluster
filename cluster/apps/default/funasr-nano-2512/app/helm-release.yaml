@@ -75,11 +75,14 @@ spec:
               tag: "85c694be"
             env:
               TZ: Asia/Shanghai
+              MODEL_DEVICE: "auto"
             resources:
               requests:
                 memory: 4.5Gi
+                nvidia.com/gpu: 1
               limits:
                 memory: 10Gi
+                nvidia.com/gpu: 1
 
     service:
       main:
