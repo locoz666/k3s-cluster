@@ -63,7 +63,7 @@ spec:
           main:
             image:
               repository: ccr-2vdh3abv-pub.cnc.bj.baidubce.com/paddlepaddle/paddleocr-genai-vllm-server
-              tag: latest-nvidia-gpu-offline
+              tag: paddleocr3.3-nvidia-gpu-offline
               pullPolicy: IfNotPresent
             env:
               TZ: Asia/Shanghai

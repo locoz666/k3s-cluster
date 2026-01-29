@@ -63,7 +63,7 @@ spec:
           main:
             image:
               repository: ccr-2vdh3abv-pub.cnc.bj.baidubce.com/paddlepaddle/paddleocr-vl
-              tag: latest-nvidia-gpu-offline
+              tag: paddleocr3.3-nvidia-gpu-offline
               pullPolicy: IfNotPresent
             command:
               - /bin/bash
@@ -75,6 +75,7 @@ spec:
               TZ: Asia/Shanghai
               HOME: /home/paddleocr
               VLM_BACKEND: vllm
+              PADDLE_PDX_DISABLE_MODEL_SOURCE_CHECK: "True"
             probes:
               liveness:
                 enabled: true
