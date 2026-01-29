@@ -48,8 +48,7 @@ spec:
             args:
               - |
                 set -euo pipefail
-                cd /root/code/loco/qwen3-tts-service
-                exec /root/loco/code/vllm-runtime/vllm-omni-server__qwen3-tts-base.sh
+                cd /root/code/loco/vllm-runtime && ./vllm-omni-server__qwen3-tts-base.sh
             env:
               TZ: "Asia/Shanghai"
             resources:
