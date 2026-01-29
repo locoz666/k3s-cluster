@@ -139,7 +139,7 @@ spec:
               # Code Directory
               - path: "/root/code"
                 subPath: "code"
-              
+
               # Cache
               ## Bun
               - path: "/root/.bun"
@@ -153,7 +153,7 @@ spec:
               ## Open Code
               - path: "/root/.cache/opencode"
                 subPath: "user_data/HOME/.cache/opencode"
-              
+
               # User Data
               ## Zsh
               - path: "/root/.zsh_history"
@@ -206,6 +206,14 @@ spec:
                 subPath: "user_data/HOME/.config/opencode"
               - path: "/root/.local/share/opencode"
                 subPath: "user_data/HOME/.local/share/opencode"
+
+              ## ClawdBot
+              - path: "/root/.clawdbot"
+                subPath: ".clawdbot"
+              - path: "/root/clawd"
+                subPath: "clawd"
+              - path: "/tmp/clawdbot"
+                subPath: "tmp"
 
       shm:
         type: emptyDir
@@ -276,14 +284,3 @@ spec:
           main:
             dev-container:
               - path: "/mnt/pvc/personal-media-files"
-      clawdbot-data:
-        existingClaim: "clawdbot-data"
-        advancedMounts:
-          main:
-            dev-container:
-              - path: "/root/.clawdbot"
-                subPath: ".clawdbot"
-              - path: "/root/clawd"
-                subPath: "clawd"
-              - path: "/tmp/clawdbot"
-                subPath: "tmp"
