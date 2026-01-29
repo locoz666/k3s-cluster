@@ -70,7 +70,7 @@ spec:
               - |
                 /usr/sbin/sshd -D &
                 opencode web --hostname=0.0.0.0 &
-                moltbot gateway --port 18789 --verbose &
+                clawdbot gateway --port 18789 --verbose &
                 exec sleep infinity
             env:
               TZ: "Asia/Shanghai"
