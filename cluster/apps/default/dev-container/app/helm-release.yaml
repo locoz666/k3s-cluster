@@ -207,6 +207,16 @@ spec:
               - path: "/root/.local/share/opencode"
                 subPath: "user_data/HOME/.local/share/opencode"
 
+      shm:
+        type: emptyDir
+        medium: Memory
+        sizeLimit: 8Gi
+        advancedMounts:
+          main:
+            dev-container:
+              - path: "/dev/shm"
+                readOnly: false
+
       # Rclone
       nextcloud-loco:
         type: hostPath
