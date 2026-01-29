@@ -74,7 +74,7 @@ spec:
             env:
               TZ: Asia/Shanghai
               HOME: /home/paddleocr
-              VLM_BACKEND: fastdeploy
+              VLM_BACKEND: vllm
               PADDLE_PDX_DISABLE_MODEL_SOURCE_CHECK: "True"
             probes:
               liveness:

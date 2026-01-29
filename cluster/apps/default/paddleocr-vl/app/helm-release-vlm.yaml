@@ -62,9 +62,20 @@ spec:
         containers:
           main:
             image:
-              repository: ccr-2vdh3abv-pub.cnc.bj.baidubce.com/paddlepaddle/paddleocr-genai-fastdeploy-server
+              repository: ccr-2vdh3abv-pub.cnc.bj.baidubce.com/paddlepaddle/paddleocr-genai-vllm-server
               tag: latest-nvidia-gpu-offline
               pullPolicy: IfNotPresent
+            command:
+              - /bin/bash
+              - -lc
+            args:
+              - |
+                exec paddleocr genai_server \
+                  --model_name PaddleOCR-VL-1.5-0.9B \
+                  --host 0.0.0.0 \
+                  --port 8080 \
+                  --backend vllm \
+                  --backend_config /home/paddleocr/vlm_server_config.yaml
             env:
               TZ: Asia/Shanghai
               HOME: /home/paddleocr
@@ -124,6 +135,15 @@ spec:
             protocol: HTTP
 
     persistence:
+      backend-config:
+        type: configMap
+        name: "{{ .Release.Name }}"
+        advancedMounts:
+          main:
+            main:
+              - path: /home/paddleocr/vlm_server_config.yaml
+                subPath: vlm_server_config.yaml
+                readOnly: true
       model-cache:
         existingClaim: paddleocr-vl-model-cache
         advancedMounts:
@@ -139,3 +159,9 @@ spec:
             main:
               - path: /dev/shm
                 readOnly: false
+
+    configMaps:
+      config:
+        data:
+          vlm_server_config.yaml: |
+            tokenizer-mode: slow
