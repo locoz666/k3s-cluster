@@ -209,11 +209,11 @@ spec:
 
               ## ClawdBot
               - path: "/root/.clawdbot"
-                subPath: ".clawdbot"
+                subPath: "user_data/HOME/.clawdbot"
               - path: "/root/clawd"
-                subPath: "clawd"
+                subPath: "user_data/HOME/clawd"
               - path: "/tmp/clawdbot"
-                subPath: "tmp"
+                subPath: "user_data/tmp"
 
       shm:
         type: emptyDir
