@@ -170,31 +170,31 @@ spec:
               - path: "/root/.zed_server"
                 subPath: "user_data/HOME/.zed_server"
 
-              ## Happy Coder
-              - path: "/root/.happy"
-                subPath: "user_data/HOME/.happy"
+              # ## Happy Coder
+              # - path: "/root/.happy"
+              #   subPath: "user_data/HOME/.happy"
 
-              ## Codex
-              - path: "/root/.codex"
-                subPath: "user_data/HOME/.codex"
+              # ## Codex
+              # - path: "/root/.codex"
+              #   subPath: "user_data/HOME/.codex"
 
-              ## Qwen CLI
-              - path: "/root/.qwen"
-                subPath: "user_data/HOME/.qwen"
+              # ## Qwen CLI
+              # - path: "/root/.qwen"
+              #   subPath: "user_data/HOME/.qwen"
 
-              ## Gemini CLI
-              - path: "/root/.gemini"
-                subPath: "user_data/HOME/.gemini"
+              # ## Gemini CLI
+              # - path: "/root/.gemini"
+              #   subPath: "user_data/HOME/.gemini"
 
-              ## Every Code
-              - path: "/root/.code"
-                subPath: "user_data/HOME/.code"
+              # ## Every Code
+              # - path: "/root/.code"
+              #   subPath: "user_data/HOME/.code"
 
-              ## Claude Code
-              - path: "/root/.claude"
-                subPath: "user_data/HOME/.claude"
-              - path: "/root/.claude.json"
-                subPath: "user_data/HOME/.claude.json"
+              # ## Claude Code
+              # - path: "/root/.claude"
+              #   subPath: "user_data/HOME/.claude"
+              # - path: "/root/.claude.json"
+              #   subPath: "user_data/HOME/.claude.json"
 
               ## OpenCode
               - path: "/root/.config/opencode"
