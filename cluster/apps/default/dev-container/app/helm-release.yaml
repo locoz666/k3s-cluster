@@ -68,16 +68,58 @@ spec:
               - /bin/bash
               - -lc
               - |
-                /usr/sbin/sshd -D &
-                opencode web --hostname=0.0.0.0 &
-                # ClawdBot: enable maximum diagnostics for crash investigation
+                set -euo pipefail
+
+                # Simple in-container supervisor:
+                # - keep the pod alive
+                # - respawn critical processes if they crash
+                # - handle SIGTERM/SIGINT for graceful shutdown
+
                 mkdir -p /tmp/clawdbot
-                CLAWDBOT_DIAGNOSTICS='*' \
-                CLAWDBOT_CACHE_TRACE=1 \
-                CLAWDBOT_CACHE_TRACE_FILE=/tmp/clawdbot/cache-trace.jsonl \
-                NODE_DEBUG=undici \
-                clawdbot gateway --port 18789 --verbose --ws-log full --raw-stream --raw-stream-path /tmp/clawdbot/raw-stream.jsonl &
-                exec sleep infinity
+
+                start_with_backoff() {
+                  local name="$1"; shift
+                  local backoff=1
+                  local max_backoff=30
+                  while true; do
+                    echo "[supervisor] starting ${name}..." >&2
+                    set +e
+                    "$@"
+                    local rc=$?
+                    set -e
+                    echo "[supervisor] ${name} exited rc=${rc}; respawn in ${backoff}s" >&2
+                    sleep "${backoff}"
+                    if [ "${backoff}" -lt "${max_backoff}" ]; then
+                      backoff=$(( backoff * 2 ))
+                      if [ "${backoff}" -gt "${max_backoff}" ]; then
+                        backoff="${max_backoff}"
+                      fi
+                    fi
+                  done
+                }
+
+                term() {
+                  echo "[supervisor] caught signal, terminating children..." >&2
+                  kill "${sshd_pid:-}" "${opencode_pid:-}" "${clawdbot_pid:-}" 2>/dev/null || true
+                  wait || true
+                }
+                trap term TERM INT
+
+                start_with_backoff sshd /usr/sbin/sshd -D &
+                sshd_pid=$!
+
+                start_with_backoff opencode opencode web --hostname=0.0.0.0 &
+                opencode_pid=$!
+
+                # ClawdBot: enable maximum diagnostics for crash investigation
+                export CLAWDBOT_DIAGNOSTICS='*'
+                export CLAWDBOT_CACHE_TRACE=1
+                export CLAWDBOT_CACHE_TRACE_FILE=/tmp/clawdbot/cache-trace.jsonl
+                export NODE_DEBUG=undici
+                start_with_backoff clawdbot clawdbot gateway --port 18789 --verbose --ws-log full --raw-stream --raw-stream-path /tmp/clawdbot/raw-stream.jsonl &
+                clawdbot_pid=$!
+
+                wait
             env:
               TZ: "Asia/Shanghai"
             resources:
