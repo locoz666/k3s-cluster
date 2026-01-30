@@ -100,3 +100,13 @@ spec:
 
               - path: "/root/.cache/modelscope"
                 subPath: "user_data/HOME/.cache/modelscope"
+
+      shm:
+        type: emptyDir
+        medium: Memory
+        sizeLimit: 8Gi
+        advancedMounts:
+          main:
+            qwen3-tts-base:
+              - path: "/dev/shm"
+                readOnly: false
