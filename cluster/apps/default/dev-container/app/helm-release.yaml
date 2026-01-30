@@ -62,7 +62,7 @@ spec:
           dev-container:
             image:
               repository: "registry-gitlab.${SECRET_DOMAIN}/loco/dev-container"
-              tag: "1ae9ac72"
+              tag: "7af1fe56"
               pullPolicy: IfNotPresent
             env:
               TZ: "Asia/Shanghai"
@@ -91,7 +91,7 @@ spec:
           opencode-http:
             port: 4096
             protocol: HTTP
-          moltbot-gateway:
+          openclaw-gateway:
             port: 18789
             protocol: HTTP
 
@@ -108,17 +108,17 @@ spec:
                 service:
                   identifier: main
                   port: opencode-http
-          - host: "moltbot.${SECRET_DOMAIN}"
+          - host: "openclaw.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
                 service:
                   identifier: main
-                  port: moltbot-gateway
+                  port: openclaw-gateway
         tls:
           - hosts:
               - "opencode.${SECRET_DOMAIN}"
-              - "moltbot.${SECRET_DOMAIN}"
+              - "openclaw.${SECRET_DOMAIN}"
             secretName: "${SECRET_DOMAIN/./-}-tls"
 
     persistence:
