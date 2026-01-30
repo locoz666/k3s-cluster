@@ -212,6 +212,8 @@ spec:
                 subPath: "user_data/HOME/clawd"
               - path: "/tmp/clawdbot"
                 subPath: "user_data/tmp"
+              - path: "/root/.openclaw"
+                subPath: "user_data/HOME/.openclaw"
               ### Share Skills
               - path: "/root/clawd/skills"
                 subPath: "ai_user_data/skills"
