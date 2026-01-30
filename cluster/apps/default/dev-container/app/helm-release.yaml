@@ -132,6 +132,8 @@ spec:
               # Code Directory
               - path: "/root/code"
                 subPath: "code"
+              - path: "/root/ai_user_data"
+                subPath: "ai_user_data"
 
               # Cache
               ## Bun
@@ -199,6 +201,9 @@ spec:
                 subPath: "user_data/HOME/.config/opencode"
               - path: "/root/.local/share/opencode"
                 subPath: "user_data/HOME/.local/share/opencode"
+              ### Share Skills
+              - path: "/root/.config/opencode/skills"
+                subPath: "ai_user_data/skills"
 
               ## ClawdBot
               - path: "/root/.clawdbot"
@@ -207,6 +212,9 @@ spec:
                 subPath: "user_data/HOME/clawd"
               - path: "/tmp/clawdbot"
                 subPath: "user_data/tmp"
+              ### Share Skills
+              - path: "/root/clawd/skills"
+                subPath: "ai_user_data/skills"
 
       shm:
         type: emptyDir
