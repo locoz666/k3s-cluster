@@ -142,12 +142,15 @@ spec:
               ## UV
               - path: "/root/.cache/uv"
                 subPath: "user_data/HOME/.cache/uv"
-              ## ModelScope
+              ## Model Scope
               - path: "/root/.cache/modelscope"
                 subPath: "user_data/HOME/.cache/modelscope"
               ## Open Code
               - path: "/root/.cache/opencode"
                 subPath: "user_data/HOME/.cache/opencode"
+              ## Wave Terminal
+              - path: "/root/.waveterm"
+                subPath: "user_data/HOME/.waveterm"
 
               # User Data
               ## Zsh
