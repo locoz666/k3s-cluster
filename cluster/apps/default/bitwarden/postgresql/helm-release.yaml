@@ -23,7 +23,7 @@ spec:
   values:
     image:
       repository: bitnamilegacy/postgresql
-      tag: 14.2.0
+      tag: 17.6.0
 
     auth:
       username: "${SECRET_BITWARDEN_PGSQL_USERNAME}"
