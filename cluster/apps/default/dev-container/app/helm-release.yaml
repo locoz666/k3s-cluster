@@ -174,8 +174,8 @@ spec:
                 subPath: "user_data/HOME/.zed_server"
 
               ## Oh My Zsh
-              - path: "/root/.oh-my-zsh"
-                subPath: "user_data/HOME/.oh-my-zsh"
+              # - path: "/root/.oh-my-zsh"
+              #   subPath: "user_data/HOME/.oh-my-zsh"
 
               ## GitLab CLI
               - path: "/root/.config/glab-cli"
