@@ -181,6 +181,10 @@ spec:
               - path: "/root/.config/glab-cli"
                 subPath: "user_data/HOME/.config/glab-cli"
 
+              ## GitHub CLI
+              - path: "/root/.config/gh"
+                subPath: "user_data/HOME/.config/gh"
+
               ## Happy Coder
               - path: "/root/.happy"
                 subPath: "user_data/HOME/.happy"
