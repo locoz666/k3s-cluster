@@ -29,6 +29,9 @@ spec:
         [[runners]]
           [runners.kubernetes]
           image = "ubuntu:22.04"
+          [runners.kubernetes.pod_annotations]
+            "container.apparmor.security.beta.kubernetes.io/build" = "unconfined"
+            "container.apparmor.security.beta.kubernetes.io/helper" = "unconfined"
           [runners.kubernetes.node_selector]
             "node-role.kubernetes.io/gitlab-runner" = ""
             "kubernetes.io/arch" = "amd64"
