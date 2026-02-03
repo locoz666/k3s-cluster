@@ -29,6 +29,7 @@ spec:
         [[runners]]
           [runners.kubernetes]
           image = "ubuntu:22.04"
+          poll_timeout = 3600
           [runners.kubernetes.pod_annotations]
             "container.apparmor.security.beta.kubernetes.io/build" = "unconfined"
             "container.apparmor.security.beta.kubernetes.io/helper" = "unconfined"
