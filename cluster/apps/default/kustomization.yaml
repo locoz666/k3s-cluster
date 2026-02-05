@@ -39,6 +39,7 @@ resources:
   - ./paddleocr-vl/ks.yaml
   - ./funasr-nano-2512/ks.yaml
   - ./transnetv2-shot-detection-service/ks.yaml
+  - ./new-api/ks.yaml
   - ./dev-container/ks.yaml
 
   - ./mongodb/ks.yaml
