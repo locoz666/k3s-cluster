@@ -73,8 +73,8 @@ spec:
                 memory: 16Gi
                 nvidia.com/gpu: 2
               limits:
-                cpu: 16
-                memory: 32Gi
+                cpu: 24
+                memory: 64Gi
                 nvidia.com/gpu: 2
 
     service:
@@ -234,7 +234,7 @@ spec:
       shm:
         type: emptyDir
         medium: Memory
-        sizeLimit: 8Gi
+        sizeLimit: 2Gi
         advancedMounts:
           main:
             dev-container:
