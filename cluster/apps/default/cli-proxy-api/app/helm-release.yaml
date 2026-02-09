@@ -95,58 +95,26 @@ spec:
               antigravity:
                 - tab_flash_lite_preview
             oauth-model-alias:
-              aistudio:
-                - name: "gemini-2.5-pro"
-                  alias: "gemini-2.5-pro"
-
-                - name: "gemini-2.5-flash"
-                  alias: "gemini-2.5-flash"
-
-                - name: "gemini-2.5-flash-lite"
-                  alias: "gemini-2.5-flash-lite"
-
+              gemini:
                 - name: "gemini-3-pro-preview"
                   alias: "gemini-3-pro"
 
                 - name: "gemini-3-flash-preview"
                   alias: "gemini-3-flash"
 
-                - name: "gemini-2.5-flash-image-preview"
-                  alias: "gemini-2.5-flash-image-preview"
+              aistudio:
+                - name: "gemini-3-pro-preview"
+                  alias: "gemini-3-pro"
 
-                - name: "gemini-2.5-flash-image"
-                  alias: "gemini-2.5-flash-image"
-              
+                - name: "gemini-3-flash-preview"
+                  alias: "gemini-3-flash"
+
               antigravity:
-                - name: "claude-opus-4-5-thinking"
-                  alias: "claude-opus-4-5-thinking"
-              
-                - name: "gpt-oss-120b-medium"
-                  alias: "gpt-oss-120b-medium"
-              
-                - name: "claude-sonnet-4-5"
-                  alias: "claude-sonnet-4-5"
-              
-                - name: "gemini-2.5-flash-lite"
-                  alias: "gemini-2.5-flash-lite"
-              
                 - name: "gemini-3-pro-high"
                   alias: "gemini-3-pro"
-              
-                - name: "claude-sonnet-4-5-thinking"
-                  alias: "claude-sonnet-4-5-thinking"
-              
-                - name: "gemini-3-pro-image"
-                  alias: "gemini-3-pro-image"
-              
+
                 - name: "rev19-uic3-1p"
                   alias: "gemini-2.5-computer-use-preview-10-2025"
-              
-                - name: "gemini-3-flash"
-                  alias: "gemini-3-flash"
-              
-                - name: "gemini-2.5-flash"
-                  alias: "gemini-2.5-flash"
 
     persistence:
       config:
