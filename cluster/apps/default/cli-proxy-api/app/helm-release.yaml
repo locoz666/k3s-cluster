@@ -100,7 +100,7 @@ spec:
               antigravity:
                 - tab_flash_lite_preview
             oauth-model-alias:
-              gemini:
+              gemini-cli:
                 - name: "gemini-3-pro-preview"
                   alias: "gemini-3-pro"
 
