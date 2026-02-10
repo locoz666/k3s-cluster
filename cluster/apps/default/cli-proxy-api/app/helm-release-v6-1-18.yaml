@@ -32,6 +32,7 @@ spec:
               tag: v6.1.18
             env:
               TZ: Asia/Shanghai
+              WRITABLE_PATH: /root/.cli-proxy-api
 
     service:
       main:
@@ -65,6 +66,11 @@ spec:
         data:
           config.yaml: |
             port: 8317
+            debug: true
+            request-log: true
+            logging-to-file: true
+            logs-max-total-size-mb: 8192
+            error-logs-max-files: 200
             remote-management:
               allow-remote: true
               secret-key: "${SECRET_CLI_PROXY_API_API_KEY}"
@@ -73,7 +79,6 @@ spec:
             api-keys: [
               "${SECRET_CLI_PROXY_API_API_KEY}"
             ]
-            logging-to-file: false
             usage-statistics-enabled: true
             ws-auth: false
 
