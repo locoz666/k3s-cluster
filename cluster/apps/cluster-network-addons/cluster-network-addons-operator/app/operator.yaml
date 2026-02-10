@@ -477,7 +477,7 @@ spec:
           value: prometheus-k8s
         - name: RUNBOOK_URL_TEMPLATE
           value: https://kubevirt.io/monitoring/runbooks/%s
-        image: quay.io/kubevirt/cluster-network-addons-operator:v0.96.0
+        image: quay.io/kubevirt/cluster-network-addons-operator:v0.101.2
         imagePullPolicy: Always
         name: cluster-network-addons-operator
         resources:
