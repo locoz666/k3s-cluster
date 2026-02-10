@@ -47,6 +47,8 @@ resources:
   - ./prefect/ks.yaml
   - ./dify/ks.yaml
 
+  - ./trigger-dev/ks.yaml
+
   - ./control-center/ks.yaml
 
   - ./bazarr/ks.yaml

@@ -1,0 +1,39 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: trigger-dev-redis
+spec:
+  maxHistory: 1
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      chart: redis
+      version: 19.5.5
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      repository: bitnamilegacy/redis
+      tag: 8.0.2-debian-12-r4
+
+    auth:
+      enabled: true
+      existingSecret: trigger-dev-redis-auth
+      existingSecretPasswordKey: redis-password
+
+    architecture: standalone
+
+    replica:
+      replicaCount: 0
+
+    master:
+      persistence:
+        existingClaim: trigger-dev-redis-data

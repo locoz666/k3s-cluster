@@ -6,3 +6,4 @@ resources:
   - bitnami-postgresql.yaml
   - bitnami-rabbitmq.yaml
   - bitnami-redis.yaml
+  - triggerdotdev-trigger.yaml
