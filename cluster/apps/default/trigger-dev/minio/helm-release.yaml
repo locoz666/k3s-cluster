@@ -12,20 +12,58 @@ spec:
       retries: 3
   chart:
     spec:
-      chart: minio
-      version: 17.0.21
+      chart: app-template
+      version: 4.3.0
       sourceRef:
         kind: HelmRepository
-        name: bitnami
+        name: bjw-s
         namespace: flux-system
       interval: 5m
   values:
-    mode: standalone
-    auth:
-      existingSecret: trigger-dev-minio-auth
-      rootUserSecretKey: rootUser
-      rootPasswordSecretKey: rootPassword
-    defaultBuckets: packets
+    controllers:
+      main:
+        type: deployment
+        replicas: 1
+        strategy: RollingUpdate
+        containers:
+          minio:
+            image:
+              repository: minio/minio
+              tag: latest
+              pullPolicy: IfNotPresent
+            env:
+              MINIO_ROOT_USER:
+                valueFrom:
+                  secretKeyRef:
+                    name: trigger-dev-minio-auth
+                    key: rootUser
+              MINIO_ROOT_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: trigger-dev-minio-auth
+                    key: rootPassword
+            command: minio
+            args:
+              - server
+              - /data
+              - --console-address
+              - ":9001"
+
+    service:
+      main:
+        controller: main
+        type: ClusterIP
+        ports:
+          http:
+            enabled: true
+            port: 9000
+            protocol: HTTP
+
     persistence:
-      enabled: true
-      existingClaim: trigger-dev-minio-data
+      data:
+        existingClaim: trigger-dev-minio-data
+        advancedMounts:
+          main:
+            minio:
+              - path: /data
+                readOnly: false

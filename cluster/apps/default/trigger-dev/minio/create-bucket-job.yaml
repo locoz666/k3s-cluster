@@ -1,0 +1,35 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: trigger-dev-minio-create-bucket
+  namespace: default
+spec:
+  backoffLimit: 10
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: mc
+          image: bitnami/minio-client:2025.7.21-debian-12-r2
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: MINIO_ROOT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: trigger-dev-minio-auth
+                  key: rootUser
+            - name: MINIO_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: trigger-dev-minio-auth
+                  key: rootPassword
+          command:
+            - /bin/sh
+            - -ec
+            - |
+              until mc alias set local http://trigger-dev-minio:9000 "$MINIO_ROOT_USER" "$MINIO_ROOT_PASSWORD"; do
+                echo "waiting for minio...";
+                sleep 2;
+              done
+              mc mb --ignore-existing local/packets

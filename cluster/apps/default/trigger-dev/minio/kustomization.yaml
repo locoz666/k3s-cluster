@@ -5,3 +5,4 @@ resources:
   - data-pvc.yaml
   - secret.sops.yaml
   - helm-release.yaml
+  - create-bucket-job.yaml

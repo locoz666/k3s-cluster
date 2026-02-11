@@ -63,10 +63,12 @@ spec:
       deploy: false
       external:
         host: trigger-dev-clickhouse
-        port: 8123
+        httpPort: 8123
+        nativePort: 9000
         username: default
         existingSecret: trigger-dev-clickhouse-auth
         existingSecretKey: password
+        secure: false
 
     s3:
       deploy: false
