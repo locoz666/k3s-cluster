@@ -31,7 +31,7 @@ spec:
             enabled: true
       minio:
         persistence:
-          size: 400Gi
+          size: 500Gi
       postgresql:
         primary:
           extendedConfiguration: |
