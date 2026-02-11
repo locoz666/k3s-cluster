@@ -16,7 +16,7 @@ spec:
     namespace: flux-system
   values:
     secrets:
-      enabled: false
+      enabled: true
       existingSecret: trigger-dev-secrets
 
     webapp:
