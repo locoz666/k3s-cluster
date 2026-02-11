@@ -1,0 +1,81 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: clash-master
+spec:
+  maxHistory: 1
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 4.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  values:
+    controllers:
+      main:
+        type: deployment
+        replicas: 1
+        containers:
+          clash-master:
+            image:
+              repository: foru17/clash-master
+              tag: latest
+            env:
+              NODE_ENV: production
+              WEB_PORT: "3000"
+              API_PORT: "3001"
+              COLLECTOR_WS_PORT: "3002"
+              DB_PATH: /app/data/stats.db
+
+    service:
+      main:
+        controller: main
+        type: ClusterIP
+        ports:
+          http:
+            port: 3000
+            protocol: HTTP
+          ws:
+            port: 3002
+            protocol: HTTP
+
+    ingress:
+      main:
+        className: traefik
+        annotations:
+          traefik.ingress.kubernetes.io/router.middlewares: kube-system-rfc1918@kubernetescrd
+        hosts:
+          - host: "clash-master.${SECRET_DOMAIN}"
+            paths:
+              - path: /_cm_ws
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: ws
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: http
+        tls:
+          - secretName: "${SECRET_DOMAIN/./-}-tls"
+            hosts:
+              - "clash-master.${SECRET_DOMAIN}"
+
+    persistence:
+      data:
+        existingClaim: clash-master-data
+        advancedMounts:
+          main:
+            clash-master:
+              - path: /app/data
