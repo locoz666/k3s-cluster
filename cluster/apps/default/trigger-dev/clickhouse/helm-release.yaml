@@ -29,7 +29,7 @@ spec:
           clickhouse:
             image:
               repository: clickhouse/clickhouse-server
-              tag: 25.7
+              tag: 25.12
               pullPolicy: IfNotPresent
             env:
               CLICKHOUSE_USER: default
