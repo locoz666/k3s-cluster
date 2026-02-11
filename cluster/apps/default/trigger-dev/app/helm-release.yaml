@@ -23,6 +23,12 @@ spec:
       appOrigin: "https://trigger.${SECRET_DOMAIN}"
       loginOrigin: "https://trigger.${SECRET_DOMAIN}"
       apiOrigin: "https://trigger.${SECRET_DOMAIN}"
+      extraEnvVars:
+        - name: WHITELISTED_EMAILS
+          valueFrom:
+            secretKeyRef:
+              name: trigger-dev-secrets
+              key: WHITELISTED_EMAILS
       ingress:
         enabled: true
         className: traefik
