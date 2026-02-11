@@ -66,8 +66,7 @@ spec:
         httpPort: 8123
         nativePort: 9000
         username: default
-        existingSecret: trigger-dev-clickhouse-auth
-        existingSecretKey: password
+        password: "${SECRET_TRIGGER_DEV_CLICKHOUSE_PASSWORD}"
         secure: false
 
     s3:

@@ -26,7 +26,7 @@ spec:
       effective_cache_size: "2GB"
       work_mem: "16MB"
       maintenance_work_mem: "256MB"
-      wal_level: "replica"
+      wal_level: "logical"
       max_wal_senders: "10"
       max_replication_slots: "10"
       wal_compression: "on"
@@ -39,3 +39,12 @@ spec:
       log_min_duration_statement: "1000"
   monitoring:
     enablePodMonitor: true
+
+  managed:
+    roles:
+      - name: trigger
+        ensure: present
+        login: true
+        replication: true
+        passwordSecret:
+          name: trigger-dev-db-app-user
