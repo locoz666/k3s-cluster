@@ -62,7 +62,7 @@ spec:
           dev-container:
             image:
               repository: "registry-gitlab.${SECRET_DOMAIN}/loco/dev-container"
-              tag: "latest@sha256:076dc107057b6bcb4e1a35a9407c2dc5a4e003d5cdae43b70ff88184d52aaf83"
+              tag: "latest@sha256:90f20e439994b777c256f6c2935939b14a7c185e6c1b38d43cd7b03481f0e3fd"
               pullPolicy: IfNotPresent
             env:
               TZ: "Asia/Shanghai"
