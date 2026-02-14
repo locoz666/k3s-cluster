@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: clash-master-data
+  name: neko-master-data
 spec:
   accessModes:
     - ReadWriteOnce
