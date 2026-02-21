@@ -33,7 +33,7 @@ spec:
           openclaw:
             image:
               repository: "registry-gitlab.${SECRET_DOMAIN}/loco/dev-container"
-              tag: "5de7859b44b8b25e15fbf683bf0e0a0e01fab728"
+              tag: "2807371cf2b600eca23f5b5291bfbc751c619c10"
               pullPolicy: IfNotPresent
             env:
               TZ: "Asia/Shanghai"
@@ -103,17 +103,123 @@ spec:
             port: 18789
             protocol: HTTP
 
+    ingress:
+      main:
+        className: "traefik"
+        annotations:
+          traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
+        hosts:
+          - host: "openclaw.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: gateway
+        tls:
+          - secretName: "${SECRET_DOMAIN/./-}-tls"
+            hosts:
+              - "openclaw.${SECRET_DOMAIN}"
+
     persistence:
       dev-share-files:
         existingClaim: dev-share-files
         advancedMounts:
           main:
             openclaw:
-              - path: /root/.openclaw
-                subPath: user_data/HOME/.openclaw
-              - path: /root/clawd
-                subPath: user_data/HOME/clawd
-              - path: /tmp/clawdbot
-                subPath: user_data/tmp
-              - path: /root/clawd/skills
-                subPath: ai_user_data/skills
+              - path: "/mnt/pvc/dev-share-files"
+              - path: "/root/code"
+                subPath: "code"
+              - path: "/root/ai_user_data"
+                subPath: "ai_user_data"
+              - path: "/root/.bun"
+                subPath: "user_data/HOME/.bun"
+              - path: "/root/.cache/uv"
+                subPath: "user_data/HOME/.cache/uv"
+              - path: "/root/.cache/modelscope"
+                subPath: "user_data/HOME/.cache/modelscope"
+              - path: "/root/.ssh"
+                subPath: "user_data/HOME/.ssh"
+              - path: "/root/.kube"
+                subPath: "user_data/HOME/.kube"
+              - path: "/root/.vscode-server"
+                subPath: "user_data/HOME/.vscode-server"
+              - path: "/root/.zed_server"
+                subPath: "user_data/HOME/.zed_server"
+              - path: "/root/.config/glab-cli"
+                subPath: "user_data/HOME/.config/glab-cli"
+              - path: "/root/.config/gh"
+                subPath: "user_data/HOME/.config/gh"
+              - path: "/root/.happy"
+                subPath: "user_data/HOME/.happy"
+              - path: "/root/.codex"
+                subPath: "user_data/HOME/.codex"
+              - path: "/root/.qwen"
+                subPath: "user_data/HOME/.qwen"
+              - path: "/root/.gemini"
+                subPath: "user_data/HOME/.gemini"
+              - path: "/root/.code"
+                subPath: "user_data/HOME/.code"
+              - path: "/root/.claude"
+                subPath: "user_data/HOME/.claude"
+              - path: "/root/.claude.json"
+                subPath: "user_data/HOME/.claude.json"
+              - path: "/root/.config/opencode"
+                subPath: "user_data/HOME/.config/opencode"
+              - path: "/root/.local/share/opencode"
+                subPath: "user_data/HOME/.local/share/opencode"
+              - path: "/root/.config/opencode/skills"
+                subPath: "ai_user_data/skills"
+              - path: "/root/.kimi"
+                subPath: "user_data/HOME/.kimi"
+              - path: "/root/.openclaw"
+                subPath: "user_data/HOME/.openclaw"
+              - path: "/root/clawd"
+                subPath: "user_data/HOME/clawd"
+              - path: "/tmp/clawdbot"
+                subPath: "user_data/tmp"
+              - path: "/root/clawd/skills"
+                subPath: "ai_user_data/skills"
+
+      other-files:
+        existingClaim: "other-files"
+        advancedMounts:
+          main:
+            openclaw:
+              - path: "/mnt/pvc/other-files"
+      personal-files:
+        existingClaim: "personal-files"
+        advancedMounts:
+          main:
+            openclaw:
+              - path: "/mnt/pvc/personal-files"
+      entertainment-media-ec-files:
+        existingClaim: "entertainment-media-ec-files"
+        advancedMounts:
+          main:
+            openclaw:
+              - path: "/mnt/pvc/entertainment-media-ec-files"
+      live-record-ec-files:
+        existingClaim: "live-record-ec-files"
+        advancedMounts:
+          main:
+            openclaw:
+              - path: "/mnt/pvc/live-record-ec-files"
+      entertainment-media-files:
+        existingClaim: "entertainment-media-files"
+        advancedMounts:
+          main:
+            openclaw:
+              - path: "/mnt/pvc/entertainment-media-files"
+      live-record-files:
+        existingClaim: "live-record-files"
+        advancedMounts:
+          main:
+            openclaw:
+              - path: "/mnt/pvc/live-record-files"
+      personal-media-files:
+        existingClaim: "personal-media-files"
+        advancedMounts:
+          main:
+            openclaw:
+              - path: "/mnt/pvc/personal-media-files"
