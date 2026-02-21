@@ -220,6 +220,10 @@ spec:
               - path: "/root/.config/opencode/skills"
                 subPath: "ai_user_data/skills"
 
+              ## Kimi
+              - path: "/root/.kimi"
+                subPath: "user_data/HOME/.kimi"
+
               ## ClawdBot
               - path: "/root/.openclaw"
                 subPath: "user_data/HOME/.openclaw"
