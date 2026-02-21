@@ -25,37 +25,8 @@ spec:
         replicas: 1
         strategy: Recreate
         pod:
-          affinity:
-            nodeAffinity:
-              preferredDuringSchedulingIgnoredDuringExecution:
-                - weight: 100
-                  preference:
-                    matchExpressions:
-                      - key: kubernetes.io/hostname
-                        operator: In
-                        values:
-                          - home-server-power
-                - weight: 50
-                  preference:
-                    matchExpressions:
-                      - key: kubernetes.io/hostname
-                        operator: In
-                        values:
-                          - home-server-titan
-                - weight: 25
-                  preference:
-                    matchExpressions:
-                      - key: kubernetes.io/hostname
-                        operator: In
-                        values:
-                          - home-server-sonic
-                - weight: 10
-                  preference:
-                    matchExpressions:
-                      - key: kubernetes.io/hostname
-                        operator: In
-                        values:
-                          - home-server-nut
+          nodeSelector:
+            kubernetes.io/hostname: home-server-power
           imagePullSecrets:
             - name: dev-container-registry
         containers:
@@ -66,7 +37,7 @@ spec:
               pullPolicy: IfNotPresent
             env:
               TZ: "Asia/Shanghai"
-              DEV_SERVICES: "sshd,opencode,clawdbot"
+              DEV_SERVICES: "sshd,opencode"
             resources:
               requests:
                 cpu: 10m
@@ -91,9 +62,6 @@ spec:
           opencode-http:
             port: 4096
             protocol: HTTP
-          openclaw-gateway:
-            port: 18789
-            protocol: HTTP
 
     ingress:
       main:
@@ -108,17 +76,9 @@ spec:
                 service:
                   identifier: main
                   port: opencode-http
-          - host: "openclaw.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  identifier: main
-                  port: openclaw-gateway
         tls:
           - hosts:
               - "opencode.${SECRET_DOMAIN}"
-              - "openclaw.${SECRET_DOMAIN}"
             secretName: "${SECRET_DOMAIN/./-}-tls"
 
     persistence:
@@ -224,7 +184,7 @@ spec:
               - path: "/root/.kimi"
                 subPath: "user_data/HOME/.kimi"
 
-              ## ClawdBot
+              ## OpenClaw
               - path: "/root/.openclaw"
                 subPath: "user_data/HOME/.openclaw"
               - path: "/root/clawd"
