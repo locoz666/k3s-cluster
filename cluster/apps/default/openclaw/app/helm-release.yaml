@@ -25,13 +25,15 @@ spec:
         replicas: 1
         strategy: Recreate
         pod:
+          nodeSelector:
+            kubernetes.io/hostname: home-server-power
           imagePullSecrets:
             - name: dev-container-registry
         containers:
           openclaw:
             image:
               repository: "registry-gitlab.${SECRET_DOMAIN}/loco/dev-container"
-              tag: "latest"
+              tag: "5de7859b44b8b25e15fbf683bf0e0a0e01fab728"
               pullPolicy: IfNotPresent
             env:
               TZ: "Asia/Shanghai"
@@ -52,31 +54,37 @@ spec:
             probes:
               liveness:
                 enabled: true
-                type: HTTP
-                path: /
-                port: 18789
-                initialDelaySeconds: 30
-                periodSeconds: 10
-                timeoutSeconds: 5
-                failureThreshold: 3
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: 18789
+                  initialDelaySeconds: 30
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 3
               readiness:
                 enabled: true
-                type: HTTP
-                path: /
-                port: 18789
-                initialDelaySeconds: 10
-                periodSeconds: 5
-                timeoutSeconds: 3
-                failureThreshold: 3
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: 18789
+                  initialDelaySeconds: 10
+                  periodSeconds: 5
+                  timeoutSeconds: 3
+                  failureThreshold: 3
               startup:
                 enabled: true
-                type: HTTP
-                path: /
-                port: 18789
-                initialDelaySeconds: 5
-                periodSeconds: 5
-                timeoutSeconds: 3
-                failureThreshold: 30
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: 18789
+                  initialDelaySeconds: 5
+                  periodSeconds: 5
+                  timeoutSeconds: 3
+                  failureThreshold: 30
             resources:
               requests:
                 cpu: 10m
