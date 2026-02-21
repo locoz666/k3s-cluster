@@ -41,6 +41,7 @@ resources:
   - ./transnetv2-shot-detection-service/ks.yaml
   - ./new-api/ks.yaml
   - ./dev-container/ks.yaml
+  - ./openclaw/ks.yaml
 
   - ./mongodb/ks.yaml
   - ./rabbitmq/ks.yaml

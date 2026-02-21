@@ -1,0 +1,111 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: openclaw
+spec:
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 4.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  values:
+    controllers:
+      main:
+        type: deployment
+        replicas: 1
+        strategy: Recreate
+        pod:
+          imagePullSecrets:
+            - name: dev-container-registry
+        containers:
+          openclaw:
+            image:
+              repository: "registry-gitlab.${SECRET_DOMAIN}/loco/dev-container"
+              tag: "latest"
+              pullPolicy: IfNotPresent
+            env:
+              TZ: "Asia/Shanghai"
+              CLAWDBOT_DIAGNOSTICS: "*"
+              CLAWDBOT_CACHE_TRACE: "1"
+              CLAWDBOT_CACHE_TRACE_FILE: "/tmp/clawdbot/cache-trace.jsonl"
+              NODE_DEBUG: "undici"
+            command: ["openclaw", "gateway"]
+            args:
+              - "--port"
+              - "18789"
+              - "--verbose"
+              - "--ws-log"
+              - "full"
+              - "--raw-stream"
+              - "--raw-stream-path"
+              - "/tmp/clawdbot/raw-stream.jsonl"
+            probes:
+              liveness:
+                enabled: true
+                type: HTTP
+                path: /
+                port: 18789
+                initialDelaySeconds: 30
+                periodSeconds: 10
+                timeoutSeconds: 5
+                failureThreshold: 3
+              readiness:
+                enabled: true
+                type: HTTP
+                path: /
+                port: 18789
+                initialDelaySeconds: 10
+                periodSeconds: 5
+                timeoutSeconds: 3
+                failureThreshold: 3
+              startup:
+                enabled: true
+                type: HTTP
+                path: /
+                port: 18789
+                initialDelaySeconds: 5
+                periodSeconds: 5
+                timeoutSeconds: 3
+                failureThreshold: 30
+            resources:
+              requests:
+                cpu: 10m
+                memory: 1Gi
+              limits:
+                cpu: 4
+                memory: 8Gi
+
+    service:
+      main:
+        enabled: true
+        type: ClusterIP
+        ports:
+          gateway:
+            enabled: true
+            port: 18789
+            protocol: HTTP
+
+    persistence:
+      dev-share-files:
+        existingClaim: dev-share-files
+        advancedMounts:
+          main:
+            openclaw:
+              - path: /root/.openclaw
+                subPath: user_data/HOME/.openclaw
+              - path: /root/clawd
+                subPath: user_data/HOME/clawd
+              - path: /tmp/clawdbot
+                subPath: user_data/tmp
+              - path: /root/clawd/skills
+                subPath: ai_user_data/skills
