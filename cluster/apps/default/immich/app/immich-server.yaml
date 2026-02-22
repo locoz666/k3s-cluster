@@ -23,7 +23,7 @@ spec:
     controllers:
       main:
         type: deployment
-        replicas: 4
+        replicas: 1
         strategy: RollingUpdate
         containers:
           immich-server:
