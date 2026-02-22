@@ -29,7 +29,7 @@ spec:
           immich-server:
             image:
               repository: ghcr.io/immich-app/immich-server
-              tag: v2.5.5
+              tag: v2.5.6
               pullPolicy: IfNotPresent
 
             env:
