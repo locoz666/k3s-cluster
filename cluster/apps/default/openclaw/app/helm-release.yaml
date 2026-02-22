@@ -34,7 +34,7 @@ spec:
             image:
               repository: "registry-gitlab.${SECRET_DOMAIN}/loco/dev-container"
               tag: "2807371cf2b600eca23f5b5291bfbc751c619c10"
-              pullPolicy: IfNotPresent
+              pullPolicy: Always
             env:
               TZ: "Asia/Shanghai"
               CLAWDBOT_DIAGNOSTICS: "*"
