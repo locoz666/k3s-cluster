@@ -53,38 +53,11 @@ spec:
               - "/tmp/clawdbot/raw-stream.jsonl"
             probes:
               liveness:
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /
-                    port: 18789
-                  initialDelaySeconds: 30
-                  periodSeconds: 10
-                  timeoutSeconds: 10
-                  failureThreshold: 18
+                enabled: false
               readiness:
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /
-                    port: 18789
-                  initialDelaySeconds: 10
-                  periodSeconds: 5
-                  timeoutSeconds: 3
-                  failureThreshold: 3
+                enabled: false
               startup:
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /
-                    port: 18789
-                  initialDelaySeconds: 10
-                  periodSeconds: 10
-                  timeoutSeconds: 5
-                  failureThreshold: 6
+                enabled: false
             resources:
               requests:
                 cpu: 10m
@@ -95,31 +68,11 @@ spec:
 
     service:
       main:
-        enabled: true
-        type: ClusterIP
-        ports:
-          gateway:
-            enabled: true
-            port: 18789
-            protocol: HTTP
+        enabled: false
 
     ingress:
       main:
-        className: "traefik"
-        annotations:
-          traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
-        hosts:
-          - host: "openclaw.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  identifier: main
-                  port: gateway
-        tls:
-          - secretName: "${SECRET_DOMAIN/./-}-tls"
-            hosts:
-              - "openclaw.${SECRET_DOMAIN}"
+        enabled: false
 
     persistence:
       dev-share-files:
