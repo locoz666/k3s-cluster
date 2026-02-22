@@ -29,7 +29,7 @@ spec:
           new-api:
             image:
               repository: calciumion/new-api
-              tag: v0.10.7
+              tag: v0.10.9
             env:
               TZ: Asia/Shanghai
               SQL_DSN:
