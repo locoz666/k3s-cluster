@@ -91,6 +91,8 @@ spec:
                 subPath: "user_data/HOME/.cache/uv"
               - path: "/root/.cache/modelscope"
                 subPath: "user_data/HOME/.cache/modelscope"
+              - path: "/root/.cache/qmd"
+                subPath: "HOME/.cache/qmd"
               - path: "/root/.ssh"
                 subPath: "user_data/HOME/.ssh"
               - path: "/root/.kube"
