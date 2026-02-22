@@ -1,0 +1,9 @@
+{
+  "active_plan": "/root/code/loco/k3s-cluster/.sisyphus/plans/openclaw-split.md",
+  "started_at": "2026-02-21T18:47:43.245Z",
+  "session_ids": [
+    "ses_37ea1a4bbffeI5eYxLX1CFPBM5"
+  ],
+  "plan_name": "openclaw-split",
+  "agent": "atlas"
+}
