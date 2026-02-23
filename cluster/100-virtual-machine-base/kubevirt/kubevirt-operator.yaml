@@ -7520,7 +7520,7 @@ spec:
                   fieldPath: metadata.annotations['olm.targetNamespaces']
             - name: KUBEVIRT_VERSION
               value: v1.2.1
-          image: quay.io/kubevirt/virt-operator:v1.2.1
+          image: quay.io/kubevirt/virt-operator:v1.7.1
           imagePullPolicy: IfNotPresent
           name: virt-operator
           ports:
