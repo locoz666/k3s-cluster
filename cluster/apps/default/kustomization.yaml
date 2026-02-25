@@ -24,7 +24,7 @@ resources:
   - ./nextcloud/ks.yaml
   - ./douyin-live-recorder/ks.yaml
   - ./aria2/ks.yaml
-  - ./n8n/ks.yaml
+  # - ./n8n/ks.yaml
   - ./nexus-repository-manager/ks.yaml
   # - ./sentry/ks.yaml
   - ./gitlab/ks.yaml
@@ -46,7 +46,7 @@ resources:
   - ./mongodb/ks.yaml
   - ./rabbitmq/ks.yaml
   - ./prefect/ks.yaml
-  - ./dify/ks.yaml
+  # - ./dify/ks.yaml
 
   - ./trigger-dev/ks.yaml
 
