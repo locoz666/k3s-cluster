@@ -68,10 +68,10 @@ spec:
       # 开启自动创建Ceph警告相关的Prometheus规则，默认未开启
       createPrometheusRules: true
 
+    cephImage:
+      tag: "v20.2.0"
+
     cephClusterSpec:
-      # 指定Ceph版本
-      cephVersion: 
-        image: quay.io/ceph/ceph:v20.2.0
 
       # 是否在PG状态非完全健康的情况下也允许升级容器版本，避免刚好在升级时触发Scrub、Backfill、Recovery等操作导致PG状态不健康而无法升级
       continueUpgradeAfterChecksEvenIfNotHealthy: true
