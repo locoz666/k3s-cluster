@@ -33,7 +33,7 @@ spec:
           openclaw:
             image:
               repository: "registry-gitlab.${SECRET_DOMAIN}/loco/dev-container"
-              tag: "c29051c5d0f14aa46b21dd1341d23de8f0f890ce"
+              tag: "39a84aee421dcb00da4e863b1c935f67198fe3d1"
               pullPolicy: Always
             env:
               TZ: "Asia/Shanghai"

@@ -33,7 +33,7 @@ spec:
           dev-container:
             image:
               repository: "registry-gitlab.${SECRET_DOMAIN}/loco/dev-container"
-              tag: "6b094c5e5553d8527fad424485ee885e2187535c"
+              tag: "39a84aee421dcb00da4e863b1c935f67198fe3d1"
               pullPolicy: Always
             env:
               TZ: "Asia/Shanghai"
