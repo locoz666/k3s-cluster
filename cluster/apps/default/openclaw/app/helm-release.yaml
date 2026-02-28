@@ -37,9 +37,9 @@ spec:
               pullPolicy: Always
             env:
               TZ: "Asia/Shanghai"
-              CLAWDBOT_DIAGNOSTICS: "*"
-              CLAWDBOT_CACHE_TRACE: "1"
-              CLAWDBOT_CACHE_TRACE_FILE: "/tmp/clawdbot/cache-trace.jsonl"
+              OPENCLAW_DIAGNOSTICS: "*"
+              OPENCLAW_CACHE_TRACE: "1"
+              OPENCLAW_CACHE_TRACE_FILE: "/tmp/clawdbot/cache-trace.jsonl"
               NODE_DEBUG: "undici"
             command: ["openclaw", "gateway"]
             args:
