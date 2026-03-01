@@ -32,7 +32,7 @@ spec:
         containers:
           dev-container:
             image:
-              repository: "registry-gitlab.\${SECRET_DOMAIN}/loco/dev-container"
+              repository: "registry-gitlab.${SECRET_DOMAIN}/loco/dev-container"
               tag: "f305eca921b060e96e9670797d934862fb80e7c9"
               pullPolicy: Always
             env:
@@ -69,7 +69,7 @@ spec:
         annotations:
           traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
         hosts:
-          - host: "opencode.\${SECRET_DOMAIN}"
+          - host: "opencode.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
@@ -78,8 +78,8 @@ spec:
                   port: opencode-http
         tls:
           - hosts:
-              - "opencode.\${SECRET_DOMAIN}"
-            secretName: "\${SECRET_DOMAIN/./-}-tls"
+              - "opencode.${SECRET_DOMAIN}"
+            secretName: "${SECRET_DOMAIN/./-}-tls"
 
     persistence:
       dev-share-files:
