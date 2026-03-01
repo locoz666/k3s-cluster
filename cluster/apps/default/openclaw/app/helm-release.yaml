@@ -32,7 +32,7 @@ spec:
         containers:
           openclaw:
             image:
-              repository: "registry-gitlab.${SECRET_DOMAIN}/loco/dev-container"
+              repository: "registry-gitlab.\${SECRET_DOMAIN}/loco/dev-container"
               tag: "f305eca921b060e96e9670797d934862fb80e7c9"
               pullPolicy: Always
             env:
@@ -122,6 +122,8 @@ spec:
                 subPath: "user_data/HOME/.kimi"
               - path: "/root/.openclaw"
                 subPath: "user_data/HOME/.openclaw"
+              - path: "/root/.acpx"
+                subPath: "user_data/HOME/.acpx"
               - path: "/root/clawd"
                 subPath: "user_data/HOME/clawd"
               - path: "/tmp/clawdbot"
