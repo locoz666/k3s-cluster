@@ -37,7 +37,6 @@ spec:
               pullPolicy: Always
             env:
               TZ: "Asia/Shanghai"
-              OPENCLAW_DIAGNOSTICS: "*"
             command: ["openclaw", "gateway"]
             args:
               - "--port"
