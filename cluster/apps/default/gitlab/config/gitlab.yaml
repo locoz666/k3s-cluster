@@ -41,6 +41,16 @@ spec:
         hpa:
           minReplicas: 1
           maxReplicas: 1
+        # 启用 Registry 垃圾回收，定期清理孤儿 blob
+        # 背景：/export/registry 存在严重孤儿 blob 问题（514.8 GB blobs vs 几乎为空的 repositories）
+        garbageCollection:
+          enabled: true
+          cron:
+            enabled: true
+            schedule: "0 2 * * *"  # 每天凌晨 2 点执行
+            historyLimit: 5
+            concurrencyPolicy: "Forbid"
+            startingDeadlineSeconds: 3600
       installCertmanager: false
       nginx-ingress:
         enabled: false # 不让gitlab单独部署ingress，直接使用公共的ingress
