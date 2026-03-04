@@ -83,6 +83,8 @@ spec:
                   identifier: main
         tls:
           - secretName: "${SECRET_DOMAIN/./-}-tls"
+            hosts:
+              - "openclaw.${SECRET_DOMAIN}"
 
     persistence:
       dev-share-files:
