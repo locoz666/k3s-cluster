@@ -24,6 +24,9 @@ spec:
       repository: "ghcr.io/crazy-max/samba"
       tag: "4.21.4"
 
+    nodeSelector:
+      kubernetes.io/hostname: home-server-power
+
     env:
       TZ: "Asia/Shanghai"
       GLOBAL_CREATE_MASK: "0775"
@@ -111,6 +114,11 @@ spec:
         type: pvc
         existingClaim: nextcloud-data
         mountPath: /mnt/pvc/nextcloud-data
+      dev-share-files:
+        enabled: true
+        type: pvc
+        existingClaim: dev-share-files
+        mountPath: /mnt/pvc/dev-share-files
 
     configMaps:
       config:
@@ -137,7 +145,7 @@ spec:
                 validusers: loco
                 writelist: loco
                 veto: yes
-            
+
               - name: personal-files
                 path: /mnt/pvc/personal-files
                 browsable: yes
@@ -155,7 +163,7 @@ spec:
                 validusers: loco
                 writelist: loco
                 veto: yes
-              
+
               - name: entertainment-media-files
                 path: /mnt/pvc/entertainment-media-files
                 browsable: yes
@@ -164,7 +172,7 @@ spec:
                 validusers: loco
                 writelist: loco
                 veto: yes
-              
+
               - name: entertainment-media-ec-files
                 path: /mnt/pvc/entertainment-media-ec-files
                 browsable: yes
@@ -173,7 +181,7 @@ spec:
                 validusers: loco
                 writelist: loco
                 veto: yes
-              
+
               - name: 3d-print-data
                 path: /mnt/pvc/3d-print-data
                 browsable: yes
@@ -200,7 +208,7 @@ spec:
                 validusers: loco
                 writelist: loco
                 veto: yes
-              
+
               - name: live-record-files
                 path: /mnt/pvc/live-record-files
                 browsable: yes
@@ -209,7 +217,7 @@ spec:
                 validusers: loco
                 writelist: loco
                 veto: yes
-              
+
               - name: live-record-ec-files
                 path: /mnt/pvc/live-record-ec-files
                 browsable: yes
@@ -218,7 +226,7 @@ spec:
                 validusers: loco
                 writelist: loco
                 veto: yes
-              
+
               - name: nextcloud-config
                 path: /mnt/pvc/nextcloud-config
                 browsable: yes
@@ -227,9 +235,18 @@ spec:
                 validusers: loco
                 writelist: loco
                 veto: yes
-            
+
               - name: nextcloud-data
                 path: /mnt/pvc/nextcloud-data
+                browsable: yes
+                readonly: no
+                guestok: no
+                validusers: loco
+                writelist: loco
+                veto: yes
+
+              - name: dev-share-files
+                path: /mnt/pvc/dev-share-files
                 browsable: yes
                 readonly: no
                 guestok: no
