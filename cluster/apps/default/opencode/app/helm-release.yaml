@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: dev-container
+  name: opencode
 spec:
   interval: 5m
   timeout: 30m
@@ -28,156 +28,143 @@ spec:
           nodeSelector:
             kubernetes.io/hostname: home-server-power
           imagePullSecrets:
-            - name: dev-container-registry
+            - name: opencode-registry
         containers:
-          dev-container:
+          opencode:
             image:
               repository: "registry-gitlab.${SECRET_DOMAIN}/loco/dev-container"
               tag: "7c9b49719a121c3df7bab08c7d979ee6a17ba085"
               pullPolicy: Always
+            command:
+              - opencode
+            args:
+              - web
+              - --hostname=0.0.0.0
             env:
               TZ: "Asia/Shanghai"
-              DEV_SERVICES: "sshd"
             resources:
               requests:
                 cpu: 10m
-                memory: 16Gi
-                nvidia.com/gpu: 2
+                memory: 1Gi
+                nvidia.com/gpu: 1
               limits:
                 cpu: 24
                 memory: 24Gi
-                nvidia.com/gpu: 2
+                nvidia.com/gpu: 1
 
     service:
       main:
         enabled: true
-        type: LoadBalancer
-        externalTrafficPolicy: Cluster
-        annotations:
-          kube-vip.io/loadbalancerIPs: 192.168.170.237
+        type: ClusterIP
         ports:
-          ssh:
-            port: 22
-            protocol: TCP
+          opencode-http:
+            port: 4096
+            protocol: HTTP
+
+    ingress:
+      main:
+        className: "traefik"
+        annotations:
+          traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
+        hosts:
+          - host: "opencode.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: opencode-http
+        tls:
+          - hosts:
+              - "opencode.${SECRET_DOMAIN}"
+            secretName: "${SECRET_DOMAIN/./-}-tls"
 
     persistence:
       dev-share-files:
         existingClaim: "dev-share-files"
         advancedMounts:
           main:
-            dev-container:
+            opencode:
               - path: "/mnt/pvc/dev-share-files"
 
-              # Code Directory
               - path: "/root/code"
                 subPath: "code"
               - path: "/root/ai_user_data"
                 subPath: "ai_user_data"
 
-              # Cache
-              ## Bun
               - path: "/root/.bun"
                 subPath: "user_data/HOME/.bun"
-              ## UV
               - path: "/root/.cache/uv"
                 subPath: "user_data/HOME/.cache/uv"
-              ## Model Scope
               - path: "/root/.cache/modelscope"
                 subPath: "user_data/HOME/.cache/modelscope"
-              ## Open Code
               - path: "/root/.cache/opencode"
                 subPath: "user_data/HOME/.cache/opencode"
-              ## Wave Terminal
               - path: "/root/.waveterm"
                 subPath: "user_data/HOME/.waveterm"
 
-              # User Data
-              ## F2
               - path: "/root/.config/f2"
                 subPath: "user_data/HOME/.config/f2"
 
-              ## Zsh
               - path: "/root/.zsh_history"
                 subPath: "user_data/HOME/.zsh_history"
 
-              ## SSH
               - path: "/root/.ssh"
                 subPath: "user_data/HOME/.ssh"
 
-              ## Kubenetes
               - path: "/root/.kube"
                 subPath: "user_data/HOME/.kube"
 
-              ## VSCode
               - path: "/root/.vscode-server"
                 subPath: "user_data/HOME/.vscode-server"
 
-              ## Zed
               - path: "/root/.zed_server"
                 subPath: "user_data/HOME/.zed_server"
 
-              ## Oh My Zsh
-              # - path: "/root/.oh-my-zsh"
-              #   subPath: "user_data/HOME/.oh-my-zsh"
-
-              ## GitLab CLI
               - path: "/root/.config/glab-cli"
                 subPath: "user_data/HOME/.config/glab-cli"
 
-              ## GitHub CLI
               - path: "/root/.config/gh"
                 subPath: "user_data/HOME/.config/gh"
 
-              ## Happy Coder
               - path: "/root/.happy"
                 subPath: "user_data/HOME/.happy"
 
-              ## Codex
               - path: "/root/.codex"
                 subPath: "user_data/HOME/.codex"
 
-              ## Qwen CLI
               - path: "/root/.qwen"
                 subPath: "user_data/HOME/.qwen"
 
-              ## Gemini CLI
               - path: "/root/.gemini"
                 subPath: "user_data/HOME/.gemini"
 
-              ## Every Code
               - path: "/root/.code"
                 subPath: "user_data/HOME/.code"
 
-              ## Claude Code
               - path: "/root/.claude"
                 subPath: "user_data/HOME/.claude"
               - path: "/root/.claude.json"
                 subPath: "user_data/HOME/.claude.json"
 
-              ## OpenCode
               - path: "/root/.config/opencode"
                 subPath: "user_data/HOME/.config/opencode"
               - path: "/root/.local/share/opencode"
                 subPath: "user_data/HOME/.local/share/opencode"
-              ### Share Skills
               - path: "/root/.config/opencode/skills"
                 subPath: "ai_user_data/skills"
 
-              ## Kimi
               - path: "/root/.kimi"
                 subPath: "user_data/HOME/.kimi"
 
-              ## OpenClaw
               - path: "/root/.openclaw"
                 subPath: "user_data/HOME/.openclaw"
-              ## ACP
               - path: "/root/.acpx"
                 subPath: "user_data/HOME/.acpx"
               - path: "/root/clawd"
                 subPath: "user_data/HOME/clawd"
               - path: "/tmp/clawdbot"
                 subPath: "user_data/tmp"
-              ### Share Skills
               - path: "/root/clawd/skills"
                 subPath: "ai_user_data/skills"
 
@@ -187,66 +174,64 @@ spec:
         sizeLimit: 2Gi
         advancedMounts:
           main:
-            dev-container:
+            opencode:
               - path: "/dev/shm"
                 readOnly: false
 
-      # Rclone
       nextcloud-loco:
         type: hostPath
         hostPath: "/mnt/nextcloud-loco"
         advancedMounts:
           main:
-            dev-container:
+            opencode:
               - path: "/mnt/nextcloud-loco"
       nextcloud-xpd:
         type: hostPath
         hostPath: "/mnt/nextcloud-xpd"
         advancedMounts:
           main:
-            dev-container:
+            opencode:
               - path: "/mnt/nextcloud-xpd"
 
-      # PVC
       other-files:
         existingClaim: "other-files"
         advancedMounts:
           main:
-            dev-container:
+            opencode:
               - path: "/mnt/pvc/other-files"
       personal-files:
         existingClaim: "personal-files"
         advancedMounts:
           main:
-            dev-container:
+            opencode:
               - path: "/mnt/pvc/personal-files"
       entertainment-media-ec-files:
         existingClaim: "entertainment-media-ec-files"
         advancedMounts:
           main:
-            dev-container:
+            opencode:
               - path: "/mnt/pvc/entertainment-media-ec-files"
       live-record-ec-files:
         existingClaim: "live-record-ec-files"
         advancedMounts:
           main:
-            dev-container:
+            opencode:
               - path: "/mnt/pvc/live-record-ec-files"
       entertainment-media-files:
         existingClaim: "entertainment-media-files"
         advancedMounts:
           main:
-            dev-container:
+            opencode:
               - path: "/mnt/pvc/entertainment-media-files"
       live-record-files:
         existingClaim: "live-record-files"
         advancedMounts:
           main:
-            dev-container:
+            opencode:
               - path: "/mnt/pvc/live-record-files"
       personal-media-files:
         existingClaim: "personal-media-files"
         advancedMounts:
           main:
-            dev-container:
+            opencode:
               - path: "/mnt/pvc/personal-media-files"
