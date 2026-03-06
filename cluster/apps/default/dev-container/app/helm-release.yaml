@@ -33,7 +33,7 @@ spec:
           dev-container:
             image:
               repository: "registry-gitlab.${SECRET_DOMAIN}/loco/dev-container"
-              tag: "f305eca921b060e96e9670797d934862fb80e7c9"
+              tag: "7c9b49719a121c3df7bab08c7d979ee6a17ba085"
               pullPolicy: Always
             env:
               TZ: "Asia/Shanghai"
@@ -113,6 +113,10 @@ spec:
                 subPath: "user_data/HOME/.waveterm"
 
               # User Data
+              ## F2
+              - path: "/root/.config/f2"
+                subPath: "user_data/HOME/.config/f2"
+
               ## Zsh
               - path: "/root/.zsh_history"
                 subPath: "user_data/HOME/.zsh_history"
