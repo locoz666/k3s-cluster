@@ -1,0 +1,101 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: openclaw-xpd
+spec:
+  interval: 5m
+  timeout: 30m
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts
+      chart: app-template
+      version: 4.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  values:
+    controllers:
+      main:
+        type: deployment
+        replicas: 1
+        strategy: Recreate
+        pod:
+          nodeSelector:
+            kubernetes.io/hostname: home-server-power
+          imagePullSecrets:
+            - name: dev-container-registry
+        containers:
+          openclaw:
+            image:
+              repository: "registry-gitlab.${SECRET_DOMAIN}/loco/dev-container"
+              tag: "7c9b49719a121c3df7bab08c7d979ee6a17ba085"
+              pullPolicy: Always
+            env:
+              TZ: "Asia/Shanghai"
+              OPENCLAW_CONFIG_PATH: "/root/.openclaw/openclaw.json5"
+            command: ["openclaw", "gateway"]
+            args:
+              - "--port"
+              - "18789"
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
+            resources:
+              requests:
+                cpu: 10m
+                memory: 1Gi
+                nvidia.com/gpu: 1
+              limits:
+                cpu: 8
+                memory: 16Gi
+                nvidia.com/gpu: 1
+
+    service:
+      main:
+        enabled: true
+        type: ClusterIP
+        ports:
+          http:
+            port: 18789
+            targetPort: 18789
+
+    ingress:
+      main:
+        enabled: true
+        className: traefik
+        annotations:
+          traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
+        hosts:
+          - host: "openclaw-xpd.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: main
+        tls:
+          - secretName: "${SECRET_DOMAIN/./-}-tls"
+            hosts:
+              - "openclaw-xpd.${SECRET_DOMAIN}"
+
+    persistence:
+      openclaw-xpd-files:
+        existingClaim: openclaw-xpd-files
+        advancedMounts:
+          main:
+            openclaw:
+              - path: "/mnt/pvc/openclaw-xpd-files"
+              - path: "/root/.openclaw"
+                subPath: "user_data/HOME/.openclaw"
+              - path: "/root/.kimi"
+                subPath: "user_data/HOME/.kimi"
+              - path: "/root/.config/f2"
+                subPath: "user_data/HOME/.config/f2"
