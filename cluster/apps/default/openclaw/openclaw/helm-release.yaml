@@ -145,7 +145,7 @@ spec:
                 subPath: "user_data/HOME/.openclaw"
               - path: "/root/.acpx"
                 subPath: "user_data/HOME/.acpx"
-              - path: "/root/clawd/skills"
+              - path: "/root/.openclaw/workspace/skills"
                 subPath: "ai_user_data/skills"
 
       other-files:

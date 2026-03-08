@@ -170,12 +170,8 @@ spec:
               ## ACP
               - path: "/root/.acpx"
                 subPath: "user_data/HOME/.acpx"
-              - path: "/root/clawd"
-                subPath: "user_data/HOME/clawd"
-              - path: "/tmp/clawdbot"
-                subPath: "user_data/tmp"
               ### Share Skills
-              - path: "/root/clawd/skills"
+              - path: "/root/.openclaw/workspace/skills"
                 subPath: "ai_user_data/skills"
 
       shm:
