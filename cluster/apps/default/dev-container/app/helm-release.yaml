@@ -84,9 +84,6 @@ spec:
               ## Model Scope
               - path: "/root/.cache/modelscope"
                 subPath: "user_data/HOME/.cache/modelscope"
-              ## Open Code
-              - path: "/root/.cache/opencode"
-                subPath: "user_data/HOME/.cache/opencode"
               ## Wave Terminal
               - path: "/root/.waveterm"
                 subPath: "user_data/HOME/.waveterm"
