@@ -45,7 +45,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "traefik"
+        className: "traefik"
         hosts:
           - host: "opencode-web.${SECRET_DOMAIN}"
             paths:
