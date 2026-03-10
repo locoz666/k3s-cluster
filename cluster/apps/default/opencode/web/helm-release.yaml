@@ -54,7 +54,6 @@ spec:
                 pathType: Prefix
                 service:
                   identifier: main
-                  port: opencode-http
         tls:
           - hosts:
               - "opencode.${SECRET_DOMAIN}"
