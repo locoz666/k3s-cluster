@@ -44,17 +44,18 @@ spec:
 
     ingress:
       main:
-        enabled: true
         className: "traefik"
+        annotations:
+          traefik.ingress.kubernetes.io/router.middlewares: "kube-system-rfc1918@kubernetescrd"
         hosts:
-          - host: "opencode-web.${SECRET_DOMAIN}"
+          - host: "opencode.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
                 service:
                   identifier: main
-                  port: http
+                  port: opencode-http
         tls:
-          - secretName: "${SECRET_DOMAIN/./-}-tls"
-            hosts:
-              - "opencode-web.${SECRET_DOMAIN}"
+          - hosts:
+              - "opencode.${SECRET_DOMAIN}"
+            secretName: "${SECRET_DOMAIN/./-}-tls"
