@@ -29,7 +29,7 @@ spec:
           opencode:
             image:
               repository: ghcr.io/locoz666/opencode-web
-              tag: dev-a2f77132d16072d46e6ba89f7a4efd126096ce6c
+              tag: dev-12b5551ba06b2d736a84564a57035588559f9f09
               pullPolicy: IfNotPresent
 
     service:
