@@ -33,7 +33,7 @@ spec:
           opencode:
             image:
               repository: "registry-gitlab.${SECRET_DOMAIN}/loco/dev-container"
-              tag: "10f6094d0ee469517754f56f23bd0dffe9883353"
+              tag: "cb62415fde0bba072f05f0fe9e9df064ffbda950"
               pullPolicy: Always
             command:
               - opencode
